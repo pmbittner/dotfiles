@@ -37,6 +37,7 @@ alias config='/usr/bin/git --git-dir=$MYCONFIGDIR/ --work-tree=$HOME'
 
 ### DOOM EMACS SETUP BEGIN
 export PATH=~/.emacs.d/bin:$PATH
+export DOOMDIR=$HOME/.config/doom
 alias ee="emacs &"
 ### DOOM EMACS SETUP END
 
