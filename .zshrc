@@ -1,46 +1,20 @@
-########## CUSTOM ADDITIONS BY ME (PAUL) ###################
+### EMACS SERVER
+# alias emacs-server="pgrep emacs > /dev/null || /usr/local/bin/emacs --daemon"
+# alias emacs-server-kill="pkill emacs"
+# alias emacs-server-restart="emacs-server-kill ; sleep 1 ; emacs-server"
+# alias emacs="emacsclient -c -a 'emacs' &"
 
-## Shortcuts for directories
-export V=~/"VariantSync"
-
-## aliases
-alias ls="ls -l"
-
-## setup for xserver
-export DISPLAY=$(ip route list default | awk '{print $3}'):0
-export LIBGL_ALWAYS_INDIRECT=1
-
-## my config setup
-export MYCONFIGDIR=$HOME/.myconfig.git
-alias config='/usr/bin/git --git-dir=$MYCONFIGDIR/ --work-tree=$HOME'
-
-## for agda
-#[ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
-[ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
-
-##### SPACEMACS SETUP BEGIN
+## START EMACS SERVER
 ## navigate to our desired location
 ## We do this before starting the emacs server so that when opening spacemacs
 ## helm-find-files has this directory as its starting directory
 # cd VariantSync/AgdaCCnOC
-# ## emacs setup
-# ## alias to start emacs server
-# alias emacs-server="pgrep emacs > /dev/null || /usr/local/bin/emacs --daemon"
-# alias emacs-server-kill="pkill emacs"
-# alias emacs-server-restart="emacs-server-kill ; sleep 1 ; emacs-server"
-# ## alias for emacs to always run in client mode
-# alias emacs="emacsclient -c -a 'emacs' &"
-# alias ee="emacs"
 # ## start emacs daemon if not already running
 # emacs-server
-##### SPACEMACS SETUP END
 
-### DOOM EMACS SETUP BEGIN
-export PATH=~/.emacs.d/bin:$PATH
-export DOOMDIR=$HOME/.config/doom
-alias ee="emacs &"
-### DOOM EMACS SETUP END
-
+## fancy colors to greet me (gitlab.com/dwt1/shell.color-scripts)
+colorscript exec pinguco #space-invaders six random
+#colorscript random
 
 ########## DEFAULT ZSH STUFF BELOW ###############################
 
@@ -159,4 +133,39 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+########## CUSTOM ADDITIONS BY ME (PAUL) ###################
+
+export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
+
+## Shortcuts for directories
+export V=~/"VariantSync"
+
+## setup for xserver
+export DISPLAY=$(ip route list default | awk '{print $3}'):0
+export LIBGL_ALWAYS_INDIRECT=1
+
+## my config setup
+## I made this setup according to this instruction: https://www.atlassian.com/git/tutorials/dotfiles
+export MYCONFIGDIR=$HOME/.myconfig.git
+alias config='/usr/bin/git --git-dir=$MYCONFIGDIR/ --work-tree=$HOME'
+
+## for agda
+#[ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
+[ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
+
+### DOOM EMACS SETUP BEGIN
+export PATH=~/.emacs.d/bin:$PATH
+export DOOMDIR=$HOME/.config/doom
+alias ee="emacs &"
+### DOOM EMACS SETUP END
+
+## aliases
+alias ls="ls -lh --color=auto --group-directories-first"
+
+alias checkout="git checkout"
+alias commit="git commit -m"
+alias pull="git pull"
+alias push="git push"
+alias stat="git status"
 
