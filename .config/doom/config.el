@@ -28,13 +28,15 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 14)
-      doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 14))
+(setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 15)
+      doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
+;;(setq doom-theme 'doom-challenger-deep)
+;;(setq doom-theme 'doom-outrun-electric)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -85,6 +87,9 @@
 (require 'which-key)
 (setq which-key-idle-delay 0.1)
 
+;; set evil to not move the cursor when exiting insert mode
+(setq evil-move-cursor-back nil)
+
 ;; Re-bind SPC SPC to behave like in spacemacs: It opens the emacs command prompt (M-x).
 (map! :leader "SPC" 'execute-extended-command)
 
@@ -95,7 +100,26 @@
 (map! :leader "f t" '+treemacs/toggle)
 (map! :leader "s w" 'treemacs-switch-workspace)
 (map! :leader "o w" 'treemacs-switch-workspace)
-(with-eval-after-load 'doom-themes
-                      (doom-themes-treemacs-config))
-;;(after! which-key
-;; (+treemacs/toggle))
+;;(with-eval-after-load 'doom-themes
+;;(after! 'treemacs
+;;  (setq doom-themes-treemacs-theme "doom-atom")
+;;  (doom-themes-treemacs-config))
+
+(defun comment-eclipse ()
+    (interactive)
+    (let ((start (line-beginning-position))
+          (end (line-end-position)))
+      (when (or (not transient-mark-mode) (region-active-p))
+        (setq start (save-excursion
+                      (goto-char (region-beginning))
+                      (beginning-of-line)
+                      (point))
+              end (save-excursion
+                    (goto-char (region-end))
+                    (end-of-line)
+                    (point))))
+      (comment-or-uncomment-region start end)))
+
+(map! :n "C-t" #'comment-eclipse)
+
+;;(add-hook 'emacs-startup-hook 'treemacs)
