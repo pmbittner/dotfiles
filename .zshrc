@@ -1,16 +1,4 @@
-### EMACS SERVER
-# alias emacs-server="pgrep emacs > /dev/null || /usr/local/bin/emacs --daemon"
-# alias emacs-server-kill="pkill emacs"
-# alias emacs-server-restart="emacs-server-kill ; sleep 1 ; emacs-server"
-# alias emacs="emacsclient -c -a 'emacs' &"
 
-## START EMACS SERVER
-## navigate to our desired location
-## We do this before starting the emacs server so that when opening spacemacs
-## helm-find-files has this directory as its starting directory
-# cd VariantSync/AgdaCCnOC
-# ## start emacs daemon if not already running
-# emacs-server
 
 ## fancy colors to greet me (gitlab.com/dwt1/shell.color-scripts)
 colorscript exec pinguco #space-invaders six random
@@ -154,10 +142,53 @@ alias config='/usr/bin/git --git-dir=$MYCONFIGDIR/ --work-tree=$HOME'
 #[ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
 [ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
 
+### EMACS SERVER
+
+## START EMACS SERVER
+## navigate to our desired location
+## We do this before starting the emacs server so that when opening spacemacs
+## helm-find-files has this directory as its starting directory
+# cd VariantSync/AgdaCCnOC
+# ## start emacs daemon if not already running
+# emacs-server
+
 ### DOOM EMACS SETUP BEGIN
+DISABLE_EMACS_SERVER_USAGE_FILE="$HOME/.local/state/paul_disables_emacs_server_usage"
+emacs-server() {
+  pgrep emacs > /dev/null || /usr/local/bin/emacs --daemon
+}
+emacs-kill-server() {
+  pkill emacs
+}
+emacs-restart-server() {
+  emacs-kill-server
+  sleep 1
+  emacs-server
+}
+emacs-toggle-server() {
+  if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
+  then
+    rm "$DISABLE_EMACS_SERVER_USAGE_FILE"
+    echo "Emacs will be started via server from now on."
+  else
+    touch "$DISABLE_EMACS_SERVER_USAGE_FILE"
+    echo "Emacs will NOT be started via server from now on."
+    echo "Terminating currently running server (if there is one):"
+    emacs-kill-server
+  fi
+}
+
 export PATH=~/.emacs.d/bin:$PATH
 export DOOMDIR=$HOME/.config/doom
-alias ee="emacs &"
+ee() {
+  if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
+  then
+    emacs "$@" &!
+  else
+    emacs-server
+    emacsclient -c -a 'emacs' "$@" &!
+  fi
+}
 ### DOOM EMACS SETUP END
 
 ## aliases
@@ -169,3 +200,5 @@ alias pull="git pull"
 alias push="git push"
 alias stat="git status"
 
+
+if [ -e /home/bittner/.nix-profile/etc/profile.d/nix.sh ]; then . /home/bittner/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
