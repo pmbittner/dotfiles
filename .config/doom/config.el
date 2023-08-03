@@ -28,15 +28,46 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 15)
-      doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 15))
+(setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16)
+      doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16)
+      doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 20)
+      doom-unicode-font (font-spec :family "DejaVu Sans" :size 16))
+
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
-;;(setq doom-theme 'doom-challenger-deep)
-;;(setq doom-theme 'doom-outrun-electric)
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme
+        ;; 'doom-one
+        'doom-nord-aurora
+        ;; 'doom-nova
+        ;; 'doom-city-lights
+        ;; 'doom-challenger-deep
+        ;; 'doom-tokyo-night
+        ;; 'doom-outrun-electric
+        ;; 'doom-ayu-dark
+        t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+;; set the highlight color in treemacs to something I can see
+(setf treemacs-window-background-color '(nil .
+                                         "#b48ead"
+                                         ;; "SteelBlue3"
+                                         ))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -91,20 +122,21 @@
 (setq evil-move-cursor-back nil)
 
 ;; Re-bind SPC SPC to behave like in spacemacs: It opens the emacs command prompt (M-x).
-(map! :leader "SPC" 'execute-extended-command)
+;; (map! :leader "SPC" 'execute-extended-command)
 
-;; Misc key bindings
-(map! "C-s" 'save-buffer)
-;; (require 'treemacs)
-;;(after! 'treemacs
+;;;;;; treemacs configuration
+(require 'treemacs)
 (map! :leader "f t" '+treemacs/toggle)
 (map! :leader "s w" 'treemacs-switch-workspace)
 (map! :leader "o w" 'treemacs-switch-workspace)
-;;(with-eval-after-load 'doom-themes
-;;(after! 'treemacs
-;;  (setq doom-themes-treemacs-theme "doom-atom")
-;;  (doom-themes-treemacs-config))
+(map! :leader "0" 'treemacs-select-window)
+;; make treemacs dirs expand by single click
+(with-eval-after-load 'treemacs
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
 
+;;;;; Misc key bindings
+(map! "C-s" 'save-buffer)
+;; TODO USE key "g c c" instead.
 (defun comment-eclipse ()
     (interactive)
     (let ((start (line-beginning-position))
@@ -122,4 +154,24 @@
 
 (map! :n "C-t" #'comment-eclipse)
 
-;;(add-hook 'emacs-startup-hook 'treemacs)
+;;;;;; Agda setup
+;; workaround for a bug in evil: https://github.com/emacs-evil/evil/pull/1768
+;; The workaround as proposed here: https://github.com/agda/agda/issues/2141
+(defun set-agda-input-method ()
+  (evil-without-input-method-hooks ;; Disable evil's hooks which reset current-input-method in favor of evil-input-method before the evil minor mode has been loaded.
+    (set-input-method "Agda")))
+(add-hook 'agda2-mode-hook 'set-agda-input-method)
+
+;; auto-load agda-mode for .agda and .lagda.md
+(setq auto-mode-alist
+      (append
+       '(("\\.agda\\'" . agda2-mode)
+         ("\\.lagda.md\\'" . agda2-mode))
+       auto-mode-alist))
+
+;;;;;; LaTeX
+;; Goals
+;; - Make this my compilation command: latexmk --shell-escape
+;; - After a successful build, show the pdf automatically if it is not already shown.
+;; - keep focus at the currently edited emacs buffer
+;; - Make this my pdf viewer: evince --fullscreen
