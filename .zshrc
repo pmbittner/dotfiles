@@ -127,7 +127,8 @@ source $ZSH/oh-my-zsh.sh
 export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 
 ## Shortcuts for directories
-export V=~/"VariantSync"
+export V="$HOME/VariantSync"
+export A="$V/AgdaCCnOC"
 
 ## setup for xserver
 export DISPLAY=$(ip route list default | awk '{print $3}'):0
@@ -136,25 +137,18 @@ export LIBGL_ALWAYS_INDIRECT=1
 ## my config setup
 ## I made this setup according to this instruction: https://www.atlassian.com/git/tutorials/dotfiles
 export MYCONFIGDIR=$HOME/.myconfig.git
-alias config='/usr/bin/git --git-dir=$MYCONFIGDIR/ --work-tree=$HOME'
+config() {
+  /usr/bin/git --git-dir=$MYCONFIGDIR/ --work-tree=$HOME "$@"
+}
 
 ## for agda
-#[ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
+export AGDA_DIR="$A/libs"
 [ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
 
-### EMACS SERVER
-
-## START EMACS SERVER
-## navigate to our desired location
-## We do this before starting the emacs server so that when opening spacemacs
-## helm-find-files has this directory as its starting directory
-# cd VariantSync/AgdaCCnOC
-# ## start emacs daemon if not already running
-# emacs-server
-
-### DOOM EMACS SETUP BEGIN
+### EMACS SERVER SETUP BEGIN
+# We use the following file as a variable to toggle whether we run emacs as a standalone tool or as a client/server.
 DISABLE_EMACS_SERVER_USAGE_FILE="$HOME/.local/state/paul_disables_emacs_server_usage"
-emacs-server() {
+emacs-start-server() {
   pgrep emacs > /dev/null || /usr/local/bin/emacs --daemon
 }
 emacs-kill-server() {
@@ -163,32 +157,48 @@ emacs-kill-server() {
 emacs-restart-server() {
   emacs-kill-server
   sleep 1
-  emacs-server
+  emacs-start-server
 }
 emacs-toggle-server() {
   if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
   then
     rm "$DISABLE_EMACS_SERVER_USAGE_FILE"
-    echo "Emacs will be started via server from now on."
+    echo "START emacs server mode"
+    emacs-start-server
   else
     touch "$DISABLE_EMACS_SERVER_USAGE_FILE"
-    echo "Emacs will NOT be started via server from now on."
-    echo "Terminating currently running server (if there is one):"
+    echo "STOP emacs server mode. Running servers are terminated."
     emacs-kill-server
   fi
 }
+is-emacs-server() {
+  if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
+  then
+    echo "No, emacs will be run as standalone."
+  else
+    echo "Yes, emacs will run as client."
+  fi
+}
+alias eeserver='emacs-start-server'
+alias eerestart='emacs-restart-server'
+alias eekill='emacs-kill-server'
+alias eetoggle='emacs-toggle-server'
+alias eet='emacs-toggle-server'
 
-export PATH=~/.emacs.d/bin:$PATH
-export DOOMDIR=$HOME/.config/doom
 ee() {
   if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
   then
     emacs "$@" &!
   else
-    emacs-server
+    emacs-start-server
     emacsclient -c -a 'emacs' "$@" &!
   fi
 }
+### EMACS SERVER SETUP END
+
+### DOOM EMACS SETUP BEGIN
+export PATH=~/.emacs.d/bin:$PATH
+export DOOMDIR=$HOME/.config/doom
 ### DOOM EMACS SETUP END
 
 ## aliases
