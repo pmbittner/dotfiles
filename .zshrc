@@ -180,6 +180,7 @@ is-emacs-server() {
   fi
 }
 alias eeserver='emacs-start-server'
+alias ees='is-emacs-server'
 alias eerestart='emacs-restart-server'
 alias eekill='emacs-kill-server'
 alias eetoggle='emacs-toggle-server'
@@ -202,7 +203,7 @@ export DOOMDIR=$HOME/.config/doom
 ### DOOM EMACS SETUP END
 
 ## aliases
-alias ls="ls -lh --color=auto --group-directories-first"
+alias ls="ls --color=auto --group-directories-first"
 
 alias checkout="git checkout"
 alias commit="git commit -m"
