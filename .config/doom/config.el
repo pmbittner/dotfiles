@@ -44,8 +44,8 @@
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme
-        ;; 'doom-one
-        'doom-nord-aurora
+        'doom-one
+        ;; 'doom-nord-aurora
         ;; 'doom-nova
         ;; 'doom-city-lights
         ;; 'doom-challenger-deep
@@ -126,10 +126,12 @@
 
 ;;;;;; treemacs configuration
 (require 'treemacs)
-(map! :leader "f t" '+treemacs/toggle)
-(map! :leader "s w" 'treemacs-switch-workspace)
-(map! :leader "o w" 'treemacs-switch-workspace)
-(map! :leader "0" 'treemacs-select-window)
+(map! :leader
+      ("f t" '+treemacs/toggle)
+      ("s w" 'treemacs-switch-workspace)
+      ("o w" 'treemacs-switch-workspace)
+      ("0" 'treemacs-select-window))
+
 ;; make treemacs dirs expand by single click
 (with-eval-after-load 'treemacs
   (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
@@ -175,3 +177,53 @@
 ;; - After a successful build, show the pdf automatically if it is not already shown.
 ;; - keep focus at the currently edited emacs buffer
 ;; - Make this my pdf viewer: evince --fullscreen
+;; (setq TeX-save-query nil) ;; autosave when build starts
+(require 'latex)
+(setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
+;; Use evince to view build pdfs.
+(after! latex
+	(setq TeX-view-program-list '(("Evince" "evince --page-index=%(outpage) %o")))
+	(setq TeX-view-program-selection '((output-pdf "Evince"))))
+
+;; (defun demolish-tex-help ()
+;;   (interactive)
+;;   (if (get-buffer "*TeX Help*") ;; Tests if the buffer exists
+;;       (progn ;; Do the following commands in sequence
+;;         (if (get-buffer-window (get-buffer "*TeX Help*")) ;; Tests if the window exists
+;;             (delete-window (get-buffer-window (get-buffer "*TeX Help*")))
+;;           ) ;; That should close the window
+;;         (kill-buffer "*TeX Help*") ;; This should kill the buffer
+;;         )
+;;     )
+;;   )
+;; ;; (defun run-latexmk ()
+  ;; (interactive)
+  ;; (let ((TeX-save-query nil)
+        ;; (TeX-process-asynchronous nil)
+        ;; (master-file 'TeX-master-file))
+    ;; (TeX-save-document "")
+    ;; (TeX-run-TeX "latexmk"
+                 ;; (TeX-command-expand "latexmk --pdflatex='pdflatex --file-line-error --shell-escape' -pdf %s" 'TeX-master-file)
+                 ;; ('TeX-master-file))
+    ;; (TeX-recenter-output-buffer nil)
+    ;; (if (plist-get TeX-error-report-switches (intern master-file))
+        ;; (TeX-next-error t)
+      ;; (progn
+       ;; (demolish-tex-help)
+       ;; (TeX-view)
+       ;; (minibuffer-message "latexmk done")))
+       ;; ))
+
+;;(defun pb-latex-compile ()
+;;  (interactive)
+;;  (TeX-save-document (TeX-master-file))
+;;  (TeX-command-sequence ("LaTeX" "View"))
+;;  (TeX-recenter-output-buffer nil))
+(map! :after latex
+      :map latex-mode-map
+      :leader
+      (:prefix ("l" . "LaTeX")
+               (:desc "Compile" "l" #'TeX-command-run-all)
+               (:desc "Show next error" "e" #'TeX-next-error)
+               )
+      )
