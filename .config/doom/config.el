@@ -131,10 +131,12 @@
       ("s w" 'treemacs-switch-workspace)
       ("o w" 'treemacs-switch-workspace)
       ("0" 'treemacs-select-window))
+;; (after! 'treemacs 'treemacs-hide-gitignored-files-mode)
 
 ;; make treemacs dirs expand by single click
 (with-eval-after-load 'treemacs
-  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
+  (treemacs-hide-gitignored-files-mode))
 
 ;;;;; Misc key bindings
 (map! "C-s" 'save-buffer)
