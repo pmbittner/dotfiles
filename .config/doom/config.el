@@ -31,14 +31,14 @@
 (setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16)
       doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16)
       doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 20)
-      doom-unicode-font (font-spec :family "DejaVu Sans" :size 16))
+      doom-unicode-font (font-spec :family "DejaVu Sans"))
 
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (use-package doom-themes
-  :ensure t
+  ;; :ensure t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
