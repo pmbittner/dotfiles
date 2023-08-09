@@ -210,12 +210,6 @@
        auto-mode-alist))
 
 ;;;;;; LaTeX
-;; Goals
-;; - Make this my compilation command: latexmk --shell-escape
-;; - After a successful build, show the pdf automatically if it is not already shown.
-;; - keep focus at the currently edited emacs buffer
-;; - Make this my pdf viewer: evince --fullscreen
-;; (setq TeX-save-query nil) ;; autosave when build starts
 (require 'latex)
 (setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
 ;; Use evince to view build pdfs.
@@ -223,45 +217,73 @@
 	(setq TeX-view-program-list '(("Evince" "evince --page-index=%(outpage) %o")))
 	(setq TeX-view-program-selection '((output-pdf "Evince"))))
 
-;; (defun demolish-tex-help ()
-;;   (interactive)
-;;   (if (get-buffer "*TeX Help*") ;; Tests if the buffer exists
-;;       (progn ;; Do the following commands in sequence
-;;         (if (get-buffer-window (get-buffer "*TeX Help*")) ;; Tests if the window exists
-;;             (delete-window (get-buffer-window (get-buffer "*TeX Help*")))
-;;           ) ;; That should close the window
-;;         (kill-buffer "*TeX Help*") ;; This should kill the buffer
-;;         )
-;;     )
-;;   )
-;; ;; (defun run-latexmk ()
-  ;; (interactive)
-  ;; (let ((TeX-save-query nil)
-        ;; (TeX-process-asynchronous nil)
-        ;; (master-file 'TeX-master-file))
-    ;; (TeX-save-document "")
-    ;; (TeX-run-TeX "latexmk"
-                 ;; (TeX-command-expand "latexmk --pdflatex='pdflatex --file-line-error --shell-escape' -pdf %s" 'TeX-master-file)
-                 ;; ('TeX-master-file))
-    ;; (TeX-recenter-output-buffer nil)
-    ;; (if (plist-get TeX-error-report-switches (intern master-file))
-        ;; (TeX-next-error t)
-      ;; (progn
-       ;; (demolish-tex-help)
-       ;; (TeX-view)
-       ;; (minibuffer-message "latexmk done")))
-       ;; ))
+(defun demolish-tex-help ()
+  (interactive)
+  (if (get-buffer "*TeX Help*") ;; Tests if the buffer exists
+      (progn ;; Do the following commands in sequence
+        (if (get-buffer-window (get-buffer "*TeX Help*")) ;; Tests if the window exists
+            (delete-window (get-buffer-window (get-buffer "*TeX Help*")))
+          ) ;; That should close the window
+        (kill-buffer "*TeX Help*") ;; This should kill the buffer
+        )
+    )
+  )
 
-;;(defun pb-latex-compile ()
-;;  (interactive)
-;;  (TeX-save-document (TeX-master-file))
-;;  (TeX-command-sequence ("LaTeX" "View"))
-;;  (TeX-recenter-output-buffer nil))
+(defun run-latexmk ()
+  (interactive)
+  (let ((TeX-save-query nil)
+        (TeX-process-asynchronous nil)
+        (master-file (TeX-master-file nil nil t)))
+    (TeX-save-document "")
+    (TeX-run-TeX "latexmk"
+                 (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --shell-escape' -pdf %s")
+                 master-file)
+    (if (plist-get TeX-error-report-switches (intern master-file))
+        ;; FIXME: For the condition, there actually exists the following function but it didnt work for some reason.
+        ;;        (TeX-error-report-has-errors-p)
+        (progn
+          (minibuffer-message "[ERROR] latexmk exited with errors")
+          (TeX-next-error)
+          )
+        (progn
+          (minibuffer-message "[SUCCESS] latexmk done")
+          (demolish-tex-help)
+          ;; TODO: Open view. This is surprisingly hard.
+          ;; (TeX-view)
+          ;; (minibuffer-message master-file)
+          ;; (TeX-active-master)
+          ;; (TeX-command "View"
+          ;;              (lambda (&optional extension nondirectory _ignore) (intern master-file))
+          ;;              ;; #'foo-TeX-active-master
+          ;;              0)
+          )
+        )
+    ))
+
 (map! :after latex
       :map latex-mode-map
       :leader
       (:prefix ("l" . "LaTeX")
-               (:desc "Compile" "l" #'TeX-command-run-all)
+               ;; (:desc "Compile" "l" #'TeX-command-run-all)
+               (:desc "Compile" "l" #'run-latexmk)
                (:desc "Show next error" "e" #'TeX-next-error)
+               (:desc "View PDF" "v" #'TeX-view)
                )
       )
+
+;; (setq x-select-enable-clipboard t)
+;; (setq x-select-enable-primary t)
+;; (setq select-enable-clipboard t)
+;; (setq select-enable-primary t)
+
+;; (defun wsl-copy-clip(&rest _args)
+;;   (setq mytemp (make-temp-file "winclip"))
+;;   (write-region
+;;    (current-kill 0 t)
+;;    nil
+;;    mytemp
+;;    )
+;;   (shell-command (concat "clip.exe<" mytemp ))
+;;   (delete-file mytemp)
+;;    )
+;; (advice-add 'kill-new :after #'wsl-copy-clip)
