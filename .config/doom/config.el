@@ -44,13 +44,44 @@
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme
-        'doom-one
+        ;;;; Favorites
+        ;; 'doom-one
+        ;; 'doom-oceanic-next
+        'doom-palenight
+        ;; 'doom-material-dark
         ;; 'doom-nord-aurora
+        ;; 'doom-challenger-deep
+        ;; 'doom-snazzy
+        ;; 'doom-vibrant
+        ;; 'doom-spacegrey
+
+        ;;;; Synthwave Themes
+        ;; 'doom-outrun-electric
+        ;; 'doom-laserwave
+        ;; 'doom-shades-of-purple
+
+        ;;;; Other themes
+        ;; 'doom-sourcerer -- looks like Loop Hero
+        ;; 'doom-zenburn
+        ;; 'doom-rouge
+        ;; 'doom-lantern
+        ;; 'doom-peacock
+        ;; 'doom-old-hope
+        ;; 'doom-monokai-pro
+        ;; 'doom-monokai-machine
+        ;; 'doom-monokai-classic
+        ;; 'doom-monokai-octagon
+        ;; 'doom-monokai-ristretto
+        ;; 'doom-monokai-spectrum
+        ;; 'doom-homage-white
+        ;; 'doom-henna
+        ;; 'doom-xcode
+        ;; 'doom-wilmersdorf
+        ;; 'doom-ephemeral
+        ;; 'doom-1337
         ;; 'doom-nova
         ;; 'doom-city-lights
-        ;; 'doom-challenger-deep
         ;; 'doom-tokyo-night
-        ;; 'doom-outrun-electric
         ;; 'doom-ayu-dark
         t)
   ;; Enable flashing mode-line on errors
