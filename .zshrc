@@ -211,5 +211,11 @@ alias pull="git pull"
 alias push="git push"
 alias stat="git status"
 
+## colorkiste
+colourkiste() {
+  java -jar ~/software/ColourKiste.jar &
+}
+alias colorkiste=colourkiste
+alias ck=colorkiste
 
 if [ -e /home/bittner/.nix-profile/etc/profile.d/nix.sh ]; then . /home/bittner/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
