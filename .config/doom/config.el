@@ -143,6 +143,11 @@
 ;; they are implemented.
 
 ;;;; ADDITIONS BY PAUL AFTER THIS LINE ;;;;
+(map! :leader
+      (:prefix ("d" . "Doom (Custom)")
+               (:desc "Reload" "r" #'doom/reload)
+               )
+      )
 
 ;; Make which-key menu (the menu when pressing SPC) show up instantly
 ;; (This tweak was recommended by hlissner in doom emacs issue #1839)
