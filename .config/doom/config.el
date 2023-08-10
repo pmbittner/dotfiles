@@ -260,14 +260,21 @@
         )
     ))
 
+;; TODO Activate todo minor mode in latex major mode
+;; (hl-todo-mode)
+
 (map! :after latex
       :map latex-mode-map
       :leader
       (:prefix ("l" . "LaTeX")
                ;; (:desc "Compile" "l" #'TeX-command-run-all)
                (:desc "Compile" "l" #'run-latexmk)
-               (:desc "Show next error" "e" #'TeX-next-error)
+               (:desc "Next Error" "e" #'TeX-next-error)
                (:desc "View PDF" "v" #'TeX-view)
+               (:desc "Compilation Log" "o" #'TeX-recenter-output-buffer)
+               (:prefix ("m" . "Make")
+                        (:desc "Environment" "e" #'LaTeX-environment)
+                        )
                )
       )
 
