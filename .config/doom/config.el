@@ -97,8 +97,12 @@
 
 ;; set the highlight color in treemacs to something I can see
 (setf treemacs-window-background-color '(nil .
-                                         "#b48ead"
-                                         ;; "SteelBlue3"
+                                         ;; "#b48ead"
+                                         ;; "DarkSlateGray4"
+                                         ;; "SteelBlue4"
+                                         ;; "purple4"
+                                         ;; "tomato4"
+                                         "aquamarine4"
                                          ))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
