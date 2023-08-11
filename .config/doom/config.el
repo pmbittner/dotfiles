@@ -31,6 +31,7 @@
 (setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16)
       doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16)
       doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 20)
+      ;; Do not set size of unicode font or it wont scale on zoom.
       doom-unicode-font (font-spec :family "DejaVu Sans"))
 
 
