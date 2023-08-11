@@ -144,11 +144,19 @@
 ;; they are implemented.
 
 ;;;; ADDITIONS BY PAUL AFTER THIS LINE ;;;;
+
+;; some keybindings for faster interaction with doom
 (map! :leader
       (:prefix ("d" . "Doom (Custom)")
                (:desc "Reload" "r" #'doom/reload)
                )
       )
+
+;; Scroll settings
+;; scroll acceleration
+(setq mouse-wheel-progressive-speed nil)
+;; scroll two lines at a time but only one when pressing shift
+(setq mouse-wheel-scroll-amount '(2 ((shift) 1) ((control) nil)))
 
 ;; Make which-key menu (the menu when pressing SPC) show up instantly
 ;; (This tweak was recommended by hlissner in doom emacs issue #1839)
@@ -156,7 +164,7 @@
 (setq which-key-idle-delay 0.1)
 
 ;; set evil to not move the cursor when exiting insert mode
-(setq evil-move-cursor-back nil)
+;; (setq evil-move-cursor-back nil)
 
 ;; Re-bind SPC SPC to behave like in spacemacs: It opens the emacs command prompt (M-x).
 ;; (map! :leader "SPC" 'execute-extended-command)
