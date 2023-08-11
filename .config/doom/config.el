@@ -233,7 +233,8 @@
   (interactive)
   (let ((TeX-save-query nil)
         (TeX-process-asynchronous nil)
-        (master-file (TeX-master-file nil nil t)))
+        (master-file (TeX-master-file nil nil t))
+        (master-buffer (current-buffer)))
     (TeX-save-document "")
     (TeX-run-TeX "latexmk"
                  (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --shell-escape' -pdf %s")
@@ -248,14 +249,8 @@
         (progn
           (minibuffer-message "[SUCCESS] latexmk done")
           (demolish-tex-help)
-          ;; TODO: Open view. This is surprisingly hard.
-          ;; (TeX-view)
-          ;; (minibuffer-message master-file)
-          ;; (TeX-active-master)
-          ;; (TeX-command "View"
-          ;;              (lambda (&optional extension nondirectory _ignore) (intern master-file))
-          ;;              ;; #'foo-TeX-active-master
-          ;;              0)
+          (with-current-buffer master-buffer
+            (TeX-view))
           )
         )
     ))
