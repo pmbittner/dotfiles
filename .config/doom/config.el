@@ -254,20 +254,20 @@
         (master-buffer (current-buffer)))
     (TeX-save-document "")
     (TeX-run-TeX "latexmk"
-                 (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --shell-escape' -pdf %s")
+                 (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --synctex=1 --shell-escape' -pdf %s")
                  master-file)
+    ;; FIXME: For the condition, there actually exists the following function but it didnt work for some reason.
+    ;;        (TeX-error-report-has-errors-p)
     (if (plist-get TeX-error-report-switches (intern master-file))
-        ;; FIXME: For the condition, there actually exists the following function but it didnt work for some reason.
-        ;;        (TeX-error-report-has-errors-p)
         (progn
-          (minibuffer-message "[ERROR] latexmk exited with errors")
           (TeX-next-error)
+          (minibuffer-message "[ERROR] latexmk exited with errors")
           )
         (progn
-          (minibuffer-message "[SUCCESS] latexmk done")
-          (demolish-tex-help)
           (with-current-buffer master-buffer
             (TeX-view))
+          (demolish-tex-help)
+          (minibuffer-message "[SUCCESS] latexmk done")
           )
         )
     ))
@@ -284,10 +284,7 @@
                (:desc "Next Error" "e" #'TeX-next-error)
                (:desc "View PDF" "v" #'TeX-view)
                (:desc "Compilation Log" "o" #'TeX-recenter-output-buffer)
-               (:prefix ("m" . "Make")
-                        (:desc "Environment" "e" #'LaTeX-environment)
-                        )
-               )
+      )
       )
 
 ;; (setq x-select-enable-clipboard t)
