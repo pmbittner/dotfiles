@@ -1,0 +1,6 @@
+# key: parbox
+# name: tikzparbox
+# --
+\parbox[c]{${1:3cm}}{\centering\Large
+  $0
+}

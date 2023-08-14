@@ -1,0 +1,4 @@
+# key: tikzstyle
+# name: tikzstyle
+# --
+\tikzstyle{$1} = [$0]
