@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: agda-function
+# key: fun
+# --
+${1:name} : ${2:signature}
+$1 = $0

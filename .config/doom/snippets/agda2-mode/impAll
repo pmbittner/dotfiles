@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: import all relation for lists
+# key: impAll
+# --
+open import Data.List.Relation.Unary.All using (All)

@@ -1,0 +1,5 @@
+﻿# -*- mode: snippet -*-
+# name: import negation
+# key: impNeg
+# --
+open import Relation.Nullary.Negation using (¬_)
