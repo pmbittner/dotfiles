@@ -132,6 +132,7 @@ export A="$V/AgdaCCnOC"
 
 ## setup for xserver
 export DISPLAY=$(ip route list default | awk '{print $3}'):0
+#export DISPLAY=:0
 export LIBGL_ALWAYS_INDIRECT=1
 
 ## my config setup
@@ -186,6 +187,8 @@ alias eekill='emacs-kill-server'
 alias eetoggle='emacs-toggle-server'
 alias eet='emacs-toggle-server'
 
+alias eea='ee $A'
+
 ee() {
   if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
   then
@@ -217,5 +220,7 @@ colourkiste() {
 }
 alias colorkiste=colourkiste
 alias ck=colorkiste
+
+### TODO add jetbrains font to dotfiles repo?
 
 if [ -e /home/bittner/.nix-profile/etc/profile.d/nix.sh ]; then . /home/bittner/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
