@@ -54,3 +54,5 @@ endif
 
 set whichwrap+=<,h
 set whichwrap+=>,l
+
+set nobackup
