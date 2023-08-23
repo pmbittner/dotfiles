@@ -88,22 +88,16 @@
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (setq doom-themes-neotree-file-icons t)
+  (setq neo-window-fixed-size nil)
+  (setq neo-window-width 40)
   (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
-  (doom-themes-treemacs-config)
+  ;; (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+  ;; (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-;; set the highlight color in treemacs to something I can see
-(setf treemacs-window-background-color '(nil .
-                                         ;; "#b48ead"
-                                         ;; "DarkSlateGray4"
-                                         ;; "SteelBlue4"
-                                         ;; "purple4"
-                                         ;; "tomato4"
-                                         "aquamarine4"
-                                         ))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -172,20 +166,6 @@
 
 ;; Re-bind SPC SPC to behave like in spacemacs: It opens the emacs command prompt (M-x).
 ;; (map! :leader "SPC" 'execute-extended-command)
-
-;;;;;; treemacs configuration
-(require 'treemacs)
-(map! :leader
-      ("f t" '+treemacs/toggle)
-      ("s w" 'treemacs-switch-workspace)
-      ("o w" 'treemacs-switch-workspace)
-      ("0" 'treemacs-select-window))
-;; (after! 'treemacs 'treemacs-hide-gitignored-files-mode)
-
-;; make treemacs dirs expand by single click
-(with-eval-after-load 'treemacs
-  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
-  (treemacs-hide-gitignored-files-mode))
 
 ;;;;; Misc key bindings
 (map! "C-s" 'save-buffer)
@@ -303,3 +283,48 @@
 ;;   (delete-file mytemp)
 ;;    )
 ;; (advice-add 'kill-new :after #'wsl-copy-clip)
+
+;;;;;; neotree configuration
+;; (add-hook 'after-init-hook #'neotree-show)
+(defun neotree-startup ()
+  (interactive)
+  (neotree-show)
+  (call-interactively 'other-window))
+
+(if (daemonp)
+    (add-hook 'server-switch-hook #'neotree-startup)
+  (add-hook 'after-init-hook #'neotree-startup)
+)
+;;;;;; treemacs configuration
+;; (require 'treemacs)
+;; (map! :leader
+;;       ("f t" '+treemacs/toggle)
+
+;;       ("s w" 'treemacs-switch-workspace)
+;;       ("o w" 'treemacs-switch-workspace)
+;;       ("0" 'treemacs-select-window))
+;; (treemacs-follow-mode)
+;; (treemacs-project-follow-mode)
+;; (setq treemacs--project-follow-delay 0.1)
+;; (setq treemacs-file-follow-delay 0.1)
+;; (setq treemacs-project-follow-cleanup t)
+;; (setq treemacs-follow-after-init t)
+;; (setq treemacs-width 30)
+;; (after! 'treemacs 'treemacs-hide-gitignored-files-mode)
+
+;; make treemacs dirs expand by single click
+;; (with-eval-after-load 'treemacs
+;;   (progn
+;;     (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
+;;     (treemacs-hide-gitignored-files-mode)
+;;     (setq treemacs-workspace-switch-cleanup 'files)))
+
+;; set the highlight color in treemacs to something I can see
+;; (setf treemacs-window-background-color '(nil .
+;;                                          ;; "#b48ead"
+;;                                          ;; "DarkSlateGray4"
+;;                                          ;; "SteelBlue4"
+;;                                          ;; "purple4"
+;;                                          ;; "tomato4"
+;;                                          "aquamarine4"
+;;                                          ))
