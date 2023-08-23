@@ -180,24 +180,34 @@ is-emacs-server() {
     echo "Yes, emacs will run as client."
   fi
 }
+emacs-sync() {
+  emacs-kill-server
+  doom sync
+  if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
+  then
+  else
+    emacs-start-server
+  fi
+}
 alias eeserver='emacs-start-server'
 alias ees='is-emacs-server'
 alias eerestart='emacs-restart-server'
 alias eekill='emacs-kill-server'
 alias eetoggle='emacs-toggle-server'
 alias eet='emacs-toggle-server'
-
-alias eea='ee $A'
+alias eesync='emacs-sync'
 
 ee() {
   if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
   then
-    emacs "$@" &!
+    (cd "$@" ; emacs &!)
   else
     emacs-start-server
     emacsclient -c -a 'emacs' "$@" &!
   fi
 }
+alias eea='ee $A'
+
 ### EMACS SERVER SETUP END
 
 ### DOOM EMACS SETUP BEGIN
