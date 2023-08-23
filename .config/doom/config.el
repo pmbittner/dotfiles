@@ -150,6 +150,9 @@
                )
       )
 
+;; Disable annoying smartparens
+(remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
+
 ;; Scroll settings
 ;; scroll acceleration
 (setq mouse-wheel-progressive-speed nil)
