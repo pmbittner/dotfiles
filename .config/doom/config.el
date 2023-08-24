@@ -150,6 +150,24 @@
                )
       )
 
+(defun open-explorer (args)
+  "Open the file explorer with the given arguments"
+  (message args)
+  (start-process "explorer-from-emacs" nil "explorer.exe" args)
+  )
+
+(defun open-explorer-here ()
+  "Open the file explorer at the current directory"
+  (interactive)
+  (open-explorer ".")
+  )
+
+(map! :leader
+      (:prefix "o"
+               (:desc "Explorer here" "e" #'open-explorer-here)
+               )
+      )
+
 ;; Disable annoying smartparens
 (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
 
