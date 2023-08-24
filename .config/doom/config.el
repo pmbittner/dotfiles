@@ -89,7 +89,7 @@
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (setq doom-themes-neotree-file-icons t)
-  (setq neo-window-fixed-size nil)
+  ;; (setq neo-window-fixed-size nil)
   (setq neo-window-width 40)
   (doom-themes-neotree-config)
   ;; or for treemacs users
@@ -295,7 +295,7 @@
   (call-interactively 'other-window))
 
 (if (daemonp)
-    (add-hook 'server-switch-hook #'neotree-startup)
+    (add-hook 'server-switch-hook (lambda () ()));; #'neotree-startup)
   (add-hook 'after-init-hook #'neotree-startup)
 )
 ;;;;;; treemacs configuration
