@@ -224,6 +224,9 @@ alias pull="git pull"
 alias push="git push"
 alias stat="git status"
 
+alias explorer="explorer.exe"
+alias exp="explorer.exe ."
+
 ## colorkiste
 colourkiste() {
   java -jar ~/software/ColourKiste.jar &
