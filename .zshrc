@@ -206,7 +206,10 @@ ee() {
     emacsclient -c -a 'emacs' "$@" &!
   fi
 }
+
+### SHORTHANDS TO START EMACS FOR CERTAIN PROJECTS
 alias eea='ee $A'
+alias eev='ee ~/paper/variantsync-proposal'
 
 ### EMACS SERVER SETUP END
 
@@ -233,6 +236,10 @@ colourkiste() {
 }
 alias colorkiste=colourkiste
 alias ck=colorkiste
+
+## high dpi wsl settings
+# export GDK_SCALE=0.5
+# export GDK_DPI_SCALE=2
 
 ### TODO add jetbrains font to dotfiles repo?
 
