@@ -28,12 +28,16 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16)
-      doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 16)
-      doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size 20)
+
+(defconst font-size 22)
+(defconst big-font-size 24)
+;; (defconst font-size 26)
+;; (defconst big-font-size 32)
+(setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size font-size)
+      doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size font-size)
+      doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size big-font-size)
       ;; Do not set size of unicode font or it wont scale on zoom.
       doom-unicode-font (font-spec :family "DejaVu Sans"))
-
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -46,15 +50,23 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme
         ;;;; Favorites
+        ;; 'doom-material
+        ;; 'doom-palenight
         ;; 'doom-one
         ;; 'doom-oceanic-next
-        'doom-palenight
         ;; 'doom-material-dark
         ;; 'doom-nord-aurora
         ;; 'doom-challenger-deep
         ;; 'doom-snazzy
         ;; 'doom-vibrant
         ;; 'doom-spacegrey
+
+        ;;;; Light themes
+        ;; 'default
+        ;; 'leuven
+        'whiteboard
+        ;; 'modus-operandi
+
 
         ;;;; Synthwave Themes
         ;; 'doom-outrun-electric
@@ -101,8 +113,8 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-;;(setq display-line-numbers-type t)
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type t)
+;; (setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -203,7 +215,7 @@
                       (point))
               end (save-excursion
                     (goto-char (region-end))
-                    ;; (end-of-line)
+                    (end-of-line)
                     (point)))
         )
       (comment-or-uncomment-region start end)
@@ -288,6 +300,9 @@
       )
       )
 
+(map! :leader
+      (:desc "Focus Neotree" "0" #'neotree)
+      )
 ;; (setq x-select-enable-clipboard t)
 ;; (setq x-select-enable-primary t)
 ;; (setq select-enable-clipboard t)
@@ -306,16 +321,15 @@
 ;; (advice-add 'kill-new :after #'wsl-copy-clip)
 
 ;;;;;; neotree configuration
-;; (add-hook 'after-init-hook #'neotree-show)
-(defun neotree-startup ()
-  (interactive)
-  (neotree-show)
-  (call-interactively 'other-window))
+;; (defun neotree-startup ()
+;;   (interactive)
+;;   (neotree-show)
+;;   (call-interactively 'other-window))
 
-(if (daemonp)
-    (add-hook 'server-switch-hook (lambda () ()));; #'neotree-startup)
-  (add-hook 'after-init-hook #'neotree-startup)
-)
+;; (if (daemonp)
+;;     (add-hook 'server-switch-hook (lambda () ()));; #'neotree-startup)
+;;   (add-hook 'after-init-hook #'neotree-startup)
+;; )
 ;;;;;; treemacs configuration
 ;; (require 'treemacs)
 ;; (map! :leader
