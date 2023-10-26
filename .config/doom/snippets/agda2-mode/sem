@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: semantics
-# key: sem
+# name: sem
+# key:  sem
 # --
-⟦${1:_}⟧ 
+⟦ ${0} ⟧

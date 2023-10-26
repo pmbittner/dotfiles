@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: opt-holes
+# key: opt-holes
+# --
+{-# OPTIONS --allow-unsolved-metas #-}

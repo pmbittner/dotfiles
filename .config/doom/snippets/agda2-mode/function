@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: function
+# name: agda-function
 # key: fun
 # --
 ${1:name} : ${2:signature}
