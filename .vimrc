@@ -56,3 +56,16 @@ set whichwrap+=<,h
 set whichwrap+=>,l
 
 set nobackup
+
+" Use a line cursor within insert mode and a block cursor everywhere else.
+" Possible values:
+" 0 -> blinking block
+" 1 -> blinking block (default)
+" 2 -> steady block
+" 3 -> blinking underline
+" 4 -> steady underline
+" 5 -> blinking bar (xterm)
+" 6 -> stead bar (xterm)
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
