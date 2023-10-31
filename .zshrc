@@ -128,7 +128,8 @@ export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 
 ## Shortcuts for directories
 export V="$HOME/VariantSync"
-export A="$V/AgdaCCnOC"
+export A="$HOME/projects/AgdaCCnOC"
+export P="$HOME/paper/expressive-power-of-variability-languages/paper"
 
 ## setup for xserver
 export DISPLAY=$(ip route list default | awk '{print $3}'):0
@@ -210,6 +211,7 @@ ee() {
 ### SHORTHANDS TO START EMACS FOR CERTAIN PROJECTS
 alias eea='ee $A'
 alias eev='ee ~/paper/variantsync-proposal'
+alias eep='ee $P'
 
 ### EMACS SERVER SETUP END
 
@@ -222,13 +224,15 @@ export DOOMDIR=$HOME/.config/doom
 alias ls="ls --color=auto --group-directories-first"
 
 alias checkout="git checkout"
-alias commit="git commit -m"
+alias commit="git commit"
 alias pull="git pull"
 alias push="git push"
 alias stat="git status"
 
 alias explorer="explorer.exe"
 alias exp="explorer.exe ."
+
+alias u="cd .."
 
 ## colorkiste
 colourkiste() {
