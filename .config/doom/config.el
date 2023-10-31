@@ -288,17 +288,21 @@
 ;; TODO Activate todo minor mode in latex major mode
 ;; (hl-todo-mode)
 
-(map! :after latex
-      :map latex-mode-map
-      :leader
-      (:prefix ("l" . "LaTeX")
-               ;; (:desc "Compile" "l" #'TeX-command-run-all)
-               (:desc "Compile" "l" #'run-latexmk)
-               (:desc "Next Error" "e" #'TeX-next-error)
-               (:desc "View PDF" "v" #'TeX-view)
-               (:desc "Compilation Log" "o" #'TeX-recenter-output-buffer)
-      )
-      )
+(after! latex
+ (map!
+  (:map (latex-mode-map LaTeX-mode-map)
+   :localleader
+   ;; (:desc "Compile" "l" #'TeX-command-run-all)
+   (:desc "Compile (Custom)" "l" #'run-latexmk)
+   (:desc "Next Error" "e" #'TeX-next-error)
+   (:desc "View PDF" "v" #'TeX-view)
+   (:desc "Compilation Log" "o" #'TeX-recenter-output-buffer)
+   (:desc "Close Environment" "E" #'LaTeX-close-environment)
+   ;; (:desc "\\item" "i" #'LaTeX-insert-item)
+  )
+ )
+)
+
 
 (map! :leader
       (:desc "Focus Neotree" "0" #'neotree)
