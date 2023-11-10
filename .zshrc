@@ -130,6 +130,7 @@ export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 export V="$HOME/VariantSync"
 export A="$HOME/projects/AgdaCCnOC"
 export P="$HOME/paper/expressive-power-of-variability-languages/paper"
+export C="$HOME/teaching/compiler-construction/2023ws"
 
 ## setup for xserver
 export DISPLAY=$(ip route list default | awk '{print $3}'):0
@@ -212,6 +213,7 @@ ee() {
 alias eea='ee $A'
 alias eev='ee ~/paper/variantsync-proposal'
 alias eep='ee $P'
+alias eec='ee $C'
 
 ### EMACS SERVER SETUP END
 
