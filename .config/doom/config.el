@@ -162,6 +162,13 @@
                )
       )
 
+(map! :leader
+      :prefix "c"
+      (:desc "Compile project" "c" #'project-compile)
+      (:desc "Compile (here)" "l" #'compile)
+      (:desc "Make" "m" #'+make/run)
+      )
+
 (defun open-explorer (args)
   "Open the file explorer with the given arguments"
   (message args)
