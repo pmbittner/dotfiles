@@ -307,6 +307,29 @@
 (map! :leader
       (:desc "Focus Neotree" "0" #'neotree)
       )
+
+;; hide some files in neotree
+(setq neo-hidden-regexp-list
+  (append
+    (list
+      ;; latex aux files
+      "\\.aux$"
+      "\\.fdb_latexmk$"
+      "\\.fls$"
+      ;; "\\.log$"
+      "\\.nav$"
+      "\\.out$"
+      "\\.snm$"
+      "\\.synctex\\.gz$"
+      "\\.toc$"
+      "\\.vrb$"
+      ;; agda build files
+      "\\.agdai$"
+    )
+    neo-hidden-regexp-list))
+
+(setq-default neo-show-hidden-files nil)
+
 ;; (setq x-select-enable-clipboard t)
 ;; (setq x-select-enable-primary t)
 ;; (setq select-enable-clipboard t)
