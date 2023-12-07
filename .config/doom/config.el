@@ -292,6 +292,10 @@
         )
     ))
 
+;; from https://stackoverflow.com/questions/2477195/latex-indentation-formatting-in-emacs
+;; to get 2 spaces indentation in evironments
+(setq LaTeX-item-indent 0)
+
 ;; TODO Activate todo minor mode in latex major mode
 ;; (hl-todo-mode)
 
