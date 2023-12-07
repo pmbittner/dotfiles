@@ -130,7 +130,10 @@ export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 export V="$HOME/VariantSync"
 export A="$HOME/projects/AgdaCCnOC"
 export P="$HOME/paper/expressive-power-of-variability-languages/paper"
-export C="$HOME/teaching/compiler-construction/2023ws"
+export C="$HOME/teaching/compiler-construction/material/2023ws"
+export CP="$HOME/teaching/compiler-construction/tasks"
+export CP1="$CP/task1"
+export CP2="$CP/task2"
 
 ## setup for xserver
 export DISPLAY=$(ip route list default | awk '{print $3}'):0
@@ -214,6 +217,8 @@ alias eea='ee $A'
 alias eev='ee ~/paper/variantsync-proposal'
 alias eep='ee $P'
 alias eec='ee $C'
+alias eecp1='ee $CP1'
+alias eecp2='ee $CP2'
 
 ### EMACS SERVER SETUP END
 
@@ -242,6 +247,12 @@ colourkiste() {
 }
 alias colorkiste=colourkiste
 alias ck=colorkiste
+
+## other utilities
+shrink-all-pngs () {
+  mkdir small
+  find -maxdepth 1 -name "*.png" -exec convert {} -resize 2048x2048 small/{} \;
+}
 
 ## high dpi wsl settings
 # export GDK_SCALE=0.5
