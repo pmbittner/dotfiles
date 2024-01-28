@@ -253,6 +253,31 @@ shrink-all-pngs () {
   mkdir small
   find -maxdepth 1 -name "*.png" -exec convert {} -resize 2048x2048 small/{} \;
 }
+shrink-all-jpgs () {
+  mkdir small
+  find -maxdepth 1 -name "*.jpg" -exec convert {} -resize 2048x2048 small/{} \;
+}
+
+convert-pngs-to-jpgs () {
+  find -maxdepth 1 -name "*.png" -exec convert {} {}.jpg \;
+}
+
+compose-pngs-to-pdf () {
+  convert *.png -auto-orient composed.pdf
+}
+compose-jpgs-to-pdf () {
+  convert *.jpg -auto-orient composed.pdf
+}
+
+scans-to-pdf () {
+  shrink-all-pngs
+  cd small
+  convert-pngs-to-jpgs
+  compose-jpgs-to-pdf
+  mv composed.pdf ..
+  cd ..
+  rm -rf small
+}
 
 ## high dpi wsl settings
 # export GDK_SCALE=0.5
