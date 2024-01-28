@@ -242,6 +242,15 @@
          ("\\.lagda.md\\'" . agda2-mode))
        auto-mode-alist))
 
+;; Haskell setup
+(after! haskell
+ (map!
+   :localleader
+   :map haskell-mode-map
+   (:desc "Check current buffer" "l" #'haskell-process-load-file)
+ )
+)
+
 ;;;;;; LaTeX
 (require 'latex)
 (setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
