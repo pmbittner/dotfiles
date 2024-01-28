@@ -346,6 +346,13 @@
 
 (setq-default neo-show-hidden-files nil)
 
+(setq projectile-indexing-method 'hybrid)
+(setq projectile-sort-order 'recentf)
+(after! projectile
+  (progn
+    (message "Set projectile sort order")
+  ))
+
 ;; (setq x-select-enable-clipboard t)
 ;; (setq x-select-enable-primary t)
 ;; (setq select-enable-clipboard t)
