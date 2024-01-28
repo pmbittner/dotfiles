@@ -37,7 +37,7 @@
       doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size font-size)
       doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size big-font-size)
       ;; Do not set size of unicode font or it wont scale on zoom.
-      doom-unicode-font (font-spec :family "DejaVu Sans"))
+      doom-symbol-font (font-spec :family "DejaVu Sans")) ;; doom-unicode-font
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -50,23 +50,19 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme
         ;;;; Favorites
+        'doom-one
+        ;; 'adwaita
+        ;; 'whiteboard
         ;; 'doom-material
         ;; 'doom-palenight
-        ;; 'doom-one
-        ;; 'doom-oceanic-next
-        ;; 'doom-material-dark
-        ;; 'doom-nord-aurora
         ;; 'doom-challenger-deep
         ;; 'doom-snazzy
         ;; 'doom-vibrant
-        ;; 'doom-spacegrey
 
         ;;;; Light themes
         ;; 'default
         ;; 'leuven
-        'whiteboard
         ;; 'modus-operandi
-
 
         ;;;; Synthwave Themes
         ;; 'doom-outrun-electric
