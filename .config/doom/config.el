@@ -151,13 +151,6 @@
 
 ;;;; ADDITIONS BY PAUL AFTER THIS LINE ;;;;
 
-;; some keybindings for faster interaction with doom
-(map! :leader
-      (:prefix ("d" . "Doom (Custom)")
-               (:desc "Reload" "r" #'doom/reload)
-               )
-      )
-
 (map! :leader
       :prefix "c"
       (:desc "Compile project" "c" #'project-compile)
@@ -230,10 +223,6 @@
 ;;;;;; Agda setup
 ;; workaround for a bug in evil: https://github.com/emacs-evil/evil/pull/1768
 ;; The workaround as proposed here: https://github.com/agda/agda/issues/2141
-(defun set-agda-input-method ()
-  (evil-without-input-method-hooks ;; Disable evil's hooks which reset current-input-method in favor of evil-input-method before the evil minor mode has been loaded.
-    (set-input-method "Agda")))
-(add-hook 'agda2-mode-hook 'set-agda-input-method)
 
 ;; auto-load agda-mode for .agda and .lagda.md
 (setq auto-mode-alist
@@ -241,6 +230,17 @@
        '(("\\.agda\\'" . agda2-mode)
          ("\\.lagda.md\\'" . agda2-mode))
        auto-mode-alist))
+
+(load! "nix-shell.el")
+
+;; some keybindings for faster interaction with doom
+(map! :leader
+      (:prefix ("d" . "Doom (Custom)")
+               (:desc "Reload" "r" #'doom/reload)
+               (:desc "Global Agda" "a" #'global-agda)
+               (:desc "Nix Agda" "A" #'nix-agda)
+               )
+      )
 
 ;; Haskell setup
 (after! haskell

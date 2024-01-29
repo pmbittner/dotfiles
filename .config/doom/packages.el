@@ -39,8 +39,8 @@
 
 ;; Use `:pin' to specify a particular commit to install.
 ;(package! builtin-package :pin "1a2b3c4d5e")
-(package! agda2-mode :pin "b499d12")
-(package! agda-input :pin "b499d12")
+;;(package! agda2-mode :pin "b499d12")
+;;(package! agda-input :pin "b499d12")
 
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
