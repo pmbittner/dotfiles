@@ -413,3 +413,8 @@
 ;;                                          ;; "tomato4"
 ;;                                          "aquamarine4"
 ;;                                          ))
+
+(custom-set-faces!
+  `(font-lock-comment-face :foreground ,(doom-color 'dark-cyan))
+  `(agda2-highlight-inductive-constructor-face :foreground ,(doom-color 'green))
+  )
