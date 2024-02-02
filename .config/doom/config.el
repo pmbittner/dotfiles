@@ -237,8 +237,10 @@
 (map! :leader
       (:prefix ("d" . "Doom (Custom)")
                (:desc "Reload" "r" #'doom/reload)
+               (:desc "Dirvish" "d" #'dirvish-side)
                (:desc "Global Agda" "a" #'global-agda)
                (:desc "Nix Agda" "A" #'nix-agda)
+               (:desc "Config" "c" #'doom/goto-private-config-file)
                )
       )
 
@@ -418,3 +420,15 @@
   `(font-lock-comment-face :foreground ,(doom-color 'dark-cyan))
   `(agda2-highlight-inductive-constructor-face :foreground ,(doom-color 'green))
   )
+
+(require 'dirvish)
+(dirvish-override-dired-mode)
+(setq dirvish-attributes
+      '(vc-state subtree-state collapse)) ;;all-the-icons
+(setq dirvish-open-with-programs
+    `((("pdf") . ("evince" "%f"))
+      ))
+(map! :map dired-mode-map
+      :n "*" #'dired-create-directory
+      :n "+" #'dired-create-empty-file
+      :n "DEL" #'dired-up-directory)
