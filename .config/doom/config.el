@@ -96,10 +96,10 @@
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (setq doom-themes-neotree-file-icons t)
-  ;; (setq neo-window-fixed-size nil)
-  (setq neo-window-width 40)
-  (doom-themes-neotree-config)
+  ;; (setq doom-themes-neotree-file-icons t)
+  ;; ;; (setq neo-window-fixed-size nil)
+  ;; (setq neo-window-width 40)
+  ;; (doom-themes-neotree-config)
   ;; or for treemacs users
   ;; (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
   ;; (doom-themes-treemacs-config)
@@ -322,31 +322,31 @@
 )
 
 
-(map! :leader
-      (:desc "Focus Neotree" "0" #'neotree)
-      )
+;; (map! :leader
+;;       (:desc "Focus Neotree" "0" #'neotree)
+;;       )
 
-;; hide some files in neotree
-(setq neo-hidden-regexp-list
-  (append
-    (list
-      ;; latex aux files
-      "\\.aux$"
-      "\\.fdb_latexmk$"
-      "\\.fls$"
-      ;; "\\.log$"
-      "\\.nav$"
-      "\\.out$"
-      "\\.snm$"
-      "\\.synctex\\.gz$"
-      "\\.toc$"
-      "\\.vrb$"
-      ;; agda build files
-      "\\.agdai$"
-    )
-    neo-hidden-regexp-list))
+;; ;; hide some files in neotree
+;; (setq neo-hidden-regexp-list
+;;   (append
+;;     (list
+;;       ;; latex aux files
+;;       "\\.aux$"
+;;       "\\.fdb_latexmk$"
+;;       "\\.fls$"
+;;       ;; "\\.log$"
+;;       "\\.nav$"
+;;       "\\.out$"
+;;       "\\.snm$"
+;;       "\\.synctex\\.gz$"
+;;       "\\.toc$"
+;;       "\\.vrb$"
+;;       ;; agda build files
+;;       "\\.agdai$"
+;;     )
+;;     neo-hidden-regexp-list))
 
-(setq-default neo-show-hidden-files nil)
+;; (setq-default neo-show-hidden-files nil)
 
 (setq projectile-indexing-method 'hybrid)
 (setq projectile-sort-order 'recentf)
