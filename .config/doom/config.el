@@ -227,9 +227,6 @@
 (map! :n "C-t" #'comment-eclipse)
 
 ;;;;;; Agda setup
-;; workaround for a bug in evil: https://github.com/emacs-evil/evil/pull/1768
-;; The workaround as proposed here: https://github.com/agda/agda/issues/2141
-
 ;; auto-load agda-mode for .agda and .lagda.md
 (setq auto-mode-alist
       (append
