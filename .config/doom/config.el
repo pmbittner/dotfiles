@@ -430,9 +430,12 @@
 (setq dirvish-attributes
       '(vc-state subtree-state collapse)) ;;all-the-icons
 (setq dirvish-open-with-programs
+    ;; (concat dirvish-open-with-programs
     `((("pdf") . ("evince" "%f"))
       ))
 (map! :map dired-mode-map
       :n "*" #'dired-create-directory
       :n "+" #'dired-create-empty-file
+      :n "TAB" #'dirvish-toggle-subtree
       :n "DEL" #'dired-up-directory)
+;; (setq dired-omit-files (concat dired-omit-files "\\." "\\.\\."))
