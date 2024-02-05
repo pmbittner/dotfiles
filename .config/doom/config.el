@@ -241,9 +241,10 @@
       (:prefix ("d" . "Doom (Custom)")
                (:desc "Reload" "r" #'doom/reload)
                (:desc "Dirvish" "d" #'dirvish-side)
-               (:desc "Global Agda" "a" #'global-agda)
-               (:desc "Nix Agda" "A" #'nix-agda)
+               (:desc "Agda (system)" "a" #'global-agda)
+               (:desc "Agda (nix)" "A" #'nix-agda)
                (:desc "Config" "c" #'doom/goto-private-config-file)
+               (:desc "Help Search" "h" #'doom/help-search)
                )
       )
 
