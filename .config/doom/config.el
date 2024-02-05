@@ -151,6 +151,11 @@
 
 ;;;; ADDITIONS BY PAUL AFTER THIS LINE ;;;;
 
+;; Make "," be the local leader instead of SPC-
+(setq evil-snipe-override-evil-repeat-keys nil)
+(setq doom-localleader-key ",")
+(setq doom-localleader-alt-key "M-SPC ,")
+
 (map! :leader
       :prefix "c"
       (:desc "Compile project" "c" #'project-compile)
