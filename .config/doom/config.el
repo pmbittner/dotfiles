@@ -216,7 +216,8 @@
                       (point))
               end (save-excursion
                     (goto-char (region-end))
-                    (end-of-line)
+                    ;; (end-of-line)
+                    (beginning-of-line)
                     (point)))
         )
       (comment-or-uncomment-region start end)
