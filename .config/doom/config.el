@@ -260,6 +260,14 @@
                )
       )
 
+;; fix weird behavor on SPC f p which requires to type at least two chars
+(defun find-file-in-private-config ()
+  "Search for a file in `doom-user-dir'."
+  (interactive)
+  (let ((default-directory (file-truename doom-user-dir)))
+    (call-interactively #'find-file)))
+(map! :leader "fp" #'find-file-in-private-config)
+
 ;; Haskell setup
 (after! haskell
  (map!
