@@ -227,14 +227,26 @@
 (map! :n "C-t" #'comment-eclipse)
 
 ;;;;;; Agda setup
-;; auto-load agda-mode for .agda and .lagda.md
-(setq auto-mode-alist
-      (append
-       '(("\\.agda\\'" . agda2-mode)
-         ("\\.lagda.md\\'" . agda2-mode))
-       auto-mode-alist))
-
 (load! "nix-shell.el")
+
+(defun global-agda ()
+  (interactive)
+  (add-load-path!
+   (file-name-directory (shell-command-to-string "agda-mode locate")))
+  (if (require 'agda2 nil t)
+      (normal-mode)
+    (message "Failed to find the `agda2' package")))
+
+(defun nix-agda (nix-shell-path)
+  (interactive (list (nix-shell-read-path "nix expression path: ")))
+  (nix-shell-activate nix-shell-path)
+  (global-agda))
+
+;; Can't use `use-package!' because it will try to load agda2-mode immediately.
+(load! "modules/lang/agda/config.el" doom-emacs-dir)
+(after! agda2
+  (add-hook! 'agda2-mode-hook (activate-input-method "Agda"))
+  (prependq! auto-mode-alist '(("\\.lagda.md\\'" . agda2-mode))))
 
 ;; some keybindings for faster interaction with doom
 (map! :leader

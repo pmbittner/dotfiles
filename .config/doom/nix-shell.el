@@ -209,18 +209,3 @@ environment."
 
 (provide 'nix-shell)
 ;;; nix-shell.el ends here
-
-(defun global-agda ()
-  (interactive)
-  (doom-module-context-with '(:lang agda)
-    (setf (aref doom-module-context (get 'doom-module-context 'flags)) '(+local))
-    (doom-load (doom-module-locate-path :lang 'agda "config.el")))
-  (agda2-mode))
-
-(defun nix-agda (nix-shell-path)
-  (interactive (list (nix-shell-read-path "nix expression path: ")))
-  (nix-shell-activate nix-shell-path)
-  (doom-module-context-with '(:lang agda)
-    (setf (aref doom-module-context (get 'doom-module-context 'flags)) '(+local))
-    (doom-load (doom-module-locate-path :lang 'agda "config.el")))
-  (agda2-mode))
