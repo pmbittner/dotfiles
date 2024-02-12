@@ -260,6 +260,13 @@
                )
       )
 
+(map! :leader
+      (:desc "Previous Buffer" "<left>" #'previous-buffer)
+      (:desc "Next Buffer" "<right>" #'next-buffer)
+      )
+(map! :map 'evil-normal-state-map "ö" #'previous-buffer)
+(map! :map 'evil-normal-state-map "ä" #'next-buffer)
+
 ;; fix weird behavor on SPC f p which requires to type at least two chars
 (defun find-file-in-private-config ()
   "Search for a file in `doom-user-dir'."
