@@ -445,6 +445,19 @@
   `(agda2-highlight-inductive-constructor-face :foreground ,(doom-color 'green))
   )
 
+(after! dired
+  (add-hook! 'dired-mode-hook
+    (dired-hide-details-mode))
+  (add-hook! 'dired-after-readin-hook
+    (dired-git-info-auto-enable))
+
+  (map! :map dired-mode-map
+    :n "*" #'dired-create-directory
+    :n "+" #'dired-create-empty-file
+    :n "DEL" #'dired-up-directory
+    )
+  )
+
 ;; (require 'dirvish)
 ;; (dirvish-override-dired-mode)
 ;; (setq dirvish-attributes
@@ -454,8 +467,6 @@
 ;;     `((("pdf") . ("evince" "%f"))
 ;;       ))
 ;; (map! :map dired-mode-map
-;;       :n "*" #'dired-create-directory
-;;       :n "+" #'dired-create-empty-file
 ;;       :n "TAB" #'dirvish-toggle-subtree
-;;       :n "DEL" #'dired-up-directory)
+;;       )
 ;; (setq dired-omit-files (concat dired-omit-files "\\." "\\.\\."))
