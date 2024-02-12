@@ -252,7 +252,7 @@
 (map! :leader
       (:prefix ("d" . "Doom (Custom)")
                (:desc "Reload" "r" #'doom/reload)
-               (:desc "Dirvish" "d" #'dirvish-side)
+               ;; (:desc "Dirvish" "d" #'dirvish-side)
                (:desc "Agda (system)" "a" #'global-agda)
                (:desc "Agda (nix)" "A" #'nix-agda)
                (:desc "Config" "c" #'doom/goto-private-config-file)
@@ -346,31 +346,31 @@
 )
 
 
-;; (map! :leader
-;;       (:desc "Focus Neotree" "0" #'neotree)
-;;       )
+(map! :leader
+      (:desc "Focus Neotree" "0" #'neotree)
+      )
 
-;; ;; hide some files in neotree
-;; (setq neo-hidden-regexp-list
-;;   (append
-;;     (list
-;;       ;; latex aux files
-;;       "\\.aux$"
-;;       "\\.fdb_latexmk$"
-;;       "\\.fls$"
-;;       ;; "\\.log$"
-;;       "\\.nav$"
-;;       "\\.out$"
-;;       "\\.snm$"
-;;       "\\.synctex\\.gz$"
-;;       "\\.toc$"
-;;       "\\.vrb$"
-;;       ;; agda build files
-;;       "\\.agdai$"
-;;     )
-;;     neo-hidden-regexp-list))
+;; hide some files in neotree
+(setq neo-hidden-regexp-list
+  (append
+    (list
+      ;; latex aux files
+      "\\.aux$"
+      "\\.fdb_latexmk$"
+      "\\.fls$"
+      ;; "\\.log$"
+      "\\.nav$"
+      "\\.out$"
+      "\\.snm$"
+      "\\.synctex\\.gz$"
+      "\\.toc$"
+      "\\.vrb$"
+      ;; agda build files
+      "\\.agdai$"
+    )
+    neo-hidden-regexp-list))
 
-;; (setq-default neo-show-hidden-files nil)
+(setq-default neo-show-hidden-files nil)
 
 (setq projectile-indexing-method 'hybrid)
 (setq projectile-sort-order 'recentf)
@@ -445,17 +445,17 @@
   `(agda2-highlight-inductive-constructor-face :foreground ,(doom-color 'green))
   )
 
-(require 'dirvish)
-(dirvish-override-dired-mode)
-(setq dirvish-attributes
-      '(vc-state subtree-state collapse)) ;;all-the-icons
-(setq dirvish-open-with-programs
-    ;; (concat dirvish-open-with-programs
-    `((("pdf") . ("evince" "%f"))
-      ))
-(map! :map dired-mode-map
-      :n "*" #'dired-create-directory
-      :n "+" #'dired-create-empty-file
-      :n "TAB" #'dirvish-toggle-subtree
-      :n "DEL" #'dired-up-directory)
+;; (require 'dirvish)
+;; (dirvish-override-dired-mode)
+;; (setq dirvish-attributes
+;;       '(vc-state subtree-state collapse)) ;;all-the-icons
+;; (setq dirvish-open-with-programs
+;;     ;; (concat dirvish-open-with-programs
+;;     `((("pdf") . ("evince" "%f"))
+;;       ))
+;; (map! :map dired-mode-map
+;;       :n "*" #'dired-create-directory
+;;       :n "+" #'dired-create-empty-file
+;;       :n "TAB" #'dirvish-toggle-subtree
+;;       :n "DEL" #'dired-up-directory)
 ;; (setq dired-omit-files (concat dired-omit-files "\\." "\\.\\."))
