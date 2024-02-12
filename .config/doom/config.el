@@ -441,7 +441,11 @@
 ;;                                          ))
 
 (custom-set-faces!
-  `(font-lock-comment-face :foreground ,(doom-color 'dark-cyan))
+  `(font-lock-comment-face :foreground
+    "light slate gray")
+    ;; "LightSteelBlue4")
+    ;; "PaleTurquoise4")
+    ;; "LightSkyBlue4")
   `(agda2-highlight-inductive-constructor-face :foreground ,(doom-color 'green))
   )
 
