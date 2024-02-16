@@ -261,11 +261,33 @@
       )
 
 (map! :leader
-      (:desc "Previous Buffer" "<left>" #'previous-buffer)
-      (:desc "Next Buffer" "<right>" #'next-buffer)
-      )
-(map! :map 'evil-normal-state-map "ö" #'previous-buffer)
-(map! :map 'evil-normal-state-map "ä" #'next-buffer)
+  (:desc "Previous Buffer" "<left>" #'previous-buffer)
+  (:desc "Next Buffer" "<right>" #'next-buffer)
+)
+
+(after! centaur-tabs
+  ;; (setq centaur-tabs-style "wave")
+  ;; (setq centaur-tabs-set-bar 'under)
+  ;; (setq x-underline-at-descent-line t)
+  (setq centaur-tabs-excluded-prefixes
+        (append centaur-tabs-excluded-prefixes
+               '("*Async-native-compile-log"
+                 "*Agda information"
+                 "*agda2"
+                 "*Quail Completions"
+                 "*Native-compile-Log"
+                 "*scratch"
+                 "*doom"
+                 "*Messages"
+                 )))
+
+  (map! :map 'evil-normal-state-map "ö" #'centaur-tabs-backward)
+  (map! :map 'evil-normal-state-map "ä" #'centaur-tabs-forward)
+  (map! :map 'evil-normal-state-map "Ö" #'centaur-tabs-backward-group)
+  (map! :map 'evil-normal-state-map "Ä" #'centaur-tabs-forward-group)
+  (map! :map 'evil-normal-state-map "C-ö" #'centaur-tabs-move-current-tab-to-left)
+  (map! :map 'evil-normal-state-map "C-ä" #'centaur-tabs-move-current-tab-to-right)
+  )
 
 ;; fix weird behavor on SPC f p which requires to type at least two chars
 (defun find-file-in-private-config ()
