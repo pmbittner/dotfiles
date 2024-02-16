@@ -306,6 +306,18 @@
  )
 )
 
+;; custom highlighting for todo keywords
+(after! hl-todo
+  (setq hl-todo-keyword-faces
+    (append hl-todo-keyword-faces
+        '(("PB-TODO" . "#dc8cc3")
+          )))
+
+  (map! :leader
+    (:prefix-map ("i" . "insert")
+       (:desc "Todo" "t" #'hl-todo-insert)
+       )))
+
 ;;;;;; LaTeX
 (require 'latex)
 (setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
