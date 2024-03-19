@@ -97,10 +97,10 @@
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
-  ;; (setq doom-themes-neotree-file-icons t)
-  ;; ;; (setq neo-window-fixed-size nil)
+  (setq doom-themes-neotree-file-icons t)
+  ;; (setq neo-window-fixed-size nil)
   ;; (setq neo-window-width 40)
-  ;; (doom-themes-neotree-config)
+  (doom-themes-neotree-config)
   ;; or for treemacs users
   ;; (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
   ;; (doom-themes-treemacs-config)
@@ -387,32 +387,44 @@
  )
 )
 
+;; Shortcut to toggle neotree view just with ü
+(map! :map 'evil-normal-state-map "ü" #'+neotree/open)
+(after! neotree
+  ;; Make h and l not move the cursor in neotree but instead close or open directories.
+  ;; The usual keybinds commented out below won't work well.
+  ;; They will only work in insert mode in neotree for some reason.
+  ;;   (map! :map 'evil-collection-neotree-maps "h" #'+neotree/collapse-or-up)
+  ;;   (map! :map 'evil-collection-neotree-maps "l" #'+neotree/expand-or-open)
+  ;; However, this works:
+  (evil-collection-define-key 'normal 'neotree-mode-map
+    "h" '+neotree/collapse-or-up
+    "l" '+neotree/expand-or-open)
 
-(map! :leader
-      (:desc "Focus Neotree" "0" #'neotree)
-      )
+  (map! :leader
+    (:desc "Focus Neotree" "0" #'neotree)
+  )
 
-;; hide some files in neotree
-(setq neo-hidden-regexp-list
-  (append
-    (list
-      ;; latex aux files
-      "\\.aux$"
-      "\\.fdb_latexmk$"
-      "\\.fls$"
-      ;; "\\.log$"
-      "\\.nav$"
-      "\\.out$"
-      "\\.snm$"
-      "\\.synctex\\.gz$"
-      "\\.toc$"
-      "\\.vrb$"
-      ;; agda build files
-      "\\.agdai$"
-    )
-    neo-hidden-regexp-list))
+  ;; hide some files in neotree
+  (setq neo-hidden-regexp-list
+        (append (list
+                ;; latex aux files
+                "\\.aux$"
+                "\\.fdb_latexmk$"
+                "\\.fls$"
+                ;; "\\.log$"
+                "\\.nav$"
+                "\\.out$"
+                "\\.snm$"
+                "\\.synctex\\.gz$"
+                "\\.toc$"
+                "\\.vrb$"
+                ;; agda build files
+                "\\.agdai$"
+                )
+        neo-hidden-regexp-list))
 
-(setq-default neo-show-hidden-files nil)
+  (setq-default neo-show-hidden-files nil)
+  )
 
 (setq projectile-indexing-method 'hybrid)
 (setq projectile-sort-order 'recentf)
