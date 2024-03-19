@@ -50,7 +50,8 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme
         ;;;; Favorites
-        'doom-one
+        ;; 'doom-one
+        'doom-one-light
         ;; 'adwaita
         ;; 'whiteboard
         ;; 'doom-material
@@ -59,7 +60,7 @@
         ;; 'doom-snazzy
         ;; 'doom-vibrant
 
-        ;;;; Light themes
+        ;;;; Other Light themes
         ;; 'default
         ;; 'leuven
         ;; 'modus-operandi
