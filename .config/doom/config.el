@@ -233,10 +233,13 @@
 (defun global-agda ()
   (interactive)
   (add-load-path!
-   (file-name-directory (shell-command-to-string "agda-mode locate")))
+    (file-name-directory (shell-command-to-string "agda-mode locate")))
   (if (require 'agda2 nil t)
-      (normal-mode)
-    (message "Failed to find the `agda2' package")))
+      (progn
+        (normal-mode)
+        (agda2-load)
+        )
+      (message "Failed to find the `agda2' package")))
 
 (defun nix-agda (nix-shell-path)
   (interactive (list (nix-shell-read-path "nix expression path: ")))
@@ -246,8 +249,12 @@
 ;; Can't use `use-package!' because it will try to load agda2-mode immediately.
 (load! "modules/lang/agda/config.el" doom-emacs-dir)
 (after! agda2
-  (add-hook! 'agda2-mode-hook (activate-input-method "Agda"))
-  (prependq! auto-mode-alist '(("\\.lagda.md\\'" . agda2-mode))))
+  (add-hook! 'agda2-mode-hook
+    (setq-local evil-shift-width 2)
+    (activate-input-method "Agda"))
+  (prependq! auto-mode-alist '(("\\.lagda.md\\'" . agda2-mode)))
+  (after! evil-surround
+    (embrace-add-pair ?! "{!" "!}")))
 
 ;; some keybindings for faster interaction with doom
 (map! :leader
