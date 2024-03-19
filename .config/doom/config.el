@@ -291,10 +291,10 @@
 
   (map! :map 'evil-normal-state-map "ö" #'centaur-tabs-backward)
   (map! :map 'evil-normal-state-map "ä" #'centaur-tabs-forward)
-  (map! :map 'evil-normal-state-map "Ö" #'centaur-tabs-backward-group)
-  (map! :map 'evil-normal-state-map "Ä" #'centaur-tabs-forward-group)
-  (map! :map 'evil-normal-state-map "C-ö" #'centaur-tabs-move-current-tab-to-left)
-  (map! :map 'evil-normal-state-map "C-ä" #'centaur-tabs-move-current-tab-to-right)
+  (map! :map 'evil-normal-state-map "Ö" #'centaur-tabs-move-current-tab-to-left)
+  (map! :map 'evil-normal-state-map "Ä" #'centaur-tabs-move-current-tab-to-right)
+  (map! :map 'evil-normal-state-map "C-ö" #'centaur-tabs-backward-group)
+  (map! :map 'evil-normal-state-map "C-ä" #'centaur-tabs-forward-group)
   )
 
 ;; fix weird behavor on SPC f p which requires to type at least two chars
