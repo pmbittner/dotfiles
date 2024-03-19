@@ -337,8 +337,10 @@
 (setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
 ;; Use evince to view build pdfs.
 (after! latex
-	(setq TeX-view-program-list '(("Evince" "evince --page-index=%(outpage) %o")))
-	(setq TeX-view-program-selection '((output-pdf "Evince"))))
+  (setq TeX-view-program-list '(("Evince" "evince --page-index=%(outpage) %o")))
+  (setq TeX-view-program-selection '((output-pdf "Evince")))
+  (electric-indent-local-mode)
+  )
 
 (defun demolish-tex-help ()
   (interactive)
