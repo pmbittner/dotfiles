@@ -324,7 +324,13 @@
   (map! :leader
     (:prefix-map ("i" . "insert")
        (:desc "Todo" "t" #'hl-todo-insert)
-       )))
+       ))
+
+  (setq global-hl-todo-mode t)
+  )
+
+(add-hook! 'better-jumper-post-jump-hook :append #'recenter-top-bottom)
+(add-hook! 'better-jumper-pre-jump-hook  :append #'recenter-top-bottom)
 
 ;;;;;; LaTeX
 (require 'latex)
