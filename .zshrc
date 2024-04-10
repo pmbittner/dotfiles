@@ -1,7 +1,7 @@
 
 
 ## fancy colors to greet me (gitlab.com/dwt1/shell.color-scripts)
-colorscript exec pinguco #space-invaders six random
+#colorscript exec pinguco #space-invaders six random
 #colorscript random
 
 ########## DEFAULT ZSH STUFF BELOW ###############################
@@ -141,9 +141,9 @@ export CP1="$CP/task1"
 export CP2="$CP/task2"
 
 ## setup for xserver
-export DISPLAY=$(ip route list default | awk '{print $3}'):0
+#export DISPLAY=$(ip route list default | awk '{print $3}'):0
 #export DISPLAY=:0
-export LIBGL_ALWAYS_INDIRECT=1
+#export LIBGL_ALWAYS_INDIRECT=1
 
 ## my config setup
 ## I made this setup according to this instruction: https://www.atlassian.com/git/tutorials/dotfiles
