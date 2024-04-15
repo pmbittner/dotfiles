@@ -253,6 +253,9 @@
     (setq-local evil-shift-width 2)
     (activate-input-method "Agda"))
   (prependq! auto-mode-alist '(("\\.lagda.md\\'" . agda2-mode)))
+  ;; Make evil repeat (pressing .) ignore agda2-load.
+  (evil-add-command-properties 'agda2-load :repeat 'ignore)
+  ;; Add agda holes as evil-surround braces
   (after! evil-surround
     (embrace-add-pair ?! "{!" "!}")))
 
