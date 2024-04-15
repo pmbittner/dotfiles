@@ -246,6 +246,10 @@ alias exp="explorer.exe ."
 
 alias u="cd .."
 
+ev() {
+  evince "$@" &
+}
+
 ## colorkiste
 colourkiste() {
   java -jar ~/software/ColourKiste.jar &
