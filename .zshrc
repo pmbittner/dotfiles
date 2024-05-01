@@ -234,7 +234,7 @@ alias eecp2='ee $CP2'
 ### EMACS SERVER SETUP END
 
 ### DOOM EMACS SETUP BEGIN
-export PATH=~/.emacs.d/bin:$PATH
+export PATH=~/.config/emacs/bin:$PATH
 export DOOMDIR=$HOME/.config/doom
 ### DOOM EMACS SETUP END
 
