@@ -128,18 +128,12 @@ source $ZSH/oh-my-zsh.sh
 export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 
 reload() {
+  clear
   source $HOME/.zshrc
 }
 
 ## Shortcuts for directories
-export V="$HOME/VariantSync"
 export A="$HOME/projects/AgdaCCnOC"
-export P="$HOME/paper/expressive-power-of-variability-languages/paper"
-# export P="$HOME/paper/DiffDetectiveToolPaper/"
-export C="$HOME/teaching/compiler-construction/material/2023ws"
-export CP="$HOME/teaching/compiler-construction/tasks"
-export CP1="$CP/task1"
-export CP2="$CP/task2"
 
 ## setup for xserver
 #export DISPLAY=$(ip route list default | awk '{print $3}'):0
@@ -223,14 +217,6 @@ ee() {
     emacsclient -c -a 'emacs' "$@" &!
   fi
 }
-
-### SHORTHANDS TO START EMACS FOR CERTAIN PROJECTS
-alias eea='ee $A'
-alias eev='ee ~/paper/variantsync-proposal'
-alias eep='ee $P'
-alias eec='ee $C'
-alias eecp1='ee $CP1'
-alias eecp2='ee $CP2'
 
 ### EMACS SERVER SETUP END
 
