@@ -151,8 +151,8 @@ export MYCONFIGDIR=$HOME/.myconfig.git
 config() {
   /usr/bin/git --git-dir=$MYCONFIGDIR/ --work-tree=$HOME "$@"
 }
-config-add-doom() {
-  config add .config/doom --patch
+config-add() {
+  config add --patch
 }
 
 ## tex
