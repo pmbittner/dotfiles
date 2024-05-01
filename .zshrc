@@ -126,6 +126,10 @@ source $ZSH/oh-my-zsh.sh
 
 export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 
+reload() {
+  source $HOME/.zshrc
+}
+
 ## Shortcuts for directories
 export V="$HOME/VariantSync"
 export A="$HOME/projects/AgdaCCnOC"
