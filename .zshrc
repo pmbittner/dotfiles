@@ -158,72 +158,11 @@ export AGDA_DIR="$A/libs"
 [ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
 
 ### EMACS SERVER SETUP BEGIN
-# We use the following file as a variable to toggle whether we run emacs as a standalone tool or as a client/server.
-DISABLE_EMACS_SERVER_USAGE_FILE="$HOME/.local/state/paul_disables_emacs_server_usage"
-emacs-start-server() {
-  pgrep emacs > /dev/null || /usr/local/bin/emacs --daemon
-}
-emacs-kill-server() {
-  pkill emacs
-}
-emacs-restart-server() {
-  emacs-kill-server
-  sleep 1
-  emacs-start-server
-}
-emacs-toggle-server() {
-  if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
-  then
-    rm "$DISABLE_EMACS_SERVER_USAGE_FILE"
-    echo "START emacs server mode"
-    emacs-start-server
-  else
-    touch "$DISABLE_EMACS_SERVER_USAGE_FILE"
-    echo "STOP emacs server mode. Running servers are terminated."
-    emacs-kill-server
-  fi
-}
-is-emacs-server() {
-  if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
-  then
-    echo "No, emacs will be run as standalone."
-  else
-    echo "Yes, emacs will run as client."
-  fi
-}
-emacs-sync() {
-  emacs-kill-server
-  doom sync
-  if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
-  then
-  else
-    emacs-start-server
-  fi
-}
-alias eeserver='emacs-start-server'
-alias ees='is-emacs-server'
-alias eerestart='emacs-restart-server'
-alias eekill='emacs-kill-server'
-alias eetoggle='emacs-toggle-server'
-alias eet='emacs-toggle-server'
-alias eesync='emacs-sync'
-
-ee() {
-  if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
-  then
-    (cd "$@" ; emacs &!)
-  else
-    emacs-start-server
-    emacsclient -c -a 'emacs' "$@" &!
-  fi
-}
-
-### EMACS SERVER SETUP END
+source $HOME/.emacsrc
 
 ### DOOM EMACS SETUP BEGIN
 export PATH=~/.config/emacs/bin:$PATH
 export DOOMDIR=$HOME/.config/doom
-### DOOM EMACS SETUP END
 
 ## aliases
 alias ls="ls --color=auto --group-directories-first"
