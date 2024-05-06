@@ -188,6 +188,9 @@ alias u="cd .."
 ev() {
   evince "$@" &
 }
+ok() {
+  okular "$@" &
+}
 
 ## colorkiste
 colourkiste() {
