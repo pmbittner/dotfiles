@@ -47,6 +47,7 @@ alias eekill='emacs-kill-server'
 # alias eetoggle='emacs-toggle-server'
 # alias eet='emacs-toggle-server'
 alias eesync='emacs-sync'
+alias ees='emacs-sync'
 
 ee() {
   # if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
