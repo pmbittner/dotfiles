@@ -140,6 +140,11 @@ export A="$HOME/projects/AgdaCCnOC"
 #export DISPLAY=:0
 #export LIBGL_ALWAYS_INDIRECT=1
 
+## TeX Live
+export MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/usr/local/texlive/2024/texmf-dist/doc/info$INFOPATH
+export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
+
 ## my config setup
 ## I made this setup according to this instruction: https://www.atlassian.com/git/tutorials/dotfiles
 export MYCONFIGDIR=$HOME/.myconfig.git
