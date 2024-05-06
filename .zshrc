@@ -151,6 +151,9 @@ config-add-doom() {
   config add .config/doom --patch
 }
 
+## tex
+export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
+
 ## for agda
 export AGDA_DIR="$A/libs"
 [ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
@@ -238,6 +241,7 @@ alias checkout="git checkout"
 alias commit="git commit"
 alias pull="git pull"
 alias push="git push"
+alias stash="git stash"
 alias submodules-init="git submodule update --init --recursive"
 alias submodules-update="git submodule update"
 
