@@ -164,10 +164,22 @@
       (:desc "Make" "m" #'+make/run)
       )
 
+(defun open-terminal (args)
+  "Open a terminal with the given arguments"
+  (message args)
+  (start-process "terminal-from-emacs" nil "kitty" args)
+  )
+
+(defun open-terminal-here ()
+  "Open a terminal at the current directory"
+  (interactive)
+  (open-terminal ".")
+  )
+
 (defun open-explorer (args)
   "Open the file explorer with the given arguments"
   (message args)
-  (start-process "explorer-from-emacs" nil "explorer.exe" args)
+  (start-process "explorer-from-emacs" nil "dolphin" args)
   )
 
 (defun open-explorer-here ()
@@ -179,6 +191,7 @@
 (map! :leader
       (:prefix "o"
                (:desc "Explorer here" "e" #'open-explorer-here)
+               (:desc "Terminal here" "t" #'open-terminal-here)
                )
       )
 
