@@ -191,6 +191,7 @@
 (map! :leader
       (:prefix "o"
                (:desc "Explorer here" "e" #'open-explorer-here)
+               (:desc "Explorer here (Dolphin)" "d" #'open-explorer-here) ;; alias for my manjaro system
                (:desc "Terminal here" "t" #'open-terminal-here)
                )
       )
