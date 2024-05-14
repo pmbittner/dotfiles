@@ -182,6 +182,10 @@ alias submodules-update="git submodule update"
 
 alias explorer="explorer.exe"
 alias exp="explorer.exe ."
+dol() {
+  dolphin . &
+  disown
+}
 
 alias u="cd .."
 
