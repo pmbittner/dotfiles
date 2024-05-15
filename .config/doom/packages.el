@@ -11,6 +11,7 @@
 (package! evil-tutor)
 ;; (package! spacemacs-theme)
 (package! all-the-icons)
+(package! catppuccin-theme)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

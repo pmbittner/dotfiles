@@ -39,6 +39,11 @@
       ;; Do not set size of unicode font or it wont scale on zoom.
       doom-symbol-font (font-spec :family "DejaVu Sans")) ;; doom-unicode-font
 
+;; (setq catppuccin-flavor 'latte) ;; or 'latte, 'macchiato, or 'mocha
+;; (setq catppuccin-flavor 'frappe) ;; or 'latte, 'macchiato, or 'mocha
+(setq catppuccin-flavor 'macchiato) ;; or 'latte, 'macchiato, or 'mocha
+;; (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -530,13 +535,29 @@
 ;;                                          "aquamarine4"
 ;;                                          ))
 
+(defun get-current-theme()
+  "Return the name of the current theme."
+  (car custom-enabled-themes)
+  )
+
+(defun get-my-preferred-color-for-agda-inductive-constructors ()
+  "Returns a color code as string that I wish to be the color of inductive constructors in Agda
+   This fetches the color that is considered to be 'green from the current theme."
+  (if (eq (get-current-theme) 'catppuccin)
+      (catppuccin-get-color 'green)
+      (doom-color 'green)
+      )
+  )
+
+;; (message "%s = %s" "get-current-theme()" (get-current-theme))
+;; (message (concat "my-agda-inductive-constructor-face-color = " (get-my-preferred-color-for-agda-inductive-constructors)))
 (custom-set-faces!
   `(font-lock-comment-face :foreground
     "light slate gray")
     ;; "LightSteelBlue4")
     ;; "PaleTurquoise4")
     ;; "LightSkyBlue4")
-  `(agda2-highlight-inductive-constructor-face :foreground ,(doom-color 'green))
+  `(agda2-highlight-inductive-constructor-face :foreground ,(get-my-preferred-color-for-agda-inductive-constructors))
   )
 
 (after! dired
