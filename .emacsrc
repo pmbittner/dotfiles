@@ -55,6 +55,6 @@ ee() {
     # (cd "$@" ; emacs &!)
   # else
     # emacs-start-server
-    emacsclient -c -a 'emacs' "$@" &!
+    emacsclient --create-frame --alternate-editor='emacs' "$@" &!
   # fi
 }
