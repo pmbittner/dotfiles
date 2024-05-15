@@ -40,6 +40,7 @@ emacs-sync() {
     emacs-start-server
   # fi
 }
+
 alias eeserver='emacs-start-server'
 # alias ees='is-emacs-server'
 alias eerestart='emacs-restart-server'
@@ -47,7 +48,8 @@ alias eekill='emacs-kill-server'
 # alias eetoggle='emacs-toggle-server'
 # alias eet='emacs-toggle-server'
 alias eesync='emacs-sync'
-alias ees='emacs-sync'
+alias eee='eesync ; ee'
+alias doom-reload='emacs-loop'
 
 ee() {
   # if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
