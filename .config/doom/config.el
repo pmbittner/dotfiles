@@ -165,6 +165,16 @@
 (setq doom-localleader-key ",")
 (setq doom-localleader-alt-key "M-SPC ,")
 
+(after! evil
+  ;; switch default bindings for "j" and "gj" and for "k" and "gk".
+  (map! :map (evil-normal-state-map evil-visual-state-map)
+        "j" #'evil-next-visual-line
+        "k" #'evil-previous-visual-line
+        "gj" #'evil-next-line
+        "gk" #'evil-previous-line
+        )
+  )
+
 (map! :leader
       :prefix "c"
       (:desc "Compile project" "c" #'project-compile)
