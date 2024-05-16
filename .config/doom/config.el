@@ -33,15 +33,18 @@
 (defconst big-font-size 24)
 ;; (defconst font-size 26)
 ;; (defconst big-font-size 32)
-(setq doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size font-size)
+;;
+(setq
+      doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size font-size)
+      ;; doom-font (font-spec :family "CaskaydiaCove Nerd Font Mono" :size font-size)
       doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size font-size)
       doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size big-font-size)
       ;; Do not set size of unicode font or it wont scale on zoom.
       doom-symbol-font (font-spec :family "DejaVu Sans")) ;; doom-unicode-font
 
-;; (setq catppuccin-flavor 'latte) ;; or 'latte, 'macchiato, or 'mocha
+(setq catppuccin-flavor 'latte) ;; or 'latte, 'macchiato, or 'mocha
 ;; (setq catppuccin-flavor 'frappe) ;; or 'latte, 'macchiato, or 'mocha
-(setq catppuccin-flavor 'macchiato) ;; or 'latte, 'macchiato, or 'mocha
+;; (setq catppuccin-flavor 'macchiato) ;; or 'latte, 'macchiato, or 'mocha
 ;; (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -56,7 +59,8 @@
   (load-theme
         ;;;; Favorites
         ;; 'doom-one
-        'doom-one-light
+        'catppuccin
+        ;; 'doom-one-light
         ;; 'adwaita
         ;; 'whiteboard
         ;; 'doom-material
@@ -111,7 +115,6 @@
   ;; (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
-
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
