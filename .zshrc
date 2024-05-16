@@ -195,6 +195,9 @@ ev() {
 ok() {
   okular "$@" &
 }
+# alias to remain in ranger's directory after exiting ranger
+alias ranger="source ranger"
+alias r="ranger"
 
 ## colorkiste
 colourkiste() {
