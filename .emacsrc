@@ -1,17 +1,5 @@
 # We use the following file as a variable to toggle whether we run emacs as a standalone tool or as a client/server.
-# DISABLE_EMACS_SERVER_USAGE_FILE="$HOME/.local/state/paul_disables_emacs_server_usage"
-emacs-start-server() {
-  pgrep emacs > /dev/null || emacs --daemon
-}
-emacs-kill-server() {
-  pkill emacs
-}
-emacs-restart-server() {
-  emacs-kill-server
-  sleep 1
-  emacs-start-server
-}
-# emacs-toggle-server() {
+# DISABLE_EMACS_SERVER_USAGE_FILE="$HOME/.local/state/paul_disables_emacs_server_usage" emacs-toggle-server() {
 #   if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
 #   then
 #     rm "$DISABLE_EMACS_SERVER_USAGE_FILE"
@@ -31,6 +19,18 @@ emacs-restart-server() {
 #     echo "Yes, emacs will run as client."
 #   fi
 # }
+emacs-start-server() {
+  pgrep emacs > /dev/null || emacs --daemon
+}
+emacs-kill-server() {
+  pkill emacs
+}
+emacs-restart-server() {
+  emacs-kill-server
+  sleep 1
+  emacs-start-server
+}
+# shuts down all emacs servers, runs 'doom sync', and restarts server
 emacs-sync() {
   emacs-kill-server
   doom sync
@@ -41,17 +41,7 @@ emacs-sync() {
   # fi
 }
 
-alias eeserver='emacs-start-server'
-# alias ees='is-emacs-server'
-alias eerestart='emacs-restart-server'
-alias eekill='emacs-kill-server'
-# alias eetoggle='emacs-toggle-server'
-# alias eet='emacs-toggle-server'
-alias eesync='emacs-sync'
-alias eee='eesync ; ee'
-alias doom-reload='emacs-loop'
-
-ee() {
+my-emacs-client-alias() {
   # if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
   # then
     # (cd "$@" ; emacs &!)
@@ -60,3 +50,20 @@ ee() {
     emacsclient --create-frame --alternate-editor='emacs' "$@" &!
   # fi
 }
+open-emacs-here() {
+  # if there are no arguments,
+  if [ "$#" -eq 0 ]
+  then
+    # start emacs at the current directory,
+    my-emacs-client-alias .
+  else
+    # otherwise, open emacs with the supplied arguments.
+    my-emacs-client-alias "$@"
+  fi
+}
+alias e='open-emacs-here'
+alias es='emacs-sync'
+alias er='emacs-sync ; e'
+alias doom-reload='er'
+alias ds='doom sync'
+alias doc='doom doctor'
