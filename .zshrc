@@ -199,6 +199,9 @@ ok() {
 alias ranger="source ranger"
 alias r="ranger"
 
+# h for "home"
+alias h="cd ~"
+
 ## colorkiste
 colourkiste() {
   java -jar ~/software/ColourKiste.jar &
