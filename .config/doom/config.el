@@ -173,6 +173,13 @@
         "gj" #'evil-next-line
         "gk" #'evil-previous-line
         )
+  ;; copy and paste like done by normal people
+  (map! :map (evil-insert-state-map evil-visual-state-map)
+        "C-c" #'evil-yank
+        )
+  (map! :map evil-insert-state-map
+        "C-v" #'evil-paste-after
+        )
   )
 
 (map! :leader
