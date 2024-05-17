@@ -320,6 +320,7 @@
   ;; (setq centaur-tabs-style "wave")
   ;; (setq centaur-tabs-set-bar 'under)
   ;; (setq x-underline-at-descent-line t)
+  (add-hook 'dired-mode-hook 'centaur-tabs-local-mode)
   (setq centaur-tabs-excluded-prefixes
         (append centaur-tabs-excluded-prefixes
                '("*Async-native-compile-log"
