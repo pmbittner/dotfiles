@@ -583,6 +583,20 @@
   `(agda2-highlight-inductive-constructor-face :foreground ,(get-my-preferred-color-for-agda-inductive-constructors))
   )
 
+(setf dired-kill-when-opening-new-dired-buffer t)
+(setq ranger-override-dired 'ranger)
+(setq ranger-cleanup-eagerly t)
+(setq ranger-show-hidden t)
+(setq ranger-preview-file nil)
+(setq ranger-dont-show-binary t)
+(setq ranger-modify-header t)
+(after! ranger
+    (setq ranger-override-dired 'ranger)
+    )
+;; (after! ranger
+  ;; (map! :map ranger-mode-map
+        ;; "q" nil
+        ;; ))
 (after! dired
   (add-hook! 'dired-mode-hook
     (dired-hide-details-mode))
