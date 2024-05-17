@@ -302,6 +302,7 @@
 (map! :leader
       (:prefix ("d" . "Doom (Custom)")
                (:desc "Ranger" "." #'ranger)
+               (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
                (:desc "Reload" "r" #'doom/reload)
                ;; (:desc "Dirvish" "d" #'dirvish-side)
                (:desc "Agda (system)" "a" #'global-agda)
