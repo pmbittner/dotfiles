@@ -583,6 +583,18 @@
   `(agda2-highlight-inductive-constructor-face :foreground ,(get-my-preferred-color-for-agda-inductive-constructors))
   )
 
+;; (after! dired
+;;   (add-hook! 'dired-mode-hook
+;;     (dired-hide-details-mode))
+;;   (add-hook! 'dired-after-readin-hook
+;;     (dired-git-info-auto-enable))
+
+;;   (map! :map dired-mode-map
+;;     :n "-" #'dired-create-directory
+;;     :n "+" #'dired-create-empty-file
+;;     :n "DEL" #'dired-up-directory
+;;     )
+;;   )
 (setf dired-kill-when-opening-new-dired-buffer t)
 (setq ranger-override-dired 'ranger)
 (setq ranger-cleanup-eagerly t)
@@ -591,24 +603,19 @@
 (setq ranger-dont-show-binary t)
 (setq ranger-modify-header t)
 (after! ranger
-    (setq ranger-override-dired 'ranger)
+  (map! :map ranger-normal-mode-map
+    :prefix "c" (
+      "d" #'dired-create-directory
+      "f" #'dired-create-empty-file
     )
+    :n "DEL" #'dired-up-directory
+  )
+;;     (setq ranger-override-dired 'ranger)
+)
 ;; (after! ranger
   ;; (map! :map ranger-mode-map
         ;; "q" nil
         ;; ))
-(after! dired
-  (add-hook! 'dired-mode-hook
-    (dired-hide-details-mode))
-  (add-hook! 'dired-after-readin-hook
-    (dired-git-info-auto-enable))
-
-  (map! :map dired-mode-map
-    :n "*" #'dired-create-directory
-    :n "+" #'dired-create-empty-file
-    :n "DEL" #'dired-up-directory
-    )
-  )
 
 ;; (require 'dirvish)
 ;; (dirvish-override-dired-mode)
