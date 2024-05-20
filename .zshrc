@@ -177,6 +177,7 @@ alias commit="git commit"
 alias pull="git pull"
 alias push="git push"
 alias stash="git stash"
+alias log="git log --graph --oneline --color"
 alias submodules-init="git submodule update --init --recursive"
 alias submodules-update="git submodule update"
 
