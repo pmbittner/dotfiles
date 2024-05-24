@@ -384,6 +384,49 @@
         )
     ))
 
+;; (defun run-latexmk ()
+;;   "Build LaTeX and view if file is dirty. View only otherwise."
+;;   (interactive)
+;;   (let ((TeX-save-query nil)
+;;         (TeX-process-asynchronous nil)
+;;         (master-file (TeX-master-file nil nil t))
+;;         (master-buffer (current-buffer))
+;;         (build-proc
+;;            (TeX-run-TeX "latexmk"
+;;                            (TeX-command-expand "make")
+;;                            ;; (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --synctex=1 --shell-escape' -pdf %s")
+;;                            master-file)
+;;            ;; (TeX-save-query nil)
+;;            ;; (LaTeX-command-style '(("" "%(PDF)%(latex) -shell-escape -file-line-error %S%(PDFout)"))
+;;         ))
+;;     (message "master is" master-file)
+;;     (TeX-save-document "")
+;;     ;; (TeX-save-document (TeX-master-file))
+;;     ;; (setq build-proc (TeX-command "LaTeX" 'TeX-master-file -1))
+;;     (set-process-sentinel  build-proc  'build-sentinel))
+;;     ;; (TeX-view)
+;;     ;; FIXME: For the condition, there actually exists the following function but it didnt work for some reason.
+;;     ;;        (TeX-error-report-has-errors-p)
+;;     (if (plist-get TeX-error-report-switches (intern master-file))
+;;         (progn
+;;           (TeX-next-error)
+;;           (minibuffer-message "[ERROR] latexmk exited with errors")
+;;           )
+;;         (progn
+;;           (with-current-buffer master-buffer
+;;             (TeX-view))
+;;           (demolish-tex-help)
+;;           (minibuffer-message "[SUCCESS] latexmk done")
+;;           )
+;;         )
+;;     )
+
+;; (defun build-sentinel (process event)
+;; "Sentinel to run viewer after successful LaTeXing"
+;;   (if (string= event "finished\n")
+;;       (TeX-view)
+;;     (message "Errors! Check with C-c `")))
+
 ;; from https://stackoverflow.com/questions/2477195/latex-indentation-formatting-in-emacs
 ;; to get 2 spaces indentation in evironments
 (setq LaTeX-item-indent 0)
