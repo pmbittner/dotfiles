@@ -293,6 +293,7 @@
       )
 
 (map! :leader
+  (:desc "Search+Replace in project" "r" #'projectile-replace)
   (:desc "Previous Buffer" "<left>" #'previous-buffer)
   (:desc "Next Buffer" "<right>" #'next-buffer)
 )
