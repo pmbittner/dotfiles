@@ -287,6 +287,7 @@
                (:desc "Agda (system)" "a" #'global-agda)
                (:desc "Agda (nix)" "A" #'nix-agda)
                (:desc "Config" "c" #'doom/goto-private-config-file)
+               (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
                )
       )
