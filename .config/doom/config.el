@@ -42,10 +42,11 @@
       ;; Do not set size of unicode font or it wont scale on zoom.
       doom-symbol-font (font-spec :family "DejaVu Sans")) ;; doom-unicode-font
 
-(setq catppuccin-flavor 'latte) ;; or 'latte, 'macchiato, or 'mocha
-;; (setq catppuccin-flavor 'frappe) ;; or 'latte, 'macchiato, or 'mocha
-;; (setq catppuccin-flavor 'macchiato) ;; or 'latte, 'macchiato, or 'mocha
-;; (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
+(setq catppuccin-flavor
+      'latte)
+      ;; 'frappe)
+      ;; 'macchiato)
+      ;; 'mocha)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -61,47 +62,19 @@
         ;; 'doom-one
         'catppuccin
         ;; 'doom-one-light
-        ;; 'adwaita
-        ;; 'whiteboard
-        ;; 'doom-material
+        ;; 'adwaita ;; a bit like vs code
         ;; 'doom-palenight
         ;; 'doom-challenger-deep
         ;; 'doom-snazzy
         ;; 'doom-vibrant
-
-        ;;;; Other Light themes
+        ;; 'doom-dark+ ;; vs code dark
+        ;; 'doom-sourcerer -- looks like Loop Hero
         ;; 'default
-        ;; 'leuven
-        ;; 'modus-operandi
 
         ;;;; Synthwave Themes
-        ;; 'doom-outrun-electric
         ;; 'doom-laserwave
+        ;; 'doom-outrun-electric
         ;; 'doom-shades-of-purple
-
-        ;;;; Other themes
-        ;; 'doom-sourcerer -- looks like Loop Hero
-        ;; 'doom-zenburn
-        ;; 'doom-rouge
-        ;; 'doom-lantern
-        ;; 'doom-peacock
-        ;; 'doom-old-hope
-        ;; 'doom-monokai-pro
-        ;; 'doom-monokai-machine
-        ;; 'doom-monokai-classic
-        ;; 'doom-monokai-octagon
-        ;; 'doom-monokai-ristretto
-        ;; 'doom-monokai-spectrum
-        ;; 'doom-homage-white
-        ;; 'doom-henna
-        ;; 'doom-xcode
-        ;; 'doom-wilmersdorf
-        ;; 'doom-ephemeral
-        ;; 'doom-1337
-        ;; 'doom-nova
-        ;; 'doom-city-lights
-        ;; 'doom-tokyo-night
-        ;; 'doom-ayu-dark
         t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
