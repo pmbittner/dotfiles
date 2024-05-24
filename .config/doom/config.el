@@ -365,8 +365,8 @@
         (master-buffer (current-buffer)))
     (TeX-save-document "")
     (TeX-run-TeX "latexmk"
-                 (TeX-command-expand "make")
-                 ;; (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --synctex=1 --shell-escape' -pdf %s")
+                 ;; (TeX-command-expand "make")
+                 (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --synctex=1 --shell-escape' -pdf %s")
                  master-file)
     ;; FIXME: For the condition, there actually exists the following function but it didnt work for some reason.
     ;;        (TeX-error-report-has-errors-p)
