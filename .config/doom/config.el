@@ -160,8 +160,14 @@
 
 ;;;; ADDITIONS BY PAUL AFTER THIS LINE ;;;;
 
-;; Make "," be the local leader instead of SPC-
+;; Configure projectile
+(setq projectile-indexing-method 'alien
+      ;; projectile-sort-order 'recently-active ;; this won't work at all so I just don' set it :(
+      projectile-enable-caching nil ;; disable cache because it shows ghosts
+      )
+
 (setq evil-snipe-override-evil-repeat-keys nil)
+;; Make "," be the local leader instead of SPC-m
 (setq doom-localleader-key ",")
 (setq doom-localleader-alt-key "M-SPC ,")
 
@@ -489,13 +495,6 @@
 
   (setq-default neo-show-hidden-files nil)
   )
-
-(setq projectile-indexing-method 'hybrid)
-(setq projectile-sort-order 'recentf)
-(after! projectile
-  (progn
-    (message "Set projectile sort order")
-  ))
 
 ;; (setq x-select-enable-clipboard t)
 ;; (setq x-select-enable-primary t)
