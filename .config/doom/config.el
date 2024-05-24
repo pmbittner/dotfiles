@@ -556,6 +556,23 @@
   `(agda2-highlight-inductive-constructor-face :foreground ,(get-my-preferred-color-for-agda-inductive-constructors))
   )
 
+;; I got the following configuration of rainbow-mode from DistroTube:
+;; > Rainbox mode displays the actual color for any hex value color. [...]
+;; > The following creates a global minor mode for rainbow-mode and
+;; > enables it (exception: org-agenda-mode since rainbow-mode destroys
+;; > all highlighting in org-agenda).
+;; Hint: This mode caused underlines to appear in the doom dashboard so I
+;;       also disabled it there.
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+  (lambda ()
+    (when (not (memq major-mode
+                (list 'org-agenda-mode '+doom-dashboard-mode)))
+      (rainbow-mode 1)
+      )
+  ))
+(global-rainbow-mode 1)
+
+
 ;; (after! dired
 ;;   (add-hook! 'dired-mode-hook
 ;;     (dired-hide-details-mode))
