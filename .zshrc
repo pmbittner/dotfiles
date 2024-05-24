@@ -202,6 +202,8 @@ alias r="ranger"
 
 # h for "home"
 alias h="cd ~"
+alias connect="nmcli con up"
+alias disconnect="nmcli con down"
 
 ## colorkiste
 colourkiste() {
