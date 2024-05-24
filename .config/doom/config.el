@@ -338,6 +338,7 @@
                  "*scratch"
                  "*doom"
                  "*Messages"
+                 "*Ibuffer"
                  )))
 
   (map! :map 'evil-normal-state-map "ö" #'centaur-tabs-backward)
