@@ -98,7 +98,6 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -144,13 +143,29 @@
 (setq doom-localleader-key ",")
 (setq doom-localleader-alt-key "M-SPC ,")
 
+;; SPC s s: search buffer
+;; g s s: evil-avy-goto-char-2
+;; g s /: evil-avy-goto-char-timer
+;; g s l: evil-avy-goto-line
 (after! evil
-  ;; switch default bindings for "j" and "gj" and for "k" and "gk".
   (map! :map (evil-normal-state-map evil-visual-state-map)
+        ;; switch default bindings for "j" and "gj" and for "k" and "gk".
         "j" #'evil-next-visual-line
         "k" #'evil-previous-visual-line
         "gj" #'evil-next-line
         "gk" #'evil-previous-line
+        ;; Some rebinds for faster avy.
+        ;; Replace snipe by avy-goto-char-2:
+        ;; I like snipe but it only jumps within a single line which is useless to me often.
+        "s" #'evil-avy-goto-char-2-below
+        "S" #'evil-avy-goto-char-2-above
+        ;; Replace single line t and T with avy-go-to-char-timer
+        "t" #'evil-avy-goto-char-timer
+        "T" #'evil-avy-goto-char
+        ;; By default, "gss" is #'evil-avy-goto-char-2
+        ;; By default, "gs/" is #'evil-avy-goto-char-timer
+        ;; Let's add a similar binding for lines.
+        "gsl" #'evil-avy-goto-line
         )
   ;; copy and paste like done by normal people
   (map! :map (evil-insert-state-map evil-visual-state-map)
