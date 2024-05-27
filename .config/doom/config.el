@@ -292,18 +292,62 @@
   (after! evil-surround
     (embrace-add-pair ?! "{!" "!}")))
 
+(setq dotfiles-git-dir (concat "--git-dir=" (expand-file-name "~/.myconfig.git")))
+(setq dotfiles-work-tree (concat "--work-tree=" (expand-file-name "~")))
+
+(defun dotfiles-magit-status ()
+  "Run magit-status for my dotfiles repository."
+  (interactive)
+  (add-to-list 'magit-git-global-arguments dotfiles-git-dir)
+  (add-to-list 'magit-git-global-arguments dotfiles-work-tree)
+  (call-interactively 'magit-status)
+  ;; I tried to only override the magit-git-global-arguments locally via let.
+  ;; This worked but only for the invocation of magit-status, which returned immediately
+  ;; after opening the magit buffer.
+  ;; When performing tasks in the magit buffer, the variable overwrite would be forgotten,
+  ;; and hence, I was unable to stage any changes for example.
+  ;; As a hack, I reset the globally changed variables now, whenever
+  ;; I launch magit-status via my own wrapper functions (see below).
+  ;; let ((magit-git-global-arguments (append (list dotfiles-git-dir dotfiles-work-tree) magit-git-global-arguments)))
+  )
+
+(defun my-magit-reset-global-args ()
+  "Function that removes any custom additions
+   for dotfiles from the magit-git-global-arguments."
+  (setq magit-git-global-arguments (remq dotfiles-git-dir magit-git-global-arguments))
+  (setq magit-git-global-arguments (remq dotfiles-work-tree magit-git-global-arguments))
+  )
+
+(defun my-magit-status ()
+  "Wrapper for magit-status that clears dotfiles from variables."
+  (interactive)
+  (my-magit-reset-global-args)
+  (call-interactively 'magit-status)
+  )
+
+(defun my-magit-status-here ()
+  "Wrapper for magit-status that clears dotfiles from variables."
+  (interactive)
+  (my-magit-reset-global-args)
+  (call-interactively 'magit-status-here)
+  )
+
 ;; some keybindings for faster interaction with doom
 (map! :leader
       (:prefix ("d" . "Doom (Custom)")
                (:desc "Ranger" "." #'ranger)
                (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
                (:desc "Reload" "r" #'doom/reload)
-               ;; (:desc "Dirvish" "d" #'dirvish-side)
+               (:desc "Config Magit Status" "g" #'dotfiles-magit-status)
                (:desc "Agda (system)" "a" #'global-agda)
                (:desc "Agda (nix)" "A" #'nix-agda)
                (:desc "Config" "c" #'doom/goto-private-config-file)
                (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
+               )
+      (:prefix "g"
+               ("g" #'my-magit-status)
+               ("G" #'my-magit-status-here)
                )
       )
 
