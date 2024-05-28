@@ -261,6 +261,22 @@
 (map! :n "C-t" #'comment-eclipse)
 
 ;;;;;; Agda setup
+
+;; Disable font-lock mode in agda2-mode because they do not work well together.
+;; font-lock mode saves resources by applying syntax highlighting only to visible
+;; code areas, and then lazily updating the highlights when other parts of the code
+;; become visible.
+;; In agda2-mode, updating the highlights requires to re-run the type-checker (manually!)
+;; which is quite annoying.
+(defun font-lock-not-in-agda (mode)
+  (if (derived-mode-p 'agda2-mode)
+    (font-lock-default-function nil)
+    (font-lock-default-function mode)
+  )
+)
+(setq font-lock-function 'font-lock-not-in-agda)
+
+;; nix setup for agda
 (load! "nix-shell.el")
 
 (defun global-agda ()
