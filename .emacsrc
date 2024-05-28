@@ -61,9 +61,11 @@ open-emacs-here() {
     my-emacs-client-alias "$@"
   fi
 }
+
 alias e='my-emacs-client-alias'
 alias es='emacs-sync'
 alias er='emacs-sync ; e'
+alias ers='emacs-restart-server'
 alias doom-reload='er'
 alias ds='doom sync'
 alias doc='doom doctor'
