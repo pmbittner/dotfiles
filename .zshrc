@@ -3,7 +3,8 @@
 ## fancy colors to greet me (gitlab.com/dwt1/shell.color-scripts)
 #colorscript exec pinguco #space-invaders six random
 #colorscript random
-pokemon-colorscripts --no-title --random 1-4
+alias pkmn="pokemon-colorscripts"
+pkmn --no-title --random 1-4
 
 ########## DEFAULT ZSH STUFF BELOW ###############################
 
@@ -162,10 +163,10 @@ export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 export AGDA_DIR="$A/libs"
 [ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
 
-### EMACS SERVER SETUP BEGIN
+### EMACS SERVER SETUP
 source $HOME/.emacsrc
 
-### DOOM EMACS SETUP BEGIN
+### DOOM EMACS SETUP
 export PATH=~/.config/emacs/bin:$PATH
 export DOOMDIR=$HOME/.config/doom
 
