@@ -135,7 +135,7 @@
 ;; Configure projectile
 (setq projectile-indexing-method 'alien
       ;; projectile-sort-order 'recently-active ;; this won't work at all so I just don' set it :(
-      projectile-enable-caching nil ;; disable cache because it shows ghosts
+      projectile-enable-caching t
       )
 
 (setq evil-snipe-override-evil-repeat-keys nil)
