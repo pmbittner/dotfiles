@@ -1,3 +1,8 @@
+#!bin/bash
+#
+# This file contains a small shell library that I use to start emacs.
+#
+# DEPRECATED COMMENTS:
 # We use the following file as a variable to toggle whether we run emacs as a standalone tool or as a client/server.
 # DISABLE_EMACS_SERVER_USAGE_FILE="$HOME/.local/state/paul_disables_emacs_server_usage" emacs-toggle-server() {
 #   if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
@@ -19,6 +24,44 @@
 #     echo "Yes, emacs will run as client."
 #   fi
 # }
+#
+
+#### [ELISP ARGS FOR (DOOM) EMACS] ####
+# I did not found an existing way to pass some elisp code to
+# doom emacs that is run at startup.
+# Hence, in the following, I implemented it myself.
+# The idea is to have an (empty) elisp file.
+# I called this file 'myargs.el' and put it into my $DOOMDIR.
+# My emacs config will run the code in this file, when emacs
+# is started or whenever a new emacsclient connects.
+# Hence, when I want emacs to run some elisp code right after
+# initialization, I first write my code to the args file, and
+# then start emacs.
+
+# This variable points to the (initially empty) args file,
+# which will be loaded dynamically at emacs startup, or whenever
+# a client connects.
+DOOM_ELISP_ARGS_FILE="${DOOMDIR}/myargs.el"
+
+DOOM_ELISP_ARGS_DISCLAIMER=";; Warning:
+;; This is a generated file.
+;; Do not edit or alter the file.
+;; For more information, visit ~/.emacsrc."
+
+# Shows the current elisp argument code.
+doomElispArgsShow () {
+  cat "${DOOM_ELISP_ARGS_FILE}"
+}
+# Erases all elisp arguments by emptying the args file.
+doomElispArgsClear () {
+  echo "${DOOM_ELISP_ARGS_DISCLAIMER}" > "${DOOM_ELISP_ARGS_FILE}"
+}
+# Sets the elisp arguments to the given code as string.
+doomElispArgsSet () {
+  echo "${DOOM_ELISP_ARGS_DISCLAIMER}\n${1}\n(message \"[ELISP ARGS] Started with custom elisp arguments!\")" > "${DOOM_ELISP_ARGS_FILE}"
+}
+
+#### [EMACS SERVER STUFF] ####
 emacs-start-server() {
   pgrep emacs > /dev/null || emacs --daemon
 }
@@ -30,7 +73,7 @@ emacs-restart-server() {
   sleep 1
   emacs-start-server
 }
-# shuts down all emacs servers, runs 'doom sync', and restarts server
+# shuts down all emacs servers, runs 'doom sync', and restarts server.
 emacs-sync() {
   emacs-kill-server
   doom sync
@@ -41,6 +84,9 @@ emacs-sync() {
   # fi
 }
 
+#### [LAUNCHING EMACS] ####
+
+# We alias emacsclient with some default arguments.
 my-emacs-client-alias() {
   # if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
   # then
@@ -50,19 +96,63 @@ my-emacs-client-alias() {
     emacsclient --create-frame --alternate-editor='emacs' "$@" &!
   # fi
 }
+
+# This function will open emacs opening the given file or directory.
+# This function expects at most one argument, a file or directory
+# name as string.
+# When no argument is passed, this will just invoke my-emacs-client-alias.
+# When the argument is a file, this function will open an emacs client
+# opening the respective buffer.
+# When the argument is a directory, this function will open an emacs client
+# with the directory set as default-directory.
+# (The default behavior of emacs for opening directories is to open dired.
+# However, due to a bug in dired, it exits emacs once we open a file.
+# Also, I don't really dired and you can hate me for it.
+# I just wanted to always see the sexy DOOM splash screen but with
+# the current directory (see modeline at the bottom) set to directory
+# emacs was invoked with.
 open-emacs-here() {
-  # if there are no arguments,
-  if [ "$#" -eq 0 ]
-  then
-    # start emacs at the current directory,
-    my-emacs-client-alias .
+  if [ $# -eq 0 ]; then
+    # There was no argument, just invoke emacsclient.
+    my-emacs-client-alias
+    return 1
+  fi
+
+  # Otherwise, there was at least one argument
+  local item="$1"
+
+  if [ -e "$item" ]; then
+    if [ -f "$item" ]; then
+      # If it was a file, just open that file in a buffer.
+      my-emacs-client-alias "$item"
+    elif [ -d "$item" ]; then
+      # If it was a directory, set it as the default directory in emacs and launch as usual.
+      local abs_dir="$(cd "$(dirname "$item")" && pwd)/$(basename "$item")"
+      local lisp="
+(setq +doom-dashboard-pwd-policy \"${abs_dir}\")
+(+doom-dashboard-reload)
+(message \"[ELISP ARGS] Set doom pwd to: %s\" (+doom-dashboard--get-pwd))"
+      doomElispArgsSet "${lisp}"
+      echo "Starting emacs with the following lisp arguments:"
+      doomElispArgsShow
+      # touch "${abs_dir}/.projectile" # Maybe we can find a less intrusive way to temporarily make these dirs projects?
+      my-emacs-client-alias
+      # Asynchronously wait for 2s and reset our arguments afterwards
+      # to leave a clean place behind and not sabotage future invocations.
+      # TODO: Can we reuse doomEmacsArgsClear here instead of having to inline it?
+      sh -c "sleep 2s ; echo '${DOOM_ELISP_ARGS_DISCLAIMER}' > '${DOOM_ELISP_ARGS_FILE}'" & # ; hyprctl notify 1 2000 0 'cleared elisp args'
+    else
+      echo "'$item' exists, but is neither a regular file nor a directory."
+      echo "This is not yet supported."
+      echo "We could probably just treat symlinks as directories?"
+    fi
   else
-    # otherwise, open emacs with the supplied arguments.
-    my-emacs-client-alias "$@"
+    # '$item' does not exist. We let emacs decide how to proceed.
+    my-emacs-client-alias "$item"
   fi
 }
 
-alias e='my-emacs-client-alias'
+alias e='open-emacs-here'
 alias es='emacs-sync'
 alias er='emacs-sync ; e'
 alias ers='emacs-restart-server'
