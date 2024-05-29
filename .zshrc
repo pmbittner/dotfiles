@@ -163,12 +163,10 @@ export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 export AGDA_DIR="$A/libs"
 [ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
 
-### EMACS SERVER SETUP
-source $HOME/.emacsrc
-
-### DOOM EMACS SETUP
+### (DOOM) EMACS SETUP
 export PATH=~/.config/emacs/bin:$PATH
 export DOOMDIR=$HOME/.config/doom
+source $HOME/.emacsrc
 
 ## aliases
 alias ls="ls --color=auto --group-directories-first"
