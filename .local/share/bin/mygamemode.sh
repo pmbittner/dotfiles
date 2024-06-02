@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
-HYPRGAMEMODE=$(hyprctl getoption animations:enabled | sed -n '1p' | awk '{print $2}')
+HYPRGAMEMODE=$1
+# HYPRGAMEMODE=$(hyprctl getoption animations:enabled | sed -n '1p' | awk '{print $2}')
 
 # Waybar performance
 FILE="$HOME/.config/waybar/style.css"
