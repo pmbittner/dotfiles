@@ -439,7 +439,6 @@
 (setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
 (after! latex
   ;; Make evince and ocular known to the LaTeX module
-  (setq TeX-view-program-list '(("Evince" "evince --page-index=%(outpage) %o")))
   ;; Use okular to view build pdfs.
   (setq TeX-view-program-selection '((output-pdf "Okular")))
   ;; Use evince to view build pdfs.
