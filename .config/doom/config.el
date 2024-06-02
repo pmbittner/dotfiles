@@ -459,16 +459,25 @@
     )
   )
 
+(setq TeX-process-asynchronous nil
+      TeX-source-correlate-mode t
+      TeX-source-correlate-method 'synctex
+      TeX-PDF-mode t
+      )
+;; Refresh the PDF buffer after compilation
+;; We need the following only if we watch the pdf within emacs.
+;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+
 (defun run-latexmk ()
   (interactive)
   (let ((TeX-save-query nil)
-        (TeX-process-asynchronous nil)
         (master-file (TeX-master-file nil nil t))
         (master-buffer (current-buffer)))
     (TeX-save-document "")
+    ;; (TeX-command-run-all nil)
     (TeX-run-TeX "latexmk"
                  ;; (TeX-command-expand "make")
-                 (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --shell-escape' -pdf %s")
+                 (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --synctex=1 --shell-escape' -pdf %s")
                  master-file)
     ;; FIXME: For the condition, there actually exists the following function but it didnt work for some reason.
     ;;        (TeX-error-report-has-errors-p)
