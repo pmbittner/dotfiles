@@ -161,7 +161,6 @@ export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 
 ## for agda
 export AGDA_DIR="$A/libs"
-[ -f "/home/bittner/.ghcup/env" ] && source "/home/bittner/.ghcup/env" # ghcup-env
 
 ### (DOOM) EMACS SETUP
 export PATH=~/.config/emacs/bin:$PATH
@@ -249,3 +248,4 @@ scans-to-pdf () {
 ### TODO add jetbrains font to dotfiles repo?
 
 if [ -e /home/bittner/.nix-profile/etc/profile.d/nix.sh ]; then . /home/bittner/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+[ -f "/home/paul/.ghcup/env" ] && . "/home/paul/.ghcup/env" # ghcup-env
