@@ -87,23 +87,28 @@ emacs-sync() {
 #### [LAUNCHING EMACS] ####
 
 # We alias emacsclient with some default arguments.
-my-emacs-client-alias() {
+my-emacsclient-alias() {
   # if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
   # then
     # (cd "$@" ; emacs &!)
   # else
     # emacs-start-server
-    emacsclient --create-frame --alternate-editor='emacs' "$@" &!
+    command emacsclient --create-frame --alternate-editor='emacs' "$@" &!
   # fi
 }
 
-# This function will open emacs opening the given file or directory.
-# This function expects at most one argument, a file or directory
-# name as string.
-# When no argument is passed, this will just invoke my-emacs-client-alias.
-# When the argument is a file, this function will open an emacs client
+my-emacs-alias() {
+  command emacs "$@"
+}
+
+# This function will open emacs or emacsclient at the given file or directory.
+# This function has two arguments.
+# 1.) The first argument is mandatory and should be the emacs command to run (e.g., 'emacsclient' or 'emacs')
+# 2.) The second argument is optional and should be a file or directory name as string.
+# When no second argument is passed, this will just open emacs.
+# When the second argument is a file, this function will open emacs
 # opening the respective buffer.
-# When the argument is a directory, this function will open an emacs client
+# When the argument is a directory, this function will open emacs
 # with the directory set as default-directory.
 # (The default behavior of emacs for opening directories is to open dired.
 # However, due to a bug in dired, it exits emacs once we open a file.
@@ -111,20 +116,26 @@ my-emacs-client-alias() {
 # I just wanted to always see the sexy DOOM splash screen but with
 # the current directory (see modeline at the bottom) set to directory
 # emacs was invoked with.
-open-emacs-here() {
+open-emacs-at() {
   if [ $# -eq 0 ]; then
-    # There was no argument, just invoke emacsclient.
-    my-emacs-client-alias
+    echo "ERROR: open-emacs-at requires an editor as first argument (emacs or emacsclient)"
+    return 1
+  fi
+
+  local editor="$1"
+  if [ $# -eq 1 ]; then
+    # There was no directory argument, just invoke emacsclient.
+    $editor
     return 1
   fi
 
   # Otherwise, there was at least one argument
-  local item="$1"
+  local item="$2"
 
   if [ -e "$item" ]; then
     if [ -f "$item" ]; then
       # If it was a file, just open that file in a buffer.
-      my-emacs-client-alias "$item"
+      $editor "$item"
     elif [ -d "$item" ]; then
       # If it was a directory, set it as the default directory in emacs and launch as usual.
       local abs_dir="$(cd "$(dirname "$item")" && pwd)/$(basename "$item")"
@@ -136,7 +147,7 @@ open-emacs-here() {
       echo "Starting emacs with the following lisp arguments:"
       doomElispArgsShow
       # touch "${abs_dir}/.projectile" # Maybe we can find a less intrusive way to temporarily make these dirs projects?
-      my-emacs-client-alias
+      $editor
       # Asynchronously wait for 2s and reset our arguments afterwards
       # to leave a clean place behind and not sabotage future invocations.
       # TODO: Can we reuse doomEmacsArgsClear here instead of having to inline it?
@@ -148,14 +159,19 @@ open-emacs-here() {
     fi
   else
     # '$item' does not exist. We let emacs decide how to proceed.
-    my-emacs-client-alias "$item"
+    $editor "$item"
   fi
 }
 
-alias e='open-emacs-here'
+emacsclient() {
+  open-emacs-at "my-emacsclient-alias" "$@"
+}
+emacs() {
+  open-emacs-at "my-emacs-alias" "$@"
+}
+
+alias e='emacsclient'
+alias ee='emacs'
 alias es='emacs-sync'
 alias er='emacs-sync ; e'
 alias ers='emacs-restart-server'
-alias doom-reload='er'
-alias ds='doom sync'
-alias doc='doom doctor'
