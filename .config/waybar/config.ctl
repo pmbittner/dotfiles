@@ -1,2 +1,2 @@
-1|32|top|( hyprland/workspaces )|( wlr/taskbar hyprland/window )|( tray ) ( pulseaudio pulseaudio#microphone battery ) ( clock )
-0|32|bottom|( hyprland/workspaces )|( wlr/taskbar hyprland/window )|( tray ) ( pulseaudio pulseaudio#microphone battery ) ( clock )
+1|32|top| ( clock ) ( hyprland/workspaces )|( wlr/taskbar hyprland/window )| ( mpris tray ) ( pulseaudio pulseaudio#microphone battery custom/cliphist )
+0|32|bottom| ( clock ) ( hyprland/workspaces )|( wlr/taskbar hyprland/window )| ( mpris tray ) ( pulseaudio pulseaudio#microphone battery custom/cliphist )
