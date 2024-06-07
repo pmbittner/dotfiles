@@ -516,6 +516,9 @@
  )
 )
 
+;;; emojify
+(setq emojify-display-style 'unicode)
+
 ;; Shortcut to toggle neotree view just with ü
 (map! :map 'evil-normal-state-map "ü" #'+neotree/open)
 (after! neotree
