@@ -200,10 +200,15 @@ ok() {
 alias ranger="source ranger"
 alias r="ranger"
 
+alias c="code"
+
 # h for "home"
 alias h="cd ~"
 alias connect="nmcli con up"
 alias disconnect="nmcli con down"
+
+alias haskell-new-project="cabal init --interactive"
+alias dnd="blobdrop -b -f gui"
 
 ## colorkiste
 colourkiste() {
