@@ -190,9 +190,11 @@ alias u="cd .."
 
 ev() {
   evince "$@" &
+  disown
 }
 ok() {
   okular "$@" &
+  disown
 }
 # alias to remain in ranger's directory after exiting ranger
 alias ranger="source ranger"
