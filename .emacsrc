@@ -93,7 +93,7 @@ my-emacsclient-alias() {
     # (cd "$@" ; emacs &!)
   # else
     # emacs-start-server
-    command emacsclient --create-frame --alternate-editor='emacs' "$@" &!
+    command emacsclient --reuse-frame --alternate-editor='emacs' "$@" &!
   # fi
 }
 
