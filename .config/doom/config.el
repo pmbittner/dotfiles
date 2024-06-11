@@ -391,13 +391,15 @@
                  "*Ibuffer"
                  )))
 
-  (map! :map 'evil-normal-state-map "ö" #'centaur-tabs-backward)
-  (map! :map 'evil-normal-state-map "ä" #'centaur-tabs-forward)
-  (map! :map 'evil-normal-state-map "Ö" #'centaur-tabs-move-current-tab-to-left)
-  (map! :map 'evil-normal-state-map "Ä" #'centaur-tabs-move-current-tab-to-right)
-  (map! :map 'evil-normal-state-map "C-ö" #'centaur-tabs-backward-group)
-  (map! :map 'evil-normal-state-map "C-ä" #'centaur-tabs-forward-group)
+  (map! :map (evil-normal-state-map evil-visual-state-map)
+        "ö" #'centaur-tabs-backward
+        "ä" #'centaur-tabs-forward
+        "Ö" #'centaur-tabs-move-current-tab-to-left
+        "Ä" #'centaur-tabs-move-current-tab-to-right
+        "C-ö" #'centaur-tabs-backward-group
+        "C-ä" #'centaur-tabs-forward-group
   )
+)
 
 ;; fix weird behavor on SPC f p which requires to type at least two chars
 (defun find-file-in-private-config ()
