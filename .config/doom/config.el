@@ -318,7 +318,7 @@
 (setq dotfiles-git-dir (concat "--git-dir=" (expand-file-name "~/.myconfig.git")))
 (setq dotfiles-work-tree (concat "--work-tree=" (expand-file-name "~")))
 
-(defun dotfiles-magit-status ()
+(defun dotfiles-status ()
   "Run magit-status for my dotfiles repository."
   (interactive)
   (add-to-list 'magit-git-global-arguments dotfiles-git-dir)
@@ -332,6 +332,14 @@
   ;; As a hack, I reset the globally changed variables now, whenever
   ;; I launch magit-status via my own wrapper functions (see below).
   ;; let ((magit-git-global-arguments (append (list dotfiles-git-dir dotfiles-work-tree) magit-git-global-arguments)))
+  )
+
+(defun dotfiles-stage-buffer-file ()
+  "Run magit-status for my dotfiles repository."
+  (interactive)
+  (add-to-list 'magit-git-global-arguments dotfiles-git-dir)
+  (add-to-list 'magit-git-global-arguments dotfiles-work-tree)
+  (magit-stage-buffer-file)
   )
 
 (defun my-magit-reset-global-args ()
@@ -361,12 +369,15 @@
                (:desc "Ranger" "." #'ranger)
                (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
                (:desc "Reload" "r" #'doom/reload)
-               (:desc "Config Magit Status" "g" #'dotfiles-magit-status)
                (:desc "Agda (system)" "a" #'global-agda)
                (:desc "Agda (nix)" "A" #'nix-agda)
                (:desc "Config" "c" #'doom/goto-private-config-file)
                (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
+               (:prefix ("g" . "Dotfiles Git")
+                 (:desc "status" "g" #'dotfiles-status)
+                 (:desc "stage current buffer's file" "s" #'dotfiles-stage-buffer-file)
+                 )
                )
       (:prefix "g"
                ("g" #'my-magit-status)
