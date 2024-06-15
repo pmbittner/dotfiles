@@ -31,7 +31,7 @@
 # doom emacs that is run at startup.
 # Hence, in the following, I implemented it myself.
 # The idea is to have an (empty) elisp file.
-# I called this file 'myargs.el' and put it into my $DOOMDIR.
+# I called this file 'dynamic-args.el' and put it into my $DOOMDIR.
 # My emacs config will run the code in this file, when emacs
 # is started or whenever a new emacsclient connects.
 # Hence, when I want emacs to run some elisp code right after
@@ -41,7 +41,7 @@
 # This variable points to the (initially empty) args file,
 # which will be loaded dynamically at emacs startup, or whenever
 # a client connects.
-DOOM_ELISP_ARGS_FILE="${DOOMDIR}/myargs.el"
+DOOM_ELISP_ARGS_FILE="${DOOMDIR}/dynamic-args.el"
 
 DOOM_ELISP_ARGS_DISCLAIMER=";; Warning:
 ;; This is a generated file.

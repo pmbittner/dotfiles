@@ -711,16 +711,16 @@
 ;; (setq dired-omit-files (concat dired-omit-files "\\." "\\.\\."))
 
 ;;;; At the very last run any additional dynamic config ;;;;
-;; This will dynamically run the code in $DOOMDIR/myargs.el
+;; This will dynamically run the code in $DOOMDIR/dynamic-args.el
 ;; on startup and whenever a client connects.
 ;; Also see my ~/.emacsrc.
 (defun my/on-startup (&optional frame)
   "Load my custom emacs lisp arguments on startup."
   (progn
     (if (equal frame nil)
-      (message "[Server/Standalone Started] Loading myargs.el")
-      (message "[Client Connected] Loading myargs.el"))
-    (load! "myargs")
+      (message "[Server/Standalone Started] Loading dynamic-args.el")
+      (message "[Client Connected] Loading dynamic-args.el"))
+    (load! "dynamic-args")
   ))
 
 ;; Evaluate immediately for server/standalone emacs.
