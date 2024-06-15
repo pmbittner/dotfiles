@@ -539,8 +539,22 @@
 ;;; emojify
 (setq emojify-display-style 'unicode)
 
+;;; neotree
+(defun +neotree/is-focused ()
+  "Return t if NeoTree is the active window, nil otherwise."
+  (and neo-global--window (eq (selected-window) neo-global--window)))
+
+(defun +neotree/toggle-find-this-file()
+  "Runs +neotree/find-this-file except when neotree is in focus.
+   Then, this function closes neotree instead."
+  (interactive)
+  (require 'neotree)
+  (if (+neotree/is-focused)
+      (neotree-hide)
+      (+neotree/find-this-file)))
+
 ;; Shortcut to toggle neotree view just with ü
-(map! :map 'evil-normal-state-map "ü" #'+neotree/open)
+(map! :map 'evil-normal-state-map "ü" #'+neotree/toggle-find-this-file)
 (after! neotree
   ;; Make h and l not move the cursor in neotree but instead close or open directories.
   ;; The usual keybinds commented out below won't work well.
