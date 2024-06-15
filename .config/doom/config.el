@@ -195,6 +195,12 @@
   (open-terminal ".")
   )
 
+(defun open-dolphin-here ()
+  "Open a terminal at the current directory"
+  (interactive)
+  (start-process "dolphin-from-emacs" nil "dolphin" ".")
+  )
+
 (defun open-ranger-at (dir-string)
   "Open the file explorer with the given arguments"
   (message (concat "kitty --session launch-ranger.kitty " dir-string))
@@ -210,7 +216,7 @@
 (map! :leader
       (:prefix "o"
                (:desc "Ranger here" "e" #'open-ranger-here)
-               (:desc "Explorer here (Dolphin)" "d" #'open-explorer-here) ;; alias for my manjaro system
+               (:desc "Explorer here (Dolphin)" "d" #'open-dolphin-here) ;; alias for my manjaro system
                (:desc "Terminal here" "t" #'open-terminal-here)
                )
       )
