@@ -128,6 +128,12 @@ source $ZSH/oh-my-zsh.sh
 
 export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 
+# typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='⟩⟩＝'
+typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='>>='
+# typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='λ'
+# typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='🐢'
+# typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='🍺'
+
 reload() {
   clear
   source $HOME/.zshrc
