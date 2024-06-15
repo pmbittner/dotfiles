@@ -218,6 +218,7 @@
                (:desc "Ranger here" "e" #'open-ranger-here)
                (:desc "Explorer here (Dolphin)" "d" #'open-dolphin-here) ;; alias for my manjaro system
                (:desc "Terminal here" "t" #'open-terminal-here)
+               (:desc "Neotree" "n" #'+neotree/find-this-file)
                )
       )
 
