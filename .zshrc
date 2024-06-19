@@ -126,6 +126,10 @@ fi
 
 ########## CUSTOM ADDITIONS BY ME (PAUL) ###################
 
+### Default programs
+TERMINAL=kitty
+EXPLORER=dolphin
+
 export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 
 # typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='⟩⟩＝'
@@ -185,10 +189,14 @@ alias log="git log --graph --oneline --color"
 alias submodules-init="git submodule update --init --recursive"
 alias submodules-update="git submodule update"
 
-alias explorer="explorer.exe"
-alias exp="explorer.exe ."
-dol() {
-  dolphin . &
+exp() {
+  ${EXPLORER} . &
+  disown
+}
+alias dol="exp"
+
+fork() {
+  ${TERMINAL} . &
   disown
 }
 
