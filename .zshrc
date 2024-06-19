@@ -170,7 +170,7 @@ config-add() {
 export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 
 ## for agda
-export AGDA_DIR="$A/libs"
+# export AGDA_DIR="$A/libs"
 
 ### (DOOM) EMACS SETUP
 export PATH=~/.config/emacs/bin:$PATH
