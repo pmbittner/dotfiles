@@ -160,8 +160,8 @@
         "s" #'evil-avy-goto-char-timer
         "S" #'evil-avy-goto-line
         ;; Replace single line t and T with avy-go-to-char-timer
-        "t" #'evil-avy-goto-char-2-below
-        "T" #'evil-avy-goto-char-2-above
+        "t" #'evil-avy-goto-char
+        "T" #'evil-avy-goto-char-2
         ;; By default, "gss" is #'evil-avy-goto-char-2
         ;; By default, "gs/" is #'evil-avy-goto-char-timer
         ;; Let's add a similar binding for lines.
