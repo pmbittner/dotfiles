@@ -286,6 +286,11 @@
 ;; nix setup for agda
 (load! "nix-shell.el")
 
+(setq agda-input-user-translations `(
+  ("ot"   . ("←"))
+  ("==>"  . ("⇛"))
+))
+
 (defun global-agda ()
   (interactive)
   (add-load-path!
