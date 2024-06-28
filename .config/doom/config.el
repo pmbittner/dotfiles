@@ -396,6 +396,11 @@
   (:desc "Next Buffer" "<right>" #'next-buffer)
 )
 
+(after! markdown-mode
+  (map! :map markdown-mode-map
+        :localleader
+        "l" #'markdown-preview)) ;; also bind preview to "<localleader> l" just because I am so used to that key.
+
 (after! centaur-tabs
   ;; (setq centaur-tabs-style "wave")
   ;; (setq centaur-tabs-set-bar 'under)
