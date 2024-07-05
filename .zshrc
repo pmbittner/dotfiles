@@ -181,7 +181,8 @@ source $HOME/.emacsrc
 ## aliases
 alias ls="ls --color=auto --group-directories-first"
 
-alias checkout="git checkout"
+alias sw="git switch"
+alias br="git branch"
 alias commit="git commit"
 alias pull="git pull"
 alias push="git push"
