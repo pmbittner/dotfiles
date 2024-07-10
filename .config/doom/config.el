@@ -47,7 +47,9 @@
       ;; 'frappe)
       ;; 'macchiato)
       ;; 'mocha)
+;;(use-package! 'everforest')
 
+;; (load-theme 'everforest-hard-light t)
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -61,6 +63,8 @@
         ;;;; Favorites
         ;; 'doom-one
         'catppuccin
+        ;; 'everforest-hard-dark
+        ;; 'everforest-hard-light
         ;; 'doom-one-light
         ;; 'adwaita ;; a bit like vs code
         ;; 'doom-palenight
