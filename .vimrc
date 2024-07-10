@@ -52,8 +52,8 @@ if has('syntax') && has('eval')
   packadd! matchit
 endif
 
-set whichwrap+=<,h
-set whichwrap+=>,l
+" set whichwrap+=<,h
+" set whichwrap+=>,l
 
 set nobackup
 
