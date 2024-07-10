@@ -293,6 +293,7 @@
 (setq agda-input-user-translations `(
   ("ot"   . ("←"))
   ("==>"  . ("⇛"))
+  ("nat"  . ("ℕ"))
 ))
 
 (defun global-agda ()
