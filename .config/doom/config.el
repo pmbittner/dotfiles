@@ -682,6 +682,13 @@
       )
   )
 
+(defun get-my-preferred-color-for-long-commit-message ()
+  (if (eq (get-current-theme) 'catppuccin)
+      (catppuccin-get-color 'red)
+      (doom-color 'red)
+      )
+  )
+
 ;; (message "%s = %s" "get-current-theme()" (get-current-theme))
 ;; (message (concat "my-agda-inductive-constructor-face-color = " (get-my-preferred-color-for-agda-inductive-constructors)))
 (custom-set-faces!
@@ -691,6 +698,7 @@
     ;; "PaleTurquoise4")
     ;; "LightSkyBlue4")
   `(agda2-highlight-inductive-constructor-face :foreground ,(get-my-preferred-color-for-agda-inductive-constructors))
+  (list 'git-commit-overlong-summary :foreground (get-my-preferred-color-for-long-commit-message))
   )
 
 ;; I got the following configuration of rainbow-mode from DistroTube:
