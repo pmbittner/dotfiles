@@ -190,6 +190,7 @@ alias stash="git stash"
 alias log="git log --graph --oneline --color"
 alias submodules-init="git submodule update --init --recursive"
 alias submodules-update="git submodule update"
+alias submodules-add="git submodule add"
 
 exp() {
   ${EXPLORER} . &
@@ -212,7 +213,7 @@ f() {
   cd "${dir}"
 }
 ## This searches from home directory.
-ff() {
+F() {
   ## sk always searches files from the current directory.
   ## Since we want to search all files, we have to go to the root directory first.
   curdir=${PWD}
