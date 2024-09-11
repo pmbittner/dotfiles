@@ -47,7 +47,8 @@
       ;; 'frappe)
       ;; 'macchiato)
       ;; 'mocha)
-;;(use-package! 'everforest')
+
+(add-to-list 'custom-theme-load-path "~/.config/doom/everforest-theme")
 
 ;; (load-theme 'everforest-hard-light t)
 ;; There are two ways to load a theme. Both assume the theme is installed and
