@@ -430,6 +430,7 @@
         "Ä" #'centaur-tabs-move-current-tab-to-right
         "C-ö" #'centaur-tabs-backward-group
         "C-ä" #'centaur-tabs-forward-group
+        "C-ü" #'centaur-tabs-ace-jump
   )
 )
 
