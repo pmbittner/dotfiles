@@ -353,11 +353,11 @@
   )
 
 (defun my-magit-reset-global-args ()
-  (interactive)
   "Function that removes any custom additions
    for dotfiles from the magit-git-global-arguments."
-  (setq magit-git-global-arguments (remq dotfiles-git-dir magit-git-global-arguments))
-  (setq magit-git-global-arguments (remq dotfiles-work-tree magit-git-global-arguments))
+  (interactive)
+  (setq magit-git-global-arguments (remove dotfiles-git-dir magit-git-global-arguments))
+  (setq magit-git-global-arguments (remove dotfiles-work-tree magit-git-global-arguments))
   )
 
 (defun my-magit-status ()
