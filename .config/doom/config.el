@@ -678,10 +678,11 @@
 (defun get-my-preferred-color-for-agda-inductive-constructors ()
   "Returns a color code as string that I wish to be the color of inductive constructors in Agda
    This fetches the color that is considered to be 'green from the current theme."
-  (if (eq (get-current-theme) 'catppuccin)
-      (catppuccin-get-color 'green)
-      (doom-color 'green)
-      )
+  (cl-case (get-current-theme)
+        (catppuccin (catppuccin-get-color 'green))
+        (everforest-hard-dark  (everforest-hard-dark-with-color-variables everforest-hard-dark-green))
+        (t (doom-color 'green))
+        )
   )
 
 (defun get-my-preferred-color-for-long-commit-message ()
