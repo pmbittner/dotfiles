@@ -162,11 +162,8 @@
         ;; Some rebinds for faster avy.
         ;; Replace snipe by avy-goto-char-2:
         ;; I like snipe but it only jumps within a single line which is useless to me often.
-        "s" #'evil-avy-goto-char-timer
-        "S" #'evil-avy-goto-line
-        ;; Replace single line t and T with avy-go-to-char-timer
-        "t" #'evil-avy-goto-char
-        "T" #'evil-avy-goto-char-2
+        "s" #'evil-avy-goto-char-2
+        "S" #'evil-avy-goto-char-timer
         ;; By default, "gss" is #'evil-avy-goto-char-2
         ;; By default, "gs/" is #'evil-avy-goto-char-timer
         ;; Let's add a similar binding for lines.
