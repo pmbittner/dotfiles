@@ -187,8 +187,8 @@
 
 (defun open-terminal (args)
   "Open a terminal with the given arguments"
-  (message args)
-  (start-process "terminal-from-emacs" nil "kitty" args)
+  (message (concat "kitty --session launch-zsh.kitty " args))
+  (start-process "terminal-from-emacs" nil "kitty" "--session" "launch-zsh.kitty" args)
   )
 
 (defun open-terminal-here ()
