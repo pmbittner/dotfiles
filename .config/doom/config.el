@@ -62,9 +62,11 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme
         ;;;; Favorites
+        ;; 'catppuccin
+        'everforest-hard-dark
         ;; 'doom-one
-        'catppuccin
-        ;; 'everforest-hard-dark
+
+        ;;;; Other cool themes
         ;; 'everforest-hard-light
         ;; 'doom-one-light
         ;; 'adwaita ;; a bit like vs code
