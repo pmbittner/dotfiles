@@ -61,7 +61,8 @@
         ;;;; Favorites
         ;; 'doom-one
         ;; 'catppuccin
-        'everforest-hard-dark
+        'everforest-soft-dark
+        ;; 'everforest-hard-dark
         ;; 'everforest-hard-light
 
         ;;;; Other cool themes
@@ -162,6 +163,7 @@
    from the theme and returns it as a string."
   (cl-case theme
     (catppuccin (catppuccin-get-color 'green))
+    (everforest-soft-dark  (everforest-soft-dark-with-color-variables  everforest-soft-dark-green))
     (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-green))
     (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-green))
     (t (doom-color 'green))
@@ -173,6 +175,7 @@
    from the theme and returns it as a string."
   (cl-case theme
     (catppuccin (catppuccin-get-color 'red))
+    (everforest-soft-dark  (everforest-soft-dark-with-color-variables  everforest-soft-dark-red))
     (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-red))
     (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-red))
     (t (doom-color 'red))
@@ -197,16 +200,13 @@
              ;; "LightSkyBlue4")
           )
         )
+      ;; The default everforest highlight colors are the same as for visual mode and that is annoying
       ('everforest-hard-dark
         (custom-theme-set-faces! 'everforest-hard-dark
-          (list 'region :background (everforest-hard-dark-with-color-variables everforest-hard-dark-border))
-          )
-        )
+          (list 'region :background (everforest-hard-dark-with-color-variables everforest-hard-dark-border))))
       ('everforest-hard-light
         (custom-theme-set-faces! 'everforest-hard-light
-          (list 'region :background (everforest-hard-light-with-color-variables everforest-hard-light-gutter))
-          )
-        )
+          (list 'region :background (everforest-hard-light-with-color-variables everforest-hard-light-gutter))))
       )
     ;; define some faces I would like to have consistent across all themes.
     (custom-set-faces!
