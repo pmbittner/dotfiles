@@ -670,39 +670,67 @@
 ;;                                          "aquamarine4"
 ;;                                          ))
 
+(defun get-theme-color-green (theme)
+  "This fetches the color that is considered to be 'green from the theme and returns it as a string."
+  (cl-case theme
+    (catppuccin (catppuccin-get-color 'green))
+    (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-green))
+    (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-green))
+    (t (doom-color 'green))
+    )
+  )
+
+(defun get-theme-color-red (theme)
+  "This fetches the color that is considered to be 'red from the theme and returns it as a string."
+  (cl-case theme
+    (catppuccin (catppuccin-get-color 'red))
+    (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-red))
+    (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-red))
+    (t (doom-color 'red))
+    )
+  )
+
+(defun customize-theme (theme)
+  ;; (message "[THM] customize-theme %s" theme)
+  (pcase theme
+    ('doom-one
+      (custom-theme-set-faces! 'doom-one
+        '(font-lock-comment-face :foreground
+           "light slate gray")
+           ;; "LightSteelBlue4")
+           ;; "PaleTurquoise4")
+           ;; "LightSkyBlue4")
+        )
+      )
+    ('everforest-hard-dark
+      (custom-theme-set-faces! 'everforest-hard-dark
+        (list 'region :background (everforest-hard-dark-with-color-variables everforest-hard-dark-border))
+        )
+      )
+    ('everforest-hard-light
+      (custom-theme-set-faces! 'everforest-hard-light
+        (list 'region :background (everforest-hard-light-with-color-variables everforest-hard-light-gutter))
+        )
+      )
+    )
+
+  ;; define some faces I would like to have consistent across all themes.
+  (custom-set-faces!
+    (list 'agda2-highlight-inductive-constructor-face :foreground (get-theme-color-green theme))
+    (list 'git-commit-overlong-summary :foreground (get-theme-color-red theme))
+    )
+)
+
 (defun get-current-theme()
   "Return the name of the current theme."
   (car custom-enabled-themes)
   )
 
-(defun get-my-preferred-color-for-agda-inductive-constructors ()
-  "Returns a color code as string that I wish to be the color of inductive constructors in Agda
-   This fetches the color that is considered to be 'green from the current theme."
-  (cl-case (get-current-theme)
-        (catppuccin (catppuccin-get-color 'green))
-        (everforest-hard-dark  (everforest-hard-dark-with-color-variables everforest-hard-dark-green))
-        (t (doom-color 'green))
-        )
-  )
-
-(defun get-my-preferred-color-for-long-commit-message ()
-  (if (eq (get-current-theme) 'catppuccin)
-      (catppuccin-get-color 'red)
-      (doom-color 'red)
-      )
-  )
-
-;; (message "%s = %s" "get-current-theme()" (get-current-theme))
-;; (message (concat "my-agda-inductive-constructor-face-color = " (get-my-preferred-color-for-agda-inductive-constructors)))
-(custom-set-faces!
-  `(font-lock-comment-face :foreground
-    "light slate gray")
-    ;; "LightSteelBlue4")
-    ;; "PaleTurquoise4")
-    ;; "LightSkyBlue4")
-  `(agda2-highlight-inductive-constructor-face :foreground ,(get-my-preferred-color-for-agda-inductive-constructors))
-  (list 'git-commit-overlong-summary :foreground (get-my-preferred-color-for-long-commit-message))
-  )
+(customize-theme (get-current-theme))
+;; this advice does not work with doom/reload
+;; (defadvice! customize-existing-themes (theme &rest _)
+;;   :after 'load-theme
+;;   (customize-theme theme))
 
 ;; I got the following configuration of rainbow-mode from DistroTube:
 ;; > Rainbox mode displays the actual color for any hex value color. [...]
