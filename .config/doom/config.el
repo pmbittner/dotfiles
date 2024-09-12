@@ -62,12 +62,12 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme
         ;;;; Favorites
+        ;; 'doom-one
         ;; 'catppuccin
         'everforest-hard-dark
-        ;; 'doom-one
+        ;; 'everforest-hard-light
 
         ;;;; Other cool themes
-        ;; 'everforest-hard-light
         ;; 'doom-one-light
         ;; 'adwaita ;; a bit like vs code
         ;; 'doom-palenight
@@ -139,16 +139,126 @@
 
 ;;;; ADDITIONS BY PAUL AFTER THIS LINE ;;;;
 
-;; Configure projectile
+;;;; Some miscellaneous global settings
+
+;; Disable annoying smartparens
+(remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
+
+;; Scroll settings
+;; scroll acceleration
+(setq mouse-wheel-progressive-speed nil)
+;; scroll two lines at a time but only one when pressing shift
+(setq mouse-wheel-scroll-amount '(2 ((shift) 1) ((control) nil)))
+
+;; Make which-key menu (the menu when pressing SPC) show up instantly
+;; (This tweak was recommended by hlissner in doom emacs issue #1839)
+(require 'which-key)
+(setq which-key-idle-delay 0.1)
+
+(add-hook! 'better-jumper-post-jump-hook :append #'recenter-top-bottom)
+(add-hook! 'better-jumper-pre-jump-hook  :append #'recenter-top-bottom)
+
+;;;; Customize themes
+
+(defun get-theme-color-green (theme)
+  "This fetches the color that is considered to be green
+   from the theme and returns it as a string."
+  (cl-case theme
+    (catppuccin (catppuccin-get-color 'green))
+    (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-green))
+    (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-green))
+    (t (doom-color 'green))
+    )
+  )
+
+(defun get-theme-color-red (theme)
+  "This fetches the color that is considered to be red
+   from the theme and returns it as a string."
+  (cl-case theme
+    (catppuccin (catppuccin-get-color 'red))
+    (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-red))
+    (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-red))
+    (t (doom-color 'red))
+    )
+  )
+
+(defun get-current-theme()
+  "Return the name of the current theme."
+  (car custom-enabled-themes)
+  )
+
+(defun customize-current-theme ()
+  "This function modifies the current theme to my liking. :)"
+  (let ((theme (get-current-theme)))
+    (pcase theme
+      ('doom-one
+        (custom-theme-set-faces! 'doom-one
+          '(font-lock-comment-face :foreground
+             "light slate gray")
+             ;; "LightSteelBlue4")
+             ;; "PaleTurquoise4")
+             ;; "LightSkyBlue4")
+          )
+        )
+      ('everforest-hard-dark
+        (custom-theme-set-faces! 'everforest-hard-dark
+          (list 'region :background (everforest-hard-dark-with-color-variables everforest-hard-dark-border))
+          )
+        )
+      ('everforest-hard-light
+        (custom-theme-set-faces! 'everforest-hard-light
+          (list 'region :background (everforest-hard-light-with-color-variables everforest-hard-light-gutter))
+          )
+        )
+      )
+    ;; define some faces I would like to have consistent across all themes.
+    (custom-set-faces!
+      (list 'agda2-highlight-inductive-constructor-face :foreground (get-theme-color-green theme))
+      (list 'git-commit-overlong-summary :foreground (get-theme-color-red theme))
+      )
+  )
+)
+
+(customize-current-theme)
+
+;;;; Configure projectile
+
 (setq projectile-indexing-method 'alien
       ;; projectile-sort-order 'recently-active ;; this won't work at all so I just don' set it :(
       projectile-enable-caching t
       )
 
+;;;; Various (Global) Keybindings
+
 (setq evil-snipe-override-evil-repeat-keys nil)
 ;; Make "," be the local leader instead of SPC-m
 (setq doom-localleader-key ",")
 (setq doom-localleader-alt-key "M-SPC ,")
+
+(map! "C-s" 'save-buffer)
+
+(defun comment-eclipse ()
+    "Eclipse IDE style multi-line comment toggling
+     for the selected region."
+    (interactive)
+    (let ((start (line-beginning-position))
+          (end (line-end-position)))
+      ;; when we have a region selected, set 'start and 'end to cover the region
+      (when (or (not transient-mark-mode) (region-active-p))
+        (setq start (save-excursion
+                      (goto-char (region-beginning))
+                      (beginning-of-line)
+                      (point))
+              end (save-excursion
+                    (goto-char (region-end))
+                    ;; (end-of-line)
+                    (beginning-of-line)
+                    (point)))
+        )
+      (comment-or-uncomment-region start end)
+      (setq deactivate-mark nil) ;; keep the region selected afterwards
+      ))
+(map! :n "C-t" #'comment-eclipse)
 
 ;; SPC s s: search buffer
 ;; g s s: evil-avy-goto-char-2
@@ -180,12 +290,43 @@
         )
   )
 
+;; SPC-d was free so I called it "Doom" and then just put a lot
+;; of custom global commands in there.
+(map! :leader
+      (:prefix ("d" . "Doom (Custom)")
+               (:desc "Ranger" "." #'ranger)
+               (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
+               (:desc "Reload" "r" #'doom/reload)
+               (:desc "Agda (system)" "a" #'global-agda)
+               (:desc "Agda (nix)" "A" #'nix-agda)
+               (:desc "Config" "c" #'doom/goto-private-config-file)
+               (:desc "Calendar" "C" #'calendar)
+               (:desc "Help Search" "h" #'doom/help-search)
+               ))
+
+(map! :leader
+  (:desc "Search+Replace in project" "r" #'projectile-replace)
+  (:desc "Previous Buffer" "<left>" #'previous-buffer)
+  (:desc "Next Buffer" "<right>" #'next-buffer)
+)
 (map! :leader
       :prefix "c"
       (:desc "Compile project" "c" #'project-compile)
       (:desc "Compile (here)" "l" #'compile)
       (:desc "Make" "m" #'+make/run)
       )
+
+;;;; Miscellaneous fixes or overrides
+
+;; fix weird behavor on SPC f p which requires to type at least two chars
+(defun find-file-in-private-config ()
+  "Search for a file in `doom-user-dir'."
+  (interactive)
+  (let ((default-directory (file-truename doom-user-dir)))
+    (call-interactively #'find-file)))
+(map! :leader "fp" #'find-file-in-private-config)
+
+;;;; opening external programs
 
 (defun open-terminal (args)
   "Open a terminal with the given arguments"
@@ -226,52 +367,7 @@
                )
       )
 
-;; Disable annoying smartparens
-(remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
-
-;; Scroll settings
-;; scroll acceleration
-(setq mouse-wheel-progressive-speed nil)
-;; scroll two lines at a time but only one when pressing shift
-(setq mouse-wheel-scroll-amount '(2 ((shift) 1) ((control) nil)))
-
-;; Make which-key menu (the menu when pressing SPC) show up instantly
-;; (This tweak was recommended by hlissner in doom emacs issue #1839)
-(require 'which-key)
-(setq which-key-idle-delay 0.1)
-
-;; set evil to not move the cursor when exiting insert mode
-;; (setq evil-move-cursor-back nil)
-
-;; Re-bind SPC SPC to behave like in spacemacs: It opens the emacs command prompt (M-x).
-;; (map! :leader "SPC" 'execute-extended-command)
-
-;;;;; Misc key bindings
-(map! "C-s" 'save-buffer)
-;; TODO USE key "g c c" instead.
-(defun comment-eclipse ()
-    (interactive)
-    (let ((start (line-beginning-position))
-          (end (line-end-position)))
-      ;; when we have a region selected, set 'start and 'end to cover the region
-      (when (or (not transient-mark-mode) (region-active-p))
-        (setq start (save-excursion
-                      (goto-char (region-beginning))
-                      (beginning-of-line)
-                      (point))
-              end (save-excursion
-                    (goto-char (region-end))
-                    ;; (end-of-line)
-                    (beginning-of-line)
-                    (point)))
-        )
-      (comment-or-uncomment-region start end)
-      (setq deactivate-mark nil) ;; keep the region selected afterwards
-      ))
-
-(map! :n "C-t" #'comment-eclipse)
-
-;;;;;; Agda setup
+;;;; Agda setup
 
 ;; Disable font-lock mode in agda2-mode because they do not work well together.
 ;; font-lock mode saves resources by applying syntax highlighting only to visible
@@ -286,6 +382,11 @@
   )
 )
 (setq font-lock-function 'font-lock-not-in-agda)
+;; (setq font-lock-global-modes (not 'agda2-mode))
+;; (setq font-lock-global-modes nil)
+;; (global-font-lock-mode 0)
+;; (add-hook! font-lock-mode-hook
+;;           (message "font-lock-mode-hode activated"))
 
 ;; nix setup for agda
 (load! "nix-shell.el")
@@ -324,6 +425,8 @@
   ;; Add agda holes as evil-surround braces
   (after! evil-surround
     (embrace-add-pair ?! "{!" "!}")))
+
+;;;; Magit for my Dotfiles
 
 (setq dotfiles-git-dir (concat "--git-dir=" (expand-file-name "~/.myconfig.git")))
 (setq dotfiles-work-tree (concat "--work-tree=" (expand-file-name "~")))
@@ -374,17 +477,8 @@
   (call-interactively 'magit-status-here)
   )
 
-;; some keybindings for faster interaction with doom
 (map! :leader
-      (:prefix ("d" . "Doom (Custom)")
-               (:desc "Ranger" "." #'ranger)
-               (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
-               (:desc "Reload" "r" #'doom/reload)
-               (:desc "Agda (system)" "a" #'global-agda)
-               (:desc "Agda (nix)" "A" #'nix-agda)
-               (:desc "Config" "c" #'doom/goto-private-config-file)
-               (:desc "Calendar" "C" #'calendar)
-               (:desc "Help Search" "h" #'doom/help-search)
+      (:prefix "d"
                (:prefix ("g" . "Dotfiles Git")
                  (:desc "status" "g" #'dotfiles-status)
                  (:desc "stage current buffer's file" "s" #'dotfiles-stage-buffer-file)
@@ -392,20 +486,26 @@
                )
       (:prefix "g"
                ("g" #'my-magit-status)
-               ("G" #'my-magit-status-here)
-               )
-      )
+               ("G" #'my-magit-status-here)))
 
-(map! :leader
-  (:desc "Search+Replace in project" "r" #'projectile-replace)
-  (:desc "Previous Buffer" "<left>" #'previous-buffer)
-  (:desc "Next Buffer" "<right>" #'next-buffer)
+;; Haskell
+
+(after! haskell
+ (map!
+   :localleader
+   :map haskell-mode-map
+   (:desc "Check current buffer" "l" #'haskell-process-load-file)
+ )
 )
+
+;;;; Markdown
 
 (after! markdown-mode
   (map! :map markdown-mode-map
         :localleader
         "l" #'markdown-preview)) ;; also bind preview to "<localleader> l" just because I am so used to that key.
+
+;;;; Centaur tabs
 
 (after! centaur-tabs
   ;; (setq centaur-tabs-style "wave")
@@ -436,24 +536,8 @@
   )
 )
 
-;; fix weird behavor on SPC f p which requires to type at least two chars
-(defun find-file-in-private-config ()
-  "Search for a file in `doom-user-dir'."
-  (interactive)
-  (let ((default-directory (file-truename doom-user-dir)))
-    (call-interactively #'find-file)))
-(map! :leader "fp" #'find-file-in-private-config)
+;;;; Custom Highlighting for Todo Keywords
 
-;; Haskell setup
-(after! haskell
- (map!
-   :localleader
-   :map haskell-mode-map
-   (:desc "Check current buffer" "l" #'haskell-process-load-file)
- )
-)
-
-;; custom highlighting for todo keywords
 (after! hl-todo
   (setq hl-todo-keyword-faces
     (append hl-todo-keyword-faces
@@ -468,10 +552,8 @@
   (setq global-hl-todo-mode t)
   )
 
-(add-hook! 'better-jumper-post-jump-hook :append #'recenter-top-bottom)
-(add-hook! 'better-jumper-pre-jump-hook  :append #'recenter-top-bottom)
+;;;; LaTeX
 
-;;;;;; LaTeX
 (require 'latex)
 (setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
 (after! latex
@@ -513,7 +595,7 @@
     ;; (TeX-command-run-all nil)
     (TeX-run-TeX "latexmk"
                  ;; (TeX-command-expand "make")
-                 (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --synctex=1 --shell-escape' -pdf %s")
+                 (TeX-command-expand "latexmk -pdflatex='pdflatex --file-line-error --synctex=1 --shell-escape' -pdf -interaction=nonstopmode %s")
                  master-file)
     ;; FIXME: For the condition, there actually exists the following function but it didnt work for some reason.
     ;;        (TeX-error-report-has-errors-p)
@@ -554,9 +636,11 @@
 )
 
 ;;; emojify
+
 (setq emojify-display-style 'unicode)
 
 ;;; neotree
+
 (defun +neotree/is-focused ()
   "Return t if NeoTree is the active window, nil otherwise."
   (and neo-global--window (eq (selected-window) neo-global--window)))
@@ -609,128 +693,7 @@
   (setq-default neo-show-hidden-files nil)
   )
 
-;; (setq x-select-enable-clipboard t)
-;; (setq x-select-enable-primary t)
-;; (setq select-enable-clipboard t)
-;; (setq select-enable-primary t)
-
-;; (defun wsl-copy-clip(&rest _args)
-;;   (setq mytemp (make-temp-file "winclip"))
-;;   (write-region
-;;    (current-kill 0 t)
-;;    nil
-;;    mytemp
-;;    )
-;;   (shell-command (concat "clip.exe<" mytemp ))
-;;   (delete-file mytemp)
-;;    )
-;; (advice-add 'kill-new :after #'wsl-copy-clip)
-
-;;;;;; neotree configuration
-;; (defun neotree-startup ()
-;;   (interactive)
-;;   (neotree-show)
-;;   (call-interactively 'other-window))
-
-;; (if (daemonp)
-;;     (add-hook 'server-switch-hook (lambda () ()));; #'neotree-startup)
-;;   (add-hook 'after-init-hook #'neotree-startup)
-;; )
-;;;;;; treemacs configuration
-;; (require 'treemacs)
-;; (map! :leader
-;;       ("f t" '+treemacs/toggle)
-
-;;       ("s w" 'treemacs-switch-workspace)
-;;       ("o w" 'treemacs-switch-workspace)
-;;       ("0" 'treemacs-select-window))
-;; (treemacs-follow-mode)
-;; (treemacs-project-follow-mode)
-;; (setq treemacs--project-follow-delay 0.1)
-;; (setq treemacs-file-follow-delay 0.1)
-;; (setq treemacs-project-follow-cleanup t)
-;; (setq treemacs-follow-after-init t)
-;; (setq treemacs-width 30)
-;; (after! 'treemacs 'treemacs-hide-gitignored-files-mode)
-
-;; make treemacs dirs expand by single click
-;; (with-eval-after-load 'treemacs
-;;   (progn
-;;     (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
-;;     (treemacs-hide-gitignored-files-mode)
-;;     (setq treemacs-workspace-switch-cleanup 'files)))
-
-;; set the highlight color in treemacs to something I can see
-;; (setf treemacs-window-background-color '(nil .
-;;                                          ;; "#b48ead"
-;;                                          ;; "DarkSlateGray4"
-;;                                          ;; "SteelBlue4"
-;;                                          ;; "purple4"
-;;                                          ;; "tomato4"
-;;                                          "aquamarine4"
-;;                                          ))
-
-(defun get-theme-color-green (theme)
-  "This fetches the color that is considered to be 'green from the theme and returns it as a string."
-  (cl-case theme
-    (catppuccin (catppuccin-get-color 'green))
-    (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-green))
-    (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-green))
-    (t (doom-color 'green))
-    )
-  )
-
-(defun get-theme-color-red (theme)
-  "This fetches the color that is considered to be 'red from the theme and returns it as a string."
-  (cl-case theme
-    (catppuccin (catppuccin-get-color 'red))
-    (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-red))
-    (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-red))
-    (t (doom-color 'red))
-    )
-  )
-
-(defun customize-theme (theme)
-  ;; (message "[THM] customize-theme %s" theme)
-  (pcase theme
-    ('doom-one
-      (custom-theme-set-faces! 'doom-one
-        '(font-lock-comment-face :foreground
-           "light slate gray")
-           ;; "LightSteelBlue4")
-           ;; "PaleTurquoise4")
-           ;; "LightSkyBlue4")
-        )
-      )
-    ('everforest-hard-dark
-      (custom-theme-set-faces! 'everforest-hard-dark
-        (list 'region :background (everforest-hard-dark-with-color-variables everforest-hard-dark-border))
-        )
-      )
-    ('everforest-hard-light
-      (custom-theme-set-faces! 'everforest-hard-light
-        (list 'region :background (everforest-hard-light-with-color-variables everforest-hard-light-gutter))
-        )
-      )
-    )
-
-  ;; define some faces I would like to have consistent across all themes.
-  (custom-set-faces!
-    (list 'agda2-highlight-inductive-constructor-face :foreground (get-theme-color-green theme))
-    (list 'git-commit-overlong-summary :foreground (get-theme-color-red theme))
-    )
-)
-
-(defun get-current-theme()
-  "Return the name of the current theme."
-  (car custom-enabled-themes)
-  )
-
-(customize-theme (get-current-theme))
-;; this advice does not work with doom/reload
-;; (defadvice! customize-existing-themes (theme &rest _)
-;;   :after 'load-theme
-;;   (customize-theme theme))
+;;;; Rainbow Mode
 
 ;; I got the following configuration of rainbow-mode from DistroTube:
 ;; > Rainbox mode displays the actual color for any hex value color. [...]
@@ -748,6 +711,7 @@
   ))
 (global-rainbow-mode 1)
 
+;;;; Dired and Ranger
 
 ;; (after! dired
 ;;   (add-hook! 'dired-mode-hook
@@ -761,6 +725,7 @@
 ;;     :n "DEL" #'dired-up-directory
 ;;     )
 ;;   )
+
 (setf dired-kill-when-opening-new-dired-buffer t)
 (setq ranger-override-dired 'ranger)
 (setq ranger-cleanup-eagerly t)
@@ -796,7 +761,11 @@
 ;;       )
 ;; (setq dired-omit-files (concat dired-omit-files "\\." "\\.\\."))
 
+
+
+
 ;;;; At the very last run any additional dynamic config ;;;;
+
 ;; This will dynamically run the code in $DOOMDIR/dynamic-args.el
 ;; on startup and whenever a client connects.
 ;; Also see my ~/.emacsrc.
