@@ -48,9 +48,6 @@
       ;; 'macchiato)
       ;; 'mocha)
 
-(add-to-list 'custom-theme-load-path "~/.config/doom/everforest-theme")
-
-;; (load-theme 'everforest-hard-light t)
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
