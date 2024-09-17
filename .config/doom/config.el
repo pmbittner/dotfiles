@@ -212,6 +212,7 @@
     (custom-set-faces!
       (list 'agda2-highlight-inductive-constructor-face :foreground (get-theme-color-green theme))
       (list 'git-commit-overlong-summary :foreground (get-theme-color-red theme))
+      (list 'tab-line :inherit)
       )
   )
 )
