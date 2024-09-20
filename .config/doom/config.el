@@ -189,6 +189,7 @@
 
 (defun customize-current-theme ()
   "This function modifies the current theme to my liking. :)"
+  (interactive)
   (let ((theme (get-current-theme)))
     (pcase theme
       ('doom-one
