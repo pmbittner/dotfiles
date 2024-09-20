@@ -218,6 +218,10 @@
   )
 )
 
+(defadvice! customize-existing-themes (theme &rest _)
+  :after 'load-theme
+  (customize-current-theme))
+
 (customize-current-theme)
 
 ;;;; Configure projectile
