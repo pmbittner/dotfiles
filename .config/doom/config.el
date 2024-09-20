@@ -204,6 +204,7 @@
       ;; The default everforest highlight colors are the same as for visual mode and that is annoying
       ('everforest-hard-dark
         (custom-theme-set-faces! 'everforest-hard-dark
+          (list 'tab-line :inherit)
           (list 'region :background (everforest-hard-dark-with-color-variables everforest-hard-dark-border))))
       ('everforest-hard-light
         (custom-theme-set-faces! 'everforest-hard-light
@@ -213,7 +214,6 @@
     (custom-set-faces!
       (list 'agda2-highlight-inductive-constructor-face :foreground (get-theme-color-green theme))
       (list 'git-commit-overlong-summary :foreground (get-theme-color-red theme))
-      (list 'tab-line :inherit)
       )
   )
 )
