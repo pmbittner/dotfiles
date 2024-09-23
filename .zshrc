@@ -292,6 +292,62 @@ scans-to-pdf () {
   rm -rf small
 }
 
+# 1. Argument: name of the qr code file (without file ending)
+# 2. Argument: url for the QR code
+# 3. Argument (optional): latex options for the fancyqr package (e.g., image=\huge\faGithub).
+generate-qr-code () {
+  ORIGINAL_DIR="$(pwd)"
+
+  if [ -n "$3" ]; then
+    QR_OPTIONS="$3"
+  else
+    QR_OPTIONS=""
+  fi
+
+  FANCY_QR_TEX="\documentclass{article}
+\usepackage{fontawesome}
+\usepackage{qrcode}
+\usepackage{fancyqr}
+\usepackage[active,tightpage]{preview}
+\FancyQrLoad{flat}
+\fancyqrset{padding=2,gradient=false,color=black}
+\begin{document}
+  \begin{preview}
+    \fbox{\fancyqr[${QR_OPTIONS}]{$2}}
+  \end{preview}
+\end{document}
+"
+
+  PLAIN_QR_TEX="\documentclass{standalone}
+\usepackage{fontawesome}
+\usepackage{qrcode}
+\usepackage{hyperref}
+\begin{document}
+  \href{$2}{\qrcode{$2}}
+\end{document}
+"
+
+  QR_TEX=${PLAIN_QR_TEX}
+
+  QR_DIR="${HOME}/usrtemp/generate-qr-code"
+  QR_NAME="$1"
+  QR_TEX_FILE="${QR_NAME}.tex"
+  QR_PDF_FILE="${QR_NAME}.pdf"
+
+  mkdir -p ${QR_DIR}
+  cd ${QR_DIR}
+
+  # use printf instead of echo to not interpret backslashes
+  printf '%s' "${QR_TEX}" > ${QR_TEX_FILE}
+  latexmk -quiet -silent -pdf -interaction=nonstopmode ${QR_TEX_FILE}
+  cp "${QR_PDF_FILE}" "${ORIGINAL_DIR}"
+  # ev ${QR_PDF_FILE}
+  latexmk -C ${QR_TEX_FILE}
+
+  cd ${ORIGINAL_DIR}
+  rm -r ${QR_DIR}
+}
+
 ## high dpi wsl settings
 # export GDK_SCALE=0.5
 # export GDK_DPI_SCALE=2
