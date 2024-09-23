@@ -275,9 +275,9 @@
         "gj" #'evil-next-line
         "gk" #'evil-previous-line
         ;; Some rebinds for faster avy.
-        ;; Replace snipe by avy-goto-char-2:
+        ;; Replace snipe by avy-goto-char:
         ;; I like snipe but it only jumps within a single line which is useless to me often.
-        "s" #'evil-avy-goto-char-2
+        "s" #'evil-avy-goto-char
         "S" #'evil-avy-goto-char-timer
         ;; By default, "gss" is #'evil-avy-goto-char-2
         ;; By default, "gs/" is #'evil-avy-goto-char-timer
