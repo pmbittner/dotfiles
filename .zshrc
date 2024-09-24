@@ -313,7 +313,7 @@ generate-qr-code () {
 \fancyqrset{padding=2,gradient=false,color=black}
 \begin{document}
   \begin{preview}
-    \fbox{\fancyqr[${QR_OPTIONS}]{$2}}
+    \fancyqr[${QR_OPTIONS}]{$2}
   \end{preview}
 \end{document}
 "
@@ -327,7 +327,8 @@ generate-qr-code () {
 \end{document}
 "
 
-  QR_TEX=${PLAIN_QR_TEX}
+  # QR_TEX=${PLAIN_QR_TEX}
+  QR_TEX=${FANCY_QR_TEX}
 
   QR_DIR="${HOME}/usrtemp/generate-qr-code"
   QR_NAME="$1"
