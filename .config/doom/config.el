@@ -322,14 +322,21 @@
 ;;;; Modify Splashscreen
 
 (defun get-random-splashscreen-file ()
-  "Returns a random image that we can use as our splashscreen.
-   The image is returned as a string containing an absolute path to that file."
+  "Returns a random image from the available splash screens within the `splashes'
+   directory in the doom private configuration directory.
+   The image is returned as a string containing an absolute path to that file.
+   Returns nil if there are no image files in the `splashes' directory."
   (let* ((splash-dir (concat doom-private-dir (file-name-as-directory "splashes")))
-         (image-file-names (directory-files splash-dir nil ".*\\.png"))
-         (random-image-file-name (nth (random (length image-file-names)) image-file-names)))
-    (concat splash-dir random-image-file-name)))
+         (image-file-names (directory-files splash-dir nil ".*\\.png")) ;; Currently, this only checks for PNGs. We might also want to allow other image types in the future.
+         (num-available-splashscreens (length image-file-names)))
+    (if (eq num-available-splashscreens 0)
+        nil
+        (concat splash-dir (nth (random num-available-splashscreens) image-file-names)))))
 
-(setq fancy-splash-image (get-random-splashscreen-file))
+(let ((splash-screen (get-random-splashscreen-file)))
+  (when splash-screen
+    (setq fancy-splash-image splash-screen)))
+
 ;;;; Miscellaneous fixes or overrides
 
 ;; fix weird behavor on SPC f p which requires to type at least two chars
