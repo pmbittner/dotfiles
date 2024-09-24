@@ -319,6 +319,17 @@
       (:desc "Make" "m" #'+make/run)
       )
 
+;;;; Modify Splashscreen
+
+(defun get-random-splashscreen-file ()
+  "Returns a random image that we can use as our splashscreen.
+   The image is returned as a string containing an absolute path to that file."
+  (let* ((splash-dir (concat doom-private-dir (file-name-as-directory "splashes")))
+         (image-file-names (directory-files splash-dir nil ".*\\.png"))
+         (random-image-file-name (nth (random (length image-file-names)) image-file-names)))
+    (concat splash-dir random-image-file-name)))
+
+(setq fancy-splash-image (get-random-splashscreen-file))
 ;;;; Miscellaneous fixes or overrides
 
 ;; fix weird behavor on SPC f p which requires to type at least two chars
