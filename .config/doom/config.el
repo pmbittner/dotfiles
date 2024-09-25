@@ -466,6 +466,7 @@
   (add-hook! 'agda2-mode-hook
     (setq-local evil-shift-width 2)
     (activate-input-method "Agda"))
+  (prependq! auto-mode-alist '(("\\.agda\\'" . agda2-mode)))
   (prependq! auto-mode-alist '(("\\.lagda.md\\'" . agda2-mode)))
   ;; Make evil repeat (pressing .) ignore agda2-load.
   (evil-add-command-properties 'agda2-load :repeat 'ignore)
