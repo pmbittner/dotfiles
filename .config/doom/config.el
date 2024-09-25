@@ -295,6 +295,22 @@
         )
   )
 
+(defun doom-reload-and-restart-server ()
+  "1. Kills all emacs clients and servers.
+   2. Runs doom sync
+   3. Restarts the emacs server.
+   4. Starts a new emacs client.
+   Beware: This will kill your current client/emacs!"
+  (interactive)
+  (start-process "doom reload and restart server" nil "setsid" "zsh" "-c"
+                 "source ~/.zshrc ;
+                  hyprctl notify 1 2000 0 'begin emacs-sync' ;
+                  kitty --session launch-emacs-sync.kitty ;
+                  hyprctl notify 1 2000 0 'emacs-sync done' ;
+                  emacsclient
+                  ")
+  )
+
 ;; SPC-d was free so I called it "Doom" and then just put a lot
 ;; of custom global commands in there.
 (map! :leader
@@ -302,6 +318,7 @@
                (:desc "Ranger" "." #'ranger)
                (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
                (:desc "Reload" "r" #'doom/reload)
+               (:desc "Reload and restart server" "R" #'doom-reload-and-restart-server)
                (:desc "Agda (system)" "a" #'global-agda)
                (:desc "Agda (nix)" "A" #'nix-agda)
                (:desc "Config" "c" #'doom/goto-private-config-file)
