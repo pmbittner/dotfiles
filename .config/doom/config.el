@@ -211,10 +211,12 @@
           (list 'region :background (everforest-hard-light-with-color-variables everforest-hard-light-gutter))))
       )
     ;; define some faces I would like to have consistent across all themes.
-    (custom-set-faces!
-      (list 'agda2-highlight-inductive-constructor-face :foreground (get-theme-color-green theme))
-      (list 'git-commit-overlong-summary :foreground (get-theme-color-red theme))
-      )
+    (let ((green (get-theme-color-green theme))
+          (red   (get-theme-color-red   theme)))
+      ;; (message "!!!!!!! Green: %s, Red: %s, Theme: %s" green red theme)
+      (custom-set-faces!
+        (list 'agda2-highlight-inductive-constructor-face :foreground green)
+        (list 'git-commit-overlong-summary :foreground red)))
   )
 )
 
@@ -431,6 +433,7 @@
   (if (require 'agda2 nil t)
       (progn
         (normal-mode)
+        (customize-current-theme)
         (agda2-load)
         )
       (message "Failed to find the `agda2' package")))
