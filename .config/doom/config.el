@@ -363,6 +363,11 @@
 
 ;;;; Miscellaneous fixes or overrides
 
+;; Unbind C-z which enters emacs-state and I am always confused when this accidentally happens
+;; Apparently, I have no problem existing Vim but Emacs!
+(map! :nv "C-z" nil)
+(after! magit (map! :map magit-mode-map "C-z") nil)
+
 ;; fix weird behavor on SPC f p which requires to type at least two chars
 (defun find-file-in-private-config ()
   "Search for a file in `doom-user-dir'."
