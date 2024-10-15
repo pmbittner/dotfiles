@@ -617,9 +617,9 @@
 (after! latex
   ;; Make evince and ocular known to the LaTeX module
   ;; Use okular to view build pdfs.
-  (setq TeX-view-program-selection '((output-pdf "Okular")))
+  ;; (setq TeX-view-program-selection '((output-pdf "Okular")))
   ;; Use evince to view build pdfs.
-  ;; (setq TeX-view-program-selection '((output-pdf "Evince")))
+  (setq TeX-view-program-selection '((output-pdf "Evince")))
   (electric-indent-local-mode)
   )
 
