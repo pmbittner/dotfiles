@@ -164,7 +164,7 @@
     (catppuccin (catppuccin-get-color 'green))
     (everforest-soft-dark  (everforest-soft-dark-with-color-variables  everforest-soft-dark-green))
     (everforest-hard-dark  (everforest-hard-dark-with-color-variables  everforest-hard-dark-green))
-    (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-green))
+    (everforest-hard-light (everforest-hard-light-with-color-variables everforest-hard-light-cyan))
     (t (doom-color 'green))
     )
   )
