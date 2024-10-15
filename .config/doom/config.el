@@ -355,6 +355,12 @@
   (when splash-screen
     (setq fancy-splash-image splash-screen)))
 
+;;;; Open with
+;; open pdfs with evince
+
+(openwith-mode t)
+(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+
 ;;;; Miscellaneous fixes or overrides
 
 ;; fix weird behavor on SPC f p which requires to type at least two chars
