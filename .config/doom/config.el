@@ -594,6 +594,7 @@
 ;;;; Markdown
 
 (after! markdown-mode
+  (setq markdown-command "pandoc --standalone --embed-resource -c ~/.config/pandoc/github-markdown.css -f gfm+tex_math_dollars -t html5")
   (map! :map markdown-mode-map
         :localleader
         "l" #'markdown-preview)) ;; also bind preview to "<localleader> l" just because I am so used to that key.
