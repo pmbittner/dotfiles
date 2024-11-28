@@ -718,7 +718,11 @@
   (:map (latex-mode-map LaTeX-mode-map)
    :localleader
    ;; (:desc "Compile" "l" #'TeX-command-run-all)
-   (:desc "Compile (Custom)" "l" #'run-latexmk)
+   (:desc "Compile (latexmk)" "L" #'run-latexmk)
+   ;; (:desc "Recompile" "l" #'recompile)
+   (:desc "Compile (Make)" "l" #'+make/run)
+   ;; (:desc "Compile" "L" #'compile)
+   ;; (:desc "Compile" "L" #'+make/run)
    (:desc "Next Error" "e" #'TeX-next-error)
    (:desc "View PDF" "v" #'TeX-view)
    (:desc "Compilation Log" "o" #'TeX-recenter-output-buffer)
