@@ -100,7 +100,42 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Documents/Notes/")
+(setq pb/org-agenda-directory (concat org-directory "Agenda/"))
+(setq org-agenda-files (list pb/org-agenda-directory))
+(setq org-default-todo-file (concat pb/org-agenda-directory "Capture.org"))
+(after! org
+  ;; TODO types
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "INACTIVE(i)" "|" "DONE(d)" "CANCELLED(c)")
+          (sequence "MEETING(m)")
+          (sequence "[ ](T)" "[/](P)" "[?](W)" "|" "[X](D)")))
+  (setq org-todo-keyword-faces
+        '(("NEXT" . +org-todo-active)
+          ("WAITING" . +org-todo-onhold)
+          ("INACTIVE" . +org-todo-onhold)
+          ("MEETING" . +org-todo-project)
+          ("[/]" . +org-todo-active)
+          ("[?]" . +org-todo-onhold)
+          ("CANCELLED" . +org-todo-cancel)))
+
+  ;; Capturing
+  (setq org-refile-targets '(("Agenda.org" :maxlevel . 9)))
+  (setq org-capture-templates
+        '(("t" "todo" entry (file org-default-todo-file)
+           "* TODO %?\n - created on %U \n" :clock-resume t :empty-lines 1)
+          ;; ("c" "note on current task" entry (clock)
+          ;;  "* %?")
+          ("n" "note" entry (file org-default-todo-file) ;;(function +default/org-notes-headlines)
+           "Note taken on %U \n%?" :clock-resume t :empty-lines 1)
+          ("m" "meeting" entry (file org-default-todo-file)
+           "* MEETING with %?\n%U" :clock-resume t :empty-lines 1)
+          ))
+
+  ;; Scheduled config
+  (setq org-agenda-scheduled-leaders '("🕰" "Sched.%2dx: "))
+  (map! :leader (:desc "Agenda" "a" #'org-agenda-list))
+)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
