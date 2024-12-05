@@ -616,6 +616,7 @@
                  "*Quail Completions"
                  "*Native-compile-Log"
                  "*scratch"
+                 "*Neotree"
                  "*doom"
                  "*Messages"
                  "*Ibuffer"
