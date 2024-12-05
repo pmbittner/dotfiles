@@ -119,7 +119,7 @@
           ("MEETING" . +org-todo-project)
           ("[/]" . +org-todo-active)
           ("[?]" . +org-todo-onhold)
-          ("CANCELLED" . +org-todo-cancel)))
+          ("CANCELLED" . org-agenda-dimmed-todo-face)))
 
   ;; Capturing
   (setq org-refile-targets '(("Agenda.org" :maxlevel . 9)))
