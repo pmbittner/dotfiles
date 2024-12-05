@@ -145,9 +145,6 @@ reload() {
   source $HOME/.zshrc
 }
 
-## Shortcuts for directories
-export A="$HOME/projects/AgdaCCnOC"
-
 ## setup for xserver
 #export DISPLAY=$(ip route list default | awk '{print $3}'):0
 #export DISPLAY=:0
@@ -172,6 +169,7 @@ config-add() {
 export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 
 ## for agda
+# export A="$HOME/projects/AgdaCCnOC"
 # export AGDA_DIR="$A/libs"
 
 ### (DOOM) EMACS SETUP
