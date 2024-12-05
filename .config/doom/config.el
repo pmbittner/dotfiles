@@ -125,11 +125,11 @@
   (setq org-refile-targets '(("Agenda.org" :maxlevel . 9)))
   (setq org-capture-templates
         '(("t" "todo" entry (file org-default-todo-file)
-           "* TODO %?\n - created on %U \n" :clock-resume t :empty-lines 1)
+           "* TODO %?\n - created on %U\n" :clock-resume t :empty-lines 1)
           ;; ("c" "note on current task" entry (clock)
           ;;  "* %?")
           ("n" "note" entry (file org-default-todo-file) ;;(function +default/org-notes-headlines)
-           "Note taken on %U \n%?" :clock-resume t :empty-lines 1)
+           "* Note taken on %U\n%?" :clock-resume t :empty-lines 1)
           ("m" "meeting" entry (file org-default-todo-file)
            "* MEETING with %?\n%U" :clock-resume t :empty-lines 1)
           ))
