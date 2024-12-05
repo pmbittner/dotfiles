@@ -110,6 +110,7 @@
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "INACTIVE(i)" "|" "DONE(d)" "CANCELLED(c)")
           (sequence "MEETING(m)")
+          (sequence "|" "LOOP(l)" "🔁(L)") ;; These are reoccuring todos or events and have to determined ending.
           (sequence "[ ](T)" "[/](P)" "[?](W)" "|" "[X](D)")))
   (setq org-todo-keyword-faces
         '(("NEXT" . +org-todo-active)
