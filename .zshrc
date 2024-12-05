@@ -155,6 +155,11 @@ export MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH
 export INFOPATH=/usr/local/texlive/2024/texmf-dist/doc/info$INFOPATH
 export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 
+## Ruby Gems
+export PATH=/home/paul/.local/share/gem/ruby/3.2.0/bin:$PATH
+export GEM_HOME=~/.rubygems
+export BUNDLE_PATH=~/.rubybundles
+
 ## my config setup
 ## I made this setup according to this instruction: https://www.atlassian.com/git/tutorials/dotfiles
 export MYCONFIGDIR=$HOME/.myconfig.git
