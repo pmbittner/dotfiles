@@ -390,7 +390,8 @@
 (map! :leader
       :prefix "c"
       (:desc "Compile project" "c" #'project-compile)
-      (:desc "Compile (here)" "l" #'compile)
+      (:desc "Compile (here)" "L" #'compile)
+      (:desc "Recompile (here)" "l" #'recompile)
       (:desc "Make" "m" #'+make/run)
       )
 
