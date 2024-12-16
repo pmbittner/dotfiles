@@ -61,7 +61,15 @@
         ;;;; Favorites
         ;; 'doom-one
         ;; 'catppuccin
-        'everforest-soft-dark
+        ;
+        ;; 'kaolin-galaxy
+        'kaolin-temple
+        ;; 'kaolin-valley-dark ;; The real synthwave
+        ;; 'kaolin-ocean
+        ;; 'kaolin-valley-light
+        ;; 'kaolin-breeze
+
+        ;; 'everforest-soft-dark
         ;; 'everforest-hard-dark
         ;; 'everforest-hard-light
 

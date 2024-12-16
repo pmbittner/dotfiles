@@ -49,6 +49,8 @@
   :recipe
   (:host github :repo "pmbittner/everforest-emacs" :branch "pb"))
 
+(package! kaolin-themes)
+
 ;; Use `:pin' to specify a particular commit to install.
 ;(package! builtin-package :pin "1a2b3c4d5e")
 ;;(package! agda2-mode :pin "b499d12")
