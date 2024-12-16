@@ -147,6 +147,18 @@
   (map! :leader (:desc "Agenda" "a" #'org-agenda-list))
 )
 
+;; Yas
+;; Chat-GPT can help here.
+;; (after! yasnippet
+;;   (setq yas-global-mode t)
+;;   ;; disable the C-s default binding
+;;   (map! :map (org-mode-map evil-insert-state-map global-map)
+;;         "C-i" nil)
+;;   (map! :map yas-minor-mode-map
+;;         "C-i" #'yas-expand)
+;;   (map! :map yas-keymap
+;;         "C-i" #'yas-next-field-or-maybe-expand))
+
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
