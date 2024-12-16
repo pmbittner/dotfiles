@@ -257,6 +257,10 @@ alias disconnect="nmcli con down"
 alias haskell-new-project="cabal init --interactive"
 alias dnd="blobdrop -b -f gui"
 
+zoom() {
+  env XDG_CURRENT_DESKTOP=gnome zoom "$@"
+}
+
 ## colorkiste
 colourkiste() {
   java -jar ~/software/ColourKiste.jar &
