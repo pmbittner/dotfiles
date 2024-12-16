@@ -352,6 +352,19 @@ generate-qr-code () {
   rm -r ${QR_DIR}
 }
 
+compress-pdf () {
+  OUTPUT_FILE="$1-compressed.pdf"
+  gs \
+    -sDEVICE=pdfwrite \
+    -dPDFSETTINGS=/default \
+    -dNOPAUSE \
+    -dQUIET \
+    -dBATCH \
+    -sOutputFile="${OUTPUT_FILE}" \
+    "$1"
+  echo "Wrote file ${OUTPUT_FILE} (if the previous command succeeded)."
+}
+
 ## high dpi wsl settings
 # export GDK_SCALE=0.5
 # export GDK_DPI_SCALE=2
