@@ -54,7 +54,7 @@
     layout = "de";
     variant = "";
   };
-  services.xserver.xkb.options = "caps:swapescape";
+  services.xserver.xkb.options = "caps:escape";
 
   # Configure console keymap
   console = {
