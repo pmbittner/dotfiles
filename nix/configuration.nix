@@ -101,10 +101,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball https://github.com/nix-community/emacs-overlay/archive/master.tar.gz))
-  ];
-
   fonts.packages = with pkgs; [
     nerdfonts
   ];
@@ -124,7 +120,7 @@
     oh-my-zsh
 
     # Doom emacs
-    emacs-git
+    emacs30
     ripgrep
     # optional Doom emacs dependencies
     coreutils # basic GNU utilities
