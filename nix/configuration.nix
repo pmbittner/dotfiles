@@ -97,6 +97,7 @@
     packages = with pkgs; [
       zsh
       kitty
+      nixd # nix language server
       thunderbird
       evince
 
