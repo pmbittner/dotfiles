@@ -321,6 +321,24 @@
       ))
 (map! :n "C-t" #'comment-eclipse)
 
+;; https://stackoverflow.com/questions/2423834/move-line-region-up-and-down-in-emacs
+;; Maybe try to extend these functions to check whether a region is active and instead move
+;; the lines of the selected regions.
+(defun move-line-up ()
+  (interactive)
+  (transpose-lines 1)
+  (previous-line 2))
+
+(defun move-line-down ()
+  (interactive)
+  (next-line 1)
+  (transpose-lines 1)
+  (previous-line 1))
+
+;; These are analogous keybindings as for org.
+(map! :n "M-k" #'move-line-up)
+(map! :n "M-j" #'move-line-down)
+
 ;; SPC s s: search buffer
 ;; g s s: evil-avy-goto-char-2
 ;; g s /: evil-avy-goto-char-timer
