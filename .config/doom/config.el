@@ -611,6 +611,19 @@
                ("g" #'my-magit-status)
                ("G" #'my-magit-status-here)))
 
+;; NixOS
+
+(defun goto-nix-config-file ()
+  "Opens my nix config."
+  (interactive)
+  (find-file "~/nix/configuration.nix"))
+
+(map! :leader
+      (:prefix "d"
+               (:prefix ("n" . "NixOS")
+                 (:desc "config" "c" #'goto-nix-config-file)
+                 )))
+
 ;; Haskell
 
 (after! haskell
