@@ -61,6 +61,9 @@
     useXkbConfig = true;
   };
 
+  # Enable displaylink for my Dell Docking Station
+  services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
