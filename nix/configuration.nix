@@ -145,6 +145,12 @@
     # gdm-settings # this does not work because it wants to change an ini file in the nix store
   ];
 
+  # Run the emacs daemon on startup
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs30;
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
