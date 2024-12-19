@@ -124,7 +124,7 @@
     emacs-all-the-icons-fonts
   ];
 
-  environment.sessionVariables = rec {
+  environment.sessionVariables = {
     SHELL  = "zsh";
     EDITOR = "emacsclient -c -a 'emacs'";
   };
