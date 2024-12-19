@@ -100,6 +100,7 @@
       nixd # nix language server
       thunderbird
       evince
+      texliveFull
 
       # doom emacs
       emacs30
