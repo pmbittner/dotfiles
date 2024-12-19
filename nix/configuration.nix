@@ -121,23 +121,23 @@
     git
     gnumake
     ghostscript
-    evince
     wget
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
 
-    # shell
-    oh-my-zsh
+    # basics
+    evince
+    util-linux # for setsid
+    gnome-tweaks # maybe it would be cool to include this conditionally only if we have gnome desktop
+    # gdm-settings # this does not work because it wants to change an ini file in the nix store
 
     # Doom emacs
     emacs30
     ripgrep
+
     # optional Doom emacs dependencies
     coreutils # basic GNU utilities
     fd
     clang
-
-    # Toys
-    pokemon-colorscripts-mac
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
