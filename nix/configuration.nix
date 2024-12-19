@@ -106,6 +106,7 @@
 
   fonts.packages = with pkgs; [
     nerdfonts
+    emacs-all-the-icons-fonts
   ];
 
   # List packages installed in system profile. To search, run:
