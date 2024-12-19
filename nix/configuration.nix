@@ -92,7 +92,7 @@
     description = "paul";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
+      thunderbird
       kitty
       zsh
     ];
