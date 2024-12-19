@@ -101,6 +101,7 @@
       thunderbird
       evince
       texliveFull
+      spotify
 
       # doom emacs
       emacs30
