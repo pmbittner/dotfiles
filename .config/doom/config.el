@@ -367,7 +367,7 @@
                   ")
   )
 
-(defun goto-private-config-file ()
+(defun goto-doom-config-file ()
   "Opens my doom config.
    There was a function for this in DOOM but apparently it's gone.
    So I implemented it myself here."
@@ -384,7 +384,7 @@
                (:desc "Reload and restart server" "R" #'doom-reload-and-restart-server)
                (:desc "Agda (system)" "a" #'global-agda)
                (:desc "Agda (nix)" "A" #'nix-agda)
-               (:desc "Config" "c" #'goto-private-config-file)
+               (:desc "Config" "c" #'goto-doom-config-file)
                (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
                ))
