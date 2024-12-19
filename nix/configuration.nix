@@ -134,14 +134,6 @@
     pokemon-colorscripts-mac
   ];
 
-  programs.zsh.interactiveShellInit = ''
-    export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh/ 
-    ZSH_THEME="agnoster"
-    plugins=(git)
-  '';
-
-  programs.zsh.promptInit = "";
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
