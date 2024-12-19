@@ -109,6 +109,11 @@
     emacs-all-the-icons-fonts
   ];
 
+  environment.sessionVariables = rec {
+    SHELL  = "zsh";
+    EDITOR = "emacsclient -c -a 'emacs'";
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
