@@ -129,7 +129,7 @@ fi
 
 ### Default programs
 TERMINAL=kitty
-EXPLORER=dolphin
+EXPLORER=nautilus
 
 export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 
