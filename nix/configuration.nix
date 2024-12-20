@@ -97,13 +97,16 @@
     packages = with pkgs; [
       zsh
       kitty
-      nixd # nix language server
-      thunderbird
       evince
       texliveFull
-
+      thunderbird
+      telegram-desktop
       spotify
       vlc
+
+      # programming language specifics
+      jdk23
+      nixd # nix language server
 
       # doom emacs
       emacs30
@@ -133,6 +136,7 @@
   environment.sessionVariables = {
     SHELL  = "zsh";
     EDITOR = "emacsclient -c -a 'emacs'";
+    _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=lc"; # for better font rendering: https://nixos.wiki/wiki/Java
   };
 
   # List packages installed in system profile. To search, run:
