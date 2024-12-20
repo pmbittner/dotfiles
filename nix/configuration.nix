@@ -111,6 +111,9 @@
       coreutils # basic gnu utilities
       fd
       clang
+
+      # fun
+      (pkgs.callPackage ./packages/pokemon-colorscripts.nix {})
     ];
   };
 
