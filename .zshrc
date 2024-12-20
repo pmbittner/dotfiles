@@ -170,6 +170,12 @@ config-add() {
   config add --patch
 }
 
+### gnome
+pb-gnome-reload () {
+  gsettings reset org.gnome.desktop.input-sources xkb-options
+  gsettings reset org.gnome.desktop.input-sources sources
+}
+
 ## tex
 export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 
