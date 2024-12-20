@@ -385,6 +385,9 @@ compress-pdf () {
   echo "Wrote file ${OUTPUT_FILE} (if the previous command succeeded)."
 }
 
+### Include any commands that only work on the local machine
+[[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
+
 ## high dpi wsl settings
 # export GDK_SCALE=0.5
 # export GDK_DPI_SCALE=2
