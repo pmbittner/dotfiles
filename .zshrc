@@ -176,6 +176,16 @@ pb-gnome-reload () {
   gsettings reset org.gnome.desktop.input-sources sources
 }
 
+### NixOS
+pb-nixos-rebuild-switch () {
+  sudo nixos-rebuild -I nixos-config=$HOME/nix/configuration.nix switch
+}
+pb-nixos-garbage-collection () {
+  nix-store --gc
+}
+alias nrs="pb-nixos-rebuild-switch"
+alias ngc="pb-nixos-garbage-collection"
+
 ## tex
 export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 
