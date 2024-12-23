@@ -145,11 +145,6 @@ reload() {
   source $HOME/.zshrc
 }
 
-## TeX Live
-export MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/usr/local/texlive/2024/texmf-dist/doc/info$INFOPATH
-export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
-
 ## Ruby Gems
 export PATH=/home/paul/.local/share/gem/ruby/3.2.0/bin:$PATH
 export GEM_HOME=~/.rubygems
@@ -180,9 +175,6 @@ pb-nixos-garbage-collection () {
 }
 alias nrs="pb-nixos-rebuild-switch"
 alias ngc="pb-nixos-garbage-collection"
-
-## tex
-export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
 
 ## for agda
 # export A="$HOME/projects/AgdaCCnOC"
