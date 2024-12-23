@@ -653,6 +653,15 @@
                  (:desc "config" "c" #'goto-nix-config-file)
                  )))
 
+(defun nixos-rebuild-switch ()
+  "Opens a terminal, runs
+   \='nix-os rebuild switch\=' (requires sudo)
+   and shows the result."
+  (interactive)
+  (start-process "nixos rebuild from within doom" nil
+                 "setsid" "kitty" "--hold" "--session" "launch-nix-rebuild.kitty"
+                 ))
+
 ;; Haskell
 
 (after! haskell

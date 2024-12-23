@@ -1,0 +1,1 @@
+launch zsh -c "source ~/.zshrc ; echo 'Running:' ; which pb-nixos-rebuild-switch ; pb-nixos-rebuild-switch ; zsh"
