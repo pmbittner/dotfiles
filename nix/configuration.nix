@@ -97,6 +97,7 @@
     packages = with pkgs; [
       zsh
       kitty
+      ranger
       evince
       texliveFull
       thunderbird
