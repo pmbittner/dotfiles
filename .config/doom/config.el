@@ -114,6 +114,7 @@
 (setq org-directory "~/Documents/Notes/")
 (setq pb/org-agenda-directory (concat org-directory "Agenda/"))
 (setq org-agenda-files (list pb/org-agenda-directory))
+(setq org-icalendar-combined-agenda-file (concat pb/org-agenda-directory "exported.ics"))
 (setq org-default-todo-file (concat pb/org-agenda-directory "Capture.org"))
 (after! org
   ;; TODO types
