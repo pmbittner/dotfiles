@@ -401,20 +401,35 @@
   (interactive)
   (find-file (concat doom-user-dir doom-module-config-file)))
 
-;; SPC-d was free so I called it "Doom" and then just put a lot
-;; of custom global commands in there.
+;; Build my own menu.
+;; (SPC-d was free so I called it "Doom" and then just put a lot of custom global commands in there.)
 (map! :leader
       (:prefix ("d" . "Doom (Custom)")
                (:desc "Ranger" "." #'ranger)
                (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
                (:desc "Reload" "r" #'doom/reload)
                (:desc "Reload and restart server" "R" #'doom-reload-and-restart-server)
-               (:desc "Agda (system)" "a" #'global-agda)
-               (:desc "Agda (nix)" "A" #'nix-agda)
                (:desc "Config" "c" #'goto-doom-config-file)
                (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
-               ))
+               (:prefix ("a" . "Agenda")
+                        (:desc "export to thunderbird" "e" #'org-icalendar-combine-agenda-files)
+                        (:desc "show" "s" #'org-agenda-list))
+               (:prefix ("A" . "Activate")
+                        (:desc "Agda globally" "g" #'global-agda)
+                        (:desc "Agda from nix env" "n" #'nix-agda))
+               (:prefix ("g" . "Dotfiles Git")
+                 (:desc "status" "g" #'dotfiles-status)
+                 (:desc "stage current buffer's file" "s" #'dotfiles-stage-buffer-file))
+               (:prefix ("n" . "NixOS")
+                 (:desc "rebuild + switch" "r" #'nixos-rebuild-switch)
+                 (:desc "config" "c" #'goto-nix-config-file))
+               )
+      (:prefix "g"
+               ("g" #'my-magit-status)
+               ("G" #'my-magit-status-here)
+               )
+      )
 
 (map! :leader
   (:desc "Search+Replace in project" "r" #'projectile-replace)
@@ -627,17 +642,6 @@
   (call-interactively 'magit-status-here)
   )
 
-(map! :leader
-      (:prefix "d"
-               (:prefix ("g" . "Dotfiles Git")
-                 (:desc "status" "g" #'dotfiles-status)
-                 (:desc "stage current buffer's file" "s" #'dotfiles-stage-buffer-file)
-                 )
-               )
-      (:prefix "g"
-               ("g" #'my-magit-status)
-               ("G" #'my-magit-status-here)))
-
 ;; NixOS
 
 (defun goto-nix-config-file ()
@@ -645,11 +649,6 @@
   (interactive)
   (find-file "~/nix/configuration.nix"))
 
-(map! :leader
-      (:prefix "d"
-               (:prefix ("n" . "NixOS")
-                 (:desc "config" "c" #'goto-nix-config-file)
-                 )))
 
 (defun nixos-rebuild-switch ()
   "Opens a terminal, runs
