@@ -145,11 +145,6 @@ reload() {
   source $HOME/.zshrc
 }
 
-## setup for xserver
-#export DISPLAY=$(ip route list default | awk '{print $3}'):0
-#export DISPLAY=:0
-#export LIBGL_ALWAYS_INDIRECT=1
-
 ## TeX Live
 export MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH
 export INFOPATH=/usr/local/texlive/2024/texmf-dist/doc/info$INFOPATH
