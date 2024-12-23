@@ -405,7 +405,7 @@
 ;; (SPC-d was free so I called it "Doom" and then just put a lot of custom global commands in there.)
 (map! :leader
       (:prefix ("d" . "Doom (Custom)")
-               (:desc "Ranger" "." #'ranger)
+               (:desc "Ranger" "." #'open-ranger-here)
                (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
                (:desc "Reload" "r" #'doom/reload)
                (:desc "Reload and restart server" "R" #'doom-reload-and-restart-server)
@@ -511,8 +511,8 @@
 
 (defun open-ranger-at (dir-string)
   "Open the file explorer with the given arguments"
-  (message (concat "setsid " "kitty --session launch-ranger.kitty " dir-string))
-  (start-process "explorer-from-emacs" nil "setsid" "kitty" "--session" "launch-ranger.kitty" dir-string)
+  (message (concat "setsid " "kitty --hold --session launch-ranger.kitty " dir-string))
+  (start-process "explorer-from-emacs" nil "setsid" "kitty" "--hold" "--session" "launch-ranger.kitty" dir-string)
 )
 
 (defun open-ranger-here ()
