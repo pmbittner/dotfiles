@@ -260,7 +260,20 @@ ok() {
   disown
 }
 # alias to remain in ranger's directory after exiting ranger
-alias ranger="source ranger"
+ranger_cd () {
+  temp_file=$(mktemp)
+  \ranger --choosedir="$temp_file" "$@"  # Run ranger and store the last visited directory in temp_file
+  if [ -f "$temp_file" ]; then
+    last_dir=$(cat "$temp_file")       # Read the last directory from temp_file
+    rm -f "$temp_file"                # Remove the temp_file
+    if [ -d "$last_dir" ]; then
+      cd "$last_dir"                # Change to the last directory if it exists
+    fi
+  else
+    echo "Cannot go to ranger's visited location!"
+  fi
+}
+alias ranger="ranger_cd"
 alias r="ranger"
 
 alias c="code"
