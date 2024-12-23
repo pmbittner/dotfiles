@@ -107,6 +107,8 @@
 (setq display-line-numbers t)
 (setq display-line-numbers-type t)
 
+(setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Notes/")
