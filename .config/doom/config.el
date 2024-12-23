@@ -284,6 +284,10 @@
 
 (customize-current-theme)
 
+;;; :ui modeline
+;; An evil mode indicator is redundant with cursor shape
+(setq doom-modeline-modal nil)
+
 ;;;; Configure projectile
 
 (setq projectile-indexing-method 'alien
