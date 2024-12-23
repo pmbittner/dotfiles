@@ -401,7 +401,7 @@
    There was a function for this in DOOM but apparently it's gone.
    So I implemented it myself here."
   (interactive)
-  (find-file (concat doom-private-dir doom-module-config-file)))
+  (find-file (concat doom-user-dir doom-module-config-file)))
 
 ;; SPC-d was free so I called it "Doom" and then just put a lot
 ;; of custom global commands in there.
