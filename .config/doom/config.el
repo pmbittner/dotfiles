@@ -389,9 +389,7 @@
   (interactive)
   (start-process "doom reload and restart server" nil "setsid" "zsh" "-c"
                  "source ~/.zshrc ;
-                  hyprctl notify 1 2000 0 'begin emacs-sync' ;
-                  kitty --session launch-emacs-sync.kitty ;
-                  hyprctl notify 1 2000 0 'emacs-sync done' ;
+                  kitty --hold --session launch-emacs-sync.kitty ;
                   emacsclient
                   ")
   )
