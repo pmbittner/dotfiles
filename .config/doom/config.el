@@ -288,6 +288,11 @@
 ;; An evil mode indicator is redundant with cursor shape
 (setq doom-modeline-modal nil)
 
+;;; :editor evil
+;; Focus new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+
 ;;;; Configure projectile
 
 (setq projectile-indexing-method 'alien
