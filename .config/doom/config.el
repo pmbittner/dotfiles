@@ -113,6 +113,7 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Notes/")
 (setq pb/org-agenda-directory (concat org-directory "Agenda/"))
+(setq pb/main-agenda-file (concat pb/org-agenda-directory "Agenda.org"))
 (setq org-agenda-files (list pb/org-agenda-directory))
 (setq org-icalendar-combined-agenda-file (concat pb/org-agenda-directory "exported.ics"))
 (setq org-default-todo-file (concat pb/org-agenda-directory "Capture.org"))
@@ -147,7 +148,7 @@
 
   ;; Scheduled config
   (setq org-agenda-scheduled-leaders '("🕰" "Sched.%2dx: "))
-  (map! :leader (:desc "Agenda" "a" #'org-agenda-list))
+  (map! :leader (:desc "Agenda" "a" (lambda () (interactive) (find-file pb/main-agenda-file))))
 )
 
 ;; Yas
