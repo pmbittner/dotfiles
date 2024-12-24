@@ -8,7 +8,7 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
-(package! evil-tutor)
+;; (package! evil-tutor)
 ;; (package! spacemacs-theme)
 (package! all-the-icons)
 (package! catppuccin-theme)
