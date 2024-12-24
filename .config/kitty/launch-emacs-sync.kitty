@@ -1,1 +1,1 @@
-launch zsh -c "source ~/.zshrc ; emacs-sync"
+launch zsh -c "source ~/.zshrc ; emacs-sync ; echo 'Press any key to continue' ; read"
