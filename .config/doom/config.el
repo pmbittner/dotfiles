@@ -151,6 +151,47 @@
   (map! :leader (:desc "Agenda" "a" (lambda () (interactive) (find-file pb/main-agenda-file))))
 )
 
+;;; Org CalDav
+(setq auth-source-debug 'trivia)
+;; Include my secret connection lisp file.
+;; It sets the following variables:
+;;   org-icalendar-timezone
+;;   org-caldav-url
+;;   org-caldav-calendar-id
+(load! "secrets/org-caldav-connection.el")
+(setq org-caldav-inbox (concat pb/org-agenda-directory "Inbox.org") ;; Org filename where new entries from calendar stored
+      org-icalendar-include-todo 'all
+      org-caldav-sync-todo t)
+;; This ensures all org "deadlines" show up, and show up as due dates
+(setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due))
+;; This ensures "scheduled" org items show up, and show up as start times
+(setq org-icalendar-use-scheduled '(todo-start event-if-todo event-if-not-todo))
+(setq org-icalendar-deadline-summary-prefix "") ;; Do not put "DL: " in front of every entry with a SCHEDULED.
+(setq org-icalendar-scheduled-summary-prefix "") ;; Do not put "S: " in front of every entry with a SCHEDULED.
+(setq org-caldav-todo-percent-states
+      '((0 "TODO") (0 "NEXT") (0 "WAITING") (0 "INACTIVE") (100 "DONE") (100 "CANCELLED")
+        (100 "MEETING")
+        (100 "LOOP") (100 "🔁")
+        (0 "[ ]") (50 "[/]") (0 "[?]") (100 "[X]")
+      ))
+;; Additional Org files to check for calendar events
+(defun update-org-caldav-files ()
+  "Updates the org-caldav-files variable to
+   include all my org files except for
+   - my capture file because it contains unprocessed notes
+  "
+  (interactive)
+  (setq org-caldav-files
+     (let ((org-files-for-caldav-sync (directory-files-recursively pb/org-agenda-directory ".*\\.org" t t)))
+       (delete org-default-todo-file org-files-for-caldav-sync)
+       org-files-for-caldav-sync)))
+(update-org-caldav-files)
+
+(defun sync-org-agenda-to-calendar ()
+  (interactive)
+  (update-org-caldav-files)
+  (org-caldav-sync))
+
 ;; Yas
 ;; Chat-GPT can help here.
 ;; (after! yasnippet
@@ -415,7 +456,8 @@
                (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
                (:prefix ("a" . "Agenda")
-                        (:desc "show" "s" #'org-agenda-list))
+                        (:desc "agenda" "a" #'org-agenda-list)
+                        (:desc "sync" "s" #'sync-org-agenda-to-calendar)
                         (:desc "export to file" "e" #'org-icalendar-combine-agenda-files)
                         )
                (:prefix ("A" . "Activate")
