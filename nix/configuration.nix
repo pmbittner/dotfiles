@@ -129,6 +129,12 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+  # Customize nautilus
+  programs.nautilus-open-any-terminal = {
+    enable = true;
+    terminal = "kitty";
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -142,6 +148,10 @@
     EDITOR = "emacsclient -c -a 'emacs'";
     _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=lc"; # for better font rendering: https://nixos.wiki/wiki/Java
   };
+
+  environment.pathsToLink = [
+    "/share/nautilus-python/extensions"
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
