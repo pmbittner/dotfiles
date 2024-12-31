@@ -93,7 +93,9 @@
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (setq doom-themes-neotree-file-icons t)
-  ;; (setq neo-window-fixed-size nil)
+  (setq neo-window-fixed-size nil)
+  (setq doom-themes-neotree-enable-variable-pitch t)
+  ;; (setq doom-themes-neotree-enable-folder-icons nil)
   ;; (setq neo-window-width 40)
   (doom-themes-neotree-config)
   ;; or for treemacs users
@@ -101,6 +103,10 @@
   ;; (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
+
+;; (setq nerd-icons-font-family "JetBrainsMonoNL Nerd Font")
+;; (after! neotree
+;;    (setq neo-theme (if (display-graphic-p) 'icons)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -196,6 +202,11 @@
   (interactive)
   (update-org-caldav-files)
   (org-caldav-sync))
+
+;; (defun sync-org-agenda-to-calendar-at-close ()
+;;   (sync-org-agenda-to-calendar)
+;;   (save-some-buffers))
+;; (add-hook 'kill-emacs-hook 'sync-org-agenda-to-calendar-at-close)
 
 ;; Yas
 ;; Chat-GPT can help here.
@@ -341,6 +352,14 @@
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 
+;;; :tools lsp
+(after! lsp-mode
+  (setq lsp-enable-symbol-highlighting nil
+        ;; If an LSP server isn't present when I start a prog-mode buffer, you
+        ;; don't need to tell me. I know. On some machines I don't care to have
+        ;; a whole development environment for some ecosystems.
+        lsp-enable-suggest-server-download nil))
+
 ;;;; Configure projectile
 
 (setq projectile-indexing-method 'alien
@@ -428,6 +447,8 @@
         )
   )
 
+;; hyprctl notify 1 2000 0 'begin emacs-sync' ;
+;; hyprctl notify 1 2000 0 'emacs-sync done' ;
 (defun doom-reload-and-restart-server ()
   "1. Kills all emacs clients and servers.
    2. Runs doom sync
@@ -461,8 +482,9 @@
                (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
                (:prefix ("a" . "Agenda")
-                        (:desc "agenda" "a" #'org-agenda-list)
-                        (:desc "sync" "s" #'sync-org-agenda-to-calendar)
+                        (:desc "open agenda file" "a" #'pb/open-main-agenda-file)
+                        (:desc "open agenda" "A" #'org-agenda-list)
+                        (:desc "sync" "S" #'sync-org-agenda-to-calendar)
                         (:desc "export to file" "e" #'org-icalendar-combine-agenda-files)
                         )
                (:prefix ("A" . "Activate")
@@ -515,6 +537,9 @@
   (when splash-screen
     (setq fancy-splash-image splash-screen)))
 
+;; hide key recommendations
+;; TODO: Customize what is shown.
+
 ;;;; Open with
 ;; open pdfs with evince
 
@@ -558,8 +583,8 @@
 (defun open-dolphin-here ()
   "Open a terminal at the current directory"
   (interactive)
-  (message "setsid dolphin .")
-  (start-process "dolphin-from-emacs" nil "setsid" "dolphin" ".")
+  (message "setsid nautilus .")
+  (start-process "dolphin-from-emacs" nil "setsid" "nautilus" ".")
   )
 
 (defun open-ranger-at (dir-string)
