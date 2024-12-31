@@ -117,6 +117,11 @@
 (setq org-agenda-files (list pb/org-agenda-directory))
 (setq org-icalendar-combined-agenda-file (concat pb/org-agenda-directory "org-agenda-export.ics"))
 (setq org-default-todo-file (concat pb/org-agenda-directory "Capture.org"))
+
+(defun pb/open-main-agenda-file ()
+  (interactive)
+  (find-file pb/main-agenda-file))
+
 (after! org
   ;; TODO types
   (setq org-todo-keywords
@@ -148,7 +153,7 @@
 
   ;; Scheduled config
   (setq org-agenda-scheduled-leaders '("🕰" "Sched.%2dx: "))
-  (map! :leader (:desc "Agenda" "a" (lambda () (interactive) (find-file pb/main-agenda-file))))
+  (map! :leader (:desc "Agenda" "a" #'pb/open-main-agenda-file))
 )
 
 ;;; Org CalDav
