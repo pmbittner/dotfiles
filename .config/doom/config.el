@@ -955,6 +955,8 @@
                 "\\.tcc4$"
                 "\\.tcc5$"
                 "\\.wrt$"
+                "\\.bcf$"
+                "\\.synctex(busy)$"
                 ;; agda build files
                 "\\.agdai$"
                 )
