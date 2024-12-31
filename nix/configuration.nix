@@ -109,6 +109,9 @@
       jdk23
       nixd # nix language server
 
+      # pygmentize for LaTeX minted
+      python312Packages.pygments
+
       # doom emacs
       emacs30
       ripgrep
