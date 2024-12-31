@@ -59,21 +59,19 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme
         ;;;; Favorites
-        ;; 'doom-one
         ;; 'catppuccin
-        ;
-        ;; 'kaolin-galaxy
-        'kaolin-temple
-        ;; 'kaolin-valley-dark ;; The real synthwave
-        ;; 'kaolin-ocean
-        ;; 'kaolin-valley-light
-        ;; 'kaolin-breeze
-
         ;; 'everforest-soft-dark
-        ;; 'everforest-hard-dark
-        ;; 'everforest-hard-light
+        'everforest-hard-light
+        ;; 'doom-one
+        ;; 'kaolin-temple
+        ;; 'kaolin-valley-light ;; cursor has color with too low contrast here
 
         ;;;; Other cool themes
+        ;; 'everforest-hard-dark
+        ;; 'kaolin-breeze
+        ;; 'kaolin-galaxy
+        ;; 'kaolin-ocean
+        ;; 'kaolin-valley-dark ;; The real synthwave
         ;; 'doom-one-light
         ;; 'adwaita ;; a bit like vs code
         ;; 'doom-palenight
