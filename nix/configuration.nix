@@ -104,6 +104,7 @@
       telegram-desktop
       spotify
       vlc
+      pkgs.kdePackages.kolourpaint
 
       # programming language specifics
       jdk23
