@@ -385,6 +385,10 @@ compress-pdf () {
   echo "Wrote file ${OUTPUT_FILE} (if the previous command succeeded)."
 }
 
+pb-file-sizes () {
+  du -sh "$@"
+}
+
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
 
