@@ -106,9 +106,12 @@
       vlc
       pkgs.kdePackages.kolourpaint
 
-      # programming language specifics
+      # programming languages
       jdk23
       nixd # nix language server
+      (agda.withPackages [
+        agdaPackages.standard-library
+      ])
 
       # pygmentize for LaTeX minted
       python312Packages.pygments
