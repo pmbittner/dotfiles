@@ -175,7 +175,7 @@
 (setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due))
 ;; This ensures "scheduled" org items show up, and show up as start times
 (setq org-icalendar-use-scheduled '(todo-start event-if-todo event-if-not-todo))
-(setq org-icalendar-deadline-summary-prefix "") ;; Do not put "DL: " in front of every entry with a SCHEDULED.
+(setq org-icalendar-deadline-summary-prefix "[Deadline] ")
 (setq org-icalendar-scheduled-summary-prefix "") ;; Do not put "S: " in front of every entry with a SCHEDULED.
 (setq org-caldav-todo-percent-states
       '((0 "TODO") (0 "NEXT") (0 "WAITING") (0 "INACTIVE") (100 "DONE") (100 "CANCELLED")
