@@ -549,6 +549,12 @@
 ;; Unbind C-z which enters emacs-state and I am always confused when this accidentally happens
 ;; Apparently, I have no problem exiting Vim but Emacs!
 (map! :nv "C-z" nil)
+
+;; Bindings for font resizing
+(map! :nv "C-+" #'text-scale-increase)
+(map! :nv "C--" #'text-scale-decrease)
+(map! :nv "C-0" #'doom/reset-font-size)
+
 (after! magit (map! :map magit-mode-map "C-z") nil)
 
 ;; fix weird behavor on SPC f p which requires to type at least two chars
