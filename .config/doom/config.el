@@ -547,7 +547,7 @@
 ;;;; Miscellaneous fixes or overrides
 
 ;; Unbind C-z which enters emacs-state and I am always confused when this accidentally happens
-;; Apparently, I have no problem existing Vim but Emacs!
+;; Apparently, I have no problem exiting Vim but Emacs!
 (map! :nv "C-z" nil)
 (after! magit (map! :map magit-mode-map "C-z") nil)
 
