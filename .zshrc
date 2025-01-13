@@ -389,6 +389,10 @@ pb-file-sizes () {
   du -sh "$@"
 }
 
+pb-untargz () {
+  tar -xf "$@"
+}
+
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
 
