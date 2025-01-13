@@ -197,9 +197,30 @@
 (update-org-caldav-files)
 
 (defun sync-org-agenda-to-calendar ()
+  "Synchronizes my org agenda to my calendar.
+   Wraps org-caldav-sync with updating some
+   internal state, and closing any org buffers
+   opened by org-caldav-sync."
   (interactive)
-  (update-org-caldav-files)
-  (org-caldav-sync))
+  (let ((previously-open-org-buffers (doom-matching-buffers "\\.org"))
+        )
+    (message "[SYNC] Starting org-caldav sync")
+    (message "[SYNC] Currently open buffers are: %s" previously-open-org-buffers)
+    (update-org-caldav-files) ;; update internal list of agenda files in case there are new ones since launch.
+    (org-caldav-sync)
+    ;; close all org files afterward
+    (message "[SYNC] Finished org-caldav sync. Killing new buffers...")
+    (let* ((afterward-open-org-buffers (doom-matching-buffers "\\.org"))
+           (new-org-buffers (seq-difference afterward-open-org-buffers previously-open-org-buffers))
+           )
+      (dolist (e new-org-buffers)
+        (save-buffer e)
+        (kill-buffer e)
+        )
+      (message "[SYNC] Killed buffers: %s" new-org-buffers)
+      )
+    )
+  )
 
 ;; (defun sync-org-agenda-to-calendar-at-close ()
 ;;   (sync-org-agenda-to-calendar)
