@@ -199,22 +199,35 @@
    internal state, and closing any org buffers
    opened by org-caldav-sync."
   (interactive)
+  ;; remember currently opened org buffers
   (let ((previously-open-org-buffers (doom-matching-buffers "\\.org"))
         )
     (message "[SYNC] Starting org-caldav sync")
     (message "[SYNC] Currently open buffers are: %s" previously-open-org-buffers)
     (update-org-caldav-files) ;; update internal list of agenda files in case there are new ones since launch.
-    (org-caldav-sync)
-    ;; close all org files afterward
-    (message "[SYNC] Finished org-caldav sync. Killing new buffers...")
-    (let* ((afterward-open-org-buffers (doom-matching-buffers "\\.org"))
-           (new-org-buffers (seq-difference afterward-open-org-buffers previously-open-org-buffers))
-           )
-      (dolist (e new-org-buffers)
-        (save-buffer e)
-        (kill-buffer e)
+    ;; run the actual syncing, catch any errors and store them in the "sync-error" variable
+    (let ((sync-error
+      (condition-case
+         err
+         (org-caldav-sync)
+         (error err)
+         )))
+      ;; close all newly opened org buffers
+      (message "[SYNC] Finished org-caldav sync. Killing new buffers...")
+      (let* ((afterward-open-org-buffers (doom-matching-buffers "\\.org"))
+             (new-org-buffers (seq-difference afterward-open-org-buffers previously-open-org-buffers))
+             )
+        (message "[SYNC] Killing buffers: %s" new-org-buffers)
+        (dolist (e new-org-buffers)
+          (save-buffer e)
+          (kill-buffer e)
+          )
         )
-      (message "[SYNC] Killed buffers: %s" new-org-buffers)
+      ;; report any errors that occurred during sync
+      (when sync-error
+        (message "[SYNC] %s" (error-message-string sync-error))
+        (error (error-message-string sync-error))
+        )
       )
     )
   )
