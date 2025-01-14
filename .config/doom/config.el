@@ -1095,41 +1095,6 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 ;;   )
 
 (setf dired-kill-when-opening-new-dired-buffer t)
-(setq ranger-override-dired 'ranger)
-(setq ranger-cleanup-eagerly t)
-(setq ranger-show-hidden t)
-(setq ranger-preview-file nil)
-(setq ranger-dont-show-binary t)
-(setq ranger-modify-header t)
-(after! ranger
-  (map! :map ranger-normal-mode-map
-    :prefix "c" (
-      "d" #'dired-create-directory
-      "f" #'dired-create-empty-file
-    )
-    :n "DEL" #'dired-up-directory
-  )
-;;     (setq ranger-override-dired 'ranger)
-)
-;; (after! ranger
-  ;; (map! :map ranger-mode-map
-        ;; "q" nil
-        ;; ))
-
-;; (require 'dirvish)
-;; (dirvish-override-dired-mode)
-;; (setq dirvish-attributes
-;;       '(vc-state subtree-state collapse)) ;;all-the-icons
-;; (setq dirvish-open-with-programs
-;;     ;; (concat dirvish-open-with-programs
-;;     `((("pdf") . ("evince" "%f"))
-;;       ))
-;; (map! :map dired-mode-map
-;;       :n "TAB" #'dirvish-toggle-subtree
-;;       )
-;; (setq dired-omit-files (concat dired-omit-files "\\." "\\.\\."))
-
-
 
 
 ;;;; At the very last run any additional dynamic config ;;;;
