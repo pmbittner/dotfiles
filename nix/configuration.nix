@@ -125,6 +125,10 @@
       fd
       clang
 
+      # more doom emacs extras
+      shellcheck
+      aspell
+
       # fun
       (pkgs.callPackage ./packages/pokemon-colorscripts.nix {})
     ];
