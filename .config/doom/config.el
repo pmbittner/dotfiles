@@ -126,6 +126,7 @@
   (interactive)
   (find-file pb/main-agenda-file))
 
+(map! :leader (:desc "Agenda" "a" #'pb/open-main-agenda-file))
 (after! org
   ;; TODO types
   (setq org-todo-keywords
@@ -157,7 +158,6 @@
 
   ;; Scheduled config
   (setq org-agenda-scheduled-leaders '("🕰" "Sched.%2dx: "))
-  (map! :leader (:desc "Agenda" "a" #'pb/open-main-agenda-file))
 )
 
 ;;; Org CalDav
