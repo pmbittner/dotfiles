@@ -131,14 +131,12 @@
   ;; TODO types
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "INACTIVE(i)" "|" "DONE(d)" "CANCELLED(c)")
-          (sequence "MEETING(m)")
           (sequence "|" "LOOP(l)" "🔁(L)") ;; These are reoccuring todos or events and have to determined ending.
           (sequence "[ ](T)" "[/](P)" "[?](W)" "|" "[X](D)")))
   (setq org-todo-keyword-faces
         '(("NEXT" . +org-todo-active)
           ("WAITING" . +org-todo-onhold)
           ("INACTIVE" . +org-todo-onhold)
-          ("MEETING" . +org-todo-project)
           ("[/]" . +org-todo-active)
           ("[?]" . +org-todo-onhold)
           ("CANCELLED" . org-agenda-dimmed-todo-face)))
@@ -179,7 +177,6 @@
 (setq org-icalendar-scheduled-summary-prefix "") ;; Do not put "S: " in front of every entry with a SCHEDULED.
 (setq org-caldav-todo-percent-states
       '((0 "TODO") (0 "NEXT") (0 "WAITING") (0 "INACTIVE") (100 "DONE") (100 "CANCELLED")
-        (100 "MEETING")
         (100 "LOOP") (100 "🔁")
         (0 "[ ]") (50 "[/]") (0 "[?]") (100 "[X]")
       ))
