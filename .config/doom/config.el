@@ -646,6 +646,9 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 (map! :nv "C--" #'text-scale-decrease)
 (map! :nv "C-0" #'doom/reset-font-size)
 
+;; Code folding
+(map! :nv "<backtab>" #'+fold/close)
+
 (after! magit (map! :map magit-mode-map "C-z") nil)
 
 ;; fix weird behavor on SPC f p which requires to type at least two chars
