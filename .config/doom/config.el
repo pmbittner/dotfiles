@@ -181,31 +181,41 @@
         (100 "LOOP") (100 "🔁")
         (0 "[ ]") (50 "[/]") (0 "[?]") (100 "[X]")
       ))
-;; Additional Org files to check for calendar events
-(defun update-org-caldav-files ()
-  "Updates the org-caldav-files variable to
-   include all my org files except for
-   - my capture file because it contains unprocessed notes
-  "
-  (interactive)
-  (setq org-caldav-files
-     (let ((org-files-for-caldav-sync (directory-files-recursively pb/org-agenda-directory ".*\\.org" t t)))
-       (delete org-default-todo-file org-files-for-caldav-sync)
-       org-files-for-caldav-sync)))
-(update-org-caldav-files)
 
-(defun sync-org-agenda-to-calendar ()
-  "Synchronizes my org agenda to my calendar.
+(defun pb/set-org-caldav-files-to (filelist)
+  (message "[SYNC] set org-caldav-files to %s" filelist)
+  (setq org-caldav-files filelist))
+
+(defun pb/org-caldav-files-full ()
+  "Returns a list of all my org files relevant
+for calendar synchronization.
+The result value is meant to be used to set org-caldav-files to."
+  ;; gather all files in my org directory, then remove ignored files
+   (let ((org-files-for-caldav-sync (directory-files-recursively pb/org-agenda-directory ".*\\.org" t t)))
+     (delete org-default-todo-file org-files-for-caldav-sync) ;; remove captured todos from sync
+     org-files-for-caldav-sync))
+
+(defun pb/org-caldav-files-minimum ()
+  "Returns a list of just the most recent / central
+of my org files for calendar synchronization. The idea
+is to speed up syncing by not syncing old, already synced
+entries again, but just push the most recent changes.
+The result value is meant to be used to set org-caldav-files to."
+  (list
+    pb/main-agenda-file
+    (concat pb/org-agenda-directory "Events.org")
+    ))
+
+(defun pb/sync-org-agenda-to-calendar ()
+  "Synchronizes the org entries from org-caldav-files to my calendar.
    Wraps org-caldav-sync with updating some
    internal state, and closing any org buffers
    opened by org-caldav-sync."
-  (interactive)
   ;; remember currently opened org buffers
   (let ((previously-open-org-buffers (doom-matching-buffers "\\.org"))
         )
     (message "[SYNC] Starting org-caldav sync")
     (message "[SYNC] Currently open buffers are: %s" previously-open-org-buffers)
-    (update-org-caldav-files) ;; update internal list of agenda files in case there are new ones since launch.
     ;; run the actual syncing, catch any errors and store them in the "sync-error" variable
     (let ((sync-error
       (condition-case
@@ -226,23 +236,56 @@
         )
       ;; report any errors that occurred during sync
       (when sync-error
-        (message "[SYNC] %s" (error-message-string sync-error))
-        (error (error-message-string sync-error))
+        (message "[SYNC] %s" sync-error)
         )
       )
     )
   )
 
-(defun sync-org-agenda-to-calendar-anew (boolSure)
+(defun pb/with-org-caldav-files (filelist body)
+  "Temporarily sets org-caldav-files to FILELIST,
+invokes BODY and then resets org-caldav-files to
+its previous value."
+  (require 'org-caldav)
+  (let ((previous-org-caldav-files org-caldav-files))
+    (pb/set-org-caldav-files-to filelist)
+    (funcall body)
+    (pb/set-org-caldav-files-to previous-org-caldav-files)
+    ))
+
+(defun pb/sync-org-agenda-to-calendar-full ()
+  "Syncs all my org entries to the calendar."
+  (interactive)
+  (pb/with-org-caldav-files (pb/org-caldav-files-full)
+    'pb/sync-org-agenda-to-calendar))
+
+(defun pb/sync-org-agenda-to-calendar-minimum ()
+  "Syncs only the most recent org entries to my calendar.
+Recentness is determined by being in my Agenda.org file or in my Events.org."
+  (interactive)
+  (require 'org-caldav)
+  (let ((old-value org-caldav-delete-calendar-entries))
+    (setq org-caldav-delete-calendar-entries 'never)
+    (pb/with-org-caldav-files (pb/org-caldav-files-minimum)
+      'pb/sync-org-agenda-to-calendar)
+    (setq org-caldav-delete-calendar-entries old-value)
+    ))
+
+(defun pb/sync-org-agenda-to-calendar-anew (boolSure)
   "Deletes the calendar entries and starts a new sync."
   (interactive (list (y-or-n-p "Are you sure to reset and restart calendar sync?")))
   (if boolSure
       (progn
-        (org-caldav-delete-everything "prefix")
-        (sync-org-agenda-to-calendar)
-        )
-      (message "Ok, I did nothing.")
-      )
+        (require 'org-caldav)
+        (pb/with-org-caldav-files (pb/org-caldav-files-full)
+          (lambda ()
+            (org-caldav-delete-everything "prefix")
+            (pb/sync-org-agenda-to-calendar))))
+      (message "Ok, I did nothing.")))
+
+(after! org-caldav
+  (setq org-caldav-delete-calendar-entries 'ask)
+  (pb/set-org-caldav-files-to (pb/org-caldav-files-full))
   )
 
 ;; (defun sync-org-agenda-to-calendar-at-close ()
@@ -526,9 +569,12 @@
                (:prefix ("a" . "Agenda")
                         (:desc "open agenda file" "a" #'pb/open-main-agenda-file)
                         (:desc "open agenda" "A" #'org-agenda-list)
-                        (:desc "sync" "s" #'sync-org-agenda-to-calendar)
-                        (:desc "reset and sync" "S" #'sync-org-agenda-to-calendar-anew)
                         (:desc "export to file" "e" #'org-icalendar-combine-agenda-files)
+                        (:desc "sync " "s" #'pb/sync-org-agenda-to-calendar-minimum)
+                        (:prefix ("S" . "sync (special)")
+                                 (:desc "sync full" "f" #'pb/sync-org-agenda-to-calendar-full)
+                                 (:desc "reset and sync anew" "r" #'pb/sync-org-agenda-to-calendar-anew)
+                                 )
                         )
                (:prefix ("A" . "Activate")
                         (:desc "Agda globally" "g" #'global-agda)
