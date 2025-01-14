@@ -219,6 +219,18 @@
     )
   )
 
+(defun sync-org-agenda-to-calendar-anew (boolSure)
+  "Deletes the calendar entries and starts a new sync."
+  (interactive (list (y-or-n-p "Are you sure to reset and restart calendar sync?")))
+  (if boolSure
+      (progn
+        (org-caldav-delete-everything "prefix")
+        (sync-org-agenda-to-calendar)
+        )
+      (message "Ok, I did nothing.")
+      )
+  )
+
 ;; (defun sync-org-agenda-to-calendar-at-close ()
 ;;   (sync-org-agenda-to-calendar)
 ;;   (save-some-buffers))
@@ -500,7 +512,8 @@
                (:prefix ("a" . "Agenda")
                         (:desc "open agenda file" "a" #'pb/open-main-agenda-file)
                         (:desc "open agenda" "A" #'org-agenda-list)
-                        (:desc "sync" "S" #'sync-org-agenda-to-calendar)
+                        (:desc "sync" "s" #'sync-org-agenda-to-calendar)
+                        (:desc "reset and sync" "S" #'sync-org-agenda-to-calendar-anew)
                         (:desc "export to file" "e" #'org-icalendar-combine-agenda-files)
                         )
                (:prefix ("A" . "Activate")
