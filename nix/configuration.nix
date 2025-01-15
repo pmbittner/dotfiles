@@ -109,6 +109,7 @@
       # programming languages
       jdk23
       nixd # nix language server
+      maven
       (agda.withPackages [
         agdaPackages.standard-library
       ])
