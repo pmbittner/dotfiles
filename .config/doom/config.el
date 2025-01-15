@@ -50,43 +50,44 @@
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
+;; `load-theme' function.
+(setq doom-theme
+  ;;;; Favorites
+  ;; 'catppuccin
+  ;; 'everforest-soft-dark
+  'everforest-hard-light
+  ;; 'doom-one
+  ;; 'kaolin-temple
+  ;; 'kaolin-valley-light ;; cursor has color with too low contrast here
+
+  ;;;; Other cool themes
+  ;; 'everforest-hard-dark
+  ;; 'kaolin-breeze
+  ;; 'kaolin-galaxy
+  ;; 'kaolin-ocean
+  ;; 'kaolin-valley-dark ;; The real synthwave
+  ;; 'doom-one-light
+  ;; 'adwaita ;; a bit like vs code
+  ;; 'doom-palenight
+  ;; 'doom-challenger-deep
+  ;; 'doom-snazzy
+  ;; 'doom-vibrant
+  ;; 'doom-dark+ ;; vs code dark
+  ;; 'doom-sourcerer -- looks like Loop Hero
+  ;; 'default
+
+  ;;;; Synthwave Themes
+  ;; 'doom-laserwave
+  ;; 'doom-outrun-electric
+  ;; 'doom-shades-of-purple
+  )
+
 (use-package doom-themes
   ;; :ensure t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme
-        ;;;; Favorites
-        ;; 'catppuccin
-        ;; 'everforest-soft-dark
-        'everforest-hard-light
-        ;; 'doom-one
-        ;; 'kaolin-temple
-        ;; 'kaolin-valley-light ;; cursor has color with too low contrast here
-
-        ;;;; Other cool themes
-        ;; 'everforest-hard-dark
-        ;; 'kaolin-breeze
-        ;; 'kaolin-galaxy
-        ;; 'kaolin-ocean
-        ;; 'kaolin-valley-dark ;; The real synthwave
-        ;; 'doom-one-light
-        ;; 'adwaita ;; a bit like vs code
-        ;; 'doom-palenight
-        ;; 'doom-challenger-deep
-        ;; 'doom-snazzy
-        ;; 'doom-vibrant
-        ;; 'doom-dark+ ;; vs code dark
-        ;; 'doom-sourcerer -- looks like Loop Hero
-        ;; 'default
-
-        ;;;; Synthwave Themes
-        ;; 'doom-laserwave
-        ;; 'doom-outrun-electric
-        ;; 'doom-shades-of-purple
-        t)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
