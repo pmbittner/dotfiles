@@ -173,6 +173,13 @@ pb-nixos-rebuild-switch () {
 pb-nixos-garbage-collection () {
   nix-store --gc
 }
+pb-nixos-show-generations () {
+  sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
+}
+pb-nixos-delete-outdated-generations () {
+  # Deletes any generation older than five days
+  sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 5d
+}
 alias nrs="pb-nixos-rebuild-switch"
 alias ngc="pb-nixos-garbage-collection"
 
