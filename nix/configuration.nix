@@ -113,6 +113,7 @@
       (agda.withPackages [
         agdaPackages.standard-library
       ])
+      python39
 
       # pygmentize for LaTeX minted
       python312Packages.pygments
