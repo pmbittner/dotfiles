@@ -737,25 +737,64 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   ("nat"  . ("ℕ"))
 ))
 
-(defun global-agda ()
-  (interactive)
-  (add-load-path!
-    (file-name-directory (shell-command-to-string "agda-mode locate")))
-  (if (require 'agda2 nil t)
-      (progn
-        (normal-mode)
-        (customize-current-theme)
-        (agda2-load)
-        )
-      (message "Failed to find the `agda2' package")))
+;; (defun global-agda-old ()
+;;   (add-load-path!
+;;     (file-name-directory (shell-command-to-string "agda-mode locate")))
+;;   (if (require 'agda2 nil t)
+;;       (progn
+;;         (normal-mode)
+;;         (customize-current-theme)
+;;         (agda2-load)
+;;         )
+;;       (message "Failed to find the `agda2' package")))
 
-(defun nix-agda (nix-shell-path)
+;; (defun nix-agda (nix-shell-path)
+;;   (interactive (list (nix-shell-read-path "nix expression path: ")))
+;;   (nix-shell-activate nix-shell-path)
+;;   (global-agda-old))
+
+(defvar *current-agda-version* 'global
+  "Arbitrary identifier for the currently loaded Agda version.
+This is only used to skip `switch-agda-version' in case `*current-agda-version*'
+wouldn't change.")
+
+(defun switch-agda-version (version-identifier)
+  (if (equal version-identifier *current-agda-version*)
+      (message "Skipping the Agda version switch as the versions are the same")
+    (if (featurep 'agda2)
+        (agda2-set-program-version nil)
+      ;; First time loading Agda
+      (add-load-path!
+       (file-name-directory (shell-command-to-string "agda-mode locate")))
+      (if (require 'agda2 nil t)
+          (normal-mode)
+        (error "Failed to find the `agda2' package"))
+      (normal-mode)
+      (customize-current-theme)
+      (setq *current-agda-version* version-identifier)
+      (message "[AGDA] Switched to agda version %s" *current-agda-version*))))
+
+(defun use-global-agda ()
+  (interactive)
+  (nix-shell-deactivate)
+  (switch-agda-version 'global))
+
+(defun use-nix-agda (nix-shell-path)
   (interactive (list (nix-shell-read-path "nix expression path: ")))
   (nix-shell-activate nix-shell-path)
-  (global-agda))
+  (switch-agda-version (list 'nix nix-shell-path)))
+
+(defun use-agda ()
+  (interactive)
+  (let ((nix-file (nix-shell-locate-expression)))
+    (if nix-file
+        (use-nix-agda nix-file)
+      (use-global-agda))))
+
+;; (add-hook 'projectile-after-switch-project-hook 'use-agda)
 
 ;; Can't use `use-package!' because it will try to load agda2-mode immediately.
-(load! "modules/lang/agda/config.el" doom-emacs-dir)
+;; (load! "modules/lang/agda/config.el" doom-emacs-dir)
 (after! agda2
   (add-hook! 'agda2-mode-hook
     (setq-local evil-shift-width 2)
