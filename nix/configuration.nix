@@ -105,6 +105,7 @@
       spotify
       vlc
       pkgs.kdePackages.kolourpaint
+      pandoc
 
       # programming languages
       jdk23
