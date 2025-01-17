@@ -64,6 +64,7 @@ doomElispArgsSet () {
 #### [EMACS SERVER STUFF] ####
 emacs-start-server() {
   pgrep emacs > /dev/null || emacs --daemon
+  echo "Running emacs server under process id:"
   pgrep emacs
 }
 emacs-kill-server() {
