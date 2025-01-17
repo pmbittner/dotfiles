@@ -106,6 +106,7 @@
       vlc
       pkgs.kdePackages.kolourpaint
       pandoc
+      powertop
 
       # programming languages
       jdk23
