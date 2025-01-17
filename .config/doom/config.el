@@ -577,10 +577,10 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
                                  (:desc "reset and sync anew" "r" #'pb/sync-org-agenda-to-calendar-anew)
                                  )
                         )
-               ;; (:prefix ("A" . "Activate")
-               ;;          ;; (:desc "Agda globally" "g" #'global-agda)
-               ;;          (:desc "Agda from nix env" "n" #'nix-agda)
-               ;;          )
+               (:prefix ("A" . "Agda")
+                        (:desc "switch to global Agda (default)" "g" #'use-global-agda)
+                        (:desc "switch to nix Agda" "n" #'use-nix-agda)
+                        )
                (:prefix ("g" . "Dotfiles Git")
                  (:desc "status" "g" #'dotfiles-status)
                  (:desc "stage current buffer's file" "s" #'dotfiles-stage-buffer-file)
@@ -737,42 +737,30 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   ("nat"  . ("ℕ"))
 ))
 
-;; (defun global-agda-old ()
-;;   (add-load-path!
-;;     (file-name-directory (shell-command-to-string "agda-mode locate")))
-;;   (if (require 'agda2 nil t)
-;;       (progn
-;;         (normal-mode)
-;;         (customize-current-theme)
-;;         (agda2-load)
-;;         )
-;;       (message "Failed to find the `agda2' package")))
-
-;; (defun nix-agda (nix-shell-path)
-;;   (interactive (list (nix-shell-read-path "nix expression path: ")))
-;;   (nix-shell-activate nix-shell-path)
-;;   (global-agda-old))
-
 (defvar *current-agda-version* 'global
   "Arbitrary identifier for the currently loaded Agda version.
 This is only used to skip `switch-agda-version' in case `*current-agda-version*'
 wouldn't change.")
 
 (defun switch-agda-version (version-identifier)
+  (message "[Agda] Trying to switch to Agda version: %s" version-identifier)
   (if (equal version-identifier *current-agda-version*)
-      (message "Skipping the Agda version switch as the versions are the same")
-    (if (featurep 'agda2)
-        (agda2-set-program-version nil)
-      ;; First time loading Agda
-      (add-load-path!
-       (file-name-directory (shell-command-to-string "agda-mode locate")))
-      (if (require 'agda2 nil t)
+      (message "[Agda] Skipping the Agda version switch as the versions are the same.")
+      (if (featurep 'agda2)
+          (agda2-set-program-version nil)
+          ;; First time loading Agda
+          (add-load-path!
+            (file-name-directory (shell-command-to-string "agda-mode locate")))
+          (if (require 'agda2 nil t)
+              (normal-mode)
+              (error "Failed to find the `agda2' package"))
           (normal-mode)
-        (error "Failed to find the `agda2' package"))
-      (normal-mode)
-      (customize-current-theme)
+          (customize-current-theme)
+          )
       (setq *current-agda-version* version-identifier)
-      (message "[AGDA] Switched to agda version %s" *current-agda-version*))))
+      (message "[Agda] Switched to agda version %s" *current-agda-version*)
+      )
+  )
 
 (defun use-global-agda ()
   (interactive)
@@ -784,12 +772,12 @@ wouldn't change.")
   (nix-shell-activate nix-shell-path)
   (switch-agda-version (list 'nix nix-shell-path)))
 
-(defun use-agda ()
-  (interactive)
-  (let ((nix-file (nix-shell-locate-expression)))
-    (if nix-file
-        (use-nix-agda nix-file)
-      (use-global-agda))))
+;; (defun use-agda ()
+;;   (interactive)
+;;   (let ((nix-file (nix-shell-locate-expression)))
+;;     (if nix-file
+;;         (use-nix-agda nix-file)
+;;       (use-global-agda))))
 
 ;; (add-hook 'projectile-after-switch-project-hook 'use-agda)
 
