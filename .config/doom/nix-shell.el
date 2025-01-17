@@ -139,6 +139,16 @@ The topmost match has precedence."
            do (add-to-list 'exec-path path)
            finally return exec-path))
 
+(defun nix-shell-filter-process-environment (environment)
+  "Remove annoying evironment variables from ENVIRONMENT.
+
+ENVIRONMENT is like `process-environment'"
+  (cl-remove-if (lambda (assignment)
+                  (cl-find-if (lambda (variable)
+                                (string-prefix-p (concat variable "=") assignment))
+                              '("TMP" "TMPDIR" "TEMP" "TEMPDIR" "NIX_BUILD_TOP")))
+                environment))
+
 (defun nix-shell-variables (path &rest args)
   "Get the environment variables from a nix-shell expression PATH.
 
@@ -148,7 +158,7 @@ environment."
       (puthash path (let ((default-directory (file-name-directory path)))
                       (apply #'nix-shell-exec-success nix-shell-executable (append  args (list path "--run" "true")))
                       (let ((process-environment (apply #'nix-shell-exec-lines nix-shell-executable (append args (list path "--run" "printenv")))))
-                        (nix-shell-new :exec-path (nix-shell-extract-exec-path) :process-environment process-environment)))
+                        (nix-shell-new :exec-path (nix-shell-extract-exec-path) :process-environment (nix-shell-filter-process-environment process-environment))))
                nix-shell-variables-cache)))
 
 ;;;###autoload
