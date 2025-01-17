@@ -449,8 +449,8 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 ;;;; Configure projectile
 
 (setq projectile-indexing-method 'alien
-      ;; projectile-sort-order 'recently-active ;; this won't work at all so I just don' set it :(
-      projectile-enable-caching t
+      projectile-sort-order 'recently-active ;; Why is this not working at all?
+      projectile-enable-caching nil
       )
 
 ;;;; Various (Global) Keybindings
