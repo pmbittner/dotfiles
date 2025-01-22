@@ -99,6 +99,7 @@
       kitty
       ranger
       evince
+      pdftk
       texliveFull
       thunderbird
       telegram-desktop
