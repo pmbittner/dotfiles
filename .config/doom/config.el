@@ -354,6 +354,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 
 (add-hook! 'better-jumper-post-jump-hook :append #'recenter-top-bottom)
 (add-hook! 'better-jumper-pre-jump-hook  :append #'recenter-top-bottom)
+(map! "C-i" 'better-jumper-jump-forward)
 
 ;;;; Customize themes
 
