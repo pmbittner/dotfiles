@@ -599,6 +599,9 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   (:desc "Next Buffer" "<right>" #'next-buffer)
 )
 (map! :leader
+      (:desc "Make" "m" #'+make/run)
+      )
+(map! :leader
       :prefix "c"
       (:desc "Compile project" "c" #'project-compile)
       (:desc "Compile (here)" "L" #'compile)
