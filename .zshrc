@@ -210,6 +210,10 @@ alias submodules-init="git submodule update --init --recursive"
 alias submodules-update="git submodule update"
 alias submodules-add="git submodule add"
 
+pb-git-undo-last-commit () {
+  git reset HEAD~
+}
+
 exp() {
   ${EXPLORER} . &
   disown
