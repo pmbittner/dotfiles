@@ -109,6 +109,7 @@
       pkgs.kdePackages.kolourpaint
       pandoc
       powertop
+      libreoffice
 
       # programming languages
       jdk23
