@@ -183,6 +183,10 @@ pb-nixos-delete-outdated-generations () {
 alias nrs="pb-nixos-rebuild-switch"
 alias ngc="pb-nixos-garbage-collection"
 
+chrome () {
+  nix-shell -p ungoogled-chromium --run chromium
+}
+
 ## for agda
 # export A="$HOME/projects/AgdaCCnOC"
 # export AGDA_DIR="$A/libs"
