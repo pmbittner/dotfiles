@@ -882,6 +882,14 @@ wouldn't change.")
         :localleader
         "l" #'markdown-preview)) ;; also bind preview to "<localleader> l" just because I am so used to that key.
 
+;;;; Java
+(after! java
+  (add-hook 'java-mode-hook (lambda ()
+                              (setq c-basic-offset 2
+                                    tab-width 2
+                                    indent-tabs-mode nil)))
+  )
+
 ;;;; Centaur tabs
 
 (after! centaur-tabs
