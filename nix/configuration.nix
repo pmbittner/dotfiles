@@ -100,6 +100,7 @@
       ranger
       evince
       pdftk
+      imagemagick
       texliveFull
       thunderbird
       telegram-desktop
