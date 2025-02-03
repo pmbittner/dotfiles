@@ -110,6 +110,7 @@
       pandoc
       powertop
       libreoffice
+      subversionClient
 
       # programming languages
       jdk23
@@ -135,6 +136,10 @@
       # more doom emacs extras
       shellcheck
       aspell
+      aspellDicts.en
+      aspellDicts.en-science
+      aspellDicts.en-computers
+      aspellDicts.de
 
       # fun
       (pkgs.callPackage ./packages/pokemon-colorscripts.nix {})
