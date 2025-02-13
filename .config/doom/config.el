@@ -609,6 +609,14 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
       (:desc "Make" "m" #'+make/run)
       )
 
+;;;; Doom main directory
+
+(defun pb/doom-set-current-directory (dir)
+  (interactive "D")
+  (setq +doom-dashboard-pwd-policy dir)
+  (+doom-dashboard-reload)
+  )
+
 ;;;; Modify Splashscreen
 
 (defun get-random-splashscreen-file ()
