@@ -1046,7 +1046,7 @@ wouldn't change.")
 
 (defun +neotree/toggle-find-this-file()
   "Runs +neotree/find-this-file except when neotree is in focus.
-   Then, this function closes neotree instead."
+   Otherwise closes neotree instead."
   (interactive)
   (require 'neotree)
   (if (+neotree/is-focused)
