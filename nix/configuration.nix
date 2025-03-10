@@ -185,6 +185,7 @@
   environment.systemPackages = with pkgs; [
     # absolute basics
     git
+    git-lfs
     gnumake
     ghostscript
     wget
