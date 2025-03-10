@@ -792,6 +792,7 @@ wouldn't change.")
 ;; Can't use `use-package!' because it will try to load agda2-mode immediately.
 ;; (load! "modules/lang/agda/config.el" doom-emacs-dir)
 (after! agda2
+  (setq default-input-method "Agda")
   (add-hook! 'agda2-mode-hook
     (setq-local evil-shift-width 2)
     (activate-input-method "Agda"))
