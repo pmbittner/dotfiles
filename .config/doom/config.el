@@ -958,7 +958,8 @@ wouldn't change.")
   ;; (setq TeX-view-program-selection '((output-pdf "Okular")))
   ;; Use evince to view build pdfs.
   (setq TeX-view-program-selection '((output-pdf "Evince")))
-  (electric-indent-local-mode)
+  (setq TeX-newline-function #'electric-indent-just-newline)
+  ;; (electric-indent-local-mode)
   )
 
 (defun demolish-tex-help ()
