@@ -143,6 +143,13 @@
 
       # fun
       (pkgs.callPackage ./packages/pokemon-colorscripts.nix {})
+
+      # vs code
+      (vscode-with-extensions.override {
+        vscodeExtensions = with vscode-extensions; [
+          ms-python.python
+        ];
+      })
     ];
   };
 
