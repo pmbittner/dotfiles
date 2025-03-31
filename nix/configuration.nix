@@ -140,6 +140,7 @@
       aspellDicts.en-science
       aspellDicts.en-computers
       aspellDicts.de
+      python312Packages.grip
 
       # fun
       (pkgs.callPackage ./packages/pokemon-colorscripts.nix {})
