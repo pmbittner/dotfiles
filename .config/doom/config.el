@@ -743,6 +743,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   ("ot"   . ("←"))
   ("==>"  . ("⇛"))
   ("nat"  . ("ℕ"))
+  ("o="   . ("≗")) ;; I always misstype this.
 ))
 
 (defvar *current-agda-version* 'global
