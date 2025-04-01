@@ -173,8 +173,12 @@ pb-nixos-delete-outdated-generations () {
   # Deletes any generation older than five days
   sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 5d
 }
+pb-nix-shell-run () {
+  nix-shell -p "$@" --run "$@"
+}
 alias nrs="pb-nixos-rebuild-switch"
 alias ngc="pb-nixos-garbage-collection"
+alias nsr="pb-nix-shell-run"
 
 chrome () {
   nix-shell -p ungoogled-chromium --run chromium
