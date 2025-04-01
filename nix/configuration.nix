@@ -110,7 +110,6 @@
       pandoc
       powertop
       libreoffice
-      subversionClient
 
       # programming languages
       jdk23
