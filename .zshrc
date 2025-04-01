@@ -143,11 +143,6 @@ reload() {
   source $HOME/.zshrc
 }
 
-## Ruby Gems
-export PATH=/home/paul/.local/share/gem/ruby/3.2.0/bin:$PATH
-export GEM_HOME=~/.rubygems
-export BUNDLE_PATH=~/.rubybundles
-
 ## my config setup
 ## I made this setup according to this instruction: https://www.atlassian.com/git/tutorials/dotfiles
 export MYCONFIGDIR=$HOME/.myconfig.git
