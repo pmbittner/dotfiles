@@ -108,6 +108,7 @@
       vlc
       pkgs.kdePackages.kolourpaint
       pandoc
+      graphviz
       powertop
       libreoffice
 
