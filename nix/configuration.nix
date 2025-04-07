@@ -104,6 +104,7 @@
       texliveFull
       thunderbird
       telegram-desktop
+      signal-desktop
       spotify
       vlc
       pkgs.kdePackages.kolourpaint
