@@ -105,8 +105,9 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers t)
+(setq-default display-line-numbers t)
 (setq display-line-numbers-type t)
+(global-display-line-numbers-mode)
 
 (setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
 
