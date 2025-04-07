@@ -130,7 +130,7 @@
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "INACTIVE(i)" "|" "DONE(d)" "CANCELLED(c)")
           (sequence "|" "LOOP(l)" "🔁(L)") ;; These are reoccuring todos or events and have to determined ending.
-          (sequence "[ ](T)" "[/](P)" "[?](W)" "|" "[X](D)")))
+          (sequence "[ ](T)" "[/](P)" "[?](W)" "|" "[X](X)")))
   (setq org-todo-keyword-faces
         ;; TODO These faces do not exist in all themes. I can just set these to any color I like (maybe fetch from the particular theme
         '(("NEXT" . +org-todo-active)
