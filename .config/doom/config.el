@@ -430,6 +430,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 ;;; :ui modeline
 ;; An evil mode indicator is redundant with cursor shape
 (setq doom-modeline-modal nil)
+(setq doom-modeline-project-name t)
 
 ;;; :editor evil
 ;; Focus new window after splitting
