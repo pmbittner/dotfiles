@@ -228,11 +228,34 @@ alias u="cd .."
 ## This searches in the current directory.
 f() {
   file_path=$(sk)
+  xdg-open "${file_path}"
+}
+## This searches from home directory.
+F() {
+  ## sk always searches files from the current directory.
+  ## Since we want to search all files, we have to go to the root directory first.
+  curdir=${PWD}
+  cd ~
+  file_path=$(sk)
+  if [ -z "${file_path}" ]; then
+    # Search was aborted in sk. Go back to where we started.
+    cd ${curdir}
+  else
+    # The user selected a file in the fuzzy search.
+    # Open it with preferred program
+    # We might want to consider opening emacs instead (of course).
+    xdg-open "${file_path}"
+  fi
+}
+## Fuzzy finder to change the current directory to the directory of a file.
+## This searches in the current directory.
+fcd() {
+  file_path=$(sk)
   dir=$(dirname "${file_path}")
   cd "${dir}"
 }
 ## This searches from home directory.
-F() {
+Fcd() {
   ## sk always searches files from the current directory.
   ## Since we want to search all files, we have to go to the root directory first.
   curdir=${PWD}
