@@ -39,8 +39,8 @@
       doom-symbol-font (font-spec :family "DejaVu Sans")) ;; doom-unicode-font
 
 (setq catppuccin-flavor
-      'latte)
-      ;; 'frappe)
+      ;; 'latte)
+      'frappe)
       ;; 'macchiato)
       ;; 'mocha)
 
@@ -49,10 +49,14 @@
 ;; `load-theme' function.
 (setq doom-theme
   ;;;; Favorites
+  ;; 'doom-snazzy
   ;; 'catppuccin
   ;; 'everforest-soft-dark
-  'everforest-hard-light
-  ;; 'doom-one
+  ;; 'everforest-hard-light
+  ;; 'leuven
+  'doom-one-light
+  ;; 'doom-vibrant
+  ;; 'doom-nova
   ;; 'kaolin-temple
   ;; 'kaolin-valley-light ;; cursor has color with too low contrast here
 
