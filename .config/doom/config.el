@@ -451,10 +451,13 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 
 ;;;; Configure projectile
 
-(setq projectile-indexing-method 'alien
-      projectile-sort-order 'recently-active ;; Why is this not working at all?
-      projectile-enable-caching nil
-      )
+(after! projectile
+  (setq projectile-indexing-method 'native
+        projectile-sort-order 'recently-active
+        projectile-enable-caching nil
+        projectile-files-cache-expire 1 ;; Another try
+        )
+  )
 
 ;;;; Various (Global) Keybindings
 
