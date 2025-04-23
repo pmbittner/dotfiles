@@ -314,7 +314,7 @@ zoom() {
 
 ## colorkiste
 colourkiste() {
-  java -jar ~/software/ColourKiste.jar &
+  (cd "${HOME}/projects/ColourKiste"; java -Dsun.java2d.uiScale=1.5 -jar "target/ColourKiste-1.0-SNAPSHOT-jar-with-dependencies.jar")
 }
 alias colorkiste=colourkiste
 alias ck=colorkiste
