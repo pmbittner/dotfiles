@@ -428,6 +428,10 @@ pb-untargz () {
   tar -xf "$@"
 }
 
+pb-show-usb-devices () {
+  nix-shell -p usbutils --run "lsusb"
+}
+
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
 
