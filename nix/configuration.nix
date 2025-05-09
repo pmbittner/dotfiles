@@ -136,11 +136,7 @@
 
       # more doom emacs extras
       shellcheck
-      aspell
-      aspellDicts.en
-      aspellDicts.en-science
-      aspellDicts.en-computers
-      aspellDicts.de
+      (aspellWithDicts (dicts: with dicts; [ en en-computers en-science de ]))
       python312Packages.grip
 
       # fun
