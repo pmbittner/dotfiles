@@ -189,9 +189,15 @@ chrome () {
 # export AGDA_DIR="$A/libs"
 
 ### (DOOM) EMACS SETUP
-export PATH=~/.config/emacs/bin:$PATH
-export DOOMDIR=$HOME/.config/doom
-source $HOME/.emacsrc
+export EMACSDIR=~/.config/emacs
+export DOOMDIR=~/.config/doom
+export PATH=$EMACSDIR/bin:$PATH
+source ~/.emacsrc
+
+# run this when aspell highlights every word as incorrect in Emacs
+pb-spell-fu-delete-cache () {
+  rm -rf $EMACSDIR/.local/etc/spell-fu/*
+}
 
 ## aliases
 alias ls="ls --color=auto --group-directories-first"
