@@ -179,6 +179,9 @@ pb-nixos-delete-outdated-generations () {
 pb-nix-shell-run () {
   nix-shell -p "$@" --run "$@"
 }
+pb-nix-steam-run () {
+  env NIXPKGS_ALLOW_UNFREE=1 nix-shell -p steam-run --run "steam-run $@"
+}
 alias nrs="pb-nixos-rebuild-switch"
 alias ngc="pb-nixos-garbage-collection"
 alias nsr="pb-nix-shell-run"
