@@ -754,12 +754,31 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 ;; nix setup for agda
 (load! "nix-shell.el")
 
-(setq agda-input-user-translations `(
-  ("ot"   . ("←"))
-  ("==>"  . ("⇛"))
-  ("nat"  . ("ℕ"))
-  ("o="   . ("≗")) ;; I always misstype this.
-))
+(defun customize-agda ()
+  (setq default-input-method "Agda")
+  (add-hook! 'agda2-mode-hook
+    (setq-local evil-shift-width 2)
+    (activate-input-method "Agda"))
+  (prependq! auto-mode-alist '(("\\.agda\\'" . agda2-mode)))
+  (prependq! auto-mode-alist '(("\\.lagda.md\\'" . agda2-mode)))
+  (prependq! auto-mode-alist '(("\\.lagda.tex\\'" . agda2-mode)))
+  ;; Make evil repeat (pressing .) ignore agda2-load.
+  (evil-add-command-properties 'agda2-load :repeat 'ignore)
+  ;; Add agda holes as evil-surround braces
+  (after! evil-surround
+    (embrace-add-pair ?! "{!" "!}"))
+
+  (setq agda-input-user-translations `(
+    ("ot"   . ("←"))
+    ("==>"  . ("⇛"))
+    ("nat"  . ("ℕ"))
+    ("o="   . ("≗")) ;; I always misstype this.
+    ("pand"   . ("∧"))
+    ("por"   . ("∨"))
+    ("pimplies"   . ("⇒"))
+    ("pequiv"   . ("⇔"))
+  ))
+)
 
 (defvar *current-agda-version* 'global
   "Arbitrary identifier for the currently loaded Agda version.
@@ -779,6 +798,7 @@ wouldn't change.")
               (normal-mode)
               (error "Failed to find the `agda2' package"))
           (normal-mode)
+          (customize-agda)
           (customize-current-theme)
           )
       (setq *current-agda-version* version-identifier)
@@ -808,18 +828,7 @@ wouldn't change.")
 ;; Can't use `use-package!' because it will try to load agda2-mode immediately.
 ;; (load! "modules/lang/agda/config.el" doom-emacs-dir)
 (after! agda2
-  (setq default-input-method "Agda")
-  (add-hook! 'agda2-mode-hook
-    (setq-local evil-shift-width 2)
-    (activate-input-method "Agda"))
-  (prependq! auto-mode-alist '(("\\.agda\\'" . agda2-mode)))
-  (prependq! auto-mode-alist '(("\\.lagda.md\\'" . agda2-mode)))
-  (prependq! auto-mode-alist '(("\\.lagda.tex\\'" . agda2-mode)))
-  ;; Make evil repeat (pressing .) ignore agda2-load.
-  (evil-add-command-properties 'agda2-load :repeat 'ignore)
-  ;; Add agda holes as evil-surround braces
-  (after! evil-surround
-    (embrace-add-pair ?! "{!" "!}")))
+  (customize-agda))
 
 ;;;; Magit for my Dotfiles
 
