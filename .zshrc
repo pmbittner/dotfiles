@@ -333,23 +333,26 @@ alias ck=colorkiste
 
 ## other utilities
 shrink-all-pngs () {
-  mkdir small
+  mkdir -f small
   find -maxdepth 1 -name "*.png" -exec convert {} -resize 2048x2048 small/{} \;
 }
 shrink-all-jpgs () {
-  mkdir small
-  find -maxdepth 1 -name "*.jpg" -exec convert {} -resize 2048x2048 small/{} \;
+  mkdir -f small
+  find -maxdepth 1 -name "*.jpg" -o -name "*.jpeg" -exec convert {} -resize 2048x2048 small/{} \;
 }
 
 convert-pngs-to-jpgs () {
   find -maxdepth 1 -name "*.png" -exec convert {} {}.jpg \;
 }
 
+compose-to-pdf () {
+  convert "*.$@" -auto-orient composed.pdf
+}
 compose-pngs-to-pdf () {
-  convert *.png -auto-orient composed.pdf
+  compose-to-pdf png
 }
 compose-jpgs-to-pdf () {
-  convert *.jpg -auto-orient composed.pdf
+  compose-to-pdf jpg
 }
 
 scans-to-pdf () {
