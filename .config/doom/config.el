@@ -355,7 +355,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 ;; Make which-key menu (the menu when pressing SPC) show up instantly
 ;; (This tweak was recommended by hlissner in doom emacs issue #1839)
 (require 'which-key)
-(setq which-key-idle-delay 0.1)
+(setq which-key-idle-delay 0.5)
 
 (add-hook! 'better-jumper-post-jump-hook :append #'recenter-top-bottom)
 (add-hook! 'better-jumper-pre-jump-hook  :append #'recenter-top-bottom)
