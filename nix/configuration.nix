@@ -189,6 +189,8 @@
     ghostscript
     wget
     vim
+    direnv
+    fzf
 
     # basics
     skim
