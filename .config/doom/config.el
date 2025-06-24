@@ -562,6 +562,11 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   (interactive)
   (find-file (concat doom-user-dir doom-module-config-file)))
 
+(defun goto-doom-init-file ()
+  "Opens my doom init.el."
+  (interactive)
+  (find-file (concat doom-user-dir doom-module-init-file)))
+
 ;; Build my own menu.
 ;; (SPC-d was free so I called it "Doom" and then just put a lot of custom global commands in there.)
 (map! :leader
@@ -570,8 +575,9 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
                (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
                (:desc "Reload" "r" #'doom/reload)
                (:desc "Reload and restart server" "R" #'doom-reload-and-restart-server)
-               (:desc "Config" "c" #'goto-doom-config-file)
-               (:desc "Calendar" "C" #'calendar)
+               (:desc "config.el" "c" #'goto-doom-config-file)
+               (:desc "init.el" "i" #'goto-doom-init-file)
+               ;; (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
                (:prefix ("a" . "Agenda")
                         (:desc "open agenda file" "a" #'pb/open-main-agenda-file)
