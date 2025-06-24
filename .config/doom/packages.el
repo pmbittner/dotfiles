@@ -15,6 +15,7 @@
 (package! rainbow-mode) ;; highlights color code strings in the respective color
 (package! openwith)
 (package! org-caldav)
+(package! csv-mode)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
