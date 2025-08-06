@@ -601,6 +601,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
                  (:desc "rebuild + switch" "r" #'nixos-rebuild-switch)
                  (:desc "config" "c" #'goto-nix-config-file)
                  )
+               (:desc "toggle input method" "t" #'toggle-input-method)
                )
       (:prefix "g"
                ("g" #'my-magit-status)
