@@ -288,6 +288,8 @@ Fcd() {
     cd "${dir}"
   fi
 }
+alias fdir="fcd"
+alias Fdir="Fcd"
 
 ev() {
   evince "$@" &
