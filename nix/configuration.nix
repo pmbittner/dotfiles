@@ -3,7 +3,13 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
+let
+  nixos-unstable = import <nixos-unstable> {
+    ## use the same configuration (in particular, allow unfree software)
+    config=config.nixpkgs.config;
+    overlays=[];
+  };
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -105,7 +111,6 @@
       texliveFull
       thunderbird
       telegram-desktop
-      signal-desktop
       spotify
       vlc
       pkgs.kdePackages.kolourpaint
@@ -113,6 +118,9 @@
       graphviz
       powertop
       libreoffice
+      # packages from unstable channel
+      nixos-unstable.signal-desktop
+      nixos-unstable.zoom-us
 
       # programming languages
       jdk23
