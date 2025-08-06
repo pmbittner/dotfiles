@@ -978,6 +978,7 @@ wouldn't change.")
 
 ;; TODO: We do not have to always load latex?
 ;; (require 'latex)
+(add-to-list 'auto-mode-alist '("\\.tikz\\'" . latex-mode))
 (setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
 (after! latex
   ;; Make evince and ocular known to the LaTeX module
