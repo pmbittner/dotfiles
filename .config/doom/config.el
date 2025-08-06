@@ -944,6 +944,7 @@ wouldn't change.")
                  "*doom"
                  "*Messages"
                  "*Ibuffer"
+                 "*magit-diff"
                  )))
 
   (map! :map (evil-normal-state-map evil-visual-state-map)
