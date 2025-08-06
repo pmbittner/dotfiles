@@ -977,7 +977,7 @@ wouldn't change.")
 ;;;; LaTeX
 
 ;; TODO: We do not have to always load latex?
-(require 'latex)
+;; (require 'latex)
 (setq-default TeX-master nil) ;; this will make auctex ask me which file is master whenever I open a tex file
 (after! latex
   ;; Make evince and ocular known to the LaTeX module
