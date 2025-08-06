@@ -166,6 +166,10 @@ pb-gnome-reload () {
 pb-nixos-rebuild-switch () {
   sudo nixos-rebuild -I nixos-config=$HOME/nix/configuration.nix switch
 }
+pb-nixos-update () {
+  sudo nix-channel --update
+  pb-nixos-rebuild-switch
+}
 pb-nixos-garbage-collection () {
   nix-store --gc
 }
