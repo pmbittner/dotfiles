@@ -118,6 +118,8 @@ in
       graphviz
       powertop
       libreoffice
+      cups
+
       # packages from unstable channel
       nixos-unstable.signal-desktop
       nixos-unstable.zoom-us
