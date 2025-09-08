@@ -162,6 +162,11 @@ pb-gnome-reload () {
   gsettings reset org.gnome.desktop.input-sources sources
 }
 
+### linux
+pb-get-kernel () {
+  uname -mrs
+}
+
 ### NixOS
 pb-nixos-rebuild-switch () {
   sudo nixos-rebuild -I nixos-config=$HOME/nix/configuration.nix switch
