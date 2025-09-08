@@ -126,6 +126,8 @@ in
 
       # programming languages
       jdk23
+      jdt-language-server
+      semgrep
       # nixd # nix language server
       maven
       (agda.withPackages [
@@ -183,6 +185,7 @@ in
     SHELL  = "zsh";
     EDITOR = "emacsclient -c -a 'emacs'";
     _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=lc"; # for better font rendering: https://nixos.wiki/wiki/Java
+    JDTLS_PATH = "${pkgs.jdt-language-server}/share/java";
   };
 
   environment.pathsToLink = [
