@@ -925,6 +925,15 @@ wouldn't change.")
                                     indent-tabs-mode nil)))
   )
 
+(use-package! lsp-java
+  :config
+  (setq lsp-java-jdt-ls-prefer-native-command t)
+  (setq lsp-java-server-install-dir (f-dirname (f-dirname (executable-find lsp-java-jdt-ls-command))))
+  ;; bugfix: Wait for https://github.com/emacs-lsp/lsp-java/pull/497 to be accepted.
+  (defadvice! lsp-java--locate-server-jar-nixos-fix ()
+    :override 'lsp-java--locate-server-jar
+    t))
+
 ;;;; Centaur tabs
 
 (after! centaur-tabs
