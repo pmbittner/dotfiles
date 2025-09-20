@@ -956,6 +956,19 @@ wouldn't change.")
                  "*magit-diff"
                  )))
 
+  (defun my/fix-centaur-tabs-get-tabsets-tabset (groups)
+    (when (eq centaur-tabs-cycle-scope 'groups)
+      (set groups (cl-remove-if
+                   (lambda (group-name)
+                     ;; group-name has type "Pair String GroupName". Example: (*Async-native-compile-log* . Emacs)
+                     (string-prefix-p "*" (buffer-name (car group-name)))
+                     )
+                   (symbol-value groups))))
+    groups
+    )
+
+  (advice-add 'centaur-tabs-get-tabsets-tabset :filter-return #'my/fix-centaur-tabs-get-tabsets-tabset)
+
   (map! :map (evil-normal-state-map evil-visual-state-map)
         "ö" #'centaur-tabs-backward
         "ä" #'centaur-tabs-forward
