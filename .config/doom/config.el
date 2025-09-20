@@ -950,18 +950,8 @@ wouldn't change.")
   ;; (setq x-underline-at-descent-line t)
   (add-hook 'dired-mode-hook 'centaur-tabs-local-mode)
   (setq centaur-tabs-excluded-prefixes
-        (append centaur-tabs-excluded-prefixes
-               '("*Async-native-compile-log"
-                 "*Agda information"
-                 "*agda2"
-                 "*Quail Completions"
-                 "*Native-compile-Log"
-                 "*scratch"
-                 "*Neotree"
+        (append centaur-tabs-excluded-prefixes '(
                  "*doom"
-                 "*Messages"
-                 "*Ibuffer"
-                 "*magit-diff"
                  )))
 
   (defun my/fix-centaur-tabs-get-tabsets-tabset (groups)
