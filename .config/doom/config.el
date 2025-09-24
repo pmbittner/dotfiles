@@ -455,7 +455,9 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
         ;; If an LSP server isn't present when I start a prog-mode buffer, you
         ;; don't need to tell me. I know. On some machines I don't care to have
         ;; a whole development environment for some ecosystems.
-        lsp-enable-suggest-server-download nil))
+        lsp-enable-suggest-server-download nil
+        lsp-modeline-diagnostics-enable nil ;; disables summary of issues next to a light bulb in the modeline
+        ))
 
 ;;;; Configure projectile
 
