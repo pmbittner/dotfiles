@@ -948,6 +948,7 @@ wouldn't change.")
 
 (after! lsp-java
   :config
+  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx4G" "-Xms100m"))
   (setq lsp-java-jdt-ls-prefer-native-command t)
   (setq lsp-java-server-install-dir (f-dirname (f-dirname (executable-find lsp-java-jdt-ls-command))))
   ;; bugfix: Wait for https://github.com/emacs-lsp/lsp-java/pull/497 to be accepted.
