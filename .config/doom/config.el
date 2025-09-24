@@ -460,11 +460,22 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 ;;;; Configure projectile
 
 (after! projectile
-  (setq projectile-indexing-method 'native
-        projectile-sort-order 'recently-active
-        projectile-enable-caching nil
-        projectile-files-cache-expire 1 ;; Another try
+  (setq projectile-enable-caching t)
+  ;; 'alien is the fastest but it does not respect any sorting.
+  ;; So we do not set any sorting.
+  (setq projectile-indexing-method 'alien
+        ;; Default value: "git ls-files -zco --exclude-standard"
+        ;; Set it to the following to ignore .gitignore entries (i.e., list _all_ files).
+        projectile-git-command "git ls-files -zco"
         )
+
+  ;; Sometimes, I want to see all files.
+  ;; Whereas the 'alien sort oder exludes all the files from .gitignore
+  ;; this will ignore only files ignored by .projectile (I think).
+  ;; It definitely ignores .gitignore. ;)
+  ;; (setq projectile-indexing-method 'native
+  ;;       projectile-sort-order 'recently-active
+  ;;       )
   )
 
 ;;;; Various (Global) Keybindings
