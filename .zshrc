@@ -209,6 +209,10 @@ export DOOMDIR=~/.config/doom
 export PATH=$EMACSDIR/bin:$PATH
 source ~/.emacsrc
 
+pb-fix-doom-config () {
+  vim $DOOMDIR/config.el
+}
+
 # run this when aspell highlights every word as incorrect in Emacs
 pb-spell-fu-delete-cache () {
   rm -rf $EMACSDIR/.local/etc/spell-fu/*
