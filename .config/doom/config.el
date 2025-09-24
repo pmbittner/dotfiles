@@ -954,7 +954,16 @@ wouldn't change.")
   ;; bugfix: Wait for https://github.com/emacs-lsp/lsp-java/pull/497 to be accepted.
   (defadvice! lsp-java--locate-server-jar-nixos-fix ()
     :override 'lsp-java--locate-server-jar
-    t))
+    t)
+
+  (map! :map java-mode-map :localleader
+     (:desc "LSP code action" "a" #'lsp-execute-code-action)
+     )
+  ;; ;; IntelliJ like binding
+  ;; (map! :map java-mode-map
+  ;;    (:desc "LSP code action" "C-RET" #'lsp-execute-code-action)
+  ;;    )
+  )
 
 ;;;; Centaur tabs
 
