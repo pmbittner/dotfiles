@@ -946,7 +946,7 @@ wouldn't change.")
                                     indent-tabs-mode nil)))
   )
 
-(use-package! lsp-java
+(after! lsp-java
   :config
   (setq lsp-java-jdt-ls-prefer-native-command t)
   (setq lsp-java-server-install-dir (f-dirname (f-dirname (executable-find lsp-java-jdt-ls-command))))
