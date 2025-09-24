@@ -300,6 +300,11 @@ Fcd() {
 alias fdir="fcd"
 alias Fdir="Fcd"
 
+# find a text in all files at current directory
+ft () {
+  rg -r . -e "$@"
+}
+
 ev() {
   evince "$@" &
   disown
