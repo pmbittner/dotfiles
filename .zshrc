@@ -462,6 +462,10 @@ pb-show-usb-devices () {
   nix-shell -p usbutils --run "lsusb"
 }
 
+pb-jdtls-delete-cache () {
+  rm -rf /tmp/jdtls*
+}
+
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
 
