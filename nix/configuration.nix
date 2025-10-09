@@ -127,7 +127,7 @@ in
       # programming languages
       jdk23
       jdt-language-server
-      semgrep
+      # semgrep
       # nixd # nix language server
       maven
       (agda.withPackages [
