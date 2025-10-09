@@ -120,6 +120,8 @@ in
       libreoffice
       inkscape
       ccrypt
+      sqlite # for org-roam
+
       # packages from unstable channel
       nixos-unstable.signal-desktop
       nixos-unstable.zoom-us
