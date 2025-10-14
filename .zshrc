@@ -352,30 +352,30 @@ alias colorkiste=colourkiste
 alias ck=colorkiste
 
 ## other utilities
-shrink-all-pngs () {
+pb-shrink-all-pngs () {
   mkdir -f small
   find -maxdepth 1 -name "*.png" -exec convert {} -resize 2048x2048 small/{} \;
 }
-shrink-all-jpgs () {
+pb-shrink-all-jpgs () {
   mkdir -f small
   find -maxdepth 1 -name "*.jpg" -o -name "*.jpeg" -exec convert {} -resize 2048x2048 small/{} \;
 }
 
-convert-pngs-to-jpgs () {
+pb-convert-pngs-to-jpgs () {
   find -maxdepth 1 -name "*.png" -exec convert {} {}.jpg \;
 }
 
-compose-to-pdf () {
+pb-compose-to-pdf () {
   convert "*.$@" -auto-orient composed.pdf
 }
-compose-pngs-to-pdf () {
+pb-compose-pngs-to-pdf () {
   compose-to-pdf png
 }
-compose-jpgs-to-pdf () {
+pb-compose-jpgs-to-pdf () {
   compose-to-pdf jpg
 }
 
-scans-to-pdf () {
+pb-scans-to-pdf () {
   shrink-all-pngs
   cd small
   convert-pngs-to-jpgs
@@ -388,7 +388,7 @@ scans-to-pdf () {
 # 1. Argument: name of the qr code file (without file ending)
 # 2. Argument: url for the QR code
 # 3. Argument (optional): latex options for the fancyqr package (e.g., image=\huge\faGithub).
-generate-qr-code () {
+pb-generate-qr-code () {
   ORIGINAL_DIR="$(pwd)"
 
   if [ -n "$3" ]; then
@@ -442,7 +442,7 @@ generate-qr-code () {
   rm -r ${QR_DIR}
 }
 
-compress-pdf () {
+pb-compress-pdf () {
   OUTPUT_FILE="$1-compressed.pdf"
   gs \
     -sDEVICE=pdfwrite \
