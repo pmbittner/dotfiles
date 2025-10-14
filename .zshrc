@@ -353,12 +353,12 @@ alias ck=colorkiste
 
 ## other utilities
 pb-shrink-all-pngs () {
-  mkdir -f small
+  mkdir small
   find -maxdepth 1 -name "*.png" -exec convert {} -resize 2048x2048 small/{} \;
 }
 pb-shrink-all-jpgs () {
-  mkdir -f small
-  find -maxdepth 1 -name "*.jpg" -o -name "*.jpeg" -exec convert {} -resize 2048x2048 small/{} \;
+  mkdir small
+  find -maxdepth 1 -regextype sed -regex ".*.jpe\?g" -exec convert {} -resize 2048x2048 small/{} \;
 }
 
 pb-convert-pngs-to-jpgs () {
