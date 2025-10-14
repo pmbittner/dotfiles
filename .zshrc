@@ -365,6 +365,10 @@ pb-convert-pngs-to-jpgs () {
   find -maxdepth 1 -name "*.png" -exec convert {} {}.jpg \;
 }
 
+## argument is a file ending like "png" or "jpg"
+## Then, all such files in the current directory will be composed into a single big pdf.
+## Each image file take exactly one pdf page.
+## Images are ordered alphabetically.
 pb-compose-to-pdf () {
   convert "*.$@" -auto-orient composed.pdf
 }
