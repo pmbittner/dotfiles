@@ -170,6 +170,7 @@ pb-get-kernel () {
 ### NixOS
 pb-nixos-rebuild-switch () {
   sudo nixos-rebuild -I nixos-config=$HOME/nix/configuration.nix switch
+  # sudo powertop --auto-tune # to prevent the monitors that are connected to my docking station to turn of from time to time
 }
 pb-nixos-update () {
   sudo nix-channel --update
@@ -474,6 +475,10 @@ pb-show-usb-devices () {
 # argument is a suffix that should be appended to all file names
 pb-append-to-all-file-names () {
   find . -type f ! -name "*$@" -exec sh -c "mv '{}' '{}$@'" \;
+}
+
+debug-disconnect () {
+  journalctl -k --since "5 minutes ago"
 }
 
 pb-jdtls-delete-cache () {
