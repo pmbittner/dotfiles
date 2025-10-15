@@ -471,6 +471,11 @@ pb-show-usb-devices () {
   nix-shell -p usbutils --run "lsusb"
 }
 
+# argument is a suffix that should be appended to all file names
+pb-append-to-all-file-names () {
+  find . -type f ! -name "*$@" -exec sh -c "mv '{}' '{}$@'" \;
+}
+
 pb-jdtls-delete-cache () {
   rm -rf /tmp/jdtls*
 }
