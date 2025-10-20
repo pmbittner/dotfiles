@@ -939,11 +939,13 @@ wouldn't change.")
         "l" #'markdown-preview)) ;; also bind preview to "<localleader> l" just because I am so used to that key.
 
 ;;;; Java
-(after! java
-  (add-hook 'java-mode-hook (lambda ()
-                              (setq c-basic-offset 2
-                                    tab-width 2
-                                    indent-tabs-mode nil)))
+(add-hook! 'java-mode-hook
+  (setq c-basic-offset 4)
+  (c-set-offset 'arglist-cont-nonempty '+)
+  (c-set-offset 'arglist-intro '+)
+  (c-set-offset 'arglist-close '0)
+  (c-set-offset 'statement-cont '+)
+  (c-set-offset 'case-label '+)
   )
 
 (after! lsp-java
