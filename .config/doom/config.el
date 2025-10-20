@@ -457,7 +457,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
         ;; a whole development environment for some ecosystems.
         lsp-enable-suggest-server-download nil
         lsp-modeline-diagnostics-enable nil ;; disables summary of issues next to a light bulb in the modeline
-        ))
+        lsp-response-timeout 1))
 
 ;;;; Configure projectile
 
