@@ -136,6 +136,7 @@ in
         agdaPackages.standard-library
       ])
       python39
+      python3Packages.bibtexparser
 
       # pygmentize for LaTeX minted
       python312Packages.pygments
