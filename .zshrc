@@ -185,6 +185,11 @@ pb-nixos-delete-outdated-generations () {
   # Deletes any generation older than five days
   sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 5d
 }
+pb-nixos-version () {
+  for chan in nixos nixpkgs; do
+    printf "%s: %s\n" $chan $(nix-instantiate --eval --expr "(import <$chan> {}).lib.version" 2>/dev/null);
+  done
+}
 pb-nix-shell-run () {
   nix-shell -p "$@" --run "$@"
 }
