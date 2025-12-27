@@ -995,19 +995,61 @@ wouldn't change.")
   (setq centaur-tabs-set-bar nil)
   ;; (setq x-underline-at-descent-line t)
   (add-hook 'dired-mode-hook 'centaur-tabs-local-mode)
-  (setq centaur-tabs-excluded-prefixes
-        (append centaur-tabs-excluded-prefixes '(
-                 "*doom"
-                 )))
+  ;; (setq centaur-tabs-excluded-prefixes
+  ;;       (append centaur-tabs-excluded-prefixes '(
+  ;;                "*doom"
+  ;;                "*org-roam"
+  ;;                )))
+
+  ;; overwriting this functions is recommended by the centaur-tabs readme.
+  ;; It is just a copy of the function as implemented in the package, extended by a few new
+  ;; string-prefix-p filters. This is such a bad customization design, omg.
+  (defun centaur-tabs-hide-tab (x)
+    "Customized version of ~centaur-tabs-hide-tab~.
+     This functions returns true if the buffer X should not be a tab."
+    (let ((name (format "%s" x)))
+      (or
+       ;; Current window is not dedicated window.
+       (window-dedicated-p (selected-window))
+  
+       ;; Buffer name not match below blacklist.
+       (string-prefix-p "*epc" name)
+       (string-prefix-p "*helm" name)
+       (string-prefix-p "*Helm" name)
+       (string-prefix-p "*Compile-Log*" name)
+       (string-prefix-p "*lsp" name)
+       (string-prefix-p "*company" name)
+       (string-prefix-p "*Flycheck" name)
+       (string-prefix-p "*tramp" name)
+       (string-prefix-p " *Mini" name)
+       (string-prefix-p "*help" name)
+       (string-prefix-p "*straight" name)
+       (string-prefix-p " *temp" name)
+       (string-prefix-p "*Help" name)
+       (string-prefix-p "*mybuf" name)
+  
+       ;; custom additions
+       (string-prefix-p "*doom" name)
+       (string-prefix-p "*org-roam" name)
+       (string-prefix-p "*Messages" name)
+       (string-prefix-p "*Native-compile-log" name)
+       (string-prefix-p "*scratch" name)
+  
+       ;; Is not magit buffer.
+       (and (string-prefix-p "magit" name)
+            (not (file-name-extension name)))
+       )))
 
   (defun my/fix-centaur-tabs-get-tabsets-tabset (groups)
-    (when (eq centaur-tabs-cycle-scope 'groups)
+    ;; (when (eq centaur-tabs-cycle-scope 'groups)
       (set groups (cl-remove-if
-                   (lambda (group-name)
-                     ;; group-name has type "Pair Buffer GroupName". Example: (*Async-native-compile-log* . Emacs)
-                     (string-prefix-p "*" (buffer-name (car group-name)))
+                   (lambda (group)
+                     ;; group has type "Pair Buffer GroupName". Example: (*Async-native-compile-log* . Emacs)
+                     (string-prefix-p "*" (buffer-name (car group)))
                      )
-                   (symbol-value groups))))
+                   (symbol-value groups)))
+      ;; )
+    ;; (message "%s" (symbol-value groups))
     groups
     )
 
