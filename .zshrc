@@ -485,6 +485,10 @@ pb-jdtls-delete-cache () {
   rm -rf /tmp/jdtls*
 }
 
+pb-md-to-org () {
+  pandoc "$@.md" -o "$@.org"
+}
+
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
 
