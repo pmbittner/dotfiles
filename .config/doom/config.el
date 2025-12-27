@@ -1004,7 +1004,7 @@ wouldn't change.")
     (when (eq centaur-tabs-cycle-scope 'groups)
       (set groups (cl-remove-if
                    (lambda (group-name)
-                     ;; group-name has type "Pair String GroupName". Example: (*Async-native-compile-log* . Emacs)
+                     ;; group-name has type "Pair Buffer GroupName". Example: (*Async-native-compile-log* . Emacs)
                      (string-prefix-p "*" (buffer-name (car group-name)))
                      )
                    (symbol-value groups))))
