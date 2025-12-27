@@ -647,6 +647,8 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
       (:desc "Make" "m" #'+make/run)
       )
 
+(map! :map doom-leader-insert-map "n" #'org-roam-node-insert)
+
 ;;;; Doom main directory
 
 (defun pb/doom-set-current-directory (dir)
