@@ -799,6 +799,27 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
     ("por"   . ("∨"))
     ("pimplies"   . ("⇒"))
     ("pequiv"   . ("⇔"))
+
+    ;; ("king" . ("♚" "♔"))
+    ;; ("queen" . ("♛" "♕"))
+    ;; ("rook" . ("♜" "♖"))
+    ;; ("bishop" . ("♝" "♗"))
+    ;; ("knight" . ("♞" "♘"))
+    ;; ("pawn" . ("♟" "♙"))
+
+    ;; ("kingb" . ("♚"))
+    ;; ("queenb" . ("♛"))
+    ;; ("rookb" . ("♜"))
+    ;; ("bishopb" . ("♝"))
+    ;; ("knightb" . ("♞"))
+    ;; ("pawnb" . ("♟"))
+
+    ;; ("kingw" . ("♔"))
+    ;; ("queenw" . ("♕"))
+    ;; ("rookw" . ("♖"))
+    ;; ("bishopw" . ("♗"))
+    ;; ("knightw" . ("♘"))
+    ;; ("pawnw" . ("♙"))
   ))
 )
 
