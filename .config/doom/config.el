@@ -647,7 +647,12 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
       (:desc "Make" "m" #'+make/run)
       )
 
-(map! :map doom-leader-insert-map "n" #'org-roam-node-insert)
+;;;; Org Roam
+
+(map! :map doom-leader-notes-map "f" #'org-roam-node-find) ;; "f" for "find"
+(map! :map doom-leader-notes-map "i" #'org-roam-node-insert) ;; "i" for "insert"
+(map! :map doom-leader-notes-map "n" #'org-roam-capture) ;; "n" for "note / new / new note"
+(map! :map doom-leader-insert-map "n" #'org-roam-node-insert) ;; "SPC i n" for "Insert Note"
 
 ;;;; Doom main directory
 
