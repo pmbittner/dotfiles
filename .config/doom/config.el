@@ -49,12 +49,12 @@
 ;; `load-theme' function.
 (setq doom-theme
   ;;;; Favorites
-  ;; 'doom-snazzy
+  ;; 'doom-one
+  'doom-one-light
+  ;; 'doom-bluloco-dark
   ;; 'catppuccin
   ;; 'everforest-soft-dark
   ;; 'everforest-hard-light
-  ;; 'leuven
-  'doom-one-light
   ;; 'doom-vibrant
   ;; 'doom-nova
   ;; 'kaolin-temple
