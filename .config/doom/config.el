@@ -658,11 +658,14 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
       (org-roam-node-visit node)
       (user-error "There is no org roam node called \"Home\"!"))))
 
-(map! :map doom-leader-notes-map "f" #'org-roam-node-find) ;; "f" for "find"
-(map! :map doom-leader-notes-map "i" #'org-roam-node-insert) ;; "i" for "insert"
-(map! :map doom-leader-notes-map "n" #'org-roam-capture) ;; "n" for "note / new / new note"
-(map! :map doom-leader-notes-map "p" #'org-id-get-create) ;; "p" for "promote heading to node"
-(map! :map doom-leader-notes-map "h" 'pb/org-roam-open-home-page) ;; "h" for "home"
+(map! :leader
+      :prefix "n"
+      (:desc "Find note" "f" #'org-roam-node-find) ;; "f" for "find"
+      (:desc "Insert link to a note here" "i" #'org-roam-node-insert) ;; "i" for "insert"
+      (:desc "New note" "n" #'org-roam-capture) ;; "n" for "note / new / new note"
+      (:desc "Promote heading to node" "p" #'org-id-get-create) ;; "p" for "promote heading to node"
+      (:desc "Open home page" "h" 'pb/org-roam-open-home-page) ;; "h" for "home"
+      )
 (map! :map doom-leader-insert-map "n" #'org-roam-node-insert) ;; "SPC i n" for "Insert Note"
 
 ;;;; Doom main directory
