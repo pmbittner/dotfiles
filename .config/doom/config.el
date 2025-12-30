@@ -652,6 +652,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 (defun pb/org-roam-open-home-page ()
   "Open my org-roam home page."
   (interactive)
+  (use-package! org-roam)
   (let ((node (org-roam-node-from-title-or-alias "Home")))
     (if node
       (org-roam-node-visit node)
