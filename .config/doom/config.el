@@ -1063,14 +1063,14 @@ wouldn't change.")
        )))
 
   (defun my/fix-centaur-tabs-get-tabsets-tabset (groups)
-    ;; (when (eq centaur-tabs-cycle-scope 'groups)
+    (when (eq centaur-tabs-cycle-scope 'groups)
       (set groups (cl-remove-if
                    (lambda (group)
                      ;; group has type "Pair Buffer GroupName". Example: (*Async-native-compile-log* . Emacs)
                      (string-prefix-p "*" (buffer-name (car group)))
                      )
                    (symbol-value groups)))
-      ;; )
+      )
     ;; (message "%s" (symbol-value groups))
     groups
     )
