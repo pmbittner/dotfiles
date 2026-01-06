@@ -728,16 +728,27 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 (map! :leader "fp" #'find-file-in-private-config)
 
 ;;;; opening external programs
-;; We use "setsid" for opening external programs such that
-;; the new processes are not spawned as child processes of emacs.
-;; This makes the processes stay alive when we exit emacs / the emacs client.
-;; Otherwise, when we would close emacs / the emacs client, we would also
-;; kill all child processes, and hence any terminals or explorers we spawned.
+
+(defun pb/start-process (name &rest args)
+  "Start the process called NAME with the given arguments ARGS.
+   On Linux, we use 'setsid' for opening external programs such that
+   the new processes are not spawned as child processes of emacs.
+   This makes the processes stay alive when we exit emacs / the emacs client.
+   Otherwise, when we would close emacs / the emacs client, we would also
+   kill all child processes, and hence any terminals or explorers we spawned.
+   On Mac, setsid is not available."
+  (let ((procspec (cons name args)))
+    (unless (eq system-type 'darwin)
+      (setq procspec (cons "setsid" procspec))
+      )
+    (message (mapconcat 'identity procspec " "))
+    (apply #'start-process (cons name (cons nil procspec)))
+    )
+  )
 
 (defun open-terminal (args)
   "Open a terminal with the given arguments"
-  (message (concat "setsid " "kitty --session launch-zsh.kitty " args))
-  (start-process "terminal-from-emacs" nil "setsid" "kitty" "--session" "launch-zsh.kitty" args)
+  (pb/start-process "kitty" "--session" "launch-zsh.kitty" args)
   )
 
 (defun open-terminal-here ()
@@ -749,14 +760,12 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 (defun open-dolphin-here ()
   "Open a terminal at the current directory"
   (interactive)
-  (message "setsid nautilus .")
-  (start-process "dolphin-from-emacs" nil "setsid" "nautilus" ".")
-  )
+  (let ((explorername (if (eq system-type 'darwin) "open" "nautilus")))
+    (pb/start-process explorername ".")))
 
 (defun open-ranger-at (dir-string)
-  "Open the file explorer with the given arguments"
-  (message (concat "setsid " "kitty --hold --session launch-ranger.kitty " dir-string))
-  (start-process "explorer-from-emacs" nil "setsid" "kitty" "--hold" "--session" "launch-ranger.kitty" dir-string)
+  "Open ranger with the given arguments"
+  (pb/start-process "kitty" "--hold" "--session" "launch-ranger.kitty" dir-string)
 )
 
 (defun open-ranger-here ()
