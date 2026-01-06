@@ -234,7 +234,11 @@ pb-spell-fu-delete-cache () {
 }
 
 ## aliases
-alias ls="ls --color=auto --group-directories-first"
+if $macos
+then
+else
+  alias ls="ls --color=auto --group-directories-first"
+fi
 
 alias sw="git switch"
 alias br="git branch"
