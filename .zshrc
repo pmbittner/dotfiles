@@ -222,7 +222,13 @@ chrome () {
 export EMACSDIR=~/.config/emacs
 export DOOMDIR=~/.config/doom
 export PATH=$EMACSDIR/bin:$PATH
-source ~/.emacsrc
+
+if $macos
+then
+  alias es="doom sync"
+else
+  source ~/.emacsrc
+fi
 
 pb-fix-doom-config () {
   vim $DOOMDIR/config.el
