@@ -1,3 +1,10 @@
+## OS information
+if [[ $(uname) == "Darwin" ]]; then
+  macos=true
+else
+  macos=false
+fi
+
 ## fancy colors to greet me (gitlab.com/dwt1/shell.color-scripts)
 #colorscript exec pinguco #space-invaders six random
 #colorscript random
