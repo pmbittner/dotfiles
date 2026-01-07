@@ -649,6 +649,15 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 
 ;;;; Org Roam
 
+;; do not ignore subdirectories that are ignored by .gitignore
+;; https://org-roam.discourse.group/t/subdirectories-in-gitignore-are-not-picked-up-by-roam-db-sync/2628
+(defun my/add-fd-ignored-files-flag (&rest rest)
+  (pcase (cl-first rest)
+    (`(,exec ,path)
+   (list (string-join (list exec "-I") " ") path)))
+  )
+(advice-add 'org-roam--list-files-fd :filter-args #'my/add-fd-ignored-files-flag)
+
 (defun pb/org-roam-open-home-page ()
   "Open my org-roam home page."
   (interactive)
