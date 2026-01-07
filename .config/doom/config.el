@@ -1329,6 +1329,13 @@ wouldn't change.")
     (load! "dynamic-args")
   ))
 
+(use-package! ultra-scroll
+  :config
+  (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
+        scroll-margin 0)        ; important: scroll-margin>0 not yet supported
+  )
+(ultra-scroll-mode 1)
+
 ;; Evaluate immediately for server/standalone emacs.
 (my/on-startup)
 ;; Register a hook for future clients.
