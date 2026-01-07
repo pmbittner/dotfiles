@@ -100,7 +100,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # plugins=( git sudo zsh-256color zsh-autosuggestions zsh-syntax-highlighting )
-plugins=(git sudo direnv extract fancy-ctrl-z nix-shell fzf zsh-fs-navigation zsh-syntax-highlighting)
+plugins=(git sudo extract fancy-ctrl-z nix-shell fzf zsh-fs-navigation zsh-syntax-highlighting)
 # ctrl-f: open current command in editor
 # ctrl-z: fancy-ctrl-z
 # ctrl-r: fzf
