@@ -121,16 +121,26 @@
 (setq org-roam-directory (concat org-directory "Roam/"))
 
 (setq pb/org-agenda-directory (concat org-directory "Agenda/"))
-(setq pb/main-agenda-file (concat pb/org-agenda-directory "Agenda.org"))
+(setq pb/private-org-agenda-directory (concat pb/org-agenda-directory "Private/"))
+(setq pb/work-org-agenda-directory    (concat pb/org-agenda-directory "Work/"))
+(setq pb/main-agenda-file (concat pb/private-org-agenda-directory "Agenda.org"))
+(setq pb/work-agenda-file (concat pb/work-org-agenda-directory    "Agenda.org"))
+
 (setq org-agenda-files (list pb/org-agenda-directory))
-(setq org-icalendar-combined-agenda-file (concat pb/org-agenda-directory "org-agenda-export.ics"))
-(setq org-default-todo-file (concat pb/org-agenda-directory "Capture.org"))
+(setq org-icalendar-combined-agenda-file (concat pb/private-org-agenda-directory "org-agenda-export.ics"))
+;; (setq org-default-todo-file (concat pb/private-org-agenda-directory "Capture.org"))
 
 (defun pb/open-main-agenda-file ()
   (interactive)
   (find-file pb/main-agenda-file))
 
-(map! :leader (:desc "Agenda" "a" #'pb/open-main-agenda-file))
+(defun pb/open-work-agenda-file ()
+  (interactive)
+  (find-file pb/work-agenda-file))
+
+(map! :leader (:desc "Agenda (Private)" "a" #'pb/open-main-agenda-file))
+(map! :leader (:desc "Agenda (Work)"    "A" #'pb/open-work-agenda-file))
+
 (after! org
   ;; TODO types
   (setq org-todo-keywords
@@ -171,7 +181,7 @@
 ;;   org-caldav-url
 ;;   org-caldav-calendar-id
 (load! "secrets/org-caldav-connection.el")
-(setq org-caldav-inbox (concat pb/org-agenda-directory "Inbox.org") ;; Org filename where new entries from calendar stored
+(setq org-caldav-inbox (concat pb/private-org-agenda-directory "Inbox.org") ;; Org filename where new entries from calendar stored
       org-icalendar-include-todo 'all
       org-caldav-sync-todo t)
 ;; This ensures all org "deadlines" show up, and show up as due dates
@@ -197,7 +207,7 @@
 for calendar synchronization.
 The result value is meant to be used to set org-caldav-files to."
   ;; gather all files in my org directory, then remove ignored files
-   (let ((org-files-for-caldav-sync (directory-files-recursively pb/org-agenda-directory ".*\\.org" t t)))
+   (let ((org-files-for-caldav-sync (directory-files-recursively pb/private-org-agenda-directory ".*\\.org" t t)))
      (delete org-default-todo-file org-files-for-caldav-sync) ;; remove captured todos from sync
      org-files-for-caldav-sync))
 
@@ -210,7 +220,7 @@ entries again, but just push the most recent changes.
 The result value is meant to be used to set org-caldav-files to."
   (list
     pb/main-agenda-file
-    (concat pb/org-agenda-directory "Events.org")
+    (concat pb/private-org-agenda-directory "Events.org")
     ))
 
 ;;;###autoload
