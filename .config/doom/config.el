@@ -688,6 +688,24 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   (interactive)
   (pb/org-roam-open-page "Work Home"))
 
+(after! org-roam
+  (setq org-roam-capture-templates
+        '(
+          ("d" "default" plain "%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t
+           )
+          ("w" "work" plain "%?"
+           :target (file+head "work/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t
+           )
+          ("p" "private" plain "%?"
+           :target (file+head "private/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t
+           )
+         ))
+  )
+
 (map! :leader
       :prefix "n"
       (:desc "Find note" "f" #'org-roam-node-find) ;; "f" for "find"
