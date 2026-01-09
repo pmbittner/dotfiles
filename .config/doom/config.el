@@ -744,7 +744,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
     (setq fancy-splash-image splash-screen)))
 
 ;; hide key recommendations
-;; TODO: Customize what is shown.
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
 ;;;; Open with
 ;; open pdfs with evince
