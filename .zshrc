@@ -1,6 +1,9 @@
 ## OS information
 if [[ $(uname) == "Darwin" ]]; then
   macos=true
+
+  # include python modules
+  export PATH=$HOME/.local/bin:$PATH
 else
   macos=false
 fi
@@ -514,9 +517,6 @@ pb-md-to-org () {
 
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
-
-### include python modules
-export PATH=$HOME/.local/bin:$PATH
 
 ## high dpi wsl settings
 # export GDK_SCALE=0.5
