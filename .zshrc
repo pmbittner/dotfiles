@@ -229,9 +229,14 @@ export EMACSDIR=~/.config/emacs
 export DOOMDIR=~/.config/doom
 export PATH=$EMACSDIR/bin:$PATH
 
+macos-es () {
+  pkill emacs
+  doom sync --aot
+  doom env
+}
 if $macos
 then
-  alias es="doom sync"
+  alias es="macos-es"
 else
   source ~/.emacsrc
 fi
