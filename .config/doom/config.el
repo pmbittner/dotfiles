@@ -669,14 +669,24 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   )
 (advice-add 'org-roam--list-files-fd :filter-args #'my/add-fd-ignored-files-flag)
 
-(defun pb/org-roam-open-home-page ()
+(defun pb/org-roam-open-page (str-pagename)
   "Open my org-roam home page."
   (interactive)
   (use-package! org-roam)
-  (let ((node (org-roam-node-from-title-or-alias "Home")))
+  (let ((node (org-roam-node-from-title-or-alias str-pagename)))
     (if node
       (org-roam-node-visit node)
-      (user-error "There is no org roam node called \"Home\"!"))))
+      (user-error "There is no org roam node called \"%s\"!" str-pagename))))
+
+(defun pb/org-roam-open-home-page ()
+  "Open my org-roam home page."
+  (interactive)
+  (pb/org-roam-open-page "Home"))
+
+(defun pb/org-roam-open-work-page ()
+  "Open my org-roam home page for work."
+  (interactive)
+  (pb/org-roam-open-page "Work Home"))
 
 (map! :leader
       :prefix "n"
@@ -685,6 +695,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
       (:desc "New note" "n" #'org-roam-capture) ;; "n" for "note / new / new note"
       (:desc "Promote heading to node" "p" #'org-id-get-create) ;; "p" for "promote heading to node"
       (:desc "Open home page" "h" 'pb/org-roam-open-home-page) ;; "h" for "home"
+      (:desc "Open work home page" "w" 'pb/org-roam-open-work-page) ;; "w" for "work"
       )
 (map! :map doom-leader-insert-map "n" #'org-roam-node-insert) ;; "SPC i n" for "Insert Note"
 
