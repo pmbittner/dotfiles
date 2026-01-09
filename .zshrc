@@ -11,13 +11,7 @@ fi
 ## fancy colors to greet me (gitlab.com/dwt1/shell.color-scripts)
 #colorscript exec pinguco #space-invaders six random
 #colorscript random
-pkmn () {
-  if $macos
-  then else
-    pokemon-colorscripts "$@"
-  fi
-}
-
+alias pkmn="pokemon-colorscripts"
 pkmn --no-title --random 1-4
 
 ########## DEFAULT ZSH STUFF BELOW ###############################
