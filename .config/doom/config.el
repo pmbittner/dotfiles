@@ -1399,6 +1399,13 @@ wouldn't change.")
   (setq lsp-disabled-clients
         '(pyls pylsp semgrep-ls ty-ls jdtls)))
 
+(after! python
+  (dolist (map (list 'python-mode-map 'python-ts-mode-map))
+    (map! :map ,map
+          :localleader
+          "f" #'lsp-format-buffer
+          )))
+
 ;;;; Dynamic Args
 
 ;; Evaluate immediately for server/standalone emacs.
