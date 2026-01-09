@@ -1345,6 +1345,22 @@ wouldn't change.")
   )
 (ultra-scroll-mode 1)
 
+;;;; python
+
+(use-package! lsp-pyright
+  :after lsp-mode
+  :hook (python-mode . lsp))
+
+(use-package! lsp-ruff
+  :after lsp-mode
+  :hook (python-mode . lsp))
+
+(after! lsp-mode
+  (setq lsp-disabled-clients
+        '(pyls pylsp semgrep-ls ty-ls jdtls)))
+
+;;;; Dynamic Args
+
 ;; Evaluate immediately for server/standalone emacs.
 (my/on-startup)
 ;; Register a hook for future clients.

@@ -59,6 +59,7 @@
   (:host github :repo "pmbittner/everforest-emacs" :branch "pb"))
 
 (package! kaolin-themes)
+(package! lsp-pyright)
 
 ;; Use `:pin' to specify a particular commit to install.
 ;(package! builtin-package :pin "1a2b3c4d5e")
