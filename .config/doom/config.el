@@ -118,7 +118,8 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Notes/")
-(setq org-roam-directory "~/Documents/Notes/Roam")
+(setq org-roam-directory (concat org-directory "Roam/"))
+
 (setq pb/org-agenda-directory (concat org-directory "Agenda/"))
 (setq pb/main-agenda-file (concat pb/org-agenda-directory "Agenda.org"))
 (setq org-agenda-files (list pb/org-agenda-directory))
