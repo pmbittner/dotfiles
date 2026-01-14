@@ -514,6 +514,17 @@ pb-md-to-org () {
   pandoc "$@.md" -o "$@.org"
 }
 
+#### Python
+venv-activate () {
+  source "$@/bin/activate"
+}
+venv-deactivate () {
+  deactivate
+}
+alias v=venv-activate
+alias vd=venv-deactivate
+
+
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
 
