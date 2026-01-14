@@ -1258,8 +1258,10 @@ wouldn't change.")
       (neotree-hide)
       (+neotree/find-this-file)))
 
-;; Shortcut to toggle neotree view just with ü
+;; Shortcut to toggle neotree view just with ü or SPC-e (as in NeoVim)
 (map! :map 'evil-normal-state-map "ü" #'+neotree/toggle-find-this-file)
+(map! :leader :desc "Open Neotree" "e" #'+neotree/toggle-find-this-file)
+
 (after! neotree
   ;; Make h and l not move the cursor in neotree but instead close or open directories.
   ;; The usual keybinds commented out below won't work well.
@@ -1271,9 +1273,7 @@ wouldn't change.")
     "h" '+neotree/collapse-or-up
     "l" '+neotree/expand-or-open)
 
-  (map! :leader
-    (:desc "Focus Neotree" "0" #'neotree)
-  )
+  (map! :leader :desc "Focus Neotree" "0" #'neotree)
 
   ;; hide some files in neotree
   (setq neo-hidden-regexp-list
