@@ -1390,7 +1390,10 @@ wouldn't change.")
     (map! :map ,map
           :localleader
           "f" #'lsp-format-buffer
-          )))
+          "a" #'pyvenv-activate
+          "d" #'pyvenv-deactivate
+          ))
+  )
 
 ;;;; Dynamic Args
 
