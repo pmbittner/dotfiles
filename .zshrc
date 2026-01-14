@@ -534,5 +534,12 @@ alias vd=venv-deactivate
 
 ### TODO add jetbrains font to dotfiles repo?
 
-if [ -e /home/bittner/.nix-profile/etc/profile.d/nix.sh ]; then . /home/bittner/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-[ -f "/home/paul/.ghcup/env" ] && . "/home/paul/.ghcup/env" # ghcup-env
+PBUSERNAME="$(whoami)"
+if [ -e /home/${PBUSERNAME}/.nix-profile/etc/profile.d/nix.sh ]; then . /home/${PBUSERNAME}/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if $macos
+  if [ -d "${HOME}/.ghcup" ]; then
+    PATH=$HOME/.ghcup/bin:$PATH
+  fi
+then
+  [ -f "/home/${PBUSERNAME}/.ghcup/env" ] && . "/home/${PBUSERNAME}/.ghcup/env" # ghcup-env
+fi
