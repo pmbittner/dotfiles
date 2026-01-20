@@ -296,11 +296,6 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   (pb/set-org-caldav-files-to (pb/org-caldav-files-full))
   )
 
-;; (defun sync-org-agenda-to-calendar-at-close ()
-;;   (sync-org-agenda-to-calendar)
-;;   (save-some-buffers))
-;; (add-hook 'kill-emacs-hook 'sync-org-agenda-to-calendar-at-close)
-
 ;; Yas
 ;; Chat-GPT can help here.
 ;; (after! yasnippet
