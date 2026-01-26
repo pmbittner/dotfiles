@@ -989,13 +989,13 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 
 (map! :leader
       :prefix "n" ;; "n" for "notes"
-      (:desc "Find note" "f" #'org-roam-node-find) ;; "f" for "find"
+      (:desc "Find note"                  "f" #'org-roam-node-find) ;; "f" for "find"
       (:desc "Insert link to a note here" "i" #'org-roam-node-insert) ;; "i" for "insert"
-      (:desc "New note" "n" #'org-roam-capture) ;; "n" for "note / new / new note"
-      (:desc "Create alias" "a" #'org-roam-alias-add) ;; "a" for "alias"
-      (:desc "Promote heading to node" "p" #'org-id-get-create) ;; "p" for "promote heading to node"
-      (:desc "Open home page" "h" 'pb/org-roam-open-home-page) ;; "h" for "home"
-      (:desc "Open work home page" "w" 'pb/org-roam-open-work-page) ;; "w" for "work"
+      (:desc "New note"                   "n" #'org-roam-capture) ;; "n" for "note / new / new note"
+      (:desc "Create alias"               "a" #'org-roam-alias-add) ;; "a" for "alias"
+      (:desc "Promote heading to node"    "p" #'org-id-get-create) ;; "p" for "promote heading to node"
+      (:desc "Open home page"             "h" #'pb/org-roam-open-home-page) ;; "h" for "home"
+      (:desc "Open work home page"        "w" #'pb/org-roam-open-work-page) ;; "w" for "work"
       )
 (map! :map doom-leader-insert-map "n" #'org-roam-node-insert) ;; "SPC i n" for "Insert Note"
 
