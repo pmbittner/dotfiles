@@ -432,7 +432,7 @@
 
 (use-package! scroll-on-jump
   :config
-  (setq scroll-on-jump-duration 0.2
+  (setq scroll-on-jump-duration 0.4
         scroll-on-jump-smooth t
         scroll-on-jump-curve 'smooth-out
         )
