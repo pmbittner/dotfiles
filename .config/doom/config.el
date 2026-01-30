@@ -1059,9 +1059,10 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   (add-hook! 'agda2-mode-hook
     (setq-local evil-shift-width 2)
     (activate-input-method "Agda"))
-  (prependq! auto-mode-alist '(("\\.agda\\'" . agda2-mode)))
-  (prependq! auto-mode-alist '(("\\.lagda.md\\'" . agda2-mode)))
-  (prependq! auto-mode-alist '(("\\.lagda.tex\\'" . agda2-mode)))
+  (setq auto-mode-alist (append auto-mode-alist
+                                '(("\\.agda\\'" . agda2-mode)
+                                  ("\\.lagda.md\\'" . agda2-mode)
+                                  ("\\.lagda.tex\\'" . agda2-mode))))
   ;; Make evil repeat (pressing .) ignore agda2-load.
   (evil-add-command-properties 'agda2-load :repeat 'ignore)
   ;; Add agda holes as evil-surround braces
