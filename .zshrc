@@ -530,6 +530,9 @@ venv-deactivate () {
 alias v=venv-activate
 alias vd=venv-deactivate
 
+## direnv
+eval "$(direnv hook bash)"
+
 
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
