@@ -2,27 +2,35 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
-  nixos-unstable = import <nixos-unstable> {
-    ## use the same configuration (in particular, allow unfree software)
-    config=config.nixpkgs.config;
-    overlays=[];
+  sources = import ./lon.nix;
+  lanzaboote = import sources.lanzaboote {
+    inherit pkgs;
   };
 in
 {
-  imports = [
-    # Include the results of the hardware scan.
-    <nixos-hardware/dell/xps/13-7390>
-    ./hardware-configuration.nix
-  ];
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+      lanzaboote.nixosModules.lanzaboote
+    ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  # Lanzaboote currently replaces the systemd-boot module.
+  # This setting is usually set to true in configuration.nix
+  # generated at installation time. So we force it to false
+  # for now.
+  boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl"; # path to where we generated our keys (?)
+  };
+
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -38,18 +46,18 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
+    LC_ADDRESS = "de_DE.UTF-8";
+    LC_IDENTIFICATION = "de_DE.UTF-8";
+    LC_MEASUREMENT = "de_DE.UTF-8";
+    LC_MONETARY = "de_DE.UTF-8";
+    LC_NAME = "de_DE.UTF-8";
+    LC_NUMERIC = "de_DE.UTF-8";
+    LC_PAPER = "de_DE.UTF-8";
+    LC_TELEPHONE = "de_DE.UTF-8";
+    LC_TIME = "de_DE.UTF-8";
   };
 
-  # Enable the X11 windowing system.
+  # Enable XServer
   services.xserver = {
     enable = true;
 
@@ -60,166 +68,105 @@ in
       options = "caps:escape";
     };
 
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    # Enable the X11 windowing system
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+      extraPackages = haskellPackages: [
+        haskellPackages.dbus
+#       haskellPackages.xmonad-spotify
+      ];
+    };
 
-    # Enable displaylink for my Dell Docking Station
-    videoDrivers = [ "displaylink" "modesetting" ];
+    dpi = 96;
+    videoDrivers = [ "nvidia" ];
+
+    displayManager = {
+      lightdm.enable = true; # login manager
+      sessionCommands = ''
+        ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
+        '';
+    };
   };
 
   # Configure console keymap
-  console = {
-    useXkbConfig = true;
-  };
+  console.useXkbConfig = true;
 
+  # Graphics Hardware
+  hardware.nvidia.open = true;
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  # Use xmonad without anything else under the hood like GNOME or something like that.
+  services.displayManager.defaultSession = "none+xmonad";
+  # We can always boot into xterm in case we get lock out of xmonad. This appears as a new user.
+  services.xserver.desktopManager.xterm.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.paul = {
     isNormalUser = true;
-    description = "paul";
+    description = "Paul Bittner";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+      lm_sensors # for checking CPU temp
       zsh
       kitty
       ranger
-      evince
-      pdftk
-      imagemagick
-      texliveFull
-      thunderbird
-      telegram-desktop
-      spotify
-      vlc
-      pkgs.kdePackages.kolourpaint
-      pandoc
-      graphviz
-      powertop
-      libreoffice
-      inkscape
-      ccrypt
-      sqlite # for org-roam
 
-      # packages from unstable channel
-      nixos-unstable.signal-desktop
-      nixos-unstable.zoom-us
-
-      # programming languages
-      jdk23
-      jdt-language-server
-      # semgrep
-      # nixd # nix language server
-      maven
-      (agda.withPackages [
-        agdaPackages.standard-library
-      ])
-      python39
-      python3Packages.bibtexparser
-
-      # pygmentize for LaTeX minted
-      python312Packages.pygments
-
-      # doom emacs
-      emacs30
+      # Emacs
+      emacs
       ripgrep
-
-      # optional doom emacs dependencies
-      coreutils # basic gnu utilities
+      coreutils
       fd
       clang
 
-      # more doom emacs extras
       shellcheck
-      (aspellWithDicts (dicts: with dicts; [ en en-computers en-science de ]))
-      python312Packages.grip
+      nixfmt
 
       # fun
       (pkgs.callPackage ./packages/pokemon-colorscripts.nix {})
-
-      # vs code
-      (vscode-with-extensions.override {
-        vscodeExtensions = with vscode-extensions; [
-          ms-python.python
-        ];
-      })
     ];
   };
 
-  # Install firefox.
   programs.firefox.enable = true;
-
-  # Customize nautilus
-  programs.nautilus-open-any-terminal = {
-    enable = true;
-    terminal = "kitty";
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  fonts.packages = with pkgs; [
-    nerdfonts
-    emacs-all-the-icons-fonts
-  ];
-
-  environment.sessionVariables = {
-    SHELL  = "zsh";
-    EDITOR = "emacsclient -c -a 'emacs'";
-    _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=lc"; # for better font rendering: https://nixos.wiki/wiki/Java
-    JDTLS_PATH = "${pkgs.jdt-language-server}/share/java";
-  };
-
-  environment.pathsToLink = [
-    "/share/nautilus-python/extensions"
-  ];
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # absolute basics
-    git
-    git-lfs
-    gnumake
-    ghostscript
-    wget
-    vim
-    direnv
-    fzf
+    # BOOT stuff
+    sbctl
+    lon # need that for secure boot with lanzaboote
 
-    # basics
+    # Absolute Basics
+    vim
+    wget
+    git
+    gnumake
+    
+    # Basics
+    fzf
     skim
     util-linux # for setsid
-    gnome-tweaks # maybe it would be cool to include this conditionally only if we have gnome desktop
-    # gdm-settings # this does not work because it wants to change an ini file in the nix store
+
+    nixd # Nix LSP
+    # nil # another Nix LSP
+
+    direnv
+    nix-direnv
+
+    xmobar
+    # rofi
+    dmenu
   ];
 
-  # Run the emacs daemon on startup
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs30;
-  };
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    dejavu_fonts
+    font-awesome
+    material-design-icons
+    weather-icons
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -246,6 +193,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 
 }
