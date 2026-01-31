@@ -1,0 +1,3 @@
+[submodule ".config/xmonad-config"]
+	path = .config/xmonad
+	url = git@github.com:pmbittner/xmonad-config.git
