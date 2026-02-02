@@ -156,6 +156,7 @@
 
 (setq evil-snipe-override-evil-repeat-keys nil)
 (setq emojify-display-style 'unicode)
+(setq-default show-trailing-whitespace t)
 
 ;; line numbers
 ;; This determines the style of line numbers in effect. If set to `nil', line
