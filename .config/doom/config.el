@@ -483,7 +483,7 @@
       (or
        ;; Current window is not dedicated window.
        (window-dedicated-p (selected-window))
-  
+
        ;; Buffer name not match below blacklist.
        (string-prefix-p "*epc" name)
        (string-prefix-p "*helm" name)
@@ -499,14 +499,14 @@
        (string-prefix-p " *temp" name)
        (string-prefix-p "*Help" name)
        (string-prefix-p "*mybuf" name)
-  
+
        ;; custom additions
        (string-prefix-p "*doom" name)
        (string-prefix-p "*org-roam" name)
        (string-prefix-p "*Messages" name)
        (string-prefix-p "*Native-compile-log" name)
        (string-prefix-p "*scratch" name)
-  
+
        ;; Is not magit buffer.
        (and (string-prefix-p "magit" name)
             (not (file-name-extension name)))
