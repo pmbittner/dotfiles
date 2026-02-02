@@ -624,6 +624,8 @@
                 ;; python
                 "__pycache__"
                 ".mypy_cache"
+                ;; MacOS
+                "\\.DS_Store"
                 )
         neo-hidden-regexp-list))
 
