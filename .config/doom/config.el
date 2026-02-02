@@ -621,6 +621,9 @@
                 "\\.synctex(busy)$"
                 ;; agda build files
                 "\\.agdai$"
+                ;; python
+                "__pycache__"
+                ".mypy_cache"
                 )
         neo-hidden-regexp-list))
 
