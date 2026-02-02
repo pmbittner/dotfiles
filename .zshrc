@@ -177,6 +177,12 @@ pb-get-kernel () {
   uname -mrs
 }
 
+## MacOS
+if $macos
+then
+  source ~/zsh/mac.zsh
+fi
+
 ### NixOS
 pb-nixos-rebuild-switch () {
   sudo nixos-rebuild -I nixos-config=$HOME/nix/configuration.nix switch
