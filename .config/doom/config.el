@@ -527,12 +527,21 @@
   (advice-add 'centaur-tabs-get-tabsets-tabset :filter-return #'my/fix-centaur-tabs-get-tabsets-tabset)
 
   (map! :map (evil-normal-state-map evil-visual-state-map)
-        "ö" #'centaur-tabs-backward
-        "ä" #'centaur-tabs-forward
+        "ö"   #'centaur-tabs-backward
+        "ä"   #'centaur-tabs-forward
+        "C-h" #'centaur-tabs-backward
+        "C-l" #'centaur-tabs-forward
+
         "Ö" #'centaur-tabs-move-current-tab-to-left
         "Ä" #'centaur-tabs-move-current-tab-to-right
+        "H" #'centaur-tabs-move-current-tab-to-left
+        "L" #'centaur-tabs-move-current-tab-to-right
+
         "C-ö" #'centaur-tabs-backward-group
         "C-ä" #'centaur-tabs-forward-group
+        "S-C-h" #'centaur-tabs-backward-group
+        "S-C-l" #'centaur-tabs-forward-group
+
         "C-ü" #'centaur-tabs-ace-jump
   )
 )
