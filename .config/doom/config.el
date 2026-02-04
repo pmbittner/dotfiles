@@ -623,8 +623,6 @@
   ;; disable line numbers in neotree buffer
   (add-hook 'neotree-mode-hook #'doom-disable-line-numbers-h)
 
-  (map! :leader :desc "Focus Neotree" "0" #'neotree)
-
   ;; hide some files in neotree
   (setq neo-hidden-regexp-list
         (append (list
@@ -665,7 +663,6 @@
                 "\\.DS_Store"
                 )
         neo-hidden-regexp-list))
-
   (setq-default neo-show-hidden-files nil)
   )
 
