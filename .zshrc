@@ -255,7 +255,7 @@ if $macos
   alias ls="ls -Gaph"
 then
 else
-  alias ls="ls --color=auto --group-directories-first"
+  alias ls="ls -a --color=auto --group-directories-first"
 fi
 
 alias sw="git switch"
