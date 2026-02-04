@@ -197,7 +197,7 @@
 
 ;; Unbind C-z which enters emacs-state and I am always confused when this accidentally happens
 ;; Apparently, I have no problem exiting Vim but Emacs!
-(map! :nv "C-z" nil)
+(map! :nm "C-z" nil)
 
 ;; Bindings for font resizing
 (map! :nv "C-+" #'text-scale-increase)
@@ -749,8 +749,8 @@
 ;;;; MAGIT
 
 (after! magit
-  ;; unbind this key but I forgot why I wanted that
-  (map! :map magit-mode-map "C-z" nil)
+  ;; Unbind this key so that we do not accidentally enter emacs state.
+  (map! :map magit-mode-map :nv "C-z" nil)
   )
 
 ;;;; MAGIT FOR MY DOTFILES
