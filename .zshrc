@@ -252,6 +252,7 @@ pb-spell-fu-delete-cache () {
 
 ## aliases
 if $macos
+  alias ls="ls -Gaph"
 then
 else
   alias ls="ls --color=auto --group-directories-first"
