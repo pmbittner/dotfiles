@@ -587,6 +587,39 @@
     "h" '+neotree/collapse-or-up
     "l" '+neotree/expand-or-open)
 
+  ;; Update neotree whenever we switch buffers.
+  (defun pb/refresh-neotree ()
+    "Refresh NeoTree to display the current file's project if it does not already."
+    (let* ((cur-buffer      (current-buffer))
+           (cur-buffer-file (buffer-file-name cur-buffer))
+           )
+      ;; We refresh neotree only when all of the following conditions are met.
+      ;; 1. The current buffer belongs to a file.
+      ;; 2. Neotree is open.
+      ;; 3. The current buffer is in a project. We use this condition
+      ;;    to eliminate buffers like COMMIT_EDITMSG from magit that show a file
+      ;;    but that file does not belong to a directory I want to show in neotree.
+      ;; 4. Neotree is not already showing that buffer's project.
+      (when (and cur-buffer-file
+                 (neo-global--window-exists-p)
+                 (projectile-project-root)
+                 (not (neo-global--file-in-root-p cur-buffer-file))
+                 )
+        ;; (message "updateNeotree(%s)" cur-buffer-file)
+        ;; Refresh neotree by:
+        ;; 1. Explicitly changing the directory to the current project root because
+        ;;    neotree sometimes picks the wrong root (chooses a subdirectory).
+        (neotree-dir (doom-project-root))
+        ;; 2. Opening our current file in neotree.
+        (+neotree/find-this-file)
+        ;; 3. Focusing the current buffer because +neotree/find-this-file switches
+        ;;    focus to the neotree window.
+        (select-window (get-buffer-window cur-buffer))
+        )
+      )
+    )
+  (add-hook 'doom-switch-buffer-hook #'pb/refresh-neotree())
+
   (map! :leader :desc "Focus Neotree" "0" #'neotree)
 
   ;; hide some files in neotree
