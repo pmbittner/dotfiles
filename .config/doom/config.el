@@ -207,8 +207,6 @@
 ;; Code folding
 (map! :nv "<backtab>" #'+fold/close)
 
-(after! magit (map! :map magit-mode-map "C-z") nil)
-
 ;; fix weird behavior on SPC f p which requires to type at least two chars.
 (defun find-file-in-private-config ()
   "Search for a file in `doom-user-dir'."
@@ -747,6 +745,13 @@
                (:desc "Neotree" "n" #'+neotree/find-this-file)
                )
       )
+
+;;;; MAGIT
+
+(after! magit
+  ;; unbind this key but I forgot why I wanted that
+  (map! :map magit-mode-map "C-z" nil)
+  )
 
 ;;;; MAGIT FOR MY DOTFILES
 
