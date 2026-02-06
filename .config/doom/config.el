@@ -178,9 +178,11 @@
 (require 'which-key)
 (setq which-key-idle-delay 0.5)
 
+(map! "C-i" 'better-jumper-jump-forward)
 (add-hook! 'better-jumper-post-jump-hook :append #'recenter-top-bottom)
 (add-hook! 'better-jumper-pre-jump-hook  :append #'recenter-top-bottom)
-(map! "C-i" 'better-jumper-jump-forward)
+(advice-add 'evil-scroll-up   :after #'doom-recenter-a)
+(advice-add 'evil-scroll-down :after #'doom-recenter-a)
 
 ;; make scratch buffer be in elisp mode
 (setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
