@@ -181,8 +181,19 @@
 (map! "C-i" 'better-jumper-jump-forward)
 (add-hook! 'better-jumper-post-jump-hook :append #'recenter-top-bottom)
 (add-hook! 'better-jumper-pre-jump-hook  :append #'recenter-top-bottom)
-(advice-add 'evil-scroll-up   :after #'doom-recenter-a)
-(advice-add 'evil-scroll-down :after #'doom-recenter-a)
+
+(defun pb/evil-scroll-up ()
+  (interactive)
+  (message "up")
+  (evil-scroll-up 0)
+  (recenter))
+(defun pb/evil-scroll-down ()
+  (interactive)
+  (message "down")
+  (evil-scroll-down 0)
+  (recenter))
+(map! :nm "C-u" #'pb/evil-scroll-up)
+(map! :nm "C-d" #'pb/evil-scroll-down)
 
 ;; make scratch buffer be in elisp mode
 (setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
@@ -453,8 +464,12 @@
 
   ;; Actions that themselves scroll.
   (scroll-on-jump-with-scroll-advice-add evil-goto-line)
-  (scroll-on-jump-with-scroll-advice-add evil-scroll-down)
-  (scroll-on-jump-with-scroll-advice-add evil-scroll-up)
+
+  ;; (scroll-on-jump-with-scroll-advice-add evil-scroll-down)
+  ;; (scroll-on-jump-with-scroll-advice-add evil-scroll-up)
+  (scroll-on-jump-with-scroll-advice-add pb/evil-scroll-down)
+  (scroll-on-jump-with-scroll-advice-add pb/evil-scroll-up)
+
   (scroll-on-jump-with-scroll-advice-add evil-scroll-line-to-center)
   (scroll-on-jump-with-scroll-advice-add evil-scroll-line-to-top)
   (scroll-on-jump-with-scroll-advice-add evil-scroll-line-to-bottom)
