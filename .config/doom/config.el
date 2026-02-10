@@ -1268,6 +1268,7 @@ wouldn't change.")
 
 (add-hook! 'java-mode-hook
   (setq c-basic-offset 4)
+  ;; customize indentation
   (c-set-offset 'arglist-cont-nonempty '+)
   (c-set-offset 'arglist-intro '+)
   (c-set-offset 'arglist-close '0)
