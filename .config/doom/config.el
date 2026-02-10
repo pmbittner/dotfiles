@@ -588,7 +588,8 @@
       (+neotree/find-this-file)))
 
 ;; Shortcut to toggle neotree view just with ü or SPC-e (as in NeoVim)
-(map! :map 'evil-normal-state-map "ü" #'+neotree/toggle-find-this-file)
+(map! :nv "ü" #'+neotree/toggle-find-this-file)
+(map! :nv "Ü" #'neotree-hide)
 (map! :leader :desc "Open Neotree" "e" #'+neotree/toggle-find-this-file)
 
 (after! neotree
