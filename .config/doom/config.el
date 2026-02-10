@@ -179,8 +179,6 @@
 (setq which-key-idle-delay 0.5)
 
 (map! "C-i" 'better-jumper-jump-forward)
-(add-hook! 'better-jumper-post-jump-hook :append #'recenter-top-bottom)
-(add-hook! 'better-jumper-pre-jump-hook  :append #'recenter-top-bottom)
 
 (defun pb/evil-scroll-up ()
   (interactive)
