@@ -426,11 +426,26 @@ pb-scans-to-pdf () {
   rm -rf small
 }
 
-# 1. Argument: name of the qr code file (without file ending)
-# 2. Argument: url for the QR code
-# 3. Argument (optional): latex options for the fancyqr package (e.g., image=\huge\faGithub).
 pb-generate-qr-code () {
+  usage () {
+    echo "This script takes the following arguments:"
+    echo "1. (mandatory): name of the qr code file (without file ending)"
+    echo "2. (mandatory): url for the QR code"
+    echo "3. (optional) : latex options for the fancyqr package (e.g., image=\huge\faGithub). See https://ctan.org/pkg/fancyqr."
+  }
   ORIGINAL_DIR="$(pwd)"
+
+  if [[ -z "$1" ]]; then
+    print -u2 "ERROR: File name expected as first argument."
+    usage
+    return 1
+  fi
+
+  if [[ -z "$2" ]]; then
+    print -u2 "ERROR: URL expected as second argument."
+    usage
+    return 1
+  fi
 
   if [ -n "$3" ]; then
     QR_OPTIONS="$3"
@@ -475,6 +490,7 @@ pb-generate-qr-code () {
   # use printf instead of echo to not interpret backslashes
   printf '%s' "${QR_TEX}" > ${QR_TEX_FILE}
   latexmk -quiet -silent -pdf -interaction=nonstopmode ${QR_TEX_FILE}
+  # latexmk -interaction=nonstopmode ${QR_TEX_FILE} # use this line to debug
   cp "${QR_PDF_FILE}" "${ORIGINAL_DIR}"
   # ev ${QR_PDF_FILE}
   latexmk -C ${QR_TEX_FILE}
