@@ -459,7 +459,7 @@ pb-generate-qr-code () {
 \usepackage{fancyqr}
 \usepackage[active,tightpage]{preview}
 \FancyQrLoad{flat}
-\fancyqrset{padding=2,gradient=false,color=black}
+\fancyqrset{padding,gradient=false,color=black}
 \begin{document}
   \begin{preview}
     \fancyqr[${QR_OPTIONS}]{$2}
