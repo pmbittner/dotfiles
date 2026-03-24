@@ -737,11 +737,12 @@
   (open-terminal ".")
   )
 
-(defun open-dolphin-here ()
+(defun open-explorer-here ()
   "Open a terminal at the current directory"
   (interactive)
-  (let ((explorername (if (eq system-type 'darwin) "open" "nautilus")))
-    (pb/start-process explorername ".")))
+  (if (eq system-type 'darwin)
+      (open-ranger-here)
+      (pb/start-process "nautilus" ".")))
 
 (defun open-ranger-at (dir-string)
   "Open ranger with the given arguments"
@@ -756,8 +757,8 @@
 
 (map! :leader
       (:prefix "o"
-               (:desc "Ranger here" "e" #'open-ranger-here)
-               (:desc "Explorer here (Dolphin)" "d" #'open-dolphin-here) ;; alias for my manjaro system
+               (:desc "Ranger here" "r" #'open-ranger-here)
+               (:desc "Explorer here" "e" #'open-explorer-here)
                (:desc "Terminal here" "t" #'open-terminal-here)
                (:desc "Neotree" "n" #'+neotree/find-this-file)
                )
