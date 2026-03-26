@@ -102,6 +102,7 @@
 )
 (map! :leader
       (:desc "Make" "m" #'+make/run)
+      (:desc "Kill compilation" "k" #'kill-compilation)
       )
 (map! :leader
       :prefix "c"
