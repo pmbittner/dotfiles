@@ -886,7 +886,7 @@
 (setq org-agenda-files (list pb/org-agenda-directory))
 (setq org-icalendar-combined-agenda-file (concat pb/private-org-agenda-directory "org-agenda-export.ics"))
 (setq org-agenda-scheduled-leaders '("🕰" "Sched.%2dx: "))
-;; (setq org-default-todo-file (concat pb/private-org-agenda-directory "Capture.org"))
+(setq org-default-todo-file (concat pb/private-org-agenda-directory "Capture.org"))
 
 (defun pb/open-main-agenda-file ()
   (interactive)
