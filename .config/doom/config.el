@@ -716,6 +716,7 @@
 
 (defun pb/start-process (name &rest args)
   "Start the process called NAME with the given arguments ARGS.
+   ARGS are variadic arguments (i.e., an inline list).
    On Linux, we use 'setsid' for opening external programs such that
    the new processes are not spawned as child processes of emacs.
    This makes the processes stay alive when we exit emacs / the emacs client.
