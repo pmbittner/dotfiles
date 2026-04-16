@@ -758,7 +758,7 @@
 
 (defun open-ranger-at (dir-string)
   "Open ranger with the given arguments"
-  (pb/start-process "kitty" "--hold" "--session" "launch-ranger.kitty" dir-string)
+  (pb/start-process "kitty" "--hold" "--session" "launch-ranger.kitty" "--directory" dir-string)
 )
 
 (defun open-ranger-here ()
