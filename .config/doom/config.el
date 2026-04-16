@@ -423,6 +423,11 @@
   ;;       )
   )
 
+;;;; Vertico
+
+(after! vertico
+  (setq vertico-resize 'grow-only))
+
 ;;;; LSP
 (after! lsp-mode
   (setq lsp-enable-symbol-highlighting nil
