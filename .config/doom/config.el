@@ -731,16 +731,23 @@
     )
   )
 
-(defun open-terminal (args)
-  "Open a terminal with the given arguments"
-  (pb/start-process "kitty" "--session" "launch-zsh.kitty" args)
-  )
-
 (defun open-terminal-here ()
   "Open a terminal at the current directory"
   (interactive)
-  (open-terminal ".")
-  )
+  (pb/start-process "kitty" "--session" "launch-zsh.kitty"))
+
+(defun open-terminal-at-project-root ()
+  "Open a terminal at the current directory"
+  (interactive)
+  (let* ((cur-buffer      (current-buffer))
+         (cur-buffer-file (buffer-file-name cur-buffer))
+         (dir             (if (and cur-buffer-file (projectile-project-root))
+                              (doom-project-root)
+                              "."
+                            )
+                          )
+         )
+    (pb/start-process "kitty" "--directory" dir "--session" "launch-zsh.kitty")))
 
 (defun open-explorer-here ()
   "Open a terminal at the current directory"
@@ -764,7 +771,7 @@
       (:prefix "o"
                (:desc "Ranger here" "r" #'open-ranger-here)
                (:desc "Explorer here" "e" #'open-explorer-here)
-               (:desc "Terminal here" "t" #'open-terminal-here)
+               (:desc "Terminal at project root" "t" #'open-terminal-at-project-root)
                (:desc "Neotree" "n" #'+neotree/find-this-file)
                )
       )
