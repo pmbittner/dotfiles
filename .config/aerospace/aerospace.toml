@@ -54,7 +54,7 @@ automatically-unhide-macos-hidden-apps = true
 # B = workspace for browser on my second screen
 # T = workspace for Microsoft Teams on my Retina Display
 # others = on my main monitor, M for music
-persistent-workspaces = [ "1", "2", "3", "4", "5", "B", "T"]
+persistent-workspaces = [ "1", "2", "3", "4", "5", "F", "T"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -124,8 +124,10 @@ z = 'y'
 
     cmd-e = 'exec-and-forget emacsclient --reuse-frame --alternate-editor="emacs"'
     cmd-t = 'exec-and-forget kitty --directory ~'
-    cmd-f = 'exec-and-forget open -a firefox'
     cmd-b = 'exec-and-forget open -a thunderbird'
+
+    cmd-shift-t = [ 'exec-and-forget open -a "Micosoft Teams"', "workspace T" ]
+    cmd-f = [ 'exec-and-forget open -a firefox', "workspace F" ]
     cmd-m = [ 'exec-and-forget open -a music', "workspace M" ]
     # cmd-shift-p = 'exec-and-forget screencapture -i -c' # configured in MacOS Settings
 
@@ -169,7 +171,7 @@ z = 'y'
     5 = 'main'
     M = 'main'
     T = 'built-in' # Case insensitive regex substring
-    B = 1 # I do not know why my secondary monitor is monitor 1.
+    F = 1 # I do not know why my secondary monitor is monitor 1.
 
 [[on-window-detected]]
     if.app-id = 'org.gnu.Emacs'
@@ -181,7 +183,7 @@ z = 'y'
 
 [[on-window-detected]]
     if.app-id = 'org.mozilla.firefox'
-    run = 'move-node-to-workspace B'
+    run = 'move-node-to-workspace F'
 
 [[on-window-detected]]
     if.app-id = 'com.microsoft.teams2'
