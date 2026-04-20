@@ -211,6 +211,12 @@
 ;; Apparently, I have no problem exiting Vim but Emacs!
 (map! :nm "C-z" nil)
 
+;; Unbind super key bindins that conflict with my window manager.
+(map! "s-h" nil)
+(map! "s-j" nil)
+(map! "s-k" nil)
+(map! "s-l" nil)
+
 ;; Bindings for font resizing
 (map! :nv "C-+" #'text-scale-increase)
 (map! :nv "C--" #'text-scale-decrease)
