@@ -69,8 +69,9 @@
                         (:desc "open agenda file" "a" #'pb/open-main-agenda-file)
                         (:desc "open agenda" "A" #'org-agenda-list)
                         (:desc "export to file" "e" #'org-icalendar-combine-agenda-files)
-                        (:desc "sync " "s" #'pb/sync-org-agenda-to-calendar-minimum)
-                        (:prefix ("S" . "sync (special)")
+                        (:desc "sync git" "s" #'pb/sync-org-agenda-to-git)
+                        (:desc "sync to calender" "c" #'pb/sync-org-agenda-to-calendar-minimum)
+                        (:prefix ("C" . "sync to calender (special)")
                                  (:desc "sync full" "f" #'pb/sync-org-agenda-to-calendar-full)
                                  (:desc "reset and sync anew" "r" #'pb/sync-org-agenda-to-calendar-anew)
                                  )
@@ -1056,6 +1057,16 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   (setq org-caldav-delete-calendar-entries 'ask)
   (pb/set-org-caldav-files-to (pb/org-caldav-files-full))
   )
+
+;;;###autoload
+(defun pb/sync-org-agenda-to-git ()
+  (interactive)
+  ;; (async-shell-command ;; <- alternatively use this one if you would like the window to not close so easily
+  (compilation-start
+   (concat
+    (doom-path doom-user-dir "/sync-repo.sh")
+    " "
+    pb/private-org-agenda-directory)))
 
 ;;;; ORG ROAM
 
