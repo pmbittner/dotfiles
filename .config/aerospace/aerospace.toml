@@ -122,7 +122,7 @@ z = 'y'
     cmd-period = 'layout tiles horizontal vertical'
     cmd-comma = 'layout accordion horizontal vertical'
 
-    cmd-e = 'exec-and-forget emacsclient --reuse-frame --alternate-editor="emacs"'
+    cmd-e = [ 'exec-and-forget emacsclient --reuse-frame --alternate-editor="emacs"' , "workspace T" ]
     cmd-t = 'exec-and-forget kitty --directory ~'
     cmd-b = 'exec-and-forget open -a thunderbird'
 
