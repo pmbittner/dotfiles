@@ -51,7 +51,7 @@ automatically-unhide-macos-hidden-apps = true
 # persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B",
 #                          "C", "D", "E", "F", "G", "I", "M", "N", "O", "P", "Q",
 #                          "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-# B = workspace for browser on my second screen
+# F = workspace for browser on my second screen
 # T = workspace for Microsoft Teams on my Retina Display
 # others = on my main monitor, M for music
 persistent-workspaces = [ "1", "2", "3", "4", "5", "F", "T"]
