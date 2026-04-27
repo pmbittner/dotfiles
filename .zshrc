@@ -348,8 +348,8 @@ ev() {
   evince "$@" &
   disown
 }
-ok() {
-  okular "$@" &
+okular() {
+  nix-shell -p "okular" --run "okular $@" &
   disown
 }
 # alias to remain in ranger's directory after exiting ranger
