@@ -719,7 +719,13 @@
 
 ;; open pdfs with evince
 (openwith-mode t)
-(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+
+(if (eq system-type 'darwin)
+  (setq openwith-associations
+        '(("\\.pdf\\'" "open" (file))
+          ("\\.docx\\'" "open" (file))))
+  (setq openwith-associations
+        '(("\\.pdf\\'" "evince" (file)))))
 
 (defun pb/start-process (name &rest args)
   "Start the process called NAME with the given arguments ARGS.
