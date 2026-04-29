@@ -1343,7 +1343,10 @@ wouldn't change.")
   ;; Use okular to view build pdfs.
   ;; (setq TeX-view-program-selection '((output-pdf "Okular")))
   ;; Use evince to view build pdfs.
-  (setq TeX-view-program-selection '((output-pdf "Evince")))
+
+  (if (eq system-type 'darwin)
+    (setq TeX-view-program-selection '((output-pdf "open")))
+    (setq TeX-view-program-selection '((output-pdf "Evince"))))
   (setq TeX-newline-function #'electric-indent-just-newline)
   ;; (electric-indent-local-mode)
   )
