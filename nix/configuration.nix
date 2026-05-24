@@ -59,45 +59,90 @@ in
 
   # Enable XServer
   services.xserver = {
-    enable = true;
+#     enable = false;
 
-    # Configure keymap in X11
-    xkb = {
-      layout = "de";
-      variant = "";
-      options = "caps:escape";
-    };
+#     # Configure keymap in X11
+#     xkb = {
+#       layout = "de";
+#       variant = "";
+#       options = "caps:escape";
+#     };
 
-    # Enable the X11 windowing system
-    windowManager.xmonad = {
-      enable = true;
-      enableContribAndExtras = true;
-      extraPackages = haskellPackages: [
-        haskellPackages.dbus
-#       haskellPackages.xmonad-spotify
-      ];
-    };
+# #     # Enable the X11 windowing system
+# #     windowManager.xmonad = {
+# #       enable = true;
+# #       enableContribAndExtras = true;
+# #       extraPackages = haskellPackages: [
+# #         haskellPackages.dbus
+# # #       haskellPackages.xmonad-spotify
+# #       ];
+# #     };
 
-    dpi = 96;
+#     dpi = 96;
     videoDrivers = [ "nvidia" ];
 
-    displayManager = {
-      startx.enable = true;
-      lightdm.enable = true; # login manager
-      sessionCommands = ''
-        ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
-        '';
+#     # displayManager = {
+#     #   startx.enable = true;
+#     #   lightdm.enable = true; # login manager
+#     #   sessionCommands = ''
+#     #     ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
+#     #     '';
+#     # };
+  };
+
+  # Use Hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+  # Display Manager
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "Hyprland";
+        user = "paul";
+      };
     };
+  };
+  # XDG takes care of inter-app communication and link opening and so on.
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  # Some variables necessary to run Hyprland.
+  environment.sessionVariables = {
+    # If your cursor becomes invisible in Hyprland
+    # WLR_NO_HARDWARE_CURSORS = "1";
+    # Hint electron apps to use wayland
+    NIXOS_OZONE_WL = "1";
+  };
+
+  # Sound via pipewire on hyprland
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
   };
 
   # Configure console keymap
   console.useXkbConfig = true;
 
   # Graphics Hardware
-  hardware.nvidia.open = true;
+  hardware = {
+    graphics.enable = true;
 
-  # Use xmonad without anything else under the hood like GNOME or something like that.
-  services.displayManager.defaultSession = "none+xmonad";
+    nvidia = {
+      open = true;
+
+      # Most wayland compositors need this
+      modesetting.enable = true;
+    };
+  };
+
+  # # Use xmonad without anything else under the hood like GNOME or something like that.
+  # services.displayManager.defaultSession = "none+xmonad";
   # We can always boot into xterm in case we get lock out of xmonad. This appears as a new user.
   services.xserver.desktopManager.xterm.enable = true;
 
@@ -158,12 +203,31 @@ in
     direnv
     nix-direnv
 
-    # for setting wallpapers
-    nitrogen
+    #### hyprland
+    ## Bar
+    # I want to try eww as well.
+    (waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    }))
+    ## Notifications
+    dunst # for notifications (an alternative would be "mako")
+    libnotify
+    ## Wallpapers: choose exactly one of
+    # hyprpaper
+    # swaybg
+    # wpaperd
+    # mpvpaper
+    swww
+    ## Launcher
+    rofi
 
-    xmobar
+    #### XMonad
+    ## Wallpapers
+    # nitrogen
+    ## XMobar
+    # xmobar
+    # dmenu
     # rofi
-    dmenu
   ];
 
   fonts.packages = with pkgs; [
