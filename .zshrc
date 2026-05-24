@@ -552,6 +552,9 @@ alias vd=venv-deactivate
 ## direnv
 eval "$(direnv hook bash)"
 
+## wallpaper via nitrogen
+alias wallpaper="nitrogen ~/Media/Wallpaper/ &"
+
 
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
