@@ -559,6 +559,11 @@ eval "$(direnv hook bash)"
 ## wallpaper via nitrogen
 alias wallpaper="nitrogen ~/Media/Wallpaper/ &"
 
+## USB stick
+pb-mount () {
+  sudo mount /dev/sda1 ~/usb/
+}
+
 
 ### Include any commands that only work on the local machine
 [[ ! -f ~/.local.zsh ]] || source ~/.local.zsh
