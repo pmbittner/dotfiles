@@ -1369,6 +1369,19 @@ wouldn't change.")
     (wgsl-ts-mode)))
 
 (add-hook 'wgsl-mode-hook #'my/wgsl-ensure-grammar)
+
+;;;; LUA
+
+(after! lsp-mode
+  (setq lsp-clients-lua-language-server-bin
+        (executable-find "lua-language-server"))
+  (setq lsp-clients-lua-language-server-install-dir nil)
+  (setq lsp-clients-lua-language-server-bin
+        (executable-find "lua-language-server"))
+  (setq lsp-clients-lua-language-server-main-location
+        (executable-find "lua-language-server"))
+  )
+
 ;;;; LATEX
 
 ;; TODO: We do not have to always load latex?
