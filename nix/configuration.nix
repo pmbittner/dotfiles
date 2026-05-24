@@ -8,6 +8,9 @@ let
   lanzaboote = import sources.lanzaboote {
     inherit pkgs;
   };
+  unstable = import <nixpkgs-unstable> {
+    config = config.nixpkgs.config;
+  };
 in
 {
   imports =
@@ -93,6 +96,7 @@ in
   # Use Hyprland
   programs.hyprland = {
     enable = true;
+    package = unstable.hyprland;
     xwayland.enable = true;
   };
   # Display Manager
@@ -100,7 +104,7 @@ in
     enable = true;
     settings = {
       default_session = {
-        command = "Hyprland";
+        command = "start-hyprland";
         user = "paul";
       };
     };
