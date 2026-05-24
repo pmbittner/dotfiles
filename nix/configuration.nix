@@ -204,6 +204,8 @@ in
     nix-direnv
 
     #### hyprland
+    ## Lua LSP
+    lua-language-server
     ## Bar
     # I want to try eww as well.
     (waybar.overrideAttrs (oldAttrs: {
