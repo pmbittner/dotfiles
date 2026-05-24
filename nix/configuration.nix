@@ -29,7 +29,7 @@ in
     pkiBundle = "/var/lib/sbctl"; # path to where we generated our keys (?)
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "perry"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
