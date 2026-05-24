@@ -82,6 +82,7 @@ in
     videoDrivers = [ "nvidia" ];
 
     displayManager = {
+      startx.enable = true;
       lightdm.enable = true; # login manager
       sessionCommands = ''
         ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
@@ -142,8 +143,10 @@ in
     vim
     wget
     git
+    gnupg
     gnumake
-    
+    usbutils
+
     # Basics
     fzf
     skim
@@ -154,6 +157,9 @@ in
 
     direnv
     nix-direnv
+
+    # for setting wallpapers
+    nitrogen
 
     xmobar
     # rofi
