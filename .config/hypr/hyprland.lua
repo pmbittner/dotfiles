@@ -1,3 +1,15 @@
+local USRBIN = "$HOME/bin"
+
+local mod = "SUPER"
+
+local MAIN_MONITOR = "DP-2"
+local LEFT_MONITOR = "DP-4"
+
+local terminal = "kitty"
+local explorer = "kitty --hold --session launch-ranger.kitty"
+local browser  = "firefox"
+local emacs    = "emacsclient -c -a 'emacs'"
+
 hl.config({
     general = {
         gaps_in  = 5,
@@ -79,26 +91,66 @@ hl.config({input = {
 }})
 
 hl.monitor({
-    output = "DP-2",
+    output = MAIN_MONITOR,
     mode = "1920x1080@144.00Hz",
     position = "0x0",
     scale = 1,
 })
 hl.monitor({
-    output = "DP-4",
+    output = LEFT_MONITOR,
     mode = "1920x1080@144.00Hz",
     position = "auto-center-left",
     scale = 1,
 })
 
--- Main modifier
-local mod = "SUPER"
+-- Workspaces
+hl.workspace_rule({
+    workspace = "1",
+    monitor = MAIN_MONITOR,
+    default = true,
+    persistent = true,
+    layout = "master"
+})
+for i = 2, 5, 1 do
+  hl.workspace_rule({
+      workspace = tostring(i),
+      monitor = MAIN_MONITOR,
+      persistent = true,
+  })
+end
 
--- Assign apps
-local terminal = "kitty"
-local explorer = "kitty --hold --session launch-ranger.kitty"
-local browser  = "firefox"
-local emacs    = "emacsclient -c -a 'emacs'"
+hl.workspace_rule({
+    workspace = "name:F",
+    monitor = LEFT_MONITOR,
+    default = true,
+    persistent = true,
+})
+
+-- Window rules
+hl.window_rule({
+    match = {
+        class = "firefox",
+    },
+    no_blur = true,
+    no_dim  = true,
+    opaque  = true,
+    workspace = "F silent"
+})
+-- Set opacity to 1.0 active, 0.5 inactive and 0.8 fullscreen for kitty
+hl.window_rule({
+  match   = { class = "kitty" },
+  opacity = "1.0 override 0.85 override 0.8 override",
+})
+
+-- Autostart
+hl.on("hyprland.start", function ()
+  hl.exec_cmd("waybar")
+  hl.exec_cmd("sh " .. USRBIN .. "/reset-dynamic-emacs-args.sh")
+  hl.exec_cmd("pgrep emacs > /dev/null || emacs --daemon")
+  -- exec-once = blueman-applet # systray app for Bluetooth
+  -- exec-once = udiskie --no-automount --smart-tray # front-end that allows to manage removable media
+  -- exec-once = nm-applet --indicator # systray app for Network/Wifi
+end)
 
 -- Window/Session actions
 hl.bind(mod .." + q", hl.dsp.window.close(hl.get_active_window))
@@ -111,16 +163,12 @@ hl.bind(mod .." + d", hl.dsp.exec_cmd(explorer))
 hl.bind(mod .." + f", hl.dsp.exec_cmd(browser))
 
 -- Switch workspaces
--- hl.bind(mod .." + h", hl.work
---hl.bind(mod .." + l", workspace, r+1
---hl.bind(mod .." + k", workspace, 1
---hl.bind(mod .." + j", workspace, empty
---
+hl.bind(mod .. " + h", hl.dsp.focus({workspace = "e-1"}))
+hl.bind(mod .. " + l", hl.dsp.focus({workspace = "e+1"}))
+
 ---- Move/Change window focus
---hl.bind = mod+Ctrl, h, movefocus, l
---hl.bind = mod+Ctrl, l, movefocus, r
---hl.bind = mod+Ctrl, k, movefocus, u
---hl.bind = mod+Ctrl, j, movefocus, d
+hl.bind(mod .. " + CTRL + h", hl.dsp.focus({direction = "left"}))
+hl.bind(mod .. " + CTRL + l", hl.dsp.focus({direction = "right"}))
 --
 ---- Resize windows
 --hl.binde = mod+Shift, Right, resizeactive, 30 0
@@ -128,26 +176,12 @@ hl.bind(mod .." + f", hl.dsp.exec_cmd(browser))
 --hl.binde = mod+Shift, Up, resizeactive, 0 -30
 --hl.binde = mod+Shift, Down, resizeactive, 0 30
 --
----- Move focused window to a workspace
---hl.bind = mod+Shift, 1, movetoworkspace, 1
---hl.bind = mod+Shift, 2, movetoworkspace, 2
---hl.bind = mod+Shift, 3, movetoworkspace, 3
---hl.bind = mod+Shift, 4, movetoworkspace, 4
---hl.bind = mod+Shift, 5, movetoworkspace, 5
---hl.bind = mod+Shift, 6, movetoworkspace, 6
---hl.bind = mod+Shift, 7, movetoworkspace, 7
---hl.bind = mod+Shift, 8, movetoworkspace, 8
---hl.bind = mod+Shift, 9, movetoworkspace, 9
---hl.bind = mod+Shift, 0, movetoworkspace, 10
---
 ---- Move focused window to a relative workspace
---hl.bind = mod+Shift, h, movetoworkspace, r-1
---hl.bind = mod+Shift, l, movetoworkspace, r+1
---hl.bind = mod+Shift, k, movetoworkspace, 0
---hl.bind = mod+Shift, j, movetoworkspace, empty
---
+hl.bind(mod .. " + SHIFT + h", hl.dsp.window.move({workspace = "e-1"}))
+hl.bind(mod .. " + SHIFT + l", hl.dsp.window.move({workspace = "e+1"}))
+
 ---- Move focused window around the current workspace
---hl.bind = mod+Shift+Ctrl, H, movewindow, l
---hl.bind = mod+Shift+Ctrl, L, movewindow, r
---hl.bind = mod+Shift+Ctrl, K, movewindow, u
---hl.bind = mod+Shift+Ctrl, J, movewindow, d
+hl.bind(mod .. " + SHIFT + CTRL + h", hl.dsp.window.move({direction = "left"}))
+hl.bind(mod .. " + SHIFT + CTRL + l", hl.dsp.window.move({direction = "right"}))
+hl.bind(mod .. " + SHIFT + CTRL + k", hl.dsp.window.move({direction = "up"}))
+hl.bind(mod .. " + SHIFT + CTRL + j", hl.dsp.window.move({direction = "down"}))
