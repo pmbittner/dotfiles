@@ -796,6 +796,7 @@
 (after! magit
   ;; Unbind this key so that we do not accidentally enter emacs state.
   (map! :map magit-mode-map :nv "C-z" nil)
+  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   )
 
 ;;;; MAGIT FOR MY DOTFILES
