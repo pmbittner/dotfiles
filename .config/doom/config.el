@@ -786,6 +786,7 @@
                (:desc "Ranger here" "r" #'open-ranger-here)
                (:desc "Explorer here" "e" #'open-explorer-here)
                (:desc "Terminal at project root" "t" #'open-terminal-at-project-root)
+               (:desc "Terminal here" "T" #'open-terminal-here)
                (:desc "Neotree" "n" #'+neotree/find-this-file)
                )
       )
