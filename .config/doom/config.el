@@ -1134,6 +1134,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
       (:desc "Promote heading to node"    "p" #'org-id-get-create) ;; "p" for "promote heading to node"
       (:desc "Open home page"             "h" #'pb/org-roam-open-home-page) ;; "h" for "home"
       (:desc "Open work home page"        "w" #'pb/org-roam-open-work-page) ;; "w" for "work"
+      (:desc "Open work home page"        "H" #'pb/org-roam-open-work-page) ;; "H" to be symmetric to agenda keybindings
       )
 (map! :map doom-leader-insert-map "n" #'org-roam-node-insert) ;; "SPC i n" for "Insert Note"
 
