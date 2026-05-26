@@ -52,9 +52,10 @@ automatically-unhide-macos-hidden-apps = true
 #                          "C", "D", "E", "F", "G", "I", "M", "N", "O", "P", "Q",
 #                          "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 # F = workspace for browser on my second screen
+# G = second workspace on my second screen
 # T = workspace for Microsoft Teams on my Retina Display
 # others = on my main monitor, M for music
-persistent-workspaces = [ "1", "2", "3", "4", "5", "F", "T"]
+persistent-workspaces = [ "1", "2", "3", "4", "5", "F", "G", "T"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -152,6 +153,7 @@ z = 'y'
     cmd-3 = 'summon-workspace 3'
     cmd-4 = 'summon-workspace 4'
     cmd-5 = 'summon-workspace 5'
+    cmd-g = 'summon-workspace G'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     cmd-shift-h = 'move-node-to-workspace --focus-follows-window --wrap-around prev'
@@ -172,6 +174,7 @@ z = 'y'
     M = 'main'
     T = 'built-in' # Case insensitive regex substring
     F = 1 # I do not know why my secondary monitor is monitor 1.
+    G = 1
 
 [[on-window-detected]]
     if.app-id = 'org.gnu.Emacs'
