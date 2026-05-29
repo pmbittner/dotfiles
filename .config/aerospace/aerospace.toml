@@ -130,6 +130,7 @@ z = 'y'
     cmd-shift-t = [ 'exec-and-forget open -a "Micosoft Teams"', "workspace T" ]
     cmd-f = [ 'exec-and-forget open -a firefox', "workspace F" ]
     cmd-m = [ 'exec-and-forget open -a music', "workspace M" ]
+    cmd-r = [ 'exec-and-forget kitty --directory ~ --session launch-ranger.kitty' ]
     # cmd-shift-p = 'exec-and-forget screencapture -i -c' # configured in MacOS Settings
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
