@@ -174,8 +174,8 @@ z = 'y'
     5 = 'main'
     M = 'main'
     T = 'built-in' # Case insensitive regex substring
-    F = 1 # I do not know why my secondary monitor is monitor 1.
-    G = 1
+    F = ['VG278 \(2\)', 'HP E273q \(1\)', 'HP E273 \(2\)']
+    G = ['VG278 \(2\)', 'HP E273q \(1\)', 'HP E273 \(2\)']
 
 [[on-window-detected]]
     if.app-id = 'org.gnu.Emacs'
