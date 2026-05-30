@@ -207,6 +207,8 @@ in
     direnv
     nix-direnv
 
+    qimgv
+
     #### hyprland
     ## Lua LSP
     lua-language-server
