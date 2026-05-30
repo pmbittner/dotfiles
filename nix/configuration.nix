@@ -160,6 +160,8 @@ in
       zsh
       kitty
       ranger
+      # kdePackages.dolphin
+      xfce.thunar
 
       # Emacs
       emacs
@@ -229,6 +231,11 @@ in
     ## Launcher
     rofi
 
+    gnome-tweaks
+    dconf
+    adw-gtk3          # Example GTK3 theme (replace with your preferred theme)
+    papirus-icon-theme # Example Icon theme
+
     #### XMonad
     ## Wallpapers
     # nitrogen
@@ -245,6 +252,32 @@ in
     material-design-icons
     weather-icons
   ];
+
+  # Default programs
+  xdg.mime = {
+    enable = true;
+    defaultApplications = {
+      "image/jpeg" = "qimgv.desktop";
+      "image/jpg"  = "qimgv.desktop";
+      "image/png"  = "qimgv.desktop";
+      "image/gif"  = "qimgv.desktop";
+      "image/webp" = "qimgv.desktop";
+    };
+  };
+
+  # beautify file manager
+  # TODO: Replace the following with Stylix later on.
+  programs.dconf.profiles.user.databases = [{
+    settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "default"; # or "default" for light theme
+        gtk-theme = "adw-gtk3-dark"; # Exact name from your installed theme packages
+        icon-theme = "Papirus";      # Exact name of icon package
+        cursor-theme = "Bibata-Modern-Ice"; # Optional cursor
+      };
+    };
+  }];
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
