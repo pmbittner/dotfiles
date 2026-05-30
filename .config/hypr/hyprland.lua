@@ -155,6 +155,7 @@ end)
 
 -- Window/Session actions
 hl.bind(mod .." + q", hl.dsp.window.close(hl.get_active_window))
+hl.bind(mod .." + ESCAPE", hl.dsp.exec_cmd("sh " .. USRBIN .."/wlogout-once.sh"))
 
 -- Application shortcuts
 hl.bind(mod .." + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload"))
