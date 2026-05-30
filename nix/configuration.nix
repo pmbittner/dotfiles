@@ -197,6 +197,7 @@ in
     gnupg
     gnumake
     usbutils
+    jmtpfs
 
     # Basics
     fzf
@@ -252,6 +253,13 @@ in
     material-design-icons
     weather-icons
   ];
+
+  # USB access
+  services.udisks2.enable = true;
+  # services.devmon.enable = true;
+  # security.polkit.enable = true;
+  programs.dconf.enable = true;
+  services.gvfs.enable = true; # 
 
   # Default programs
   xdg.mime = {
