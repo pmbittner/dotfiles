@@ -7,6 +7,7 @@ local LEFT_MONITOR = "DP-4"
 
 local terminal = "kitty"
 local explorer = "kitty --hold --session launch-ranger.kitty"
+local ranger   = "kitty --hold --session launch-ranger.kitty"
 local browser  = "firefox"
 local emacs    = "emacsclient -c -a 'emacs'"
 
@@ -159,6 +160,7 @@ hl.bind(mod .." + q", hl.dsp.window.close(hl.get_active_window))
 hl.bind(mod .." + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind(mod .." + e", hl.dsp.exec_cmd(emacs))
 hl.bind(mod .." + t", hl.dsp.exec_cmd(terminal))
+hl.bind(mod .." + r", hl.dsp.exec_cmd(ranger))
 hl.bind(mod .." + d", hl.dsp.exec_cmd(explorer))
 hl.bind(mod .." + f", hl.dsp.exec_cmd(browser))
 
