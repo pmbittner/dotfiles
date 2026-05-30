@@ -231,6 +231,8 @@ in
     swww
     ## Launcher
     rofi
+    # shutdown
+    wlogout
 
     gnome-tweaks
     dconf
