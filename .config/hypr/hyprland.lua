@@ -6,8 +6,8 @@ local MAIN_MONITOR = "DP-2"
 local LEFT_MONITOR = "DP-4"
 
 local terminal = "kitty"
-local explorer = "kitty --hold --session launch-ranger.kitty"
 local ranger   = "kitty --hold --session launch-ranger.kitty"
+local explorer = "thunar"
 local browser  = "firefox"
 local emacs    = "emacsclient -c -a 'emacs'"
 
