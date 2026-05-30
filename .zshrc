@@ -556,8 +556,16 @@ eval "$(direnv hook bash)"
 alias wallpaper="nitrogen ~/Media/Wallpaper/ &"
 
 ## USB stick
+ANDROID_MOUNT_DIR="~/ANDROID"
 pb-mount () {
   sudo mount /dev/sda1 ~/usb/
+}
+pb-android-mount () {
+    mkdir "$ANDROID_MOUNT_DIR" && jmtpfs "$ANDROID_MOUNT_DIR" || rmdir "$ANDROID_MOUNT_DIR"
+}
+pb-android-unmount () {
+    fusermount -u "$ANDROID_MOUNT_DIR"
+    rmdir "$ANDROID_MOUNT_DIR"
 }
 
 
