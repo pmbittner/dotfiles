@@ -208,7 +208,9 @@ in
     direnv
     nix-direnv
 
-    qimgv
+    # some basic applications
+    qimgv # image viewer
+    evince # pdf reader
 
     #### hyprland
     ## Lua LSP
