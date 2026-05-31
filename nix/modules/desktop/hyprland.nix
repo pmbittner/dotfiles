@@ -73,7 +73,7 @@
     # swaybg
     # wpaperd
     # mpvpaper
-    swww
+    unstable.awww
     ## Launcher
     rofi
     # shutdown
