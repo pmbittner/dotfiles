@@ -118,7 +118,7 @@ in
   # Some variables necessary to run Hyprland.
   environment.sessionVariables = {
     # If your cursor becomes invisible in Hyprland
-    # WLR_NO_HARDWARE_CURSORS = "1";
+    WLR_NO_HARDWARE_CURSORS = "1";
     # Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
   };
