@@ -13,10 +13,18 @@ let
   };
 in
 {
+  _module.args = {
+    inherit unstable;
+  };
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       lanzaboote.nixosModules.lanzaboote
+
+      # Choose exactly one of the following desktops.
+      # You have to reboot once you switch.
+      ./modules/desktop/hyprland.nix
+      # ./modules/desktop/xmonad.nix
     ];
 
   # Bootloader.
@@ -60,98 +68,13 @@ in
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # Enable XServer
-  services.xserver = {
-#     enable = false;
-
-#     # Configure keymap in X11
-#     xkb = {
-#       layout = "de";
-#       variant = "";
-#       options = "caps:escape";
-#     };
-
-# #     # Enable the X11 windowing system
-# #     windowManager.xmonad = {
-# #       enable = true;
-# #       enableContribAndExtras = true;
-# #       extraPackages = haskellPackages: [
-# #         haskellPackages.dbus
-# # #       haskellPackages.xmonad-spotify
-# #       ];
-# #     };
-
-#     dpi = 96;
-    videoDrivers = [ "nvidia" ];
-
-#     # displayManager = {
-#     #   startx.enable = true;
-#     #   lightdm.enable = true; # login manager
-#     #   sessionCommands = ''
-#     #     ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
-#     #     '';
-#     # };
-  };
-
-  # Use Hyprland
-  programs.hyprland = {
-    enable = true;
-    package = unstable.hyprland;
-    xwayland.enable = true;
-  };
-  # Display Manager
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "start-hyprland";
-        user = "paul";
-      };
-    };
-  };
-  # XDG takes care of inter-app communication and link opening and so on.
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [
-    pkgs.xdg-desktop-portal-hyprland
-    pkgs.xdg-desktop-portal-gtk
-  ];
-  # Some variables necessary to run Hyprland.
-  environment.sessionVariables = {
-    # If your cursor becomes invisible in Hyprland
-    WLR_NO_HARDWARE_CURSORS = "1";
-    # Hint electron apps to use wayland
-    NIXOS_OZONE_WL = "1";
-  };
-
-  # Sound via pipewire on hyprland
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
-
   # Configure console keymap
   console.useXkbConfig = true;
 
-  # Graphics Hardware
-  hardware = {
-    graphics.enable = true;
+  programs.firefox.enable = true;
 
-    nvidia = {
-      open = true;
-
-      # Most wayland compositors need this
-      modesetting.enable = true;
-    };
-  };
-
-  # # Use xmonad without anything else under the hood like GNOME or something like that.
-  # services.displayManager.defaultSession = "none+xmonad";
-  # We can always boot into xterm in case we get lock out of xmonad. This appears as a new user.
-  services.xserver.desktopManager.xterm.enable = true;
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.paul = {
@@ -180,11 +103,6 @@ in
       (pkgs.callPackage ./packages/pokemon-colorscripts.nix {})
     ];
   };
-
-  programs.firefox.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -216,39 +134,6 @@ in
     # some basic applications
     qimgv # image viewer
     evince # pdf reader
-
-    #### hyprland
-    ## Lua LSP
-    lua-language-server
-    ## Bar
-    # I want to try eww as well.
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    }))
-    ## Notifications
-    dunst # for notifications (an alternative would be "mako")
-    libnotify
-    ## Wallpapers: choose exactly one of
-    # hyprpaper
-    # swaybg
-    # wpaperd
-    # mpvpaper
-    swww
-    ## Launcher
-    rofi
-    # shutdown
-    wlogout
-
-    adw-gtk3          # Example GTK3 theme (replace with your preferred theme)
-    papirus-icon-theme # Example Icon theme
-
-    #### XMonad
-    ## Wallpapers
-    # nitrogen
-    ## XMobar
-    # xmobar
-    # dmenu
-    # rofi
   ];
 
   fonts.packages = with pkgs; [
@@ -263,12 +148,12 @@ in
   services.udisks2.enable = true;
   # services.devmon.enable = true;
   # security.polkit.enable = true;
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
 
   # Default programs
   programs.thunar.enable = true;
   programs.dconf.enable = true;
   programs.xfconf.enable = true;
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
 
   xdg.mime = {
