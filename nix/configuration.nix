@@ -203,7 +203,7 @@ in
     jmtpfs
 
     # Basics
-    fzf
+    # fzf
     skim
     util-linux # for setsid
 
@@ -239,7 +239,6 @@ in
     # shutdown
     wlogout
 
-    gnome-tweaks
     adw-gtk3          # Example GTK3 theme (replace with your preferred theme)
     papirus-icon-theme # Example Icon theme
 
