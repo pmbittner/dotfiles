@@ -1,4 +1,5 @@
-local USRBIN = "$HOME/bin"
+local HOME   = os.getenv("HOME")
+local USRBIN = HOME .. "/bin"
 
 local mod = "SUPER"
 
@@ -10,6 +11,9 @@ local ranger   = "kitty --hold --session launch-ranger.kitty"
 local explorer = "thunar"
 local browser  = "firefox"
 local emacs    = "emacsclient -c -a 'emacs'"
+
+local WALLPAPER_HOME = HOME .. "/Media/Wallpaper/"
+hl.env("WALLPAPER_HOME", WALLPAPER_HOME) -- used by $USRBIN/wallpaper.sh
 
 hl.config({
     general = {
@@ -148,6 +152,7 @@ hl.on("hyprland.start", function ()
   hl.exec_cmd("waybar")
   hl.exec_cmd("sh " .. USRBIN .. "/reset-dynamic-emacs-args.sh")
   hl.exec_cmd("pgrep emacs > /dev/null || emacs --daemon")
+  hl.exec_cmd("awww-daemon")
   -- exec-once = blueman-applet # systray app for Bluetooth
   -- exec-once = udiskie --no-automount --smart-tray # front-end that allows to manage removable media
   -- exec-once = nm-applet --indicator # systray app for Network/Wifi
@@ -156,6 +161,9 @@ end)
 -- Window/Session actions
 hl.bind(mod .." + q", hl.dsp.window.close(hl.get_active_window))
 hl.bind(mod .." + ESCAPE", hl.dsp.exec_cmd("sh " .. USRBIN .."/wlogout-once.sh"))
+
+-- Next desktop
+hl.bind(mod .." + w", hl.dsp.exec_cmd("sh " .. USRBIN .."/wallpaper.sh"))
 
 -- Application shortcuts
 hl.bind(mod .." + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload"))
