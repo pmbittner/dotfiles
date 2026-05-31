@@ -161,6 +161,8 @@ in
       kitty
       ranger
 
+      vlc
+
       # Emacs
       emacs
       ripgrep
