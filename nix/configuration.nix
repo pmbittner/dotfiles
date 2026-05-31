@@ -160,8 +160,6 @@ in
       zsh
       kitty
       ranger
-      # kdePackages.dolphin
-      xfce.thunar
 
       # Emacs
       emacs
@@ -264,6 +262,7 @@ in
   services.gvfs.enable = true; # 
 
   # Default programs
+  programs.thunar.enable = true;
   xdg.mime = {
     enable = true;
     defaultApplications = {
