@@ -111,7 +111,10 @@ in
   };
   # XDG takes care of inter-app communication and link opening and so on.
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-hyprland
+    pkgs.xdg-desktop-portal-gtk
+  ];
   # Some variables necessary to run Hyprland.
   environment.sessionVariables = {
     # If your cursor becomes invisible in Hyprland
