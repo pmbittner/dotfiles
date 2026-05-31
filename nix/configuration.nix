@@ -233,7 +233,6 @@ in
     wlogout
 
     gnome-tweaks
-    dconf
     adw-gtk3          # Example GTK3 theme (replace with your preferred theme)
     papirus-icon-theme # Example Icon theme
 
@@ -258,11 +257,14 @@ in
   services.udisks2.enable = true;
   # services.devmon.enable = true;
   # security.polkit.enable = true;
-  programs.dconf.enable = true;
-  services.gvfs.enable = true; # 
 
   # Default programs
   programs.thunar.enable = true;
+  programs.dconf.enable = true;
+  programs.xfconf.enable = true;
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
+
   xdg.mime = {
     enable = true;
     defaultApplications = {
