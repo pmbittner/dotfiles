@@ -1067,14 +1067,23 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   )
 
 ;;;###autoload
-(defun pb/sync-org-agenda-to-git ()
-  (interactive)
+(defun pb/sync-git-repo (repo-dir)
   ;; (async-shell-command ;; <- alternatively use this one if you would like the window to not close so easily
   (compilation-start
    (concat
     (doom-path doom-user-dir "/sync-repo.sh")
     " "
-    pb/private-org-agenda-directory)))
+    repo-dir)))
+
+;;;###autoload
+(defun pb/sync-org-agenda-to-git ()
+  (interactive)
+  (pb/sync-git-repo pb/private-org-agenda-directory))
+
+;;;###autoload
+(defun pb/sync-org-roam-to-git ()
+  (interactive)
+  (pb/sync-git-repo (expand-file-name org-roam-directory "~")))
 
 ;;;; ORG ROAM
 
@@ -1135,6 +1144,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
       (:desc "Open home page"             "h" #'pb/org-roam-open-home-page) ;; "h" for "home"
       (:desc "Open work home page"        "w" #'pb/org-roam-open-work-page) ;; "w" for "work"
       (:desc "Open work home page"        "H" #'pb/org-roam-open-work-page) ;; "H" to be symmetric to agenda keybindings
+      (:desc "Sync roam git"              "s" #'pb/sync-org-roam-to-git)
       )
 (map! :map doom-leader-insert-map "n" #'org-roam-node-insert) ;; "SPC i n" for "Insert Note"
 
