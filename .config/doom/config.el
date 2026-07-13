@@ -1083,7 +1083,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 ;;;###autoload
 (defun pb/sync-org-roam-to-git ()
   (interactive)
-  (pb/sync-git-repo (expand-file-name org-roam-directory "~")))
+  (pb/sync-git-repo (expand-file-name org-roam-directory)))
 
 ;;;; ORG ROAM
 
