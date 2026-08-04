@@ -248,7 +248,6 @@ else
   alias ls="ls -a --color=auto --group-directories-first"
 fi
 
-alias fetchallbranches='git branch -r | grep -v "\->" | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done'
 
 alias sw="git switch"
 alias br="git branch"
@@ -257,9 +256,10 @@ alias pull="git pull"
 alias push="git push"
 alias stash="git stash"
 alias log="git log --graph --oneline --color"
-alias submodules-init="git submodule update --init --recursive"
-alias submodules-update="git submodule update"
-alias submodules-add="git submodule add"
+alias pb-git-submodules-init="git submodule update --init --recursive"
+alias pb-git-submodules-update="git submodule update"
+alias pb-git-submodules-add="git submodule add"
+alias pb-git-fetchallbranches='git branch -r | grep -v "\->" | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done'
 
 pb-git-stash-abort() {
   git reset --merge
