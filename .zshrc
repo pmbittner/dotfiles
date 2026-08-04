@@ -231,7 +231,7 @@ export PATH=$EMACSDIR/bin:$PATH
 
 source ~/.emacsrc
 
-pb-fix-doom-config () {
+pb-emacs-fix-config () {
   vim $DOOMDIR/config.el
 }
 
