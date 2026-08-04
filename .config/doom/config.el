@@ -184,19 +184,6 @@
 
 (map! "C-i" 'better-jumper-jump-forward)
 
-(defun pb/evil-scroll-up ()
-  (interactive)
-  (message "up")
-  (evil-scroll-up 0)
-  (recenter))
-(defun pb/evil-scroll-down ()
-  (interactive)
-  (message "down")
-  (evil-scroll-down 0)
-  (recenter))
-(map! :nm "C-u" #'pb/evil-scroll-up)
-(map! :nm "C-d" #'pb/evil-scroll-down)
-
 ;; make scratch buffer be in elisp mode
 (setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
 
@@ -459,13 +446,13 @@
   )
 (ultra-scroll-mode 1)
 
-(use-package! scroll-on-jump
-  :config
-  (setq scroll-on-jump-duration 0.3
-        scroll-on-jump-smooth t
-        scroll-on-jump-curve 'smooth-out
-        )
-  )
+(after! scroll-on-jump
+ :config
+ (setq scroll-on-jump-duration 0.3
+       scroll-on-jump-smooth t
+       scroll-on-jump-curve 'smooth-out
+       )
+ )
 
 (with-eval-after-load 'evil
   (scroll-on-jump-advice-add evil-undo)
@@ -491,6 +478,19 @@
   (scroll-on-jump-with-scroll-advice-add evil-scroll-line-to-top)
   (scroll-on-jump-with-scroll-advice-add evil-scroll-line-to-bottom)
   )
+
+(defun pb/evil-scroll-up ()
+  (interactive)
+  (message "up")
+  (evil-scroll-up 0)
+  (recenter))
+(defun pb/evil-scroll-down ()
+  (interactive)
+  (message "down")
+  (evil-scroll-down 0)
+  (recenter))
+(map! :nm "C-u" #'pb/evil-scroll-up)
+(map! :nm "C-d" #'pb/evil-scroll-down)
 
 ;;;; CENTAUR TABS
 
