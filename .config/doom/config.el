@@ -773,7 +773,7 @@
   "Open a terminal at the current directory"
   (interactive)
   (if (eq system-type 'darwin)
-      (open-ranger-here)
+      (pb/start-process "open" ".")
       (pb/start-process "nautilus" ".")))
 
 (defun open-ranger-at (dir-string)
