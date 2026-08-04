@@ -67,9 +67,17 @@ emacs-start-server() {
   echo "Running emacs server under process id:"
   pgrep emacs
 }
+if $macos
+then
+emacs-kill-server() {
+  echo "Killing Server on MacOS"
+  kill-emacs
+}
+else
 emacs-kill-server() {
   pkill emacs
 }
+fi
 emacs-restart-server() {
   emacs-kill-server
   sleep 1
