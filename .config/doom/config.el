@@ -377,7 +377,9 @@
     (setq fancy-splash-image splash-screen)))
 
 ;; hide key recommendations
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+(remove-hook '+dashboard-functions '+dashboard-widget-shortmenu)
+(remove-hook '+dashboard-functions '+dashboard-widget-footer)
+(remove-hook '+dashboard-functions '+dashboard-widget-loaded)
 
 ;;;; DOOM RELOAD
 
@@ -446,7 +448,9 @@
         lsp-response-timeout 1))
 
 ;;;; ULTRA-SCROLL
-(use-package! ultra-scroll
+;; FIXME: Some day, I should migrate to the native doom package for smooth scrolling.
+;;        As of now, it is less refined though.
+(after! ultra-scroll
   :config
   (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
         scroll-margin 0)        ; important: scroll-margin>0 not yet supported
