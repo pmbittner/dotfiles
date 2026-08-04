@@ -9,8 +9,10 @@
 
 ;;;; FONT
 
-(defconst font-size 22)
-(defconst big-font-size 24)
+(defconst font-size 18)
+(defconst big-font-size 20)
+;; (defconst font-size 22)
+;; (defconst big-font-size 24)
 ;; (defconst font-size 26)
 ;; (defconst big-font-size 32)
 (setq
