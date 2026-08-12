@@ -65,6 +65,7 @@
                (:desc "Reload and restart server" "R" #'doom-reload-and-restart-server)
                (:desc "config.el" "c" #'goto-doom-config-file)
                (:desc "init.el" "i" #'goto-doom-init-file)
+               (:desc "wrap (fill-region)" "w" #'fill-region)
                ;; (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
                (:prefix ("a" . "Agenda")
