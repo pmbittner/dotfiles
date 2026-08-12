@@ -619,7 +619,9 @@
   ;; However, this works:
   (evil-collection-define-key 'normal 'neotree-mode-map
     "h" '+neotree/collapse-or-up
-    "l" '+neotree/expand-or-open)
+    "l" '+neotree/expand-or-open
+    "r" 'neotree-rename-node
+    )
 
   ;; Update neotree whenever we switch buffers.
   (defun pb/refresh-neotree ()
