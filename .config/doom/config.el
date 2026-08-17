@@ -438,15 +438,7 @@
         lsp-modeline-diagnostics-enable nil ;; disables summary of issues next to a light bulb in the modeline
         lsp-response-timeout 1))
 
-;;;; ULTRA-SCROLL
-;; FIXME: Some day, I should migrate to the native doom package for smooth scrolling.
-;;        As of now, it is less refined though.
-(after! ultra-scroll
-  :config
-  (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
-        scroll-margin 0)        ; important: scroll-margin>0 not yet supported
-  )
-(ultra-scroll-mode 1)
+;;;; scroll-on-jump
 
 (after! scroll-on-jump
  :config
