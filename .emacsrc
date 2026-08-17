@@ -71,7 +71,7 @@ if $macos
 then
 emacs-kill-server() {
   echo "Killing Server on MacOS"
-  kill-emacs
+  pb-emacs-kill
 }
 else
 emacs-kill-server() {
