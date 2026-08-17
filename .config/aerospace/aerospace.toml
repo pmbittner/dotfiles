@@ -55,7 +55,7 @@ automatically-unhide-macos-hidden-apps = true
 # G = second workspace on my second screen
 # T = workspace for Microsoft Teams on my Retina Display
 # others = on my main monitor, M for music
-persistent-workspaces = [ "1", "2", "3", "4", "5", "F", "G", "T"]
+persistent-workspaces = [ "1", "2", "3", "4", "5", "F", "T"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -154,7 +154,7 @@ z = 'y'
     cmd-3 = 'summon-workspace 3'
     cmd-4 = 'summon-workspace 4'
     cmd-5 = 'summon-workspace 5'
-    cmd-g = 'summon-workspace G'
+    # cmd-g = 'summon-workspace G'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     cmd-shift-h = 'move-node-to-workspace --focus-follows-window --wrap-around prev'
