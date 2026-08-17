@@ -475,12 +475,10 @@
 
 (defun pb/evil-scroll-up ()
   (interactive)
-  (message "up")
   (evil-scroll-up 0)
   (recenter))
 (defun pb/evil-scroll-down ()
   (interactive)
-  (message "down")
   (evil-scroll-down 0)
   (recenter))
 (map! :nm "C-u" #'pb/evil-scroll-up)
