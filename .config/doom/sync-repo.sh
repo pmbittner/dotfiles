@@ -4,7 +4,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 show-and-tell () {
-    echo -e "${CYAN}> $@${NC}"
+    echo -e "${CYAN}> $*${NC}"
     "$@"
 }
 
