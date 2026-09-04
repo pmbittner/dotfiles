@@ -251,6 +251,7 @@ fi
 
 alias sw="git switch"
 alias br="git branch"
+alias gpfn="gpf --no-verify"
 alias commit="git commit"
 alias pull="git pull"
 alias push="git push"
