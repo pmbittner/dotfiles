@@ -580,6 +580,26 @@
 
 ;;;; NEOTREE
 
+(defun +neotree/rename-node ()
+  "Fixed version of neotree's 'neo-buffer--rename-node'"
+  (interactive)
+  (let* ((current-path (neo-buffer--get-filename-current-line))
+         (buffer (find-buffer-visiting current-path))
+         to-path
+         msg)
+    (unless (null current-path)
+      (setq msg (format "Rename [%s] to: " (neo-path--file-short-name current-path)))
+      (setq to-path (read-file-name msg (file-name-directory current-path)))
+      (if (vc-registered current-path)
+          (vc-rename-file current-path to-path)
+        (progn
+          (rename-file current-path to-path 1)
+          (if buffer
+              (with-current-buffer buffer
+                (set-visited-file-name to-path nil t)))))
+      (neo-buffer--refresh t)
+      (message "Rename successful."))))
+
 (defun +neotree/is-focused ()
   "Return t if NeoTree is the active window, nil otherwise."
   (and neo-global--window (eq (selected-window) neo-global--window)))
@@ -608,7 +628,7 @@
   (evil-collection-define-key 'normal 'neotree-mode-map
     "h" '+neotree/collapse-or-up
     "l" '+neotree/expand-or-open
-    "r" 'neotree-rename-node
+    "r" '+neotree/rename-node
     )
 
   ;; Update neotree whenever we switch buffers.
