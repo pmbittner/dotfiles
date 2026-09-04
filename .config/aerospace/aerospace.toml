@@ -120,8 +120,8 @@ z = 'y'
     cmd-shift-r = 'reload-config'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-    cmd-period = 'layout tiles horizontal vertical'
-    cmd-comma = 'layout accordion horizontal vertical'
+    cmd-period = 'layout --root tiles horizontal vertical'
+    cmd-comma = 'layout --root accordion horizontal vertical'
 
     cmd-e = [ 'exec-and-forget emacsclient --reuse-frame --alternate-editor="emacs"' , "workspace 1" ]
     cmd-t = 'exec-and-forget kitty --directory ~'
