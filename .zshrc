@@ -156,6 +156,15 @@ reload() {
   source $HOME/.zshrc
 }
 
+
+pb-open () {
+  if $macos; then
+    open "$@"
+  else
+    xdg-open "$@"
+  fi
+}
+
 ## my config setup
 ## I made this setup according to this instruction: https://www.atlassian.com/git/tutorials/dotfiles
 export MYCONFIGDIR=$HOME/.myconfig.git
@@ -287,7 +296,7 @@ alias u="cd .."
 ## This searches in the current directory.
 f() {
   file_path=$(sk)
-  xdg-open "${file_path}"
+  pb-open "${file_path}"
 }
 ## This searches from home directory.
 F() {
@@ -303,7 +312,7 @@ F() {
     # The user selected a file in the fuzzy search.
     # Open it with preferred program
     # We might want to consider opening emacs instead (of course).
-    xdg-open "${file_path}"
+    pb-open "${file_path}"
   fi
 }
 ## Fuzzy finder to change the current directory to the directory of a file.
