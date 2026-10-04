@@ -28,6 +28,7 @@ in
       ./modules/network.nix
       ./modules/bluetooth.nix
       ./modules/sound.nix
+      ./modules/home.nix
       ./modules/style.nix
 
       # Choose exactly one of the following desktops.
