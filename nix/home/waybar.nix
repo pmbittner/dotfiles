@@ -113,9 +113,13 @@
         background: transparent;
       }
 
-      .modules-left,
-      .modules-center,
-      .modules-right {
+      /* Each group is a pill. The left bar (second monitor) only has a left
+         group, so center and right are limited to the main bar. Otherwise
+         the empty groups would show up as small empty pills. The bar name
+         from the settings is a css class of the window. */
+      window#waybar .modules-left,
+      window#waybar.main .modules-center,
+      window#waybar.main .modules-right {
         background: alpha(@base00, 0.92);
         color: @base05;
         border-radius: 10px;
