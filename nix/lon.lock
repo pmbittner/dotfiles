@@ -1,6 +1,17 @@
 {
   "version": "1",
   "sources": {
+    "home-manager": {
+      "type": "GitHub",
+      "fetchType": "tarball",
+      "frozen": false,
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "branch": "release-25.11",
+      "revision": "3ee51fbdac8c8bdfe1e7e1fcaba6520a563f394f",
+      "url": "https://github.com/nix-community/home-manager/archive/3ee51fbdac8c8bdfe1e7e1fcaba6520a563f394f.tar.gz",
+      "hash": "sha256-QOD/CNm196nCJRheux/URi4/HE66fthdOMqCJoPP1Y0="
+    },
     "lanzaboote": {
       "type": "GitHub",
       "fetchType": "tarball",
@@ -11,6 +22,17 @@
       "revision": "v1.0.0",
       "url": "https://github.com/nix-community/lanzaboote/archive/v1.0.0.tar.gz",
       "hash": "sha256-RJmgVDzjRI18BWVogG6wpsl1UCuV6ui8qr4DJ1LfWZ8="
+    },
+    "stylix": {
+      "type": "GitHub",
+      "fetchType": "tarball",
+      "frozen": false,
+      "owner": "nix-community",
+      "repo": "stylix",
+      "branch": "release-25.11",
+      "revision": "45a51a8a016ac30a6ee60f719c1d5c6706c5d1f4",
+      "url": "https://github.com/nix-community/stylix/archive/45a51a8a016ac30a6ee60f719c1d5c6706c5d1f4.tar.gz",
+      "hash": "sha256-yybxQW0Sw2e+Egvw11masjnD8p3rhsUchgkpICKoQYU="
     }
   }
 }
