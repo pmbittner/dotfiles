@@ -18,6 +18,22 @@ in
     enable = true;
     package = pkgs.waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+
+      # Hyprland with a Lua config (hyprland.lua) no longer accepts the old
+      # "dispatch workspace N" IPC command, so clicking a workspace in the bar
+      # did nothing. Waybar 0.14.0 still sends the old form. This patch makes
+      # the click send the Lua form, like waybar's development branch does
+      # (src/modules/hyprland/backend.cpp, IPC::buildLuaDispatch).
+      # --replace-fail aborts the build if the code changed, which happens
+      # when waybar is updated. Then check if the new release contains the fix
+      # (search for buildLuaDispatch) and delete this patch.
+      postPatch = (oldAttrs.postPatch or "") + ''
+        substituteInPlace src/modules/hyprland/workspace.cpp \
+          --replace-fail '"dispatch workspace " + std::to_string(id())' \
+                         '"/dispatch hl.dsp.focus({ workspace = \"" + std::to_string(id()) + "\" })"' \
+          --replace-fail '"dispatch workspace name:" + name()' \
+                         '"/dispatch hl.dsp.focus({ workspace = \"name:" + name() + "\" })"'
+      '';
     });
 
     settings = [
