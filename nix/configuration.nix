@@ -88,6 +88,16 @@ in
 
   programs.firefox.enable = true;
 
+  # zsh as login shell. oh-my-zsh in ~/.zshrc runs compinit itself,
+  # so skip the global one to avoid running it twice.
+  programs.zsh = {
+    enable = true;
+    enableGlobalCompInit = false;
+  };
+
+  # direnv with nix-direnv (enabled by default) and shell hooks
+  programs.direnv.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -96,9 +106,9 @@ in
     isNormalUser = true;
     description = "Paul Bittner";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
     packages = with pkgs; [
       lm_sensors # for checking CPU temp
-      zsh
       kitty
       ranger
 
@@ -142,9 +152,6 @@ in
 
     nixd # Nix LSP
     # nil # another Nix LSP
-
-    direnv
-    nix-direnv
 
     # some basic applications
     qimgv # image viewer
