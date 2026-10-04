@@ -2,18 +2,22 @@
 
 # This file switches the wallpaper to the next wallpaper in $WALLPAPER_HOME.
 
-# Directory where I store all my wallpapers
+# Directory where I store all my wallpapers.
+# Hyprland sets WALLPAPER_HOME; the fallback makes this work from a terminal, too.
+WALLPAPER_HOME="${WALLPAPER_HOME:-$HOME/Media/Wallpaper}"
+
 # Cache file to remember which wallpaper is currently shown.
 # We store a single integer in that file.
 STATE_FILE="$HOME/.cache/pb_current_wallpaper_index"
 
 # Get a list of all wallpapers in WALLPAPER_HOME,
 # and count how many wallpapers there are.
-WALLPAPERS=$(find "$WALLPAPER_HOME" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" \) | sort)
-WALLPAPER_COUNT=$(echo "$WALLPAPERS" | wc -l)
+WALLPAPERS=$(find "$WALLPAPER_HOME" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.webp" \) | sort)
 
-# Exit if there are no wallpapers
-[ "$WALLPAPER_COUNT" -eq 0 ] && exit 1
+# Exit if there are no wallpapers.
+# (Checked before counting because 'echo "" | wc -l' returns 1.)
+[ -z "$WALLPAPERS" ] && exit 1
+WALLPAPER_COUNT=$(echo "$WALLPAPERS" | wc -l)
 
 # Read index of current wallpaper
 if [ -f "$STATE_FILE" ]; then
