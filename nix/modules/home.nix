@@ -30,6 +30,7 @@ in
         ../home/dunst.nix
         ../home/rofi.nix
         ../home/waybar.nix
+        ../home/wlogout.nix
       ];
     };
   };
