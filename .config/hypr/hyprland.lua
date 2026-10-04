@@ -116,12 +116,12 @@ hl.workspace_rule({
     persistent = true,
     layout = "master"
 })
-for i = 2, 5, 1 do
-  hl.workspace_rule({
-      workspace = tostring(i),
-      monitor = MAIN_MONITOR,
-      persistent = true,
-  })
+for i = 2, 5 do
+    hl.workspace_rule({
+        workspace  = tostring(i),
+        monitor    = MAIN_MONITOR,
+        persistent = true,
+    })
 end
 
 hl.workspace_rule({
@@ -139,39 +139,39 @@ hl.window_rule({
     no_blur = true,
     no_dim  = true,
     opaque  = true,
-    workspace = "F silent"
+    workspace = "name:F silent"
 })
--- Set opacity to 1.0 active, 0.5 inactive and 0.8 fullscreen for kitty
+-- Set opacity to 1.0 active, 0.85 inactive and 0.8 fullscreen for kitty
 hl.window_rule({
-  match   = { class = "kitty" },
-  opacity = "1.0 override 0.85 override 0.8 override",
+    match   = { class = "kitty" },
+    opacity = "1.0 override 0.85 override 0.8 override",
 })
 
 -- Autostart
 hl.on("hyprland.start", function ()
-  hl.exec_cmd("waybar")
-  hl.exec_cmd(USRBIN .. "/reset-dynamic-emacs-args.sh")
-  hl.exec_cmd("pgrep emacs > /dev/null || emacs --daemon")
-  hl.exec_cmd("awww-daemon")
-  -- exec-once = blueman-applet # systray app for Bluetooth
-  -- exec-once = udiskie --no-automount --smart-tray # front-end that allows to manage removable media
-  -- exec-once = nm-applet --indicator # systray app for Network/Wifi
+    hl.exec_cmd("waybar")
+    hl.exec_cmd(USRBIN .. "/reset-dynamic-emacs-args.sh")
+    hl.exec_cmd("pgrep emacs > /dev/null || emacs --daemon")
+    hl.exec_cmd("awww-daemon")
+    -- exec-once = blueman-applet # systray app for Bluetooth
+    -- exec-once = udiskie --no-automount --smart-tray # front-end that allows to manage removable media
+    -- exec-once = nm-applet --indicator # systray app for Network/Wifi
 end)
 
 -- Window/Session actions
-hl.bind(mod .." + q", hl.dsp.window.close(hl.get_active_window))
-hl.bind(mod .." + ESCAPE", hl.dsp.exec_cmd(USRBIN .. "/wlogout-once.sh"))
+hl.bind(mod .. " + q", hl.dsp.window.close())
+hl.bind(mod .. " + ESCAPE", hl.dsp.exec_cmd(USRBIN .. "/wlogout-once.sh"))
 
 -- Next desktop
-hl.bind(mod .." + w", hl.dsp.exec_cmd(USRBIN .. "/wallpaper.sh"))
+hl.bind(mod .. " + w", hl.dsp.exec_cmd(USRBIN .. "/wallpaper.sh"))
 
 -- Application shortcuts
-hl.bind(mod .." + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload"))
-hl.bind(mod .." + e", hl.dsp.exec_cmd(emacs))
-hl.bind(mod .." + t", hl.dsp.exec_cmd(terminal))
-hl.bind(mod .." + r", hl.dsp.exec_cmd(ranger))
-hl.bind(mod .." + d", hl.dsp.exec_cmd(explorer))
-hl.bind(mod .." + f", hl.dsp.exec_cmd(browser))
+hl.bind(mod .. " + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload"))
+hl.bind(mod .. " + e", hl.dsp.exec_cmd(emacs))
+hl.bind(mod .. " + t", hl.dsp.exec_cmd(terminal))
+hl.bind(mod .. " + r", hl.dsp.exec_cmd(ranger))
+hl.bind(mod .. " + d", hl.dsp.exec_cmd(explorer))
+hl.bind(mod .. " + f", hl.dsp.exec_cmd(browser))
 
 -- Switch workspaces
 hl.bind(mod .. " + h", hl.dsp.focus({workspace = "e-1"}))
