@@ -1,4 +1,11 @@
 { pkgs, ... }:
+let
+  # Both bars get the same height. Without it, each bar is only as high as its
+  # content, so the main bar (larger icons) would be higher than the second one.
+  # It must be at least as high as the content of the main bar, otherwise that
+  # bar grows beyond this value and the heights differ again.
+  barHeight = 40;
+in
 {
   # Slim, floating status bar. Hyprland autostarts waybar (see hyprland.lua).
   # Two bars:
@@ -19,6 +26,7 @@
         output = "DP-4";
         layer = "top";
         position = "top";
+        height = barHeight;
         margin-top = 10;
         margin-left = 20;
         margin-right = 20;
@@ -97,6 +105,7 @@
         output = "DP-2";
         layer = "top";
         position = "top";
+        height = barHeight;
         margin-top = 10;
         margin-left = 20;
         margin-right = 20;
