@@ -46,5 +46,10 @@ in
     dunst.enable = true;
     gtk.enable = true;
     rofi.enable = true;
+    waybar = {
+      enable = true;
+      # Only colors and font; the layout CSS is in home/waybar.nix.
+      addCss = false;
+    };
   };
 }

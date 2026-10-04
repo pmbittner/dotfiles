@@ -38,11 +38,6 @@
     #### hyprland
     ## Lua LSP
     lua-language-server
-    ## Bar
-    # I want to try eww as well.
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    }))
     ## Notifications
     libnotify
     ## Wallpapers: choose exactly one of

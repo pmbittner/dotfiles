@@ -29,6 +29,7 @@ in
       imports = [
         ../home/dunst.nix
         ../home/rofi.nix
+        ../home/waybar.nix
       ];
     };
   };
