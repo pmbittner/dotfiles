@@ -21,6 +21,11 @@ in
     # home-manager side below, as they are separate from the NixOS ones.
     autoEnable = false;
 
+    fonts.monospace = {
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = "JetBrainsMono Nerd Font";
+    };
+
     cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Ice";
