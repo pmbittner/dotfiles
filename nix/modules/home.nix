@@ -10,9 +10,10 @@ in
   # see style.nix.
   #
   # Managed by home-manager (only on perry): see the imports below.
-  # Not managed by home-manager: everything else, e.g. zsh, kitty, doom,
-  # ranger, nvim and hyprland.lua. They stay plain dotfiles that also work on
-  # machines without Nix.
+  # Not managed by home-manager: everything else, e.g. zsh, doom, ranger, nvim
+  # and hyprland.lua. They stay plain dotfiles that also work on machines
+  # without Nix. Kitty is a special case: its dotfile stays, only a generated
+  # colors file is added (see kitty.nix).
   imports = [ "${sources.home-manager}/nixos" ];
 
   home-manager = {
@@ -28,6 +29,7 @@ in
 
       imports = [
         ../home/dunst.nix
+        ../home/kitty.nix
         ../home/rofi.nix
         ../home/waybar.nix
         ../home/wlogout.nix
