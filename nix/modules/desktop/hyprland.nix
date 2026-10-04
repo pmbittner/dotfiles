@@ -46,8 +46,5 @@
     # wpaperd
     # mpvpaper
     unstable.awww
-    # shutdown
-    wlogout
-
   ];
 }
