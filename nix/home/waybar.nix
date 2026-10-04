@@ -123,7 +123,9 @@
         background: alpha(@base00, 0.92);
         color: @base05;
         border-radius: 10px;
-        padding: 2px 10px;
+        /* The bar window is only as high as its content, so tall icon glyphs
+           (like the wifi icon) are cut off without vertical room here. */
+        padding: 4px 10px;
       }
 
       tooltip {
@@ -149,6 +151,21 @@
 
       #workspaces button:hover {
         background: alpha(@base0D, 0.15);
+      }
+
+      /* Icon modules: larger, with padding so they are easy to click. */
+      #network,
+      #bluetooth,
+      #pulseaudio {
+        font-size: 14pt;
+        padding: 0 8px;
+      }
+
+      #network:hover,
+      #bluetooth:hover,
+      #pulseaudio:hover {
+        background: alpha(@base0D, 0.15);
+        border-radius: 6px;
       }
 
       #temperature.critical {
