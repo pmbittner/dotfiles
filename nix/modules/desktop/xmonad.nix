@@ -3,13 +3,6 @@
   services.xserver = {
     enable = true;
 
-    # Configure keymap in X11
-    xkb = {
-      layout = "de";
-      variant = "";
-      options = "caps:escape";
-    };
-
     # Enable the X11 windowing system
     windowManager.xmonad = {
       enable = true;

@@ -68,6 +68,15 @@ in
     LC_TIME = "de_DE.UTF-8";
   };
 
+  # Keyboard layout. This is shared by all desktops and by the console
+  # (via console.useXkbConfig), so it lives here and not in a desktop module.
+  # Setting it does not enable X11.
+  services.xserver.xkb = {
+    layout = "de";
+    variant = "";
+    options = "caps:escape";
+  };
+
   # Configure console keymap
   console.useXkbConfig = true;
 
