@@ -49,11 +49,13 @@
           format = "{temperatureC}°C";
         };
 
+        # Icons are Nerd Font glyphs (JetBrainsMono Nerd Font, see style.nix):
+        # wifi, ethernet and wifi-off. Details are in the tooltip.
         # Click opens the same rofi menu as mod+n.
         network = {
-          format-wifi = "WLAN {signalStrength}%";
-          format-ethernet = "LAN";
-          format-disconnected = "offline";
+          format-wifi = "󰖩";
+          format-ethernet = "󰈀";
+          format-disconnected = "󰖪";
           tooltip-format-wifi = "{essid} ({signalStrength}%)\n{ipaddr}";
           tooltip-format-ethernet = "{ifname}\n{ipaddr}";
           on-click = "networkmanager_dmenu";
@@ -65,10 +67,10 @@
         # (off, disabled, on, connected), which is used for the colors below.
         bluetooth = {
           on-click = "blueman-manager";
-          format = "BT";
-          format-off = "BT off";
-          format-disabled = "BT off";
-          format-connected = "BT {num_connections}";
+          format = "󰂯";
+          format-off = "󰂲";
+          format-disabled = "󰂲";
+          format-connected = "󰂱 {num_connections}";
           tooltip-format-connected = "{device_enumerate}";
         };
 
@@ -76,8 +78,9 @@
         # pavucontrol (see nix/modules/sound.nix).
         pulseaudio = {
           on-click = "pavucontrol";
-          format = "VOL {volume}%";
-          format-muted = "VOL muted";
+          format = "{icon} {volume}%";
+          format-muted = "󰖁";
+          format-icons = [ "󰕿" "󰖀" "󰕾" ];
         };
       }
       {
