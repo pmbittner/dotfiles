@@ -25,6 +25,7 @@ in
       ./modules/network.nix
       ./modules/bluetooth.nix
       ./modules/sound.nix
+      ./modules/style.nix
 
       # Choose exactly one of the following desktops.
       # You have to reboot once you switch.
@@ -189,20 +190,6 @@ in
       "image/webp" = "qimgv.desktop";
     };
   };
-
-  # beautify file manager
-  # TODO: Replace the following with Stylix later on.
-  programs.dconf.profiles.user.databases = [{
-    settings = {
-      "org/gnome/desktop/interface" = {
-        color-scheme = "default"; # or "default" for light theme
-        gtk-theme = "adw-gtk3-dark"; # Exact name from your installed theme packages
-        icon-theme = "Papirus";      # Exact name of icon package
-        cursor-theme = "Bibata-Modern-Ice"; # Optional cursor
-      };
-    };
-  }];
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

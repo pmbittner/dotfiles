@@ -57,8 +57,5 @@
     # shutdown
     wlogout
 
-    adw-gtk3          # Example GTK3 theme (replace with your preferred theme)
-    papirus-icon-theme # Example Icon theme
-
   ];
 }
