@@ -38,6 +38,7 @@ in
   # Stylix themes home-manager programs through its home-manager integration
   # (see home.nix). Targets are enabled per program below; add new ones here.
   home-manager.users.paul.stylix.targets = {
+    dunst.enable = true;
     gtk.enable = true;
     rofi.enable = true;
   };

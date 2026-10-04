@@ -44,7 +44,6 @@
       mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
     }))
     ## Notifications
-    dunst # for notifications (an alternative would be "mako")
     libnotify
     ## Wallpapers: choose exactly one of
     # hyprpaper
