@@ -101,6 +101,8 @@
         margin-left = 20;
         margin-right = 20;
 
+        # Only workspaces here. The unused center group is removed.
+        no-center = true;
         modules-left = [ "hyprland/workspaces" ];
 
         "hyprland/workspaces" = {
@@ -135,6 +137,19 @@
         /* The bar window is only as high as its content, so tall icon glyphs
            (like the wifi icon) are cut off without vertical room here. */
         padding: 4px 10px;
+      }
+
+      /* The left bar (second monitor) has no modules in the right group. Make
+         sure that it takes up no space and draws nothing. */
+      window#waybar.left .modules-center,
+      window#waybar.left .modules-right {
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        min-width: 0;
+        min-height: 0;
       }
 
       tooltip {
