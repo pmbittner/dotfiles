@@ -20,6 +20,7 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       lanzaboote.nixosModules.lanzaboote
+      ./modules/hardware/nvidia.nix
 
       # Choose exactly one of the following desktops.
       # You have to reboot once you switch.
