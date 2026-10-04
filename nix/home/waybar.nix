@@ -179,10 +179,14 @@
         border-radius: 6px;
       }
 
-      /* Divider between the text modules (RAM, temperature) and the icons. */
-      #network {
-        border-left: 1px solid alpha(@base03, 0.6);
-        margin-left: 6px;
+      /* Divider between the text modules (RAM, temperature) and the icons.
+         It is the right border of the temperature module and not the left
+         border of the network module, as the latter shifts the network icon
+         off-center inside its hover highlight. */
+      #temperature {
+        border-right: 1px solid alpha(@base03, 0.6);
+        padding-right: 8px;
+        margin-right: 4px;
       }
 
       #custom-power {
