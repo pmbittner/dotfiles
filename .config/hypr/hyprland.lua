@@ -150,7 +150,7 @@ hl.window_rule({
 -- Autostart
 hl.on("hyprland.start", function ()
   hl.exec_cmd("waybar")
-  hl.exec_cmd("sh " .. USRBIN .. "/reset-dynamic-emacs-args.sh")
+  hl.exec_cmd(USRBIN .. "/reset-dynamic-emacs-args.sh")
   hl.exec_cmd("pgrep emacs > /dev/null || emacs --daemon")
   hl.exec_cmd("awww-daemon")
   -- exec-once = blueman-applet # systray app for Bluetooth
@@ -160,10 +160,10 @@ end)
 
 -- Window/Session actions
 hl.bind(mod .." + q", hl.dsp.window.close(hl.get_active_window))
-hl.bind(mod .." + ESCAPE", hl.dsp.exec_cmd("sh " .. USRBIN .."/wlogout-once.sh"))
+hl.bind(mod .." + ESCAPE", hl.dsp.exec_cmd(USRBIN .. "/wlogout-once.sh"))
 
 -- Next desktop
-hl.bind(mod .." + w", hl.dsp.exec_cmd("sh " .. USRBIN .."/wallpaper.sh"))
+hl.bind(mod .." + w", hl.dsp.exec_cmd(USRBIN .. "/wallpaper.sh"))
 
 -- Application shortcuts
 hl.bind(mod .." + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload"))
