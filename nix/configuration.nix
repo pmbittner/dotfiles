@@ -23,6 +23,7 @@ in
       # lanzaboote.nixosModules.lanzaboote
       ./modules/hardware/nvidia.nix
       ./modules/network.nix
+      ./modules/bluetooth.nix
 
       # Choose exactly one of the following desktops.
       # You have to reboot once you switch.
