@@ -229,3 +229,7 @@ hl.bind(mod .. " + SHIFT + CTRL + h", hl.dsp.window.move({direction = "left"}))
 hl.bind(mod .. " + SHIFT + CTRL + j", hl.dsp.window.move({direction = "down"}))
 hl.bind(mod .. " + SHIFT + CTRL + k", hl.dsp.window.move({direction = "up"}))
 hl.bind(mod .. " + SHIFT + CTRL + l", hl.dsp.window.move({direction = "right"}))
+
+-- Hold mod and drag with the left mouse button to move a window.
+-- A tiled window becomes floating while it is dragged.
+hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), {mouse = true})
