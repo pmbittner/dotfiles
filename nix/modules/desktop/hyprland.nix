@@ -52,8 +52,6 @@
     # wpaperd
     # mpvpaper
     unstable.awww
-    ## Launcher
-    rofi
     # shutdown
     wlogout
 
