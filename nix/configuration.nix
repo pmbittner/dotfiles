@@ -24,6 +24,7 @@ in
       ./modules/hardware/nvidia.nix
       ./modules/network.nix
       ./modules/bluetooth.nix
+      ./modules/sound.nix
 
       # Choose exactly one of the following desktops.
       # You have to reboot once you switch.
