@@ -4,6 +4,8 @@
   programs.hyprland = {
     enable = true;
     package = unstable.hyprland;
+    # Keep the portal in sync with the Hyprland version.
+    portalPackage = unstable.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
   };
   # Display Manager
@@ -17,12 +19,11 @@
     };
   };
   # XDG takes care of inter-app communication and link opening and so on.
+  # programs.hyprland already adds xdg-desktop-portal-hyprland (portalPackage).
+  # The GTK portal adds what the Hyprland portal lacks, e.g. file pickers.
   xdg.portal = {
     enable = true;
-    # extraPortals = [
-    #   pkgs.xdg-desktop-portal-hyprland
-    #   pkgs.xdg-desktop-portal-gtk
-    # ];
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
   # Some variables necessary to run Hyprland.
   # Note: WLR_NO_HARDWARE_CURSORS is a wlroots variable that Hyprland ignores.
