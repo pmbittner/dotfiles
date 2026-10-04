@@ -25,9 +25,10 @@
     # ];
   };
   # Some variables necessary to run Hyprland.
+  # Note: WLR_NO_HARDWARE_CURSORS is a wlroots variable that Hyprland ignores.
+  # Use cursor.no_hardware_cursors in hyprland.lua instead (default: auto,
+  # which already disables hardware cursors on nvidia).
   environment.sessionVariables = {
-    # If your cursor becomes invisible in Hyprland
-    WLR_NO_HARDWARE_CURSORS = "1";
     # Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
   };
