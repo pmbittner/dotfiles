@@ -8,7 +8,7 @@
     portalPackage = unstable.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
   };
-  # Display Manager
+  # No login screen: greetd starts Hyprland directly as paul on boot.
   services.greetd = {
     enable = true;
     settings = {
