@@ -188,6 +188,7 @@ in
       }
 
       #workspaces button {
+        border-radius: 6px;
         padding: 0 6px;
         color: @base04;
         background: transparent;
