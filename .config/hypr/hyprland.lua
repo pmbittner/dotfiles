@@ -173,26 +173,46 @@ hl.bind(mod .. " + r", hl.dsp.exec_cmd(ranger))
 hl.bind(mod .. " + d", hl.dsp.exec_cmd(explorer))
 hl.bind(mod .. " + f", hl.dsp.exec_cmd(browser))
 
+-- Navigation follows vim keys. The modifiers stand for:
+--   mod                 workspaces (h/l) and windows in stack order (j/k)
+--   mod + CTRL          focus a window in a direction
+--   mod + ALT           resize the active window
+--   mod + SHIFT         move the active window to another workspace
+--   mod + SHIFT + CTRL  move the active window in a direction
+
 -- Switch workspaces
 hl.bind(mod .. " + h", hl.dsp.focus({workspace = "e-1"}))
 hl.bind(mod .. " + l", hl.dsp.focus({workspace = "e+1"}))
 
----- Move/Change window focus
+-- Cycle through the windows of the current workspace (like xmonad)
+hl.bind(mod .. " + j", hl.dsp.window.cycle_next({next = true}))
+hl.bind(mod .. " + k", hl.dsp.window.cycle_next({next = false}))
+
+-- Jump to / move the active window to workspaces 1-5
+for i = 1, 5 do
+    hl.bind(mod .. " + " .. i,         hl.dsp.focus({workspace = i}))
+    hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({workspace = i}))
+end
+
+-- Move window focus
 hl.bind(mod .. " + CTRL + h", hl.dsp.focus({direction = "left"}))
+hl.bind(mod .. " + CTRL + j", hl.dsp.focus({direction = "down"}))
+hl.bind(mod .. " + CTRL + k", hl.dsp.focus({direction = "up"}))
 hl.bind(mod .. " + CTRL + l", hl.dsp.focus({direction = "right"}))
---
----- Resize windows
---hl.binde = mod+Shift, Right, resizeactive, 30 0
---hl.binde = mod+Shift, Left, resizeactive, -30 0
---hl.binde = mod+Shift, Up, resizeactive, 0 -30
---hl.binde = mod+Shift, Down, resizeactive, 0 30
---
----- Move focused window to a relative workspace
+
+-- Resize the active window (repeats while held)
+local RESIZE_STEP = 30
+hl.bind(mod .. " + ALT + h", hl.dsp.window.resize({x = -RESIZE_STEP, y = 0, relative = true}), {repeating = true})
+hl.bind(mod .. " + ALT + j", hl.dsp.window.resize({x = 0, y = RESIZE_STEP,  relative = true}), {repeating = true})
+hl.bind(mod .. " + ALT + k", hl.dsp.window.resize({x = 0, y = -RESIZE_STEP, relative = true}), {repeating = true})
+hl.bind(mod .. " + ALT + l", hl.dsp.window.resize({x = RESIZE_STEP, y = 0,  relative = true}), {repeating = true})
+
+-- Move the active window to a relative workspace
 hl.bind(mod .. " + SHIFT + h", hl.dsp.window.move({workspace = "e-1"}))
 hl.bind(mod .. " + SHIFT + l", hl.dsp.window.move({workspace = "e+1"}))
 
----- Move focused window around the current workspace
+-- Move the active window around the current workspace
 hl.bind(mod .. " + SHIFT + CTRL + h", hl.dsp.window.move({direction = "left"}))
-hl.bind(mod .. " + SHIFT + CTRL + l", hl.dsp.window.move({direction = "right"}))
-hl.bind(mod .. " + SHIFT + CTRL + k", hl.dsp.window.move({direction = "up"}))
 hl.bind(mod .. " + SHIFT + CTRL + j", hl.dsp.window.move({direction = "down"}))
+hl.bind(mod .. " + SHIFT + CTRL + k", hl.dsp.window.move({direction = "up"}))
+hl.bind(mod .. " + SHIFT + CTRL + l", hl.dsp.window.move({direction = "right"}))
