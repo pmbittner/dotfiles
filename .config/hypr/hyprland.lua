@@ -174,6 +174,7 @@ hl.bind(mod .. " + r", hl.dsp.exec_cmd(ranger))
 hl.bind(mod .. " + d", hl.dsp.exec_cmd(explorer))
 hl.bind(mod .. " + f", hl.dsp.exec_cmd(browser))
 hl.bind(mod .. " + SPACE", hl.dsp.exec_cmd(launcher))
+hl.bind(mod .. " + n", hl.dsp.exec_cmd("networkmanager_dmenu")) -- wifi menu
 
 -- Navigation follows vim keys. The modifiers stand for:
 --   mod                 workspaces (h/l) and windows in stack order (j/k)
