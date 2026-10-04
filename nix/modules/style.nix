@@ -39,5 +39,6 @@ in
   # (see home.nix). Targets are enabled per program below; add new ones here.
   home-manager.users.paul.stylix.targets = {
     gtk.enable = true;
+    rofi.enable = true;
   };
 }
