@@ -1,0 +1,49 @@
+/* Neutral baseline. Colors and fonts are meant to be replaced by the
+   consistent theme (stylix) later on. */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 13px;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+}
+
+/* Floating look: the bar itself is transparent, each group is a rounded pill. */
+window#waybar {
+  background: transparent;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+  background: rgba(30, 30, 30, 0.85);
+  color: #e6e6e6;
+  border-radius: 10px;
+  padding: 2px 10px;
+}
+
+#workspaces button {
+  padding: 0 6px;
+  color: #aaaaaa;
+  background: transparent;
+}
+
+#workspaces button.active {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+#workspaces button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#temperature.critical {
+  color: #ff5555;
+}
+
+#network.disconnected,
+#pulseaudio.muted,
+#bluetooth.off {
+  color: #888888;
+}
