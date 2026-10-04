@@ -26,7 +26,7 @@
 
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "clock" ];
-        modules-right = [ "cpu" "memory" "temperature" "network" "bluetooth" "pulseaudio" ];
+        modules-right = [ "memory" "temperature" "network" "bluetooth" "pulseaudio" ];
 
         "hyprland/workspaces" = {
           format = "{name}";
@@ -36,10 +36,6 @@
           format = "{:%H:%M}";
           format-alt = "{:%A, %d. %B %Y}";
           tooltip-format = "<tt>{calendar}</tt>";
-        };
-
-        cpu = {
-          format = "CPU {usage}%";
         };
 
         memory = {
