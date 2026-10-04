@@ -211,6 +211,13 @@ in
         padding: 0 8px;
       }
 
+      /* The wifi glyph has more empty space on its left side than on its
+         right, so it looks shifted to the right. Moving the padding by 2px
+         centers it; adjust the 2px if it still looks off. */
+      #network {
+        padding: 0 10px 0 6px;
+      }
+
       #custom-power:hover,
       #network:hover,
       #bluetooth:hover,
