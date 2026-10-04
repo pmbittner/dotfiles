@@ -57,7 +57,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - Wi-Fi/LAN: NetworkManager with wpa_supplicant (switching to iwd was considered and rejected: large change, risky for enterprise Wi-Fi). `networkmanager_dmenu` (rofi menu, `mod + n` or click on waybar's network module) to connect; `nm-connection-editor` (opened from that menu) to add, edit and delete saved networks. LAN is preferred automatically by NetworkManager.
 - Bluetooth: BlueZ with `blueman-manager` (click on waybar's bluetooth module, which stays visible and grey when Bluetooth is off). The tray applet is not used.
 - Sound: PipeWire (with PulseAudio compatibility) with `pavucontrol` (click on waybar's sound module). `pwvucontrol` was considered; pavucontrol was chosen for robustness and easy GTK3 theming.
-- Waybar (config in `nix/home/waybar.nix`): slim, floating, top. Main monitor `DP-4` shows workspaces, clock, CPU, RAM, temperature, network, Bluetooth and sound; left monitor `DP-2` shows workspaces only. No tray; add the `tray` module only if a tool really needs it.
+- Waybar (config in `nix/home/waybar.nix`): slim, floating, top. Main monitor `DP-4` shows workspaces, clock, RAM, temperature, network, Bluetooth and sound; left monitor `DP-2` shows workspaces only. No tray; add the `tray` module only if a tool really needs it.
 
 ## Things to know
 
@@ -72,7 +72,7 @@ I would like to tackle these future goals one by one.
 
 - Setup of graphical toolkits for configuring Wi-Fi, Bluetooth and sound: **done and verified on `perry`** (see "Desktop tools").
 - Waybar: decided to keep it as a slim status bar, as the easiest and most robust solution for now. Building an own system status program is a possible later step. The previously planned "settings and diagnostics via rofi" is parked; the Wi-Fi rofi menu on `mod + n` may become part of it.
-- Todo: the CPU module in waybar always shows 0%. Not investigated yet. Start with `head -1 /proc/stat` (do the counters change?) and `waybar -l debug` (does the cpu module log an error?).
+- Todo: the CPU module in waybar always showed 0%, so it was removed from the bar (add `cpu` to `modules-right` in `nix/home/waybar.nix` again once fixed). Not investigated yet. Start with `head -1 /proc/stat` (do the counters change?) and `waybar -l debug` (does the cpu module log an error?).
 - I am not sure whether rofi is the best launcher for me yet. There are also alternatives out there. What I would like to do is to use it to run smaller terminal commands or start apps, or go into my GUI settings.
 - Consistent looks, step by step. Baseline: the existing base16 scheme One Light via stylix (`nix/modules/style.nix`); a custom theme comes later, which should be easy once the baseline works. **Done:** GTK (thunar, pavucontrol, blueman), rofi, dunst, waybar, wlogout. **Todo:** kitty (plain dotfile, so colors by hand, in one file) and the Hyprland window borders (hyprland.lua, by hand). Doom Emacs keeps its own theme. Later: a custom theme from the colors below (a light theme, if possible; a dark version would be nice) and a way to switch themes. Stylix only reaches programs managed by home-manager, see `nix/modules/home.nix`.
   - First theme colors: "#ffe017" "#5391fc"  "#4f4848" "#e3574d". If possible, this should be a light theme but a dark version could also be nice.
