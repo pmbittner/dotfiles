@@ -168,6 +168,12 @@
         border-radius: 6px;
       }
 
+      /* Divider between the text modules (RAM, temperature) and the icons. */
+      #network {
+        border-left: 1px solid alpha(@base03, 0.6);
+        margin-left: 6px;
+      }
+
       #temperature.critical {
         color: @base08;
       }
