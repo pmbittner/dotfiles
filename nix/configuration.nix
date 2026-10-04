@@ -4,10 +4,11 @@
 
 { config, pkgs, lib, ... }:
 let
-  sources = import ./lon.nix;
-  lanzaboote = import sources.lanzaboote {
-    inherit pkgs;
-  };
+  # Secure Boot via lanzaboote is disabled for now (see boot section below).
+  # sources = import ./lon.nix;
+  # lanzaboote = import sources.lanzaboote {
+  #   inherit pkgs;
+  # };
   unstable = import <nixpkgs-unstable> {
     config = config.nixpkgs.config;
   };
@@ -19,7 +20,7 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      lanzaboote.nixosModules.lanzaboote
+      # lanzaboote.nixosModules.lanzaboote
       ./modules/hardware/nvidia.nix
 
       # Choose exactly one of the following desktops.
@@ -29,17 +30,21 @@ in
     ];
 
   # Bootloader.
-  # Lanzaboote currently replaces the systemd-boot module.
-  # This setting is usually set to true in configuration.nix
-  # generated at installation time. So we force it to false
-  # for now.
-  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/var/lib/sbctl"; # path to where we generated our keys (?)
-  };
+  # Secure Boot via lanzaboote (pinned with lon in ./lon.nix and ./lon.lock).
+  # Disabled for now: in the Windows dual boot, both systems reported Secure
+  # Boot as active, but some games on Windows still crashed.
+  # To re-enable: uncomment the lanzaboote lines at the top and in imports,
+  # the block below and sbctl/lon in systemPackages, and replace the
+  # systemd-boot line above with
+  #   boot.loader.systemd-boot.enable = lib.mkForce false;
+  # since lanzaboote replaces the systemd-boot module.
+  # boot.lanzaboote = {
+  #   enable = true;
+  #   pkiBundle = "/var/lib/sbctl"; # path to where we generated our keys
+  # };
 
   networking.hostName = "perry"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
@@ -117,9 +122,9 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # BOOT stuff
-    sbctl
-    lon # need that for secure boot with lanzaboote
+    # BOOT stuff (Secure Boot, currently disabled)
+    # sbctl
+    # lon # need that for secure boot with lanzaboote
 
     # Absolute Basics
     vim
