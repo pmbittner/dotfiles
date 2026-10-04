@@ -4,7 +4,10 @@
 
 { config, pkgs, lib, ... }:
 let
-  # Secure Boot via lanzaboote is disabled for now (see boot section below).
+  # lon pins sources that are not part of nixpkgs (./lon.nix, ./lon.lock).
+  # Currently pinned: stylix and home-manager (used in modules/style.nix) and
+  # lanzaboote (Secure Boot, disabled for now, see boot section below).
+  # Update the pins with `pb-nixos-update-pins`.
   # sources = import ./lon.nix;
   # lanzaboote = import sources.lanzaboote {
   #   inherit pkgs;
@@ -41,7 +44,7 @@ in
   # Disabled for now: in the Windows dual boot, both systems reported Secure
   # Boot as active, but some games on Windows still crashed.
   # To re-enable: uncomment the lanzaboote lines at the top and in imports,
-  # the block below and sbctl/lon in systemPackages, and replace the
+  # the block below and sbctl in systemPackages, and replace the
   # systemd-boot line above with
   #   boot.loader.systemd-boot.enable = lib.mkForce false;
   # since lanzaboote replaces the systemd-boot module.
@@ -137,7 +140,6 @@ in
   environment.systemPackages = with pkgs; [
     # BOOT stuff (Secure Boot, currently disabled)
     # sbctl
-    # lon # need that for secure boot with lanzaboote
 
     # Absolute Basics
     vim
@@ -145,6 +147,7 @@ in
     git
     gnupg
     gnumake
+    lon # pins sources outside of nixpkgs, see pb-nixos-update-pins
     usbutils
     jmtpfs
 
