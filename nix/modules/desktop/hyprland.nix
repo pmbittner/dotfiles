@@ -1,7 +1,5 @@
 { pkgs, unstable, ... }:
 {
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   # Use Hyprland
   programs.hyprland = {
     enable = true;
@@ -32,18 +30,6 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     # Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
-  };
-
-  # Graphics Hardware
-  hardware = {
-    graphics.enable = true;
-
-    nvidia = {
-      open = true;
-
-      # Most wayland compositors need this
-      modesetting.enable = true;
-    };
   };
 
   # Sound via pipewire on hyprland

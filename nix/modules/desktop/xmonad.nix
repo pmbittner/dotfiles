@@ -14,7 +14,6 @@
     };
 
     dpi = 96;
-    videoDrivers = [ "nvidia" ];
 
     displayManager = {
       startx.enable = true;
@@ -22,17 +21,6 @@
       sessionCommands = ''
         ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
         '';
-    };
-  };
-
-  hardware = {
-    graphics.enable = true;
-
-    nvidia = {
-      open = true;
-
-      # Most wayland compositors need this
-      modesetting.enable = true;
     };
   };
 
