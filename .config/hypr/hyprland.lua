@@ -148,6 +148,16 @@ hl.window_rule({
     opacity = "1.0 override 0.85 override 0.8 override",
 })
 
+-- Float and center the settings windows opened from waybar and the wifi menu:
+-- blueman (bluetooth), pavucontrol (sound), nm-connection-editor (wifi).
+-- On NixOS blueman's class is the wrapper name ".blueman-manager-wrapped";
+-- check unknown classes with `hyprctl clients`.
+hl.window_rule({
+    match  = { class = [[^(\.blueman-manager-wrapped|blueman-manager|org\.pulseaudio\.pavucontrol|pavucontrol|nm-connection-editor)$]] },
+    float  = true,
+    center = true,
+})
+
 -- Autostart
 hl.on("hyprland.start", function ()
     hl.exec_cmd("waybar")
