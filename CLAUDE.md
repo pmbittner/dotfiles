@@ -21,9 +21,12 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - `nix/configuration.nix`: main NixOS config, imports the modules below.
 - `nix/modules/desktop/`: exactly one desktop module is imported at a time (currently `hyprland.nix`; `xmonad.nix` is the old X11 setup). Switching needs a reboot.
 - `nix/modules/hardware/`: hardware setup shared by all desktops (NVIDIA).
+- `nix/modules/network.nix`, `bluetooth.nix`, `sound.nix`: one small module per peripheral topic, shared by all desktops. Each names the graphical tool used for it (see "Desktop tools").
 - `nix/packages/`: custom package derivations.
 - `nix/hardware-configuration.nix` is machine-specific and intentionally not in the repo.
 - `.config/hypr/hyprland.lua`: Hyprland config in Lua (not the old hyprlang `.conf` format).
+- `.config/waybar/`: slim status bar (`config.jsonc`, `style.css`).
+- `.config/networkmanager-dmenu/config.ini`: config of the rofi Wi-Fi menu.
 - `bin/`: helper scripts called from Hyprland (`~/bin`).
 
 ## Commands
@@ -44,7 +47,14 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
   - `mod + ALT + hjkl`: resize
   - `mod + SHIFT + h/l` and `mod + SHIFT + 1-5`: move window to workspace
   - `mod + SHIFT + CTRL + hjkl`: move window in a direction
-  - Single letters launch apps (`t` terminal, `e` emacs, `f` firefox, ...), `mod + SPACE` opens rofi.
+  - Single letters launch apps (`t` terminal, `e` emacs, `f` firefox, ...), `mod + SPACE` opens rofi, `mod + n` opens the Wi-Fi menu.
+
+## Desktop tools
+
+- Wi-Fi/LAN: NetworkManager with wpa_supplicant (switching to iwd was considered and rejected: large change, risky for enterprise Wi-Fi). `networkmanager_dmenu` (rofi menu, `mod + n` or click on waybar's network module) to connect; `nm-connection-editor` (opened from that menu) to add, edit and delete saved networks. LAN is preferred automatically by NetworkManager.
+- Bluetooth: BlueZ with `blueman-manager` (click on waybar's bluetooth module). The tray applet is not used.
+- Sound: PipeWire (with PulseAudio compatibility) with `pavucontrol` (click on waybar's sound module). `pwvucontrol` was considered; pavucontrol was chosen for robustness and easy GTK3 theming.
+- Waybar: slim, floating, top. Main monitor `DP-2` shows workspaces, clock, CPU, RAM, temperature, network, Bluetooth and sound; left monitor `DP-4` shows workspaces only. No tray; add the `tray` module only if a tool really needs it.
 
 ## Things to know
 
@@ -56,11 +66,8 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 
 I would like to tackle these future goals one by one.
 
-- Setup of graphical toolkits for configuring:
-  - wireless network connections
-  - bluetooth connections
-  - sound
-- A bar such as Waybar is not really necessary. Instead, I would prefer, if one could launch a graphical interface for system settings and diagnostics via a keybinding and rofi.
+- Setup of graphical toolkits for configuring Wi-Fi, Bluetooth and sound: **done in code, still to be verified on `perry`** (rebuild, then check the waybar modules, their click actions, `mod + n` and the temperature sensor).
+- Waybar: decided to keep it as a slim status bar, as the easiest and most robust solution for now. Building an own system status program is a possible later step. The previously planned "settings and diagnostics via rofi" is parked; the Wi-Fi rofi menu on `mod + n` may become part of it.
 - I am not sure whether rofi is the best launcher for me yet. There are also alternatives out there. What I would like to do is to use it to run smaller terminal commands or start apps, or go into my GUI settings.
 - Consistent looks: As of now, all graphical programs are themed differently: kitty, Doom Emacs, thunar, rofi, wlogout ...; For Doom Emacs, this is fine for now but the rest of the system should be consistent. I would like to create a consistent style and start ricing my desktop experience a bit. I am particularly annoyed by the inconsistent configuration of thunar and how it looks as of now. I have very little experience in configuring these toolkits. It seems stylix could be an option. I would like to create a theme from the following colors, and start with it as a baseline. Later, I would like to be able to switch themes.
   - First theme colors: "#ffe017" "#5391fc"  "#4f4848" "#e3574d". If possible, this should be a light theme but a dark version could also be nice.
