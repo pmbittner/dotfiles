@@ -13,11 +13,12 @@ local browser  = "firefox"
 local emacs    = "emacsclient -c -a 'emacs'"
 local launcher = "rofi -show drun"
 
--- Window border colors: One Light, copied by hand from the stylix scheme in
--- nix/modules/style.nix, as this file is not managed by home-manager. When the
--- theme changes, update these (see docs/STYLE.md).
+-- Window border and shadow colors: One Light, copied by hand from the stylix
+-- scheme in nix/modules/style.nix, as this file is not managed by
+-- home-manager. When the theme changes, update these (see docs/STYLE.md).
 local border_active   = "rgba(4078f2ff)" -- base0D (blue)
 local border_inactive = "rgba(a0a1a7ff)" -- base03 (grey)
+local shadow_color    = 0x40383a42       -- base05 (text color) at 25% opacity (0xAARRGGBB)
 
 local WALLPAPER_HOME = HOME .. "/Media/Wallpaper/"
 hl.env("WALLPAPER_HOME", WALLPAPER_HOME) -- used by $USRBIN/wallpaper.sh
@@ -68,7 +69,7 @@ hl.config({
             enabled      = true,
             range        = 4,
             render_power = 3,
-            color        = 0xee1a1a1a,
+            color        = shadow_color,
         },
 
         blur = {
