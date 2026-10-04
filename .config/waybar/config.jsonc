@@ -62,8 +62,10 @@
       "tooltip-format-connected": "{device_enumerate}"
     },
 
-    // Works through pipewire-pulse. Scroll changes the volume.
+    // Works through pipewire-pulse. Scroll changes the volume, click opens
+    // pavucontrol (see nix/modules/sound.nix).
     "pulseaudio": {
+      "on-click": "pavucontrol",
       "format": "VOL {volume}%",
       "format-muted": "VOL muted"
     }
