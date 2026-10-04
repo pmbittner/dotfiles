@@ -22,6 +22,7 @@ in
       ./hardware-configuration.nix
       # lanzaboote.nixosModules.lanzaboote
       ./modules/hardware/nvidia.nix
+      ./modules/network.nix
 
       # Choose exactly one of the following desktops.
       # You have to reboot once you switch.
