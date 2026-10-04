@@ -3,8 +3,8 @@ local USRBIN = HOME .. "/bin"
 
 local mod = "SUPER"
 
-local MAIN_MONITOR = "DP-2"
-local LEFT_MONITOR = "DP-4"
+local MAIN_MONITOR = "DP-4"
+local LEFT_MONITOR = "DP-2"
 
 local terminal = "kitty"
 local ranger   = "kitty --hold --session launch-ranger.kitty"
