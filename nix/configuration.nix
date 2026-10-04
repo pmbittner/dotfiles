@@ -117,7 +117,6 @@ in
       # Emacs
       emacs
       ripgrep
-      coreutils
       fd
       clang
 
@@ -148,7 +147,6 @@ in
     # Basics
     # fzf
     skim
-    util-linux # for setsid
 
     nixd # Nix LSP
     # nil # another Nix LSP
