@@ -200,7 +200,7 @@ in
          right, so it looks shifted to the right. Moving the padding by 2px
          centers it; adjust the 2px if it still looks off. */
       #network {
-        padding: 0 10px 0 6px;
+        padding: 0 11px 0 5px;
       }
 
       #custom-power:hover,
