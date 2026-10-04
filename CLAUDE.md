@@ -54,7 +54,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - Wi-Fi/LAN: NetworkManager with wpa_supplicant (switching to iwd was considered and rejected: large change, risky for enterprise Wi-Fi). `networkmanager_dmenu` (rofi menu, `mod + n` or click on waybar's network module) to connect; `nm-connection-editor` (opened from that menu) to add, edit and delete saved networks. LAN is preferred automatically by NetworkManager.
 - Bluetooth: BlueZ with `blueman-manager` (click on waybar's bluetooth module). The tray applet is not used.
 - Sound: PipeWire (with PulseAudio compatibility) with `pavucontrol` (click on waybar's sound module). `pwvucontrol` was considered; pavucontrol was chosen for robustness and easy GTK3 theming.
-- Waybar: slim, floating, top. Main monitor `DP-2` shows workspaces, clock, CPU, RAM, temperature, network, Bluetooth and sound; left monitor `DP-4` shows workspaces only. No tray; add the `tray` module only if a tool really needs it.
+- Waybar: slim, floating, top. Main monitor `DP-4` shows workspaces, clock, CPU, RAM, temperature, network, Bluetooth and sound; left monitor `DP-2` shows workspaces only. No tray; add the `tray` module only if a tool really needs it.
 
 ## Things to know
 
