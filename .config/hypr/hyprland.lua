@@ -13,6 +13,12 @@ local browser  = "firefox"
 local emacs    = "emacsclient -c -a 'emacs'"
 local launcher = "rofi -show drun"
 
+-- Window border colors: One Light, copied by hand from the stylix scheme in
+-- nix/modules/style.nix, as this file is not managed by home-manager. When the
+-- theme changes, update these (see docs/STYLE.md).
+local border_active   = "rgba(4078f2ff)" -- base0D (blue)
+local border_inactive = "rgba(a0a1a7ff)" -- base03 (grey)
+
 local WALLPAPER_HOME = HOME .. "/Media/Wallpaper/"
 hl.env("WALLPAPER_HOME", WALLPAPER_HOME) -- used by $USRBIN/wallpaper.sh
 
@@ -24,8 +30,8 @@ hl.config({
         border_size = 2,
 
         col = {
-            active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            active_border   = border_active,
+            inactive_border = border_inactive,
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
