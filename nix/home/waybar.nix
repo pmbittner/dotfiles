@@ -24,12 +24,21 @@
         margin-right = 20;
         spacing = 8;
 
-        modules-left = [ "hyprland/workspaces" ];
+        modules-left = [ "custom/power" "hyprland/workspaces" ];
         modules-center = [ "clock" ];
         modules-right = [ "memory" "temperature" "network" "bluetooth" "pulseaudio" ];
 
         "hyprland/workspaces" = {
           format = "{name}";
+        };
+
+        # Logout menu. Uses the same script as the hyprland keybinding
+        # (mod+ESCAPE), which toggles wlogout. waybar runs commands with sh, so
+        # $HOME is expanded. The icon is the Nerd Font glyph md-power.
+        "custom/power" = {
+          format = "󰐥";
+          tooltip = false;
+          on-click = "$HOME/bin/wlogout-once.sh";
         };
 
         clock = {
@@ -154,6 +163,7 @@
       }
 
       /* Icon modules: larger, with padding so they are easy to click. */
+      #custom-power,
       #network,
       #bluetooth,
       #pulseaudio {
@@ -161,6 +171,7 @@
         padding: 0 8px;
       }
 
+      #custom-power:hover,
       #network:hover,
       #bluetooth:hover,
       #pulseaudio:hover {
@@ -172,6 +183,10 @@
       #network {
         border-left: 1px solid alpha(@base03, 0.6);
         margin-left: 6px;
+      }
+
+      #custom-power {
+        color: @base08;
       }
 
       #temperature.critical {
