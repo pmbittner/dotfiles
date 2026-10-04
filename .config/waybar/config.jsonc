@@ -52,8 +52,9 @@
       "on-click": "networkmanager_dmenu"
     },
 
-    // Display only for now; needs hardware.bluetooth.enable in NixOS.
+    // Click opens blueman-manager (see nix/modules/bluetooth.nix).
     "bluetooth": {
+      "on-click": "blueman-manager",
       "format": "BT",
       "format-off": "BT off",
       "format-disabled": "",
