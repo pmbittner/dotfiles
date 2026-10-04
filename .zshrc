@@ -553,7 +553,7 @@ alias v=venv-activate
 alias vd=venv-deactivate
 
 ## direnv
-eval "$(direnv hook bash)"
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
 ## wallpaper via nitrogen
 alias wallpaper="nitrogen ~/Media/Wallpaper/ &"
