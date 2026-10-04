@@ -199,6 +199,14 @@ pb-nixos-update () {
   sudo nix-channel --update
   pb-nixos-rebuild-switch
 }
+pb-nixos-update-pins () {
+  # Updates the sources pinned with lon (stylix, home-manager) to the newest
+  # commit of their branch. The pins are stored in nix/lon.lock. Sources marked
+  # as frozen there (lanzaboote) are skipped. Afterwards, review the change
+  # with `config diff nix/lon.lock`, then run pb-nixos-rebuild-switch and
+  # commit the lock file.
+  (cd $HOME/nix && lon update)
+}
 pb-nixos-garbage-collection () {
   nix-store --gc
 }
