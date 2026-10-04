@@ -63,12 +63,15 @@
           on-click = "networkmanager_dmenu";
         };
 
-        # Click opens blueman-manager (see nix/modules/bluetooth.nix).
+        # Click opens blueman-manager (see nix/modules/bluetooth.nix), where
+        # bluetooth can be switched on again. The module stays visible when
+        # bluetooth is off or disabled; waybar adds the state as a css class
+        # (off, disabled, on, connected), which is used for the colors below.
         bluetooth = {
           on-click = "blueman-manager";
           format = "BT";
           format-off = "BT off";
-          format-disabled = "";
+          format-disabled = "BT off";
           format-connected = "BT {num_connections}";
           tooltip-format-connected = "{device_enumerate}";
         };
@@ -151,8 +154,14 @@
 
       #network.disconnected,
       #pulseaudio.muted,
-      #bluetooth.off {
+      #bluetooth.off,
+      #bluetooth.disabled {
         color: @base04;
+      }
+
+      #bluetooth.on,
+      #bluetooth.connected {
+        color: @base0D;
       }
     '';
   };
