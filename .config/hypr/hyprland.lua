@@ -11,6 +11,7 @@ local ranger   = "kitty --hold --session launch-ranger.kitty"
 local explorer = "thunar"
 local browser  = "firefox"
 local emacs    = "emacsclient -c -a 'emacs'"
+local launcher = "rofi -show drun"
 
 local WALLPAPER_HOME = HOME .. "/Media/Wallpaper/"
 hl.env("WALLPAPER_HOME", WALLPAPER_HOME) -- used by $USRBIN/wallpaper.sh
@@ -172,6 +173,7 @@ hl.bind(mod .. " + t", hl.dsp.exec_cmd(terminal))
 hl.bind(mod .. " + r", hl.dsp.exec_cmd(ranger))
 hl.bind(mod .. " + d", hl.dsp.exec_cmd(explorer))
 hl.bind(mod .. " + f", hl.dsp.exec_cmd(browser))
+hl.bind(mod .. " + SPACE", hl.dsp.exec_cmd(launcher))
 
 -- Navigation follows vim keys. The modifiers stand for:
 --   mod                 workspaces (h/l) and windows in stack order (j/k)
