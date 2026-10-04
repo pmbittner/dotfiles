@@ -27,6 +27,7 @@ in
       home.stateVersion = "25.11";
 
       imports = [
+        ../home/dunst.nix
         ../home/rofi.nix
       ];
     };
