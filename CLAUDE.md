@@ -66,7 +66,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 
 - Hyprland's Lua API is new and little documented. Verify functions and arguments against the Hyprland source (`src/config/lua/bindings/`) or the example config instead of guessing from hyprlang syntax.
 - greetd logs in directly to Hyprland without a login screen. This is intended.
-- lon pins all sources (`nix/lon.lock` is the lock file, `nix/lon.nix` is generated, do not edit it): nixpkgs (`nixos-25.11`), nixpkgs-unstable (`nixos-unstable`), stylix and home-manager (`release-25.11`) and lanzaboote (frozen). Their modules are imported in `configuration.nix` only. Update the pins with `pb-nixos-update-pins` (runs `lon update`), then rebuild and commit `nix/lon.lock`. lon is independent of Secure Boot.
+- lon pins all sources (`nix/lon.lock` is the lock file, `nix/lon.nix` is generated, do not edit it): nixpkgs (`nixos-26.05`), nixpkgs-unstable (`nixos-unstable`), stylix and home-manager (`release-26.05`) and lanzaboote (frozen). Their modules are imported in `configuration.nix` only. Update the pins with `pb-nixos-update-pins` (runs `lon update`), then rebuild and commit `nix/lon.lock`. lon is independent of Secure Boot.
 - Secure Boot via lanzaboote is disabled for now; its config is kept commented out in `configuration.nix`.
 
 ## Plans and Ideas
