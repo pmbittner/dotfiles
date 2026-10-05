@@ -225,6 +225,7 @@ hl.bind(mod .. " + n", hl.dsp.exec_cmd("networkmanager_dmenu")) -- wifi menu
 --   mod + ALT           resize the active window
 --   mod + SHIFT         move the active window to another workspace
 --   mod + SHIFT + CTRL  move the active window in a direction
+-- Single letters with mod launch programs (see "Application shortcuts").
 
 -- Switch workspaces
 hl.bind(mod .. " + h", hl.dsp.focus({workspace = "e-1"}))
