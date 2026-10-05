@@ -171,9 +171,6 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd(USRBIN .. "/reset-dynamic-emacs-args.sh")
     hl.exec_cmd("pgrep emacs > /dev/null || emacs --daemon")
     hl.exec_cmd("awww-daemon")
-    -- exec-once = blueman-applet # systray app for Bluetooth
-    -- exec-once = udiskie --no-automount --smart-tray # front-end that allows to manage removable media
-    -- exec-once = nm-applet --indicator # systray app for Network/Wifi
 end)
 
 -- Window/Session actions
