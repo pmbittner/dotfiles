@@ -41,7 +41,7 @@ Why this split:
 
 1. Open [`nix/modules/style.nix`](../nix/modules/style.nix).
 2. **Use an existing scheme:** change the file name in `base16Scheme`, e.g. `one-dark.yaml`. The available names are the files in `${pkgs.base16-schemes}/share/themes/`, or browse [tinted-theming/schemes](https://github.com/tinted-theming/schemes) (`base16/` directory). Set `polarity` to `"light"` or `"dark"` to match, as it decides the GTK light/dark mode.
-3. **Use a custom scheme:** write a base16 YAML file (16 colors `base00`..`base0F`, see the table below) in this repository, e.g. `nix/themes/mine.yaml`, and point `base16Scheme` at it with a path (`./../themes/mine.yaml`). Stylix accepts a path to a scheme file (it also accepts a YAML string or an attribute set). To only tweak single colors of an existing scheme, set `stylix.override = { base0D = "4078f2"; };` instead (values without `#`). (This is the plan for the custom theme from the colors listed in `CLAUDE.md`.)
+3. **Use a custom scheme:** write a base16 YAML file (16 colors `base00`..`base0F`, see the table below) in this repository, e.g. `nix/themes/mine.yaml`, and point `base16Scheme` at it with a path (`./../themes/mine.yaml`). Stylix accepts a path to a scheme file (it also accepts a YAML string or an attribute set). To only tweak single colors of an existing scheme, set `stylix.override = { base0D = "4078f2"; };` instead (values without `#`). (This is the plan for the custom theme from the colors listed in [PLANS.md](PLANS.md).)
 4. Rebuild with `pb-nixos-rebuild-switch`.
 5. Make running programs pick up the change:
    - waybar: `pkill waybar; waybar &` (it is only started once per Hyprland session)
