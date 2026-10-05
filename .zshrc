@@ -562,9 +562,6 @@ alias vd=venv-deactivate
 ## direnv
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
-## wallpaper via nitrogen
-alias wallpaper="nitrogen ~/Media/Wallpaper/ &"
-
 ## USB stick
 ANDROID_MOUNT_DIR="$HOME/ANDROID"
 pb-mount () {

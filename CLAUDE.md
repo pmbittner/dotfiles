@@ -14,12 +14,12 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - This is a bare git repository. On the Linux machine, the work tree is `$HOME` and the git directory is `~/.myconfig.git`, used through the `config` function in `.zshrc` (`config status`, `config add`, ...). Paths in this repo are paths relative to `$HOME`.
 - The repo is usually edited from a normal clone on macOS. NixOS and Hyprland cannot be built or run there, so changes are tested on the Linux machine.
 - A few files are for macOS only (`.config/aerospace/`, `zsh/mac.zsh`); `.zshrc` is shared by both systems.
-- `.config/nvim` and `.config/xmonad` are git submodules.
+- `.config/nvim` is a git submodule.
 
 ## Layout
 
 - `nix/configuration.nix`: main NixOS config, imports the modules below.
-- `nix/modules/desktop/`: exactly one desktop module is imported at a time (currently `hyprland.nix`; `xmonad.nix` is the old X11 setup). Switching needs a reboot.
+- `nix/modules/desktop/`: exactly one desktop module is imported at a time (currently `hyprland.nix`; the old xmonad setup was removed and is in the git history). Switching needs a reboot.
 - `nix/modules/hardware/`: hardware setup shared by all desktops (NVIDIA).
 - `nix/modules/home.nix` and `nix/modules/home/`: home-manager, only for programs that exist on perry alone. `home.nix` lists them, one file each in `nix/modules/home/`. Everything else stays a plain, portable dotfile. Which programs are managed and why is documented in `docs/STYLE.md` only; refer to it instead of repeating the list.
 - `docs/STYLE.md`: documentation of the styling architecture, what home-manager manages, how to change the theme and pitfalls.
