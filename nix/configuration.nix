@@ -147,12 +147,10 @@ in
     # nil # another Nix LSP
   ];
 
+  # System fonts. Icons in waybar and elsewhere come from the Nerd Font.
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
     dejavu_fonts
-    font-awesome
-    material-design-icons
-    weather-icons
   ];
 
   # Settings store of GTK apps. Needed by the stylix GTK target (see
