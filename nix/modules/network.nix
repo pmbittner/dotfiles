@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
   # Networking (Wi-Fi and LAN) is managed by NetworkManager with its default
-  # wpa_supplicant backend.
+  # wpa_supplicant backend. Since NixOS 26.05, NetworkManager uses the
+  # wpa_supplicant of networking.wireless (it enables it itself), so do not
+  # set networking.wireless.enable = false here.
   networking.networkmanager.enable = true;
-  # No standalone wpa_supplicant next to NetworkManager.
-  networking.wireless.enable = false;
 
   # LAN is preferred over Wi-Fi automatically: NetworkManager gives wired
   # connections a lower route metric than wireless ones. No config needed.
