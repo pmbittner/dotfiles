@@ -1,6 +1,3 @@
 [submodule ".config/nvim"]
 	path = .config/nvim
 	url = git@github.com:pmbittner/nvim.git
-[submodule ".config/xmonad-config"]
-	path = .config/xmonad
-	url = git@github.com:pmbittner/xmonad-config.git

@@ -38,10 +38,9 @@ in
       ./modules/home.nix
       ./modules/style.nix
 
-      # Choose exactly one of the following desktops.
-      # You have to reboot once you switch.
+      # Desktop. Other desktops would go into ./modules/desktop/ as well;
+      # import exactly one of them (switching needs a reboot).
       ./modules/desktop/hyprland.nix
-      # ./modules/desktop/xmonad.nix
     ];
 
   # Bootloader.
