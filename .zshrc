@@ -567,7 +567,7 @@ command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 alias wallpaper="nitrogen ~/Media/Wallpaper/ &"
 
 ## USB stick
-ANDROID_MOUNT_DIR="~/ANDROID"
+ANDROID_MOUNT_DIR="$HOME/ANDROID"
 pb-mount () {
   sudo mount /dev/sda1 ~/usb/
 }
