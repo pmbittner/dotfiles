@@ -21,7 +21,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - `nix/`: the NixOS configuration, see `docs/NIX.md` (structure, pinning, rebuilding, upgrading).
 - `nix/modules/home.nix` and `nix/modules/home/`: home-manager, only for programs that exist on perry alone. `home.nix` lists them, one file each in `nix/modules/home/`. Everything else stays a plain, portable dotfile. Which programs are managed and why is documented in `docs/STYLE.md` only; refer to it instead of repeating the list.
 - `docs/STYLE.md`: documentation of the styling architecture, what home-manager manages, how to change the theme and pitfalls.
-- `nix/modules/style.nix`: all Nix-based styling. Stylix with the base16 scheme One Light, cursor, icons, monospace font (JetBrains Mono Nerd Font), and which stylix targets are enabled. To switch themes, change `base16Scheme` there.
+- `nix/modules/style.nix`: all Nix-based styling (stylix), see `docs/STYLE.md`.
 - `.config/hypr/hyprland.lua`: Hyprland config, see `docs/DESKTOP.md`.
 - `.config/networkmanager-dmenu/config.ini`: config of the rofi Wi-Fi menu.
 - `bin/`: helper scripts called from Hyprland (`~/bin`).
