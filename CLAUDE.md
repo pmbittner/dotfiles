@@ -38,7 +38,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - Commit messages: `<area>: <short lowercase summary>`, e.g. `nix: ...`, `hypr: ...`, `zsh: ...`, `bin: ...`. One logical change per commit. Optionally, add sub-area in brackets like `<area>(<subarea>): ...` such as `doom(neotree)`, when editing the neotree config in doom.
 - All Nix sources are pinned with lon; never use channels or `<nixpkgs>` in the config. Machine-specific values (user, host, monitors) are defined once in `configuration.nix`; never repeat them in modules. Details in `docs/NIX.md`.
 - Scripts use `#!/usr/bin/env <interpreter>` shebangs (there is no `/usr/bin/bash` on NixOS), are executable and are called directly, not via `sh script.sh`.
-- Any commit that changes styling (colors, fonts, themes, which programs are themed or how) must update `docs/STYLE.md` in the same commit.
+- Documentation: every fact has one home. What code does is explained in a comment next to it; why and how things fit together across files is in `docs/<topic>.md`; working rules are in this file. Docs point to the code for concrete values (versions, names, colors, lists) instead of copying them. If a commit changes something that a doc explains, it updates that doc in the same commit.
 - Keyboard layout is German (`de`) with Caps Lock as Escape.
 - New Hyprland keybindings follow the scheme in the comment block of `hyprland.lua`.
 

@@ -2,7 +2,7 @@
 
 How the desktop on `perry` gets its colors, fonts, cursor and icons, why it is built this way, and how to change it.
 
-**Keep this file up to date:** every commit that changes styling (colors, fonts, themes, which programs are themed or how) must update this file in the same commit.
+**Keep this file up to date:** a commit that changes how styling works (which programs are themed, how they get their colors, new pitfalls) updates this file in the same commit. Changing values, such as the scheme or a font, needs no update here.
 
 ## Overview
 
