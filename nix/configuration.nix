@@ -1,8 +1,10 @@
 { config, pkgs, ... }:
 let
-  # lon pins sources that are not part of nixpkgs (./lon.nix, ./lon.lock):
+  # lon pins all sources (./lon.nix, ./lon.lock): nixpkgs, nixpkgs-unstable,
   # home-manager, stylix and lanzaboote (Secure Boot, disabled for now, see
   # boot section below). Update the pins with `pb-nixos-update-pins`.
+  # The system itself is built from the pinned nixpkgs, which
+  # pb-nixos-rebuild-switch passes to nixos-rebuild (see zsh/nix.zsh).
   # Their NixOS modules are imported here, in one place. (They cannot be
   # passed to other modules via _module.args, since imports must not depend
   # on module arguments.)
@@ -17,7 +19,7 @@ let
   # The one user of this machine. Passed to all modules as `username`.
   username = "paul";
 
-  unstable = import <nixpkgs-unstable> {
+  unstable = import sources.nixpkgs-unstable {
     config = config.nixpkgs.config;
   };
 in
@@ -66,6 +68,22 @@ in
   # };
 
   networking.hostName = hostname;
+
+  # nixpkgs comes from lon (see the top of this file), not from channels.
+  # <nixpkgs> and <nixpkgs-unstable> (e.g. in nix-shell) point to the pins,
+  # so nix-shell uses the same packages as the system.
+  nix.channel.enable = false;
+  nix.nixPath = [
+    "nixpkgs=${sources.nixpkgs}"
+    "nixpkgs-unstable=${sources.nixpkgs-unstable}"
+  ];
+  # Warn if the system was built from another nixpkgs than the pinned one,
+  # e.g. by calling nixos-rebuild without pb-nixos-rebuild-switch.
+  warnings =
+    if toString pkgs.path != toString sources.nixpkgs then
+      [ "nixpkgs is not the version pinned in nix/lon.lock. Rebuild with pb-nixos-rebuild-switch." ]
+    else
+      [ ];
 
   # Monitors of this machine (see modules/hardware/monitors.nix).
   dotfiles.monitors = {

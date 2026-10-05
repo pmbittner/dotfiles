@@ -10,13 +10,13 @@ How the desktop on `perry` gets its colors, fonts, cursor and icons, why it is b
 - **Stylix** turns the scheme into configuration for programs. It is configured in one place: [`nix/modules/style.nix`](../nix/modules/style.nix).
 - **Home-manager** is the way stylix reaches most programs. Stylix generates a program's config, and home-manager writes the result into `~/.config`. Therefore a program can only be themed by stylix if home-manager manages it (the list is in [`nix/modules/home.nix`](../nix/modules/home.nix), one file per program in [`nix/modules/home/`](../nix/modules/home/)).
 - **Everything else stays a plain dotfile**, so this repository still works on machines without Nix (the Mac, other Linux machines).
-- **stylix and home-manager are pinned with lon** (`nix/lon.lock`, branch `release-25.11`, matching nixpkgs). Update them with `pb-nixos-update-pins`, then rebuild.
+- **stylix and home-manager are pinned with lon** (`nix/lon.lock`, branch `release-25.11`), like nixpkgs itself (branch `nixos-25.11`). Update all pins with `pb-nixos-update-pins`, then rebuild.
 
 ```
 nix/modules/style.nix              stylix: scheme, polarity, fonts, cursor, icons, enabled targets
 nix/modules/home.nix               home-manager base + list of managed programs
 nix/modules/home/<program>.nix     config of one managed program (rofi, dunst, waybar, wlogout, kitty colors, hyprland values)
-nix/lon.lock                       pins for stylix and home-manager
+nix/lon.lock                       pins for nixpkgs, stylix and home-manager
 ```
 
 ## What is managed by home-manager, and what is not
@@ -79,7 +79,7 @@ In the hand-written CSS (waybar, wlogout) we use these names, never fixed hex va
 - **`autoEnable = false`.** A new program is only themed when its target is enabled explicitly in `style.nix`. Check that a target exists for the program in stylix's `modules/` directory (programs without one, like wlogout, need hand-written styles using `config.lib.stylix.colors.withHashtag`).
 - **Adding a managed program takes three steps:** create `nix/modules/home/<program>.nix`, list it in `nix/modules/home.nix`, enable its stylix target in `style.nix`. If the program was installed system-wide before, remove it from `environment.systemPackages` (home-manager installs it).
 - **Generated files are read-only.** Files in `~/.config` that come from home-manager are symlinks into the Nix store. Edit the `.nix` file, not the file in `~/.config`. If a file already existed, home-manager renames it to `<name>.hm-backup` instead of failing; delete such backups once you no longer need them.
-- **Versions must match.** stylix and home-manager must be on the same release branch as nixpkgs (`release-25.11`). On a NixOS upgrade, switch the `branch` of both sources in `nix/lon.lock` to the new release and run `pb-nixos-update-pins`. Never change `home.stateVersion` or `system.stateVersion` for this.
+- **Versions must match.** stylix and home-manager must be on the same release as nixpkgs (`release-25.11` for `nixos-25.11`). All three are in `nix/lon.lock`, so the release is visible in one file. On a NixOS upgrade, switch the `branch` of all three sources in `nix/lon.lock` to the new release (e.g. `nixos-26.05` and `release-26.05`) and run `pb-nixos-update-pins`. Never change `home.stateVersion` or `system.stateVersion` for this.
 - **Installed fonts:** besides the stylix fonts, `fonts.packages` in `configuration.nix` installs JetBrains Mono Nerd Font and DejaVu system-wide. There are no separate icon fonts; all icons come from the Nerd Font.
 - **Waybar icons are Nerd Font glyphs** (network, Bluetooth, sound), typed as literal characters in `waybar.nix`, as Nix strings have no `\u` escapes. They only show up while the monospace font in `style.nix` is a Nerd Font. Look up glyphs by name in [glyphnames.json](https://github.com/ryanoasis/nerd-fonts/blob/master/glyphnames.json) (e.g. `md-wifi`; the `char` field of an entry is the glyph to paste).
 - **Waybar icon size:** the icon modules (`#network`, `#bluetooth`, `#pulseaudio`) have their own larger `font-size` and padding in `waybar.nix`, which also makes them easy to click. The bar window is only as high as its content, so tall icon glyphs are cut off at its edge if the pills have too little vertical padding. If an icon looks clipped, increase the `padding` of the pill or reduce the icon `font-size`.

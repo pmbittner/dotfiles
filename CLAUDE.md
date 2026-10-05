@@ -42,7 +42,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 ## Conventions
 
 - Commit messages: `<area>: <short lowercase summary>`, e.g. `nix: ...`, `hypr: ...`, `zsh: ...`, `bin: ...`. One logical change per commit. Optionally, add sub-area in brackets like `<area>(<subarea>): ...` such as `doom(neotree)`, when editing the neotree config in doom.
-- nixpkgs comes from channels. Packages from unstable are used via the `unstable` module argument (e.g. `unstable.hyprland`).
+- nixpkgs and nixpkgs-unstable are pinned with lon, not with channels (channels are disabled). `pb-nixos-rebuild-switch` builds the system from the pinned nixpkgs; a plain `nixos-rebuild` would not, and the config warns about it. Packages from unstable are used via the `unstable` module argument (e.g. `unstable.hyprland`). `<nixpkgs>` in `nix-shell` also points to the pin.
 - The user name is defined once in `configuration.nix` and passed to all modules as the `username` argument; do not write `paul` in modules. The machine name (`perry`) is also defined once there; modules that need it use `config.networking.hostName`.
 - Scripts use `#!/usr/bin/env <interpreter>` shebangs (there is no `/usr/bin/bash` on NixOS), are executable and are called directly, not via `sh script.sh`.
 - Any commit that changes styling (colors, fonts, themes, which programs are themed or how) must update `docs/STYLE.md` in the same commit.
@@ -66,7 +66,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 
 - Hyprland's Lua API is new and little documented. Verify functions and arguments against the Hyprland source (`src/config/lua/bindings/`) or the example config instead of guessing from hyprlang syntax.
 - greetd logs in directly to Hyprland without a login screen. This is intended.
-- lon pins everything that is not in nixpkgs (`nix/lon.lock` is the lock file, `nix/lon.nix` is generated, do not edit it): stylix and home-manager (`release-25.11`) and lanzaboote (frozen). Their modules are imported in `configuration.nix` only. Update the pins with `pb-nixos-update-pins` (runs `lon update`), then rebuild and commit `nix/lon.lock`. lon is independent of Secure Boot.
+- lon pins all sources (`nix/lon.lock` is the lock file, `nix/lon.nix` is generated, do not edit it): nixpkgs (`nixos-25.11`), nixpkgs-unstable (`nixos-unstable`), stylix and home-manager (`release-25.11`) and lanzaboote (frozen). Their modules are imported in `configuration.nix` only. Update the pins with `pb-nixos-update-pins` (runs `lon update`), then rebuild and commit `nix/lon.lock`. lon is independent of Secure Boot.
 - Secure Boot via lanzaboote is disabled for now; its config is kept commented out in `configuration.nix`.
 
 ## Plans and Ideas
