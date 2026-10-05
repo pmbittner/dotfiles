@@ -257,9 +257,8 @@ pb-spell-fu-delete-cache () {
 }
 
 ## aliases
-if $macos
+if $macos; then
   alias ls="ls -Gaph"
-then
 else
   alias ls="ls -a --color=auto --group-directories-first"
 fi
@@ -589,7 +588,7 @@ pb-android-unmount () {
 
 ### TODO add jetbrains font to dotfiles repo?
 
-if $macos
+if $macos; then
   if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
     . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
   fi
@@ -597,7 +596,7 @@ if $macos
   if [ -d "${HOME}/.ghcup" ]; then
     PATH=$HOME/.ghcup/bin:$PATH
   fi
-then
+else
   PBUSERNAME="$(whoami)"
   if [ -e /home/${PBUSERNAME}/.nix-profile/etc/profile.d/nix.sh ]; then . /home/${PBUSERNAME}/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
   [ -f "/home/${PBUSERNAME}/.ghcup/env" ] && . "/home/${PBUSERNAME}/.ghcup/env" # ghcup-env
