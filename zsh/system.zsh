@@ -16,8 +16,11 @@ pb-show-usb-devices () {
 
 ## USB stick
 ANDROID_MOUNT_DIR="$HOME/ANDROID"
+# Mounts a USB stick to ~/usb. The device defaults to /dev/sda1; find the
+# right one with `lsblk`, e.g. `pb-mount /dev/sdb1`.
 pb-mount () {
-  sudo mount /dev/sda1 ~/usb/
+  mkdir -p ~/usb
+  sudo mount "${1:-/dev/sda1}" ~/usb/
 }
 pb-android-mount () {
     mkdir "$ANDROID_MOUNT_DIR" && jmtpfs "$ANDROID_MOUNT_DIR" || rmdir "$ANDROID_MOUNT_DIR"
