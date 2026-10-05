@@ -50,11 +50,7 @@ in
   #   pkiBundle = "/var/lib/sbctl"; # path to where we generated our keys
   # };
 
-  networking.hostName = "perry"; # Define your hostname.
-  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
+  networking.hostName = "perry";
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
