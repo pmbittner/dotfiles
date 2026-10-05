@@ -423,17 +423,17 @@ pb-compose-to-pdf () {
   convert "*.$@" -auto-orient composed.pdf
 }
 pb-compose-pngs-to-pdf () {
-  compose-to-pdf png
+  pb-compose-to-pdf png
 }
 pb-compose-jpgs-to-pdf () {
-  compose-to-pdf jpg
+  pb-compose-to-pdf jpg
 }
 
 pb-scans-to-pdf () {
-  shrink-all-pngs
+  pb-shrink-all-pngs
   cd small
-  convert-pngs-to-jpgs
-  compose-jpgs-to-pdf
+  pb-convert-pngs-to-jpgs
+  pb-compose-jpgs-to-pdf
   mv composed.pdf ..
   cd ..
   rm -rf small
