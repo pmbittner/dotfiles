@@ -20,7 +20,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 
 - `nix/configuration.nix`: main NixOS config, imports the modules below.
 - `nix/modules/desktop/`: exactly one desktop module is imported at a time (currently `hyprland.nix`; the old xmonad setup was removed and is in the git history). Switching needs a reboot.
-- `nix/modules/hardware/`: hardware setup shared by all desktops (NVIDIA).
+- `nix/modules/hardware/`: hardware setup shared by all desktops (NVIDIA) and the `dotfiles.monitors` option. The monitor names themselves (main `DP-4`, left `DP-2`) are set in `configuration.nix`.
 - `nix/modules/home.nix` and `nix/modules/home/`: home-manager, only for programs that exist on perry alone. `home.nix` lists them, one file each in `nix/modules/home/`. Everything else stays a plain, portable dotfile. Which programs are managed and why is documented in `docs/STYLE.md` only; refer to it instead of repeating the list.
 - `docs/STYLE.md`: documentation of the styling architecture, what home-manager manages, how to change the theme and pitfalls.
 - `nix/modules/style.nix`: all Nix-based styling. Stylix with the base16 scheme One Light, cursor, icons, monospace font (JetBrains Mono Nerd Font), and which stylix targets are enabled. To switch themes, change `base16Scheme` there.
@@ -60,7 +60,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - Wi-Fi/LAN: NetworkManager with wpa_supplicant (switching to iwd was considered and rejected: large change, risky for enterprise Wi-Fi). `networkmanager_dmenu` (rofi menu, `mod + n` or click on waybar's network module) to connect; `nm-connection-editor` (opened from that menu) to add, edit and delete saved networks. LAN is preferred automatically by NetworkManager.
 - Bluetooth: BlueZ with `blueman-manager` (click on waybar's bluetooth module, which stays visible and grey when Bluetooth is off). The tray applet is not used.
 - Sound: PipeWire (with PulseAudio compatibility) with `pavucontrol` (click on waybar's sound module). `pwvucontrol` was considered; pavucontrol was chosen for robustness and easy GTK3 theming.
-- Waybar (config in `nix/modules/home/waybar.nix`): slim, floating, top. Main monitor `DP-4` shows workspaces, clock, RAM, temperature, network, Bluetooth and sound; left monitor `DP-2` shows workspaces only. No tray; add the `tray` module only if a tool really needs it.
+- Waybar (config in `nix/modules/home/waybar.nix`): slim, floating, top. Main monitor shows workspaces, clock, RAM, temperature, network, Bluetooth and sound; left monitor shows workspaces only. No tray; add the `tray` module only if a tool really needs it.
 
 ## Things to know
 

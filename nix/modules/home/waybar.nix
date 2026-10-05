@@ -1,5 +1,8 @@
-{ ... }:
+{ osConfig, ... }:
 let
+  # Monitor names are set in configuration.nix (dotfiles.monitors).
+  monitors = osConfig.dotfiles.monitors;
+
   # Both bars get the same height. Without it, each bar is only as high as its
   # content, so the main bar (larger icons) would be higher than the second one.
   # It must be at least as high as the content of the main bar, otherwise that
@@ -22,7 +25,7 @@ in
     settings = [
       {
         name = "main";
-        output = "DP-4";
+        output = monitors.main;
         layer = "top";
         position = "top";
         height = barHeight;
@@ -101,7 +104,7 @@ in
       }
       {
         name = "left";
-        output = "DP-2";
+        output = monitors.left;
         layer = "top";
         position = "top";
         height = barHeight;
