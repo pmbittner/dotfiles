@@ -10,6 +10,10 @@ let
   # lanzaboote = import sources.lanzaboote {
   #   inherit pkgs;
   # };
+
+  # Name of this machine. Modules read it as `config.networking.hostName`.
+  hostname = "perry";
+
   # The one user of this machine. Passed to all modules as `username`.
   username = "paul";
 
@@ -60,7 +64,7 @@ in
   #   pkiBundle = "/var/lib/sbctl"; # path to where we generated our keys
   # };
 
-  networking.hostName = "perry";
+  networking.hostName = hostname;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
