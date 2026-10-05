@@ -4,7 +4,9 @@ This repository contains all my linux configuration files I use for my personal 
 
 I created this repository according to [this guide](https://www.atlassian.com/git/tutorials/dotfiles) from Atlassian.
 
-## Notes
+## Documentation
 
-- The NixOS configuration lives in `nix/`, see [docs/NIX.md](docs/NIX.md). `nix/hardware-configuration.nix` is machine-specific and not part of this repository; NIX.md explains how to generate it.
-- Styling and some programs are managed with [home-manager](https://github.com/nix-community/home-manager) and [stylix](https://github.com/nix-community/stylix), both pinned with lon like nixpkgs itself. This only applies to programs that are used on the NixOS machine alone; everything else stays a plain, portable dotfile. See [docs/STYLE.md](docs/STYLE.md) for which programs are managed and how the styling works.
+- [docs/NIX.md](docs/NIX.md): the NixOS configuration in `nix/`: structure, pinned sources, rebuilding and upgrading, and how to set up `hardware-configuration.nix` on a new machine.
+- [docs/DESKTOP.md](docs/DESKTOP.md): the Hyprland desktop and its tools.
+- [docs/STYLE.md](docs/STYLE.md): styling with stylix and home-manager, which are only used for programs on the NixOS machine; everything else stays a plain, portable dotfile.
+- [docs/PLANS.md](docs/PLANS.md): open goals and decisions.
