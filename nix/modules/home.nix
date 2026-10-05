@@ -6,7 +6,7 @@ in
 {
   # Home-manager manages the config of programs that are only used on perry
   # (and are therefore not part of the portable dotfiles). Each program has its
-  # own file in ../home/. Colors and fonts of these programs come from stylix,
+  # own file in ./home/. Colors and fonts of these programs come from stylix,
   # see style.nix.
   #
   # Managed by home-manager (only on perry): see the imports below.
@@ -28,11 +28,11 @@ in
       home.stateVersion = "25.11";
 
       imports = [
-        ../home/dunst.nix
-        ../home/kitty.nix
-        ../home/rofi.nix
-        ../home/waybar.nix
-        ../home/wlogout.nix
+        ./home/dunst.nix
+        ./home/kitty.nix
+        ./home/rofi.nix
+        ./home/waybar.nix
+        ./home/wlogout.nix
       ];
     };
   };

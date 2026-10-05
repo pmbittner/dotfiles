@@ -12,7 +12,7 @@ in
   #   - main monitor: workspaces | clock | system status
   #   - left monitor: workspaces only
   #
-  # Colors and font come from stylix (see ../modules/style.nix), which defines
+  # Colors and font come from stylix (see ../style.nix), which defines
   # the CSS colors @base00 ... @base0F. The layout CSS below is our own.
   programs.waybar = {
     enable = true;
