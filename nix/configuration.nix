@@ -35,6 +35,7 @@ in
       # lanzaboote.nixosModules.lanzaboote
 
       ./modules/hardware/nvidia.nix
+      ./modules/hardware/monitors.nix
       ./modules/files.nix
       ./modules/network.nix
       ./modules/bluetooth.nix
@@ -65,6 +66,12 @@ in
   # };
 
   networking.hostName = hostname;
+
+  # Monitors of this machine (see modules/hardware/monitors.nix).
+  dotfiles.monitors = {
+    main = "DP-4";
+    left = "DP-2";
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
