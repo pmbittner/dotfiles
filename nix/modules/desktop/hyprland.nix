@@ -1,4 +1,4 @@
-{ pkgs, unstable, ... }:
+{ pkgs, unstable, username, ... }:
 {
   # Use Hyprland
   programs.hyprland = {
@@ -8,13 +8,13 @@
     portalPackage = unstable.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
   };
-  # No login screen: greetd starts Hyprland directly as paul on boot.
+  # No login screen: greetd starts Hyprland directly as the user on boot.
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
         command = "start-hyprland";
-        user = "paul";
+        user = username;
       };
     };
   };

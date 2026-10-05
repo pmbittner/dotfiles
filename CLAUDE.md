@@ -42,6 +42,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 
 - Commit messages: `<area>: <short lowercase summary>`, e.g. `nix: ...`, `hypr: ...`, `zsh: ...`, `bin: ...`. One logical change per commit. Optionally, add sub-area in brackets like `<area>(<subarea>): ...` such as `doom(neotree)`, when editing the neotree config in doom.
 - nixpkgs comes from channels. Packages from unstable are used via the `unstable` module argument (e.g. `unstable.hyprland`).
+- The user name is defined once in `configuration.nix` and passed to all modules as the `username` argument; do not write `paul` in modules.
 - Scripts use `#!/usr/bin/env <interpreter>` shebangs (there is no `/usr/bin/bash` on NixOS), are executable and are called directly, not via `sh script.sh`.
 - Any commit that changes styling (colors, fonts, themes, which programs are themed or how) must update `docs/STYLE.md` in the same commit.
 - Keyboard layout is German (`de`) with Caps Lock as Escape.
