@@ -174,12 +174,6 @@ config-add() {
   config add --patch
 }
 
-### gnome
-pb-gnome-reload () {
-  gsettings reset org.gnome.desktop.input-sources xkb-options
-  gsettings reset org.gnome.desktop.input-sources sources
-}
-
 ### linux
 pb-get-kernel () {
   uname -mrs
