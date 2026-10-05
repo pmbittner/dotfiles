@@ -8,15 +8,15 @@ How the desktop on `perry` gets its colors, fonts, cursor and icons, why it is b
 
 - **One color scheme drives everything:** a [base16](https://github.com/tinted-theming/schemes) scheme, currently **One Light** (light polarity).
 - **Stylix** turns the scheme into configuration for programs. It is configured in one place: [`nix/modules/style.nix`](../nix/modules/style.nix).
-- **Home-manager** is the way stylix reaches most programs. Stylix generates a program's config, and home-manager writes the result into `~/.config`. Therefore a program can only be themed by stylix if home-manager manages it (the list is in [`nix/modules/home.nix`](../nix/modules/home.nix), one file per program in [`nix/home/`](../nix/home/)).
+- **Home-manager** is the way stylix reaches most programs. Stylix generates a program's config, and home-manager writes the result into `~/.config`. Therefore a program can only be themed by stylix if home-manager manages it (the list is in [`nix/modules/home.nix`](../nix/modules/home.nix), one file per program in [`nix/modules/home/`](../nix/modules/home/)).
 - **Everything else stays a plain dotfile**, so this repository still works on machines without Nix (the Mac, other Linux machines).
 - **stylix and home-manager are pinned with lon** (`nix/lon.lock`, branch `release-25.11`, matching nixpkgs). Update them with `pb-nixos-update-pins`, then rebuild.
 
 ```
-nix/modules/style.nix      stylix: scheme, polarity, fonts, cursor, icons, enabled targets
-nix/modules/home.nix       home-manager base + list of managed programs
-nix/home/<program>.nix     config of one managed program (rofi, dunst, waybar, wlogout)
-nix/lon.lock               pins for stylix and home-manager
+nix/modules/style.nix              stylix: scheme, polarity, fonts, cursor, icons, enabled targets
+nix/modules/home.nix               home-manager base + list of managed programs
+nix/modules/home/<program>.nix     config of one managed program (rofi, dunst, waybar, wlogout, kitty colors)
+nix/lon.lock                       pins for stylix and home-manager
 ```
 
 ## What is managed by home-manager, and what is not
@@ -24,12 +24,12 @@ nix/lon.lock               pins for stylix and home-manager
 | Program | Managed by home-manager? | How it gets its colors |
 |---|---|---|
 | GTK apps (Thunar, pavucontrol, blueman, ...) | yes | stylix target `gtk` (adw-gtk3 theme + generated CSS, Papirus icons, cursor) |
-| rofi (launcher, wifi menu) | yes (`nix/home/rofi.nix`) | stylix target `rofi` |
-| dunst (notifications) | yes (`nix/home/dunst.nix`) | stylix target `dunst` |
-| waybar | yes (`nix/home/waybar.nix`) | stylix target `waybar` with `addCss = false`: stylix only provides the CSS colors `@base00`..`@base0F` and the font. The layout CSS is our own, in `waybar.nix`. |
-| wlogout | yes (`nix/home/wlogout.nix`) | **no stylix target exists.** The style is written by hand in `wlogout.nix`, using stylix's colors (`config.lib.stylix.colors`). |
+| rofi (launcher, wifi menu) | yes (`nix/modules/home/rofi.nix`) | stylix target `rofi` |
+| dunst (notifications) | yes (`nix/modules/home/dunst.nix`) | stylix target `dunst` |
+| waybar | yes (`nix/modules/home/waybar.nix`) | stylix target `waybar` with `addCss = false`: stylix only provides the CSS colors `@base00`..`@base0F` and the font. The layout CSS is our own, in `waybar.nix`. |
+| wlogout | yes (`nix/modules/home/wlogout.nix`) | **no stylix target exists.** The style is written by hand in `wlogout.nix`, using stylix's colors (`config.lib.stylix.colors`). |
 | Hyprland (`.config/hypr/hyprland.lua`) | no | by hand: the window border colors are One Light values at the top of the file (active `base0D`, inactive `base03`). The window shadow is `base05` at 25% opacity (a soft shadow that suits a light theme). |
-| kitty (`.config/kitty/`) | **partly:** the dotfile `kitty.conf` stays plain, home-manager only generates a colors file | `nix/home/kitty.nix` generates `~/.config/kitty/nix/stylix.conf` from the stylix colors. `kitty.conf` includes it with `globinclude` after the default theme (`themes/catppuccin_latte.conf`), so it overrides the default on `perry`. On other machines the file does not exist and the default theme stays. |
+| kitty (`.config/kitty/`) | **partly:** the dotfile `kitty.conf` stays plain, home-manager only generates a colors file | `nix/modules/home/kitty.nix` generates `~/.config/kitty/nix/stylix.conf` from the stylix colors. `kitty.conf` includes it with `globinclude` after the default theme (`themes/catppuccin_latte.conf`), so it overrides the default on `perry`. On other machines the file does not exist and the default theme stays. |
 | Doom Emacs, ranger, nvim, zsh, ... | no | their own themes, intentionally separate |
 
 Why this split:
@@ -77,7 +77,7 @@ In the hand-written CSS (waybar, wlogout) we use these names, never fixed hex va
 
 - **Stylix targets live on the home-manager side.** Enabling a target at NixOS level (`stylix.targets.x.enable`) does nothing for home-manager programs. Targets are enabled in `style.nix` under `home-manager.users.paul.stylix.targets`. Missing this once left the GTK theme unset. The check is: `config.home-manager.users.paul.gtk.theme.name` must not be `null`.
 - **`autoEnable = false`.** A new program is only themed when its target is enabled explicitly in `style.nix`. Check that a target exists for the program in stylix's `modules/` directory (programs without one, like wlogout, need hand-written styles using `config.lib.stylix.colors.withHashtag`).
-- **Adding a managed program takes three steps:** create `nix/home/<program>.nix`, list it in `nix/modules/home.nix`, enable its stylix target in `style.nix`. If the program was installed system-wide before, remove it from `environment.systemPackages` (home-manager installs it).
+- **Adding a managed program takes three steps:** create `nix/modules/home/<program>.nix`, list it in `nix/modules/home.nix`, enable its stylix target in `style.nix`. If the program was installed system-wide before, remove it from `environment.systemPackages` (home-manager installs it).
 - **Generated files are read-only.** Files in `~/.config` that come from home-manager are symlinks into the Nix store. Edit the `.nix` file, not the file in `~/.config`. If a file already existed, home-manager renames it to `<name>.hm-backup` instead of failing; delete such backups once you no longer need them.
 - **Versions must match.** stylix and home-manager must be on the same release branch as nixpkgs (`release-25.11`). On a NixOS upgrade, switch the `branch` of both sources in `nix/lon.lock` to the new release and run `pb-nixos-update-pins`. Never change `home.stateVersion` or `system.stateVersion` for this.
 - **Waybar icons are Nerd Font glyphs** (network, Bluetooth, sound), typed as literal characters in `waybar.nix`, as Nix strings have no `\u` escapes. They only show up while the monospace font in `style.nix` is a Nerd Font. Look up glyphs by name in [glyphnames.json](https://github.com/ryanoasis/nerd-fonts/blob/master/glyphnames.json) (e.g. `md-wifi`; the `char` field of an entry is the glyph to paste).
