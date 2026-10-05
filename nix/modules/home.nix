@@ -6,14 +6,9 @@ in
 {
   # Home-manager manages the config of programs that are only used on perry
   # (and are therefore not part of the portable dotfiles). Each program has its
-  # own file in ./home/. Colors and fonts of these programs come from stylix,
-  # see style.nix.
-  #
-  # Managed by home-manager (only on perry): see the imports below.
-  # Not managed by home-manager: everything else, e.g. zsh, doom, ranger, nvim
-  # and hyprland.lua. They stay plain dotfiles that also work on machines
-  # without Nix. Kitty is a special case: its dotfile stays, only a generated
-  # colors file is added (see kitty.nix).
+  # own file in ./home/, listed in the imports below. Colors and fonts of these
+  # programs come from stylix, see style.nix. What is managed and why is
+  # documented in docs/STYLE.md.
   imports = [ "${sources.home-manager}/nixos" ];
 
   home-manager = {
