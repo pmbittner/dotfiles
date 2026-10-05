@@ -3,8 +3,6 @@ local USRBIN = HOME .. "/bin"
 
 local mod = "SUPER"
 
-local MAIN_MONITOR = "DP-4"
-local LEFT_MONITOR = "DP-2"
 
 local terminal = "kitty"
 local ranger   = "kitty --hold --session launch-ranger.kitty"
@@ -13,12 +11,43 @@ local browser  = "firefox"
 local emacs    = "emacsclient -c -a 'emacs'"
 local launcher = "rofi -show drun"
 
--- Window border and shadow colors: One Light, copied by hand from the stylix
--- scheme in nix/modules/style.nix, as this file is not managed by
--- home-manager. When the theme changes, update these (see docs/STYLE.md).
-local border_active   = "rgba(4078f2ff)" -- base0D (blue)
-local border_inactive = "rgba(a0a1a7ff)" -- base03 (grey)
-local shadow_color    = 0x40383a42       -- base05 (text color) at 25% opacity (0xAARRGGBB)
+-- Values that the NixOS config also knows (monitors, keyboard, theme colors).
+-- On NixOS, home-manager generates nix/generated.lua next to this file from
+-- the Nix config (see nix/modules/home/hyprland.nix). On machines without it,
+-- the defaults below are used. Change the values in Nix, not here; keep the
+-- defaults in sync only if this file is used on other machines.
+local defaults = {
+    monitors = {
+        main = "DP-4",
+        left = "DP-2",
+    },
+    keyboard = {
+        layout  = "de",
+        variant = "",
+        options = "caps:escape",
+    },
+    colors = { -- One Light
+        border_active   = "rgba(4078f2ff)",
+        border_inactive = "rgba(a0a1a7ff)",
+        shadow          = 0x40383a42,
+    },
+}
+
+local found, generated = pcall(require, "nix.generated")
+if not found or type(generated) ~= "table" then
+    generated = {}
+end
+
+-- Use the generated value of a section if present, otherwise the default.
+local function setting(section)
+    return setmetatable(generated[section] or {}, { __index = defaults[section] })
+end
+local monitors = setting("monitors")
+local keyboard = setting("keyboard")
+local colors   = setting("colors")
+
+local MAIN_MONITOR = monitors.main
+local LEFT_MONITOR = monitors.left
 
 local WALLPAPER_HOME = HOME .. "/Media/Wallpaper/"
 hl.env("WALLPAPER_HOME", WALLPAPER_HOME) -- used by $USRBIN/wallpaper.sh
@@ -31,8 +60,8 @@ hl.config({
         border_size = 2,
 
         col = {
-            active_border   = border_active,
-            inactive_border = border_inactive,
+            active_border   = colors.border_active,
+            inactive_border = colors.border_inactive,
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
@@ -69,7 +98,7 @@ hl.config({
             enabled      = true,
             range        = 4,
             render_power = 3,
-            color        = shadow_color,
+            color        = colors.shadow,
         },
 
         blur = {
@@ -86,10 +115,10 @@ hl.config({
 })
 
 hl.config({input = {
-    kb_layout  = "de",
-    kb_variant = "",
+    kb_layout  = keyboard.layout,
+    kb_variant = keyboard.variant,
     kb_model   = "",
-    kb_options = "caps:escape",
+    kb_options = keyboard.options,
     kb_rules   = "",
 
     follow_mouse = 1,
