@@ -352,7 +352,7 @@ alias Fdir="Fcd"
 
 # find a text in all files at current directory
 ft () {
-  rg -r . -e "$@"
+  rg -e "$@" .
 }
 
 ev() {
