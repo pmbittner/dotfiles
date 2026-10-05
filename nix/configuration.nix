@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 let
   # lon pins sources that are not part of nixpkgs (./lon.nix, ./lon.lock).
   # Currently pinned: stylix and home-manager (used in modules/style.nix) and
@@ -42,8 +42,8 @@ in
   # Disabled for now: in the Windows dual boot, both systems reported Secure
   # Boot as active, but some games on Windows still crashed.
   # To re-enable: uncomment the lanzaboote lines at the top and in imports,
-  # the block below and sbctl in systemPackages, and replace the
-  # systemd-boot line above with
+  # the block below and sbctl in systemPackages, add `lib` to the arguments
+  # of this file, and replace the systemd-boot line above with
   #   boot.loader.systemd-boot.enable = lib.mkForce false;
   # since lanzaboote replaces the systemd-boot module.
   # boot.lanzaboote = {
