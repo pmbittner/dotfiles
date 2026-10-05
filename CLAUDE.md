@@ -31,6 +31,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - `.config/hypr/hyprland.lua`: Hyprland config in Lua (not the old hyprlang `.conf` format).
 - `.config/networkmanager-dmenu/config.ini`: config of the rofi Wi-Fi menu.
 - `bin/`: helper scripts called from Hyprland (`~/bin`).
+- `.zshrc` and `zsh/`: `.zshrc` sets up oh-my-zsh and p10k and sources one file per topic from `zsh/` (`git`, `nix`, `emacs`, `files`, `media`, `system`, `apps`, `dev`, and `mac.zsh` on macOS). New functions and aliases go into the matching topic file; machine-specific ones into the untracked `~/.local.zsh`.
 
 ## Commands
 
