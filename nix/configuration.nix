@@ -21,6 +21,7 @@ in
       ./hardware-configuration.nix
       # lanzaboote.nixosModules.lanzaboote
       ./modules/hardware/nvidia.nix
+      ./modules/files.nix
       ./modules/network.nix
       ./modules/bluetooth.nix
       ./modules/sound.nix
@@ -144,10 +145,6 @@ in
 
     nixd # Nix LSP
     # nil # another Nix LSP
-
-    # some basic applications
-    qimgv # image viewer
-    evince # pdf reader
   ];
 
   fonts.packages = with pkgs; [
@@ -158,28 +155,9 @@ in
     weather-icons
   ];
 
-  # USB access
-  services.udisks2.enable = true;
-  # services.devmon.enable = true;
-  # security.polkit.enable = true;
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
-
-  # Default programs
-  programs.thunar.enable = true;
+  # Settings store of GTK apps. Needed by the stylix GTK target (see
+  # docs/STYLE.md), do not remove.
   programs.dconf.enable = true;
-  programs.xfconf.enable = true;
-  services.tumbler.enable = true; # Thumbnail support for images
-
-  xdg.mime = {
-    enable = true;
-    defaultApplications = {
-      "image/jpeg" = "qimgv.desktop";
-      "image/jpg"  = "qimgv.desktop";
-      "image/png"  = "qimgv.desktop";
-      "image/gif"  = "qimgv.desktop";
-      "image/webp" = "qimgv.desktop";
-    };
-  };
 
   # Release of the first install of this system. Never change it, not even
   # on NixOS upgrades (see `man configuration.nix`).
