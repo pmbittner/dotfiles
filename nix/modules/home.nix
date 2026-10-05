@@ -19,6 +19,7 @@
 
       imports = [
         ./home/dunst.nix
+        ./home/hyprland.nix
         ./home/kitty.nix
         ./home/rofi.nix
         ./home/waybar.nix
