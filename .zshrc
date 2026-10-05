@@ -139,7 +139,7 @@ source $ZSH/oh-my-zsh.sh
 
 ### Default programs
 TERMINAL=kitty
-EXPLORER=nautilus
+EXPLORER=thunar
 
 export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
 
