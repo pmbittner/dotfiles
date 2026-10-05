@@ -1,4 +1,4 @@
-{ ... }:
+{ username, ... }:
 {
   # Home-manager manages the config of programs that are only used on perry
   # (and are therefore not part of the portable dotfiles). Each program has its
@@ -12,7 +12,7 @@
     # If a file that home-manager wants to manage already exists, it is moved
     # to <name>.hm-backup instead of aborting the rebuild.
     backupFileExtension = "hm-backup";
-    users.paul = {
+    users.${username} = {
       # Never change this to a newer release; it is the release of the first
       # home-manager setup, like system.stateVersion.
       home.stateVersion = "25.11";

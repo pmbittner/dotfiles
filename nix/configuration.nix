@@ -10,13 +10,16 @@ let
   # lanzaboote = import sources.lanzaboote {
   #   inherit pkgs;
   # };
+  # The one user of this machine. Passed to all modules as `username`.
+  username = "paul";
+
   unstable = import <nixpkgs-unstable> {
     config = config.nixpkgs.config;
   };
 in
 {
   _module.args = {
-    inherit unstable;
+    inherit unstable username;
   };
   imports =
     [ # Include the results of the hardware scan.
@@ -106,7 +109,7 @@ in
   nixpkgs.config.allowUnfree = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.paul = {
+  users.users.${username} = {
     isNormalUser = true;
     description = "Paul Bittner";
     extraGroups = [ "networkmanager" "wheel" ];
