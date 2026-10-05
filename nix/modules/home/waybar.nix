@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 let
   # Both bars get the same height. Without it, each bar is only as high as its
   # content, so the main bar (larger icons) would be higher than the second one.
@@ -16,9 +16,8 @@ in
   # the CSS colors @base00 ... @base0F. The layout CSS below is our own.
   programs.waybar = {
     enable = true;
-    package = pkgs.waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    });
+    # Keep the unmodified package: any override is not in the binary cache
+    # and makes waybar compile locally after every update.
 
     settings = [
       {
