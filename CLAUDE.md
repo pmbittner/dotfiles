@@ -24,6 +24,7 @@ Personal dotfiles for a NixOS desktop (host `perry`) with Hyprland. Navigation a
 - `nix/modules/home.nix` and `nix/modules/home/`: home-manager, only for programs that exist on perry alone. `home.nix` lists them, one file each in `nix/modules/home/`. Everything else stays a plain, portable dotfile. Which programs are managed and why is documented in `docs/STYLE.md` only; refer to it instead of repeating the list.
 - `docs/STYLE.md`: documentation of the styling architecture, what home-manager manages, how to change the theme and pitfalls.
 - `nix/modules/style.nix`: all Nix-based styling. Stylix with the base16 scheme One Light, cursor, icons, monospace font (JetBrains Mono Nerd Font), and which stylix targets are enabled. To switch themes, change `base16Scheme` there.
+- `nix/modules/files.nix`: mounting (udisks, gvfs), file manager (Thunar) and default programs for file types.
 - `nix/modules/network.nix`, `bluetooth.nix`, `sound.nix`: one small module per peripheral topic, shared by all desktops. Each names the graphical tool used for it (see "Desktop tools").
 - `nix/packages/`: custom package derivations.
 - `nix/hardware-configuration.nix` is machine-specific and intentionally not in the repo.
