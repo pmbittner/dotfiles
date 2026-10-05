@@ -1,14 +1,10 @@
 { pkgs, ... }:
-let
-  # stylix and home-manager are pinned with lon (see ../lon.nix, ../lon.lock).
-  sources = import ../lon.nix;
-in
 {
   # All Nix-based styling lives in this file.
   #
   # Stylix generates app themes from one color scheme. Most of its targets run
   # through home-manager, see home.nix for which programs are managed by it.
-  imports = [ (import sources.stylix).nixosModules.stylix ];
+  # The stylix NixOS module itself is imported in configuration.nix.
 
   stylix = {
     enable = true;

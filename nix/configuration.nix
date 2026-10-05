@@ -1,10 +1,12 @@
 { config, pkgs, ... }:
 let
-  # lon pins sources that are not part of nixpkgs (./lon.nix, ./lon.lock).
-  # Currently pinned: stylix and home-manager (used in modules/style.nix) and
-  # lanzaboote (Secure Boot, disabled for now, see boot section below).
-  # Update the pins with `pb-nixos-update-pins`.
-  # sources = import ./lon.nix;
+  # lon pins sources that are not part of nixpkgs (./lon.nix, ./lon.lock):
+  # home-manager, stylix and lanzaboote (Secure Boot, disabled for now, see
+  # boot section below). Update the pins with `pb-nixos-update-pins`.
+  # Their NixOS modules are imported here, in one place. (They cannot be
+  # passed to other modules via _module.args, since imports must not depend
+  # on module arguments.)
+  sources = import ./lon.nix;
   # lanzaboote = import sources.lanzaboote {
   #   inherit pkgs;
   # };
@@ -19,7 +21,12 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      # Pinned with lon (see above)
+      "${sources.home-manager}/nixos" # used in modules/home.nix
+      (import sources.stylix).nixosModules.stylix # used in modules/style.nix
       # lanzaboote.nixosModules.lanzaboote
+
       ./modules/hardware/nvidia.nix
       ./modules/files.nix
       ./modules/network.nix

@@ -1,16 +1,11 @@
 { ... }:
-let
-  # home-manager is pinned with lon (see ../lon.nix, ../lon.lock).
-  sources = import ../lon.nix;
-in
 {
   # Home-manager manages the config of programs that are only used on perry
   # (and are therefore not part of the portable dotfiles). Each program has its
   # own file in ./home/, listed in the imports below. Colors and fonts of these
   # programs come from stylix, see style.nix. What is managed and why is
   # documented in docs/STYLE.md.
-  imports = [ "${sources.home-manager}/nixos" ];
-
+  # The home-manager NixOS module itself is imported in configuration.nix.
   home-manager = {
     useGlobalPkgs = true; # use the system nixpkgs (and its overlays)
     useUserPackages = true;
