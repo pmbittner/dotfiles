@@ -20,7 +20,7 @@ Each topic has its own NixOS module (`nix/modules/network.nix`, `bluetooth.nix`,
 - **Wi-Fi/LAN:** NetworkManager with wpa_supplicant. Switching to iwd was considered and rejected: large change, risky for enterprise Wi-Fi. `networkmanager_dmenu` (a rofi menu) connects; `nm-connection-editor` (opened from that menu) adds, edits and deletes saved networks. NetworkManager prefers LAN automatically.
 - **Bluetooth:** BlueZ with `blueman-manager`. The tray applet is not used.
 - **Sound:** PipeWire (with PulseAudio compatibility) with `pavucontrol`. `pwvucontrol` was considered; pavucontrol was chosen for robustness and easy GTK3 theming.
-- **Status bar:** waybar, slim and floating at the top. The main monitor shows workspaces, clock and system status; clicking the network, Bluetooth or sound icon opens the tool above. The left monitor shows workspaces only. No tray; add the `tray` module only if a tool really needs it. Config in `nix/modules/home/waybar.nix`, design details in STYLE.md.
+- **Status bar:** waybar, slim and floating at the top. The main monitor shows workspaces, clock and system status; clicking the network, Bluetooth or sound icon opens the tool above, and the palette icon switches the theme (see STYLE.md). The left monitor shows workspaces only. No tray; add the `tray` module only if a tool really needs it. Config in `nix/modules/home/waybar.nix`, design details in STYLE.md.
 - **Launcher:** rofi.
 - **Logout menu:** wlogout, through `bin/wlogout-once.sh`, which toggles it.
 - **Files:** Thunar, mounting via udisks and gvfs (`nix/modules/files.nix`).
