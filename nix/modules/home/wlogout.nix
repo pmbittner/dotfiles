@@ -2,10 +2,31 @@
 let
   # Colors come from stylix. It has no wlogout target, so the style is ours.
   c = config.lib.stylix.colors.withHashtag;
-  icons = "${pkgs.wlogout}/share/wlogout/icons";
-  icon = name: ''
+  hex = config.lib.stylix.colors; # the same colors without '#'
+
+  # wlogout's button icons are white PNGs. They are recolored at build time,
+  # so they fit any theme: one set in the text color for normal buttons and
+  # one in the background color for the highlighted button.
+  recolorIcons =
+    color:
+    pkgs.runCommand "wlogout-icons-${color}" { nativeBuildInputs = [ pkgs.imagemagick ]; } ''
+      mkdir -p $out
+      for icon in ${pkgs.wlogout}/share/wlogout/icons/*.png; do
+        magick "$icon" -alpha on -fill "#${color}" -colorize 100 "$out/$(basename "$icon")"
+      done
+    '';
+  normalIcons = recolorIcons hex.base05;
+  activeIcons = recolorIcons hex.base00;
+
+  buttons = [ "lock" "logout" "suspend" "hibernate" "shutdown" "reboot" ];
+  iconStyle = name: ''
     #${name} {
-      background-image: image(url("${icons}/${name}.png"));
+      background-image: image(url("${normalIcons}/${name}.png"));
+    }
+    #${name}:focus,
+    #${name}:active,
+    #${name}:hover {
+      background-image: image(url("${activeIcons}/${name}.png"));
     }
   '';
 in
@@ -14,7 +35,6 @@ in
   # The layout is not set here, so wlogout's default buttons are used.
   programs.wlogout = {
     enable = true;
-    # The button icons are white, so the buttons stay dark even in a light theme.
     style = ''
       @define-color bg ${c.base00};
 
@@ -30,8 +50,8 @@ in
       button {
         border-radius: 10px;
         border: 2px solid @bg;
-        color: ${c.base00};
-        background-color: ${c.base05};
+        color: ${c.base05};
+        background-color: ${c.base01};
         background-repeat: no-repeat;
         background-position: center;
         background-size: 25%;
@@ -40,11 +60,12 @@ in
       button:focus,
       button:active,
       button:hover {
+        color: ${c.base00};
         background-color: ${c.base0D};
         outline-style: none;
       }
 
-      ${builtins.concatStringsSep "\n" (map icon [ "lock" "logout" "suspend" "hibernate" "shutdown" "reboot" ])}
+      ${builtins.concatStringsSep "\n" (map iconStyle buttons)}
     '';
   };
 }
