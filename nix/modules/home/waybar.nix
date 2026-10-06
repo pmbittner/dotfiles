@@ -36,7 +36,7 @@ in
 
         modules-left = [ "custom/power" "hyprland/workspaces" ];
         modules-center = [ "clock" ];
-        modules-right = [ "memory" "temperature" "network" "bluetooth" "pulseaudio" ];
+        modules-right = [ "memory" "temperature" "network" "bluetooth" "pulseaudio" "custom/theme" ];
 
         "hyprland/workspaces" = {
           format = "{name}";
@@ -49,6 +49,19 @@ in
           format = "󰐥";
           tooltip = false;
           on-click = "$HOME/bin/wlogout-once.sh";
+        };
+
+        # Theme switcher (bin/theme.sh, see docs/STYLE.md): click opens a
+        # rofi menu with all themes, scrolling cycles through them. The
+        # script prints the icon (md-palette) and the current theme as
+        # tooltip; waybar reloads itself after a switch, which updates it.
+        "custom/theme" = {
+          exec = "$HOME/bin/theme.sh waybar";
+          return-type = "json";
+          interval = "once";
+          on-click = "$HOME/bin/theme.sh menu";
+          on-scroll-up = "$HOME/bin/theme.sh prev";
+          on-scroll-down = "$HOME/bin/theme.sh next";
         };
 
         clock = {
@@ -193,7 +206,8 @@ in
       #custom-power,
       #network,
       #bluetooth,
-      #pulseaudio {
+      #pulseaudio,
+      #custom-theme {
         font-size: 14pt;
         padding: 0 8px;
       }
@@ -208,7 +222,8 @@ in
       #custom-power:hover,
       #network:hover,
       #bluetooth:hover,
-      #pulseaudio:hover {
+      #pulseaudio:hover,
+      #custom-theme:hover {
         background: alpha(@base0D, 0.15);
         border-radius: 6px;
       }

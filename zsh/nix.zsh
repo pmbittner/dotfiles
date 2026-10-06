@@ -11,8 +11,13 @@ pb-nix-pinned-source () {
 # Builds the system from the pinned nixpkgs through ~/nix/system.nix.
 # (A plain `sudo nixos-rebuild switch` does the same through
 # /etc/nixos/system.nix, once that file exists after the first rebuild.)
+# Afterwards, the last chosen desktop theme is applied again, as the rebuild
+# activates the default theme (see bin/theme.sh).
 pb-nixos-rebuild-switch () {
-  sudo nixos-rebuild switch --file "$HOME/nix/system.nix"
+  sudo nixos-rebuild switch --file "$HOME/nix/system.nix" || return
+  if [ -x "$HOME/bin/theme.sh" ] && [ -n "$WAYLAND_DISPLAY" ]; then
+    "$HOME/bin/theme.sh" restore
+  fi
 }
 pb-nixos-update () {
   pb-nixos-update-pins && pb-nixos-rebuild-switch
