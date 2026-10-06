@@ -2,7 +2,14 @@
 let
   # The switchable themes, see ../themes.nix.
   inherit (import ../themes.nix) default themes;
-  schemeFile = theme: "${pkgs.base16-schemes}/share/themes/${theme.scheme}.yaml";
+  # A scheme is either the name of a base16-schemes file or a path to an own
+  # scheme file in this repository.
+  schemeFile =
+    theme:
+    if builtins.isPath theme.scheme then
+      theme.scheme
+    else
+      "${pkgs.base16-schemes}/share/themes/${theme.scheme}.yaml";
   defaultTheme =
     lib.findFirst (t: t.name == default)
       (throw "themes.nix: default theme '${default}' is not in the list")
