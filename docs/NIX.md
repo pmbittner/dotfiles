@@ -64,3 +64,51 @@ Secure Boot via lanzaboote is disabled for now (in the Windows dual boot, some g
 - The NixOS config cannot be built on the Mac. `nix-instantiate --parse <file>.nix` checks the syntax only.
 - Real checks (option names, conflicting definitions) happen on `perry` with `pb-nixos-rebuild-switch`.
 - If a rebuild fails or something is wrong after it, the boot menu and `pb-nixos-show-generations` allow going back to a previous generation.
+
+# Why no flakes?
+
+## What flakes were introduced for
+
+Flakes came out of a Nix design proposal around 2019. They address four problems of classic Nix:
+
+1. **Pinning with a lock file.** A `flake.nix` declares its inputs (nixpkgs, home-manager, …), and `flake.lock` records their exact revisions. That's what lon and `lon.lock` do currently.
+2. **Pure evaluation.** In a flake, evaluation must not depend on anything outside the declared inputs: no `NIX_PATH`, no `<nixpkgs>`, no environment variables, no absolute paths like `/home/paul/...`. That's stricter than our setup. For example, `lon.nix` reads environment variables, and `/etc/nixos/system.nix` points into the home folder. Purity also lets Nix cache evaluation results.
+3. **A standard interface.** Every flake has a fixed set of outputs: `nixosConfigurations`, `packages`, `devShells`, `apps`, `overlays`, … Tools know where to look, which is what makes these work:
+   - `nixos-rebuild --flake .#perry`
+   - `nix develop` (development shells)
+   - `nix run github:owner/repo` (run a program straight from a repository)
+4. **Composition and sharing.** Because the interface is standard, one flake can use another as an input without knowing how it's built. That's how most of the ecosystem (home-manager, stylix, Hyprland) is distributed today.
+
+One caveat: flakes are still marked "experimental" in upstream Nix and have to be enabled explicitly, even though they're widely used. I can't search the web in this session, so it's worth checking whether that changed recently.
+
+## What we would gain now
+
+Not much, because the current setup is essentially a "flake without flakes":
+
+| Flake concept | Current setup |
+|---|---|
+| `inputs` + `flake.lock` | `lon.lock` |
+| `nixosConfigurations.perry` as entry point | `system.nix` |
+| `nixos-rebuild --flake` | `nixos-rebuild --file` |
+
+The real differences:
+
+- **Purity:** Nix would enforce that nothing leaks in from outside. Nice, but there is no current problem it would solve.
+- **Ecosystem fit:** the docs for home-manager, stylix and Hyprland are mostly written for flakes, so examples would apply directly instead of needing translation. That's a mild convenience.
+- **`nix develop` and `devShells`:** these would matter if one wanted per-project development environments. But `nix-shell` with direnv and nix-direnv covers that today, and nix-direnv works with both.
+
+## A specific trap in the current setup
+
+A flake inside a git repository only sees the files git tracks, and it treats the repository root as the flake. The dotfiles repo is a bare repository whose work tree is the whole home folder. Nix wouldn't recognize it as a git repo at all and could copy far more than intended into the store.
+
+The fix is to treat `~/nix` as a plain directory flake (`path:/home/paul/nix`), which also keeps the untracked `hardware-configuration.nix` visible. It's solvable, but it's the kind of hurdle that makes flakes more friction than benefit here.
+
+## My assessment
+
+By the rule in [PLANS.md](PLANS.md) ("only with a clear and strong reason"), I don't see one right now. The pinning works, it's reproducible, and the entry point problem is solved. Good triggers to reconsider:
+
+- **A second machine:** several `nixosConfigurations` in one flake that share modules is a strength of flakes.
+- **A tool needed that's only available as a flake.**
+- **Wanting `nix develop` dev shells** for projects.
+
+If one of those comes up, the migration would be small: the structure of `lon.lock` and `system.nix` maps one-to-one onto `flake.nix` and `flake.lock`.
