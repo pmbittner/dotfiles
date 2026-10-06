@@ -1,4 +1,14 @@
-{ pkgs, username, ... }:
+{ config, lib, pkgs, username, ... }:
+let
+  # The switchable themes, see ../themes.nix.
+  inherit (import ../themes.nix) default themes;
+  schemeFile = theme: "${pkgs.base16-schemes}/share/themes/${theme.scheme}.yaml";
+  defaultTheme =
+    lib.findFirst (t: t.name == default)
+      (throw "themes.nix: default theme '${default}' is not in the list")
+      themes;
+  otherThemes = lib.filter (t: t.name != default) themes;
+in
 {
   # All Nix-based styling lives in this file.
   #
@@ -8,10 +18,10 @@
 
   stylix = {
     enable = true;
-    polarity = "light";
-    # To switch themes, change the scheme here (and polarity if needed).
-    # All schemes: https://github.com/tinted-theming/schemes (base16/)
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/one-light.yaml";
+    # The default theme. The other themes are home-manager specialisations,
+    # see below.
+    polarity = defaultTheme.polarity;
+    base16Scheme = schemeFile defaultTheme;
 
     # Only explicitly enabled targets are themed. Targets are enabled on the
     # home-manager side below, as they are separate from the NixOS ones.
@@ -36,16 +46,44 @@
     };
   };
 
-  # Stylix themes home-manager programs through its home-manager integration
-  # (see home.nix). Targets are enabled per program below; add new ones here.
-  home-manager.users.${username}.stylix.targets = {
-    dunst.enable = true;
-    gtk.enable = true;
-    rofi.enable = true;
-    waybar = {
-      enable = true;
-      # Only colors and font; the layout CSS is in home/waybar.nix.
-      addCss = false;
+  home-manager.users.${username} = {
+    # Stylix themes home-manager programs through its home-manager
+    # integration (see home.nix). Targets are enabled per program below; add
+    # new ones here.
+    stylix.targets = {
+      dunst.enable = true;
+      gtk.enable = true;
+      rofi.enable = true;
+      waybar = {
+        enable = true;
+        # Only colors and font; the layout CSS is in home/waybar.nix.
+        addCss = false;
+      };
     };
+
+    # One specialisation per non-default theme: the same home-manager config
+    # with another scheme. All are built with every rebuild, so switching a
+    # theme only runs the specialisation's activation script (bin/theme.sh).
+    # Stylix copies the NixOS settings above into home-manager with low
+    # priority (mkDefault), so they can be overridden here.
+    specialisation = lib.listToAttrs (
+      map (theme: {
+        inherit (theme) name;
+        value.configuration.stylix = {
+          inherit (theme) polarity;
+          base16Scheme = schemeFile theme;
+        };
+      }) otherThemes
+    );
+  };
+
+  # Files for bin/theme.sh: the theme list (`name|label` per line, in menu
+  # order), the default theme, and the home-manager generation whose
+  # specialisations are the themes.
+  environment.etc = {
+    "dotfiles/themes".text = lib.concatMapStrings (t: "${t.name}|${t.label}\n") themes;
+    "dotfiles/theme-default".text = default + "\n";
+    "dotfiles/home-generation".text =
+      "${config.home-manager.users.${username}.home.activationPackage}\n";
   };
 }
