@@ -8,11 +8,11 @@
 pb-nix-pinned-source () {
   nix-instantiate --eval --expr "toString (import $HOME/nix/lon.nix).$1" | tr -d '"'
 }
-# Builds the system from the pinned nixpkgs (not from a channel).
+# Builds the system from the pinned nixpkgs through ~/nix/system.nix.
+# (A plain `sudo nixos-rebuild switch` does the same through
+# /etc/nixos/system.nix, once that file exists after the first rebuild.)
 pb-nixos-rebuild-switch () {
-  local nixpkgs
-  nixpkgs=$(pb-nix-pinned-source nixpkgs) || return 1
-  sudo nixos-rebuild -I nixpkgs="$nixpkgs" -I nixos-config=$HOME/nix/configuration.nix switch
+  sudo nixos-rebuild switch --file "$HOME/nix/system.nix"
 }
 pb-nixos-update () {
   pb-nixos-update-pins && pb-nixos-rebuild-switch

@@ -3,8 +3,8 @@ let
   # lon pins all sources (./lon.nix, ./lon.lock): nixpkgs, nixpkgs-unstable,
   # home-manager, stylix and lanzaboote (Secure Boot, disabled for now, see
   # boot section below). Update the pins with `pb-nixos-update-pins`.
-  # The system itself is built from the pinned nixpkgs, which
-  # pb-nixos-rebuild-switch passes to nixos-rebuild (see zsh/nix.zsh).
+  # The system itself is built from the pinned nixpkgs through the entry
+  # point ./system.nix.
   # Their NixOS modules are imported here, in one place. (They cannot be
   # passed to other modules via _module.args, since imports must not depend
   # on module arguments.)
@@ -77,8 +77,14 @@ in
     "nixpkgs=${sources.nixpkgs}"
     "nixpkgs-unstable=${sources.nixpkgs-unstable}"
   ];
+  # nixos-rebuild looks for /etc/nixos/system.nix when no file is given. It
+  # forwards to ./system.nix in the home directory (a string, not a Nix path,
+  # so it always reads the current file instead of a copy in the store).
+  environment.etc."nixos/system.nix".text = ''
+    import ${config.users.users.${username}.home}/nix/system.nix
+  '';
   # Warn if the system was built from another nixpkgs than the pinned one,
-  # e.g. by calling nixos-rebuild without pb-nixos-rebuild-switch.
+  # e.g. by calling nixos-rebuild with another entry point than system.nix.
   warnings =
     if toString pkgs.path != toString sources.nixpkgs then
       [ "nixpkgs is not the version pinned in nix/lon.lock. Rebuild with pb-nixos-rebuild-switch." ]
