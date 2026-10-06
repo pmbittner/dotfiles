@@ -200,6 +200,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd(USRBIN .. "/reset-dynamic-emacs-args.sh")
     hl.exec_cmd("pgrep emacs > /dev/null || emacs --daemon")
     hl.exec_cmd("awww-daemon")
+    hl.exec_cmd(USRBIN .. "/theme.sh restore") -- last chosen theme
 end)
 
 -- Window/Session actions
