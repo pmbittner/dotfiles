@@ -32,10 +32,8 @@ plugins=(git sudo extract fancy-ctrl-z nix-shell zsh-fs-navigation zsh-syntax-hi
 
 source $ZSH/oh-my-zsh.sh
 
-########## CUSTOM ADDITIONS BY p10k configure ###################
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+## Prompt (powerlevel10k)
+source ~/zsh/p10k.zsh
 
 ########## CUSTOM ADDITIONS BY ME (PAUL) ###################
 
@@ -44,13 +42,6 @@ TERMINAL=kitty
 EXPLORER=thunar
 
 export HISTORY_IGNORE="(ls|cd|exit|cd ..)"
-
-### Styling overwrites for zsh theme
-# typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='⟩⟩＝'
-typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='>>='
-# typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='λ'
-# typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='🐢'
-# typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='🍺'
 
 reload() {
   clear

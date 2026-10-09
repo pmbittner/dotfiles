@@ -31,7 +31,7 @@ Read the matching document before working on a topic:
 - `.config/hypr/hyprland.lua`: Hyprland config, see `docs/DESKTOP.md`.
 - `.config/networkmanager-dmenu/config.ini`: config of the rofi Wi-Fi menu.
 - `bin/`: helper scripts called from Hyprland (`~/bin`).
-- `.zshrc` and `zsh/`: `.zshrc` sets up oh-my-zsh and p10k and sources one file per topic from `zsh/` (`git`, `nix`, `emacs`, `files`, `media`, `system`, `apps`, `dev`, and `mac.zsh` on macOS). New functions and aliases go into the matching topic file; machine-specific ones into the untracked `~/.local.zsh`.
+- `.zshrc` and `zsh/`: `.zshrc` sets up oh-my-zsh and sources one file per topic from `zsh/` (`p10k` for the prompt, `git`, `nix`, `emacs`, `files`, `media`, `system`, `apps`, `dev`, and `mac.zsh` on macOS). New functions and aliases go into the matching topic file; machine-specific ones into the untracked `~/.local.zsh`.
 
 ## Commands
 
