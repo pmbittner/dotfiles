@@ -60,7 +60,12 @@ in
     stylix.targets = {
       dunst.enable = true;
       gtk.enable = true;
-      rofi.enable = true;
+      rofi = {
+        enable = true;
+        # No striped rows; the rounded rows in home/rofi.nix look calmer
+        # without them.
+        alternatePattern = false;
+      };
       waybar = {
         enable = true;
         # Only colors and font; the layout CSS is in home/waybar.nix.

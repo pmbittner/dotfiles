@@ -25,7 +25,7 @@ nix/modules/home/<program>.nix     config of one managed program (see the table 
 | Program | Managed by home-manager? | How it gets its colors |
 |---|---|---|
 | GTK apps (Thunar, pavucontrol, blueman, ...) | yes | stylix target `gtk` (adw-gtk3 theme + generated CSS, Papirus icons, cursor) |
-| rofi (launcher, wifi menu) | yes (`nix/modules/home/rofi.nix`) | stylix target `rofi` |
+| rofi (launcher, wifi and theme menu) | yes (`nix/modules/home/rofi.nix`) | stylix target `rofi` for colors and font. Our own layout (rounded corners, spacing, icons, larger font) in `rofi.nix` is merged into stylix's rofi theme; the icon theme follows the theme's polarity. |
 | dunst (notifications) | yes (`nix/modules/home/dunst.nix`) | stylix target `dunst` |
 | waybar | yes (`nix/modules/home/waybar.nix`) | stylix target `waybar` with `addCss = false`: stylix only provides the CSS colors `@base00`..`@base0F` and the font. The layout CSS is our own, in `waybar.nix`. |
 | wlogout | yes (`nix/modules/home/wlogout.nix`) | **no stylix target exists.** The style is written by hand in `wlogout.nix`, using stylix's colors (`config.lib.stylix.colors`). Its white icons are recolored at build time with ImageMagick, in the text color and, for the highlighted button, in the background color. |
