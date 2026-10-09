@@ -34,11 +34,20 @@ in
         padding = mkLiteral "8px 12px";
         border-radius = mkLiteral "8px";
         background-color = mkLiteral "@lightbg";
-        children = map mkLiteral [ "prompt" "textbox-prompt-colon" "entry" ];
-        spacing = mkLiteral "6px";
+        children = map mkLiteral [ "prompt" "entry" ];
+        spacing = mkLiteral "12px";
       };
-      # The input bar's children take its background.
-      "prompt, textbox-prompt-colon, entry".background-color = mkLiteral "inherit";
+      # The theme replaces rofi's default theme, so the widths are set here:
+      # the prompt ("drun") takes only the space it needs, the entry the rest.
+      # Otherwise both share the width, and the text starts in the middle.
+      prompt = {
+        expand = false;
+        background-color = mkLiteral "inherit";
+      };
+      entry = {
+        expand = true;
+        background-color = mkLiteral "inherit";
+      };
 
       listview = {
         border = mkLiteral "0";
