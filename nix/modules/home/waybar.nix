@@ -36,7 +36,7 @@ in
 
         modules-left = [ "custom/power" "hyprland/workspaces" ];
         modules-center = [ "clock" ];
-        modules-right = [ "memory" "temperature" "network" "bluetooth" "pulseaudio" "custom/theme" ];
+        modules-right = [ "memory" "temperature" "custom/theme" "network" "bluetooth" "pulseaudio" ];
 
         "hyprland/workspaces" = {
           format = "{name}";
