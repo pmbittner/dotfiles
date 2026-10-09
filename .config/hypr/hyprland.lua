@@ -194,6 +194,18 @@ hl.window_rule({
     center = true,
 })
 
+-- Ignore windows requesting to get maximized. In particular, kitty does this on
+-- every start. The reason is that hyprland tells every window to be maximized
+-- so that they are rendered without title bars as a trick. Kitty remembers that
+-- it was maximized the last time it was closed, and when it is started again,
+-- it asks to become maximized. This rule ignores that request.
+hl.window_rule({
+    name = "suppress-maximize-events",
+    match = { class = ".*" },
+    suppress_event = "maximize",
+})
+
+
 -- Autostart
 hl.on("hyprland.start", function ()
     hl.exec_cmd("waybar")
