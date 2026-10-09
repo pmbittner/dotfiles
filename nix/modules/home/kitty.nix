@@ -9,9 +9,6 @@ in
   # because kitty is also used on machines without Nix. On those, the default
   # theme (themes/catppuccin_latte.conf) stays active.
   #
-  # The globinclude is currently commented out in kitty.conf until the shell
-  # prompt is styled, too. Until then, this file is generated but not used.
-  #
   # programs.kitty and the stylix kitty target are deliberately not used, as
   # they would generate the whole kitty.conf and collide with the dotfile.
   # Mapping from base16 to kitty colors as in the base16-kitty template.
