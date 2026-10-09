@@ -52,16 +52,14 @@ in
         };
 
         # Theme switcher (bin/theme.sh, see docs/STYLE.md): click opens a
-        # rofi menu with all themes, scrolling cycles through them. The
-        # script prints the icon (md-palette) and the current theme as
-        # tooltip; waybar reloads itself after a switch, which updates it.
+        # rofi menu with all themes; the tooltip shows the current theme.
+        # The script runs detached (setsid), because a theme switch reloads
+        # waybar, and waybar would otherwise end the script it started.
         "custom/theme" = {
           exec = "$HOME/bin/theme.sh waybar";
           return-type = "json";
           interval = "once";
-          on-click = "$HOME/bin/theme.sh menu";
-          on-scroll-up = "$HOME/bin/theme.sh prev";
-          on-scroll-down = "$HOME/bin/theme.sh next";
+          on-click = "setsid -f $HOME/bin/theme.sh menu";
         };
 
         clock = {
