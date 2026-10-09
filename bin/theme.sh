@@ -3,7 +3,8 @@
 # Switches the desktop theme at runtime (see docs/STYLE.md).
 #
 # Every theme from nix/themes.nix is built as a home-manager specialisation;
-# switching runs its activation script, then reloads waybar and Hyprland.
+# switching runs its activation script, then reloads waybar, Hyprland and
+# kitty.
 # The chosen theme is remembered and restored after login and rebuilds.
 #
 # Usage: theme.sh menu | next | prev | set <name> | restore | current | waybar
@@ -40,7 +41,7 @@ notify() {
 }
 
 # Activates a theme's home-manager generation and remembers it. Home-manager
-# reloads dunst itself; waybar and Hyprland are reloaded here. The state is
+# reloads dunst itself; waybar, Hyprland and kitty are reloaded here. The state is
 # written before the reload, so waybar shows the new theme.
 activate() {
     local name=$1 generation
@@ -60,6 +61,10 @@ activate() {
     echo "$name" >"$STATE_FILE"
     pkill -SIGUSR2 -x waybar || true           # reloads config and style
     hyprctl reload >/dev/null 2>&1 || true     # reads nix/generated.lua again
+    # kitty rereads its config, including the generated colors, in all open
+    # windows; the zsh prompt follows, as it uses the terminal's palette.
+    # (On NixOS, kitty's process may be called .kitty-wrapped.)
+    pkill -SIGUSR1 -x 'kitty|\.kitty-wrapped' || true
 }
 
 set_theme() {
