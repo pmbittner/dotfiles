@@ -1,7 +1,17 @@
-{ osConfig, ... }:
+{ config, lib, osConfig, ... }:
 let
   # Monitor names are set in configuration.nix (dotfiles.monitors).
   monitors = osConfig.dotfiles.monitors;
+
+  # Reloading the style after a theme switch. waybar can reload its style
+  # when the style file changes (reload_style_on_change), but it watches the
+  # resolved file, and home-manager's style.css is a link into the read-only
+  # Nix store, which never changes. So the style imports this small regular
+  # file, and every home-manager activation (theme switch or rebuild) writes
+  # it. waybar then reloads the whole style, without restarting the bars.
+  # (A restart with SIGUSR2 would recreate the bars, and the mouse pointer
+  # would lose the bar it is on.)
+  styleReloadTrigger = "${config.xdg.configHome}/waybar/reload-trigger.css";
 
   # Both bars get the same height. Without it, each bar is only as high as its
   # content, so the main bar (larger icons) would be higher than the second one.
@@ -28,6 +38,7 @@ in
         output = monitors.main;
         layer = "top";
         position = "top";
+        reload_style_on_change = true; # see styleReloadTrigger above
         height = barHeight;
         margin-top = 10;
         margin-left = 20;
@@ -59,6 +70,7 @@ in
           exec = "$HOME/bin/theme.sh waybar";
           return-type = "json";
           interval = "once";
+          signal = 8; # theme.sh refreshes the module with this signal
           on-click = "$HOME/bin/theme.sh menu";
           on-scroll-up = "$HOME/bin/theme.sh prev";
           on-scroll-down = "$HOME/bin/theme.sh next";
@@ -120,6 +132,7 @@ in
         output = monitors.left;
         layer = "top";
         position = "top";
+        reload_style_on_change = true;
         height = barHeight;
         margin-top = 10;
         margin-left = 20;
@@ -135,8 +148,13 @@ in
       }
     ];
 
-    # Appended after the colors and font that stylix adds.
-    style = ''
+    # Appended after the colors and font that stylix adds. The import of the
+    # reload trigger comes first, as CSS imports must precede all rules.
+    style = lib.mkMerge [
+      (lib.mkBefore ''
+        @import "${styleReloadTrigger}";
+      '')
+      ''
       * {
         border: none;
         border-radius: 0;
@@ -257,6 +275,15 @@ in
       #bluetooth.connected {
         color: @base0D;
       }
-    '';
+    ''
+    ];
   };
+
+  # Writes the style reload trigger (see above) on every activation.
+  home.activation.waybarStyleReloadTrigger = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    if [[ ! -v DRY_RUN ]]; then
+      mkdir -p "$(dirname ${lib.escapeShellArg styleReloadTrigger})"
+      date "+/* written on activation at %s, see waybar.nix */" > ${lib.escapeShellArg styleReloadTrigger}
+    fi
+  '';
 }
