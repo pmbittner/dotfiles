@@ -24,6 +24,11 @@
 
 (package! scroll-on-jump)
 
+;; WGSL: regex-based mode (MELPA) and tree-sitter mode (GitHub only)
+(package! wgsl-mode)
+(package! wgsl-ts-mode
+  :recipe (:host github :repo "acowley/wgsl-ts-mode"))
+
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/radian-software/straight.el#the-recipe-format

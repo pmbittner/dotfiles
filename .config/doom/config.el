@@ -1359,6 +1359,28 @@ wouldn't change.")
   ;;    )
   )
 
+;;;; WGSL
+
+;; Where to get the WGSL grammar. wgsl-ts-mode is written for this grammar.
+(after! treesit
+  (add-to-list 'treesit-language-source-alist
+               '(wgsl "https://github.com/szebniok/tree-sitter-wgsl")))
+
+;; Prefer the tree-sitter mode when the grammar is installed.
+(when (and (fboundp 'treesit-ready-p)
+           (treesit-ready-p 'wgsl t))   ; t = don't warn if it's missing
+  (add-to-list 'major-mode-remap-alist '(wgsl-mode . wgsl-ts-mode)))
+
+(defun my/wgsl-ensure-grammar ()
+  "Offer to install the WGSL tree-sitter grammar, then switch to `wgsl-ts-mode'."
+  (when (and (treesit-available-p)
+             (not (treesit-language-available-p 'wgsl))
+             (y-or-n-p "Install the tree-sitter grammar for WGSL? "))
+    (treesit-install-language-grammar 'wgsl)
+    (add-to-list 'major-mode-remap-alist '(wgsl-mode . wgsl-ts-mode))
+    (wgsl-ts-mode)))
+
+(add-hook 'wgsl-mode-hook #'my/wgsl-ensure-grammar)
 ;;;; LATEX
 
 ;; TODO: We do not have to always load latex?
