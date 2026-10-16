@@ -1306,27 +1306,15 @@ wouldn't change.")
 
 ;;;; PYTHON
 
-(use-package! lsp-pyright
-  :after lsp-mode
-  :hook (python-mode . lsp))
+(after! eglot
+  (add-to-list 'eglot-server-programs
+               `(python-base-mode . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
+                                                           ("ty" "server"))))))
+(add-hook 'python-base-mode-hook 'eglot-ensure)
 
-(use-package! lsp-ruff
-  :after lsp-mode
-  :hook (python-mode . lsp))
-
-(after! lsp-mode
-  (setq lsp-disabled-clients
-        '(pyls pylsp semgrep-ls ty-ls jdtls)))
-
-(after! python
-  (dolist (map (list 'python-mode-map 'python-ts-mode-map))
-    (map! :map ,map
-          :localleader
-          "f" #'lsp-format-buffer
-          "a" #'pyvenv-activate
-          "d" #'pyvenv-deactivate
-          ))
-  )
+;; (after! lsp-mode
+;;   (setq lsp-disabled-clients
+;;         '(pyls pylsp semgrep-ls ty-ls jdtls)))
 
 ;;;; JAVA
 
