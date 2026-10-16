@@ -128,7 +128,7 @@ z = 'y'
     cmd-t = 'exec-and-forget kitty --directory ~'
     cmd-b = 'exec-and-forget open -a thunderbird'
 
-    cmd-shift-t = [ 'exec-and-forget open -a "Micosoft Teams"', "workspace T" ]
+    cmd-shift-t = [ 'exec-and-forget open -a "Microsoft Teams"', "workspace T" ]
     cmd-f = [ 'exec-and-forget open -a firefox', "workspace F" ]
     cmd-m = [ 'exec-and-forget open -a music', "workspace M" ]
     cmd-r = [ 'exec-and-forget kitty --directory ~ --session launch-ranger.kitty' ]
