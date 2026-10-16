@@ -9,7 +9,8 @@ config-version = 2
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
     'exec-and-forget open -a "Microsoft Teams"',
-    'exec-and-forget open -a firefox'
+    'exec-and-forget open -a firefox',
+    'exec-and-forget emacsclient --reuse-frame --alternate-editor="emacs"',
 ]
 
 # Start AeroSpace at login
