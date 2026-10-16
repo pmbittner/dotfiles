@@ -733,7 +733,11 @@
 (if (eq system-type 'darwin)
   (setq openwith-associations
         '(("\\.pdf\\'" "open" (file))
-          ("\\.docx\\'" "open" (file))))
+          ("\\.xlsx\\'" "open" (file))
+          ("\\.pptx\\'" "open" (file))
+          ("\\.docx\\'" "open" (file))
+          ("\\.numbers\\'" "open" (file))
+          ))
   (setq openwith-associations
         '(("\\.pdf\\'" "evince" (file)))))
 
