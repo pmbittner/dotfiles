@@ -108,13 +108,6 @@
       (:desc "Make" "m" #'+make/run)
       (:desc "Kill compilation" "k" #'kill-compilation)
       )
-(map! :leader
-      :prefix "c"
-      (:desc "Compile project" "c" #'project-compile)
-      (:desc "Compile (here)" "L" #'compile)
-      (:desc "Recompile (here)" "l" #'recompile)
-      (:desc "Make" "m" #'+make/run)
-      )
 
 (defun comment-eclipse ()
     "Eclipse IDE style multi-line comment toggling
