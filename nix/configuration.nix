@@ -195,6 +195,7 @@ in
   # System fonts. Icons in waybar and elsewhere come from the Nerd Font.
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
     dejavu_fonts
   ];
 
