@@ -161,6 +161,8 @@ in
       fd
       clang
       emacs-lsp-booster
+      (aspellWithDicts
+        (dicts: with dicts; [ de en en-computers en-science ]))
 
       shellcheck
       nixfmt
