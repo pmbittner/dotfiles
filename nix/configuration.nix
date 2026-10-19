@@ -160,6 +160,7 @@ in
       ripgrep
       fd
       clang
+      emacs-lsp-booster
 
       shellcheck
       nixfmt
