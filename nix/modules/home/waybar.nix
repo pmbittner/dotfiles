@@ -113,24 +113,24 @@ in
           format-icons = [ "󰕿" "󰖀" "󰕾" ];
         };
       }
-      {
-        name = "left";
-        output = monitors.left;
-        layer = "top";
-        position = "top";
-        height = barHeight;
-        margin-top = 10;
-        margin-left = 20;
-        margin-right = 20;
+      # {
+      #   name = "left";
+      #   output = monitors.left;
+      #   layer = "top";
+      #   position = "top";
+      #   height = barHeight;
+      #   margin-top = 10;
+      #   margin-left = 20;
+      #   margin-right = 20;
 
-        # Only workspaces here. The unused center group is removed.
-        no-center = true;
-        modules-left = [ "hyprland/workspaces" ];
+      #   # Only workspaces here. The unused center group is removed.
+      #   no-center = true;
+      #   modules-left = [ "hyprland/workspaces" ];
 
-        "hyprland/workspaces" = {
-          format = "{name}";
-        };
-      }
+      #   "hyprland/workspaces" = {
+      #     format = "{name}";
+      #   };
+      # }
     ];
 
     # Appended after the colors and font that stylix adds.
