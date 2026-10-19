@@ -199,6 +199,7 @@ in
     nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only
     dejavu_fonts
+    symbola # fallback font for emacs
   ];
 
   # Settings store of GTK apps. Needed by the stylix GTK target (see
