@@ -7,7 +7,11 @@ export EMACSDIR=~/.config/emacs
 export DOOMDIR=~/.config/doom
 export PATH=$EMACSDIR/bin:$PATH
 
-source ~/.emacsrc
+if $macos; then
+  alias pb-emacs-kill="pkill -9 -i emacs"
+else
+  alias pb-emacs-kill="pkill emacs"
+fi
 
 pb-emacs-fix-config () {
   vim $DOOMDIR/config.el
@@ -17,3 +21,5 @@ pb-emacs-fix-config () {
 pb-spell-fu-delete-cache () {
   rm -rf $EMACSDIR/.local/etc/spell-fu/*
 }
+
+source ~/.emacsrc

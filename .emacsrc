@@ -12,7 +12,7 @@
 #   else
 #     touch "$DISABLE_EMACS_SERVER_USAGE_FILE"
 #     echo "STOP emacs server mode. Running servers are terminated."
-#     emacs-kill-server
+#     pb-emacs-kill
 #   fi
 # }
 # is-emacs-server() {
@@ -66,25 +66,14 @@ emacs-start-server() {
   echo "Running emacs server under process id:"
   pgrep emacs
 }
-if $macos
-then
-emacs-kill-server() {
-  echo "Killing Server on MacOS"
-  pb-emacs-kill
-}
-else
-emacs-kill-server() {
-  pkill emacs
-}
-fi
 emacs-restart-server() {
-  emacs-kill-server
+  pb-emacs-kill
   sleep 1
   emacs-start-server
 }
 # shuts down all emacs servers, runs 'doom sync', and restarts server.
 emacs-sync() {
-  emacs-kill-server
+  pb-emacs-kill
   doom sync
   # if [ -f "$DISABLE_EMACS_SERVER_USAGE_FILE" ]
   # then
@@ -183,4 +172,5 @@ alias e='emacsclient'
 alias ee='emacs'
 alias es='emacs-sync'
 alias er='emacs-sync ; e'
+alias ek='pb-emacs-kill'
 alias ers='emacs-restart-server'
