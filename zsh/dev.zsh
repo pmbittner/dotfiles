@@ -23,3 +23,6 @@ venv-deactivate () {
 }
 alias v=venv-activate
 alias vd=venv-deactivate
+
+#### Rust
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
