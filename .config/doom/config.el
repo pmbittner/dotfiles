@@ -736,6 +736,9 @@
           ("\\.xlsx\\'" "open" (file))
           ("\\.pptx\\'" "open" (file))
           ("\\.docx\\'" "open" (file))
+          ("\\.ods\\'" "open" (file))
+          ("\\.odp\\'" "open" (file))
+          ("\\.odt\\'" "open" (file))
           ("\\.numbers\\'" "open" (file))
           ))
   (setq openwith-associations
