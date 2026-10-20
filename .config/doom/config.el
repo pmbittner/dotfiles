@@ -230,16 +230,19 @@
 ;; `load-theme' function.
 (setq doom-theme
   ;;;; Favorites
+  ;; 'doom-tokyo-night-storm
+  ;; 'catppuccin
   ;; 'doom-one
   'doom-one-light
+  ;; 'doom-material
+  ;; 'doom-ayu-light
   ;; 'doom-bluloco-dark
-  ;; 'catppuccin
   ;; 'everforest-soft-dark
   ;; 'everforest-hard-light
   ;; 'doom-vibrant
   ;; 'doom-nova
   ;; 'kaolin-temple
-  ;; 'kaolin-valley-light ;; cursor has color with too low contrast here
+  ;; 'kaolin-valley-light
   )
 
 (use-package doom-themes
