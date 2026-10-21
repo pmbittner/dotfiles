@@ -24,3 +24,12 @@ Each topic has its own NixOS module (`nix/modules/network.nix`, `bluetooth.nix`,
 - **Launcher:** rofi.
 - **Logout menu:** wlogout, through `bin/wlogout-once.sh`, which toggles it.
 - **Files:** Thunar, mounting via udisks and gvfs (`nix/modules/files.nix`).
+
+## Default programs
+
+Which program opens which file type is defined in one place: `openWith` in `nix/modules/files.nix`. It is grouped by program (its `.desktop` entry) and lists the file types (MIME types) each one opens.
+
+- **It follows the XDG standard** (`mimeapps.list`): NixOS writes the defaults system-wide. Thunar, Firefox, kitty (clicked links), `xdg-open` and `pb-open` use them. Ranger follows them too, through a rule at the top of `.config/ranger/rifle.conf` that hands files to `xdg-open` (only where `xdg-open` exists, so not on macOS). Emacs opens files itself and is not affected.
+- **Defaults are per file type, not per extension.** Many source code types count as plain text, so `text/plain` covers them, unless a more specific type has its own entry.
+- **Adding a type:** run `pb-mime <file>` (in `zsh/files.zsh`). It prints the file's type and its current default program. Add the type to the program's list in `openWith` and rebuild. Each type may appear only once; the rebuild stops with a message otherwise.
+- **Personal choices win:** "Open with... / set as default" in Thunar writes to `~/.config/mimeapps.list`, which overrides the system-wide defaults. Delete the entry there to return to the Nix default.
