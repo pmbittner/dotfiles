@@ -1,0 +1,30 @@
+# Perry Dark: own base16 scheme (see docs/STYLE.md, "Adding a theme").
+#
+# Built from four given colors: yellow #ffe017 (base0A), blue #5391fc
+# (base0D), red #e3574d (base08) and the warm grey #4f4848 (base02). The
+# grey is too light as main background for the red and blue to stay
+# readable, so it is the selection color. The background shades are darker
+# greys of the same warm hue. The other accents (orange, green, cyan,
+# purple, brown) are chosen to match the saturation of the given ones.
+# Contrast against base00: base05 11.6, base08 4.3, base0D 5.1, base03 3.5.
+system: "base16"
+name: "Perry Dark"
+author: "Paul Bittner"
+variant: "dark"
+palette:
+  base00: "#262222" # main background
+  base01: "#332e2e" # lighter background (bars, popups)
+  base02: "#4f4848" # selection background (given)
+  base03: "#817474" # comments, disabled, borders
+  base04: "#ada4a4" # dim foreground
+  base05: "#e0dcdc" # main foreground
+  base06: "#eceaea" # light foreground
+  base07: "#f5f4f4" # lightest foreground
+  base08: "#e3574d" # red (given)
+  base09: "#f0914a" # orange
+  base0A: "#ffe017" # yellow (given)
+  base0B: "#8fcc5c" # green
+  base0C: "#4cc4cf" # cyan
+  base0D: "#5391fc" # blue, main accent (given)
+  base0E: "#b086f2" # purple
+  base0F: "#c4806a" # brown

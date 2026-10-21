@@ -13,6 +13,7 @@
 
   themes = [
     { name = "one-light";               label = "One Light";               scheme = "one-light";               polarity = "light"; }
+    { name = "perry-dark";              label = "Perry Dark";              scheme = ./themes/perry-dark.yaml;  polarity = "dark"; }
     { name = "one-dark";                label = "One Dark";                scheme = "onedark";                 polarity = "dark"; }
     { name = "one-ocean";               label = "One Ocean";               scheme = "da-one-ocean";            polarity = "dark"; }
     { name = "tokyo-night-light";       label = "Tokyo Night Light";       scheme = "tokyo-night-light";       polarity = "light"; }
