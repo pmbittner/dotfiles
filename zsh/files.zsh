@@ -110,3 +110,18 @@ pb-untargz () {
 pb-append-to-all-file-names () {
   find . -type f ! -name "*$@" -exec sh -c "mv '{}' '{}$@'" \;
 }
+
+# Prints the file (MIME) type of each given file and the program that opens
+# it by default, e.g. to add a missing type to openWith in
+# nix/modules/files.nix. An empty program means no default is set yet.
+pb-mime () {
+  if ! command -v xdg-mime >/dev/null; then
+    echo "pb-mime: xdg-mime not found (only on Linux)" >&2
+    return 1
+  fi
+  local file type
+  for file in "$@"; do
+    type=$(xdg-mime query filetype "$file")
+    printf '%s: %s -> %s\n' "$file" "$type" "$(xdg-mime query default "$type")"
+  done
+}
