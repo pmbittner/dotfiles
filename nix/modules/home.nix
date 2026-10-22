@@ -23,6 +23,7 @@
         ./home/kitty.nix
         ./home/rofi.nix
         ./home/waybar.nix
+        ./home/waybar-pokemon.nix
         ./home/wlogout.nix
       ];
     };

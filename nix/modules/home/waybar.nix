@@ -1,4 +1,4 @@
-{ osConfig, ... }:
+{ config, osConfig, ... }:
 let
   # Monitor names are set in configuration.nix (dotfiles.monitors).
   monitors = osConfig.dotfiles.monitors;
@@ -34,7 +34,7 @@ in
         margin-right = 20;
         spacing = 8;
 
-        modules-left = [ "custom/power" "hyprland/workspaces" ];
+        modules-left = [ "custom/power" "hyprland/workspaces" "image#pokemon" ];
         modules-center = [ "clock" ];
         modules-right = [ "memory" "temperature" "custom/theme" "network" "bluetooth" "pulseaudio" ];
 
@@ -55,6 +55,9 @@ in
         # rofi menu with all themes; the tooltip shows the current theme.
         # The script runs detached (setsid), because a theme switch reloads
         # waybar, and waybar would otherwise end the script it started.
+        # Pokémon walking around (see waybar-pokemon.nix).
+        "image#pokemon" = config.dotfiles.waybarPokemon.module;
+
         "custom/theme" = {
           exec = "$HOME/bin/theme.sh waybar";
           return-type = "json";
