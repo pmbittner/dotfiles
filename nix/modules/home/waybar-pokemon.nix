@@ -11,6 +11,8 @@ let
     height = 30; # fits the bar height in waybar.nix
     fps = 10;
     frame = "/dev/shm/waybar-pokemon-${config.home.username}/frame.png";
+    cache_all_sprites = true; # spawn without internet
+    random_generations = [ 1 2 3 4 ]; # like pokemon-colorscripts in zsh
   };
 in
 {
