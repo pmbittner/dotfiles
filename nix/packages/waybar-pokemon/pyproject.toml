@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.10,<0.12"]
+build-backend = "uv_build"
 
 [project]
 name = "waybar-pokemon"
@@ -12,6 +12,3 @@ dependencies = ["pillow"]
 
 [project.scripts]
 waybar-pokemon = "waybar_pokemon.cli:main"
-
-[tool.setuptools]
-packages = ["waybar_pokemon"]

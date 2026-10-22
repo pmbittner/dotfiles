@@ -9,11 +9,11 @@ python3Packages.buildPythonApplication {
     fileset = lib.fileset.unions [
       ./pyproject.toml
       ./README.md
-      ./waybar_pokemon
+      ./src
     ];
   };
 
-  build-system = [ python3Packages.setuptools ];
+  build-system = [ python3Packages.uv-build ];
   dependencies = [ python3Packages.pillow ];
 
   meta = {

@@ -12,7 +12,7 @@ Prototype: it is developed inside a dotfiles repository and meant to become its 
 - Names come from the [PokeAPI](https://github.com/PokeAPI) species table. Sprites are the games' small box icons (normal and shiny) from [PokéSprite](https://github.com/msikma/pokesprite); for the newest Pokémon, which have no icon there, PokeAPI's front sprites are used. Everything is downloaded from GitHub on first use and cached. Sprites are never enlarged and only shrunk to fit the height of the habitat.
 - Standing Pokémon jiggle like the party icons in the games; walking ones hop with every step.
 
-Modules (`waybar_pokemon/`):
+Modules (`src/waybar_pokemon/`):
 
 | Module | Purpose |
 |---|---|
@@ -59,6 +59,10 @@ The waybar module must match it:
   "on-click-right": "waybar-pokemon despawn-menu --notify"
 }
 ```
+
+## Development
+
+The project uses [uv](https://docs.astral.sh/uv/): `uv run waybar-pokemon ...` runs it from the source tree, `uv build` builds it. The Nix package (`default.nix`) builds it with uv's build backend and the nixpkgs version of Pillow.
 
 ## Files
 
