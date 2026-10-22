@@ -1,12 +1,14 @@
-"""Pokémon names and sprites, downloaded from the PokeAPI project and cached.
+"""Pokémon names and sprites, downloaded on first use and cached.
 
-Names come from PokeAPI's species table, sprites from PokeAPI's sprite
-collection (front sprites, normal and shiny). Both are fetched from GitHub
-on first use and kept in the cache directory.
+Names come from PokeAPI's species table. Sprites are the small box icons
+of the games (68 x 56, normal and shiny) from the PokéSprite project. For
+Pokémon without an icon there (the newest ones), PokeAPI's larger front
+sprites are used instead. Everything is fetched from GitHub.
 """
 
 import csv
 import random
+import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
@@ -14,6 +16,7 @@ from pathlib import Path
 from . import paths
 
 SPECIES_URL = "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_species.csv"
+ICON_URL = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/{variant}/{name}.png"
 SPRITE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{variant}{id}.png"
 
 # The chance of a shiny Pokémon in the games since generation 6.
@@ -78,9 +81,14 @@ def roll_shiny() -> bool:
 
 
 def sprite_path(species_id: int, shiny: bool) -> Path:
-    """The cached sprite, downloaded if missing."""
-    name = f"{species_id}{'-shiny' if shiny else ''}.png"
-    path = paths.SPRITE_DIR / name
+    """The cached sprite (box icon, or front sprite as fallback), downloaded if missing."""
+    path = paths.SPRITE_DIR / f"{species_id}{'-shiny' if shiny else ''}.png"
     if not path.exists():
-        _download(SPRITE_URL.format(variant="shiny/" if shiny else "", id=species_id), path)
+        name = next(s.name for s in all_species() if s.id == species_id)
+        try:
+            _download(ICON_URL.format(variant="shiny" if shiny else "regular", name=name), path)
+        except urllib.error.HTTPError as error:
+            if error.code != 404:
+                raise
+            _download(SPRITE_URL.format(variant="shiny/" if shiny else "", id=species_id), path)
     return path

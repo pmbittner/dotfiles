@@ -6,7 +6,8 @@ from PIL import Image, ImageDraw
 
 from .simulation import Walker
 
-# A sprite faces left; the mirrored copy is used when walking right.
+# Sprites (box icons and front sprites) face left; the mirrored copy is used
+# when walking right.
 Sprite = tuple[Image.Image, Image.Image]
 
 

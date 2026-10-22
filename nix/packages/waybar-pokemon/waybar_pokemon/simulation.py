@@ -20,6 +20,7 @@ class Walker:
     state: str = "drop"  # "drop", "idle" or "walk"
     timer: float = 0.0  # seconds left in the current state
     phase: float = 0.0  # step cycle while walking
+    clock: float = 0.0  # seconds since spawning, for the jiggle while standing
 
     @classmethod
     def spawn(cls, uid: int, shiny: bool, sprite_width: int, habitat_width: int, rng: random.Random) -> "Walker":
@@ -35,11 +36,20 @@ class Walker:
 
     @property
     def hop(self) -> float:
-        """Small up-and-down movement of the steps while walking."""
-        return -abs(math.sin(math.pi * self.phase)) * 2 if self.state == "walk" else 0.0
+        """Vertical offset of the animation, in pixels (negative = up).
+
+        Walking: a small hop with every step. Standing: the jiggle of the
+        party icons in the games, one pixel up and down four times a second.
+        """
+        if self.state == "walk":
+            return -abs(math.sin(math.pi * self.phase)) * 2
+        if self.state == "idle":
+            return -1.0 if int(self.clock * 4) % 2 else 0.0
+        return 0.0
 
     def step(self, dt: float, habitat_width: int, rng: random.Random) -> None:
         """Advances the walker by dt seconds."""
+        self.clock += dt
         if self.state == "drop":
             self.velocity += GRAVITY * dt
             self.y = min(0.0, self.y + self.velocity * dt)
