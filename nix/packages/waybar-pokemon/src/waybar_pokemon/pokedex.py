@@ -21,7 +21,7 @@ from typing import Callable, Collection
 from . import paths
 
 SPECIES_URL = "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_species.csv"
-ICON_URL = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/{variant}/{name}.png"
+ICON_URL = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen7x/{variant}/{name}.png"
 SPRITE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{variant}{id}.png"
 
 # The chance of a shiny Pokémon in the games since generation 6.
