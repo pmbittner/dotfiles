@@ -4,6 +4,11 @@ This repository contains all my linux configuration files I use for my personal 
 
 I created this repository according to [this guide](https://www.atlassian.com/git/tutorials/dotfiles) from Atlassian.
 
+If the local clone of this repository does not track remote branches correctly, run
+```sh
+config config --replace-all remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+```
+
 ## Documentation
 
 - [docs/NIX.md](docs/NIX.md): the NixOS configuration in `nix/`: structure, pinned sources, rebuilding and upgrading, and how to set up `hardware-configuration.nix` on a new machine.
