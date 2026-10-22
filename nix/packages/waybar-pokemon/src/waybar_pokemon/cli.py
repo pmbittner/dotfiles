@@ -24,13 +24,20 @@ def fail(args: argparse.Namespace, message: str) -> None:
     sys.exit(1)
 
 
+def random_generations(args: argparse.Namespace) -> list[int]:
+    """Generations for random spawns: --generations, else the config file."""
+    if getattr(args, "generations", None):
+        return config.parse_generations(args.generations)
+    return config.load().random_generations
+
+
 def spawn(args: argparse.Namespace, query: str | None) -> None:
     try:
-        species = pokedex.find(query) if query else pokedex.random_species()
+        species = pokedex.find(query) if query else pokedex.random_species(random_generations(args))
         shiny = args.shiny or pokedex.roll_shiny()
         pokedex.sprite_path(species.id, shiny)  # download now, so errors show here
-    except (LookupError, OSError) as error:
-        fail(args, str(error))
+    except (LookupError, OSError, ValueError) as error:
+        fail(args, f"{error} (no internet? See cache_all_sprites in the README.)" if isinstance(error, OSError) else str(error))
     with party.editing() as members:
         if len(members) >= party.MAX_SIZE:
             fail(args, f"The habitat is full ({party.MAX_SIZE} Pokémon). Despawn one first.")
@@ -65,6 +72,21 @@ def despawn(args: argparse.Namespace, query: str | None, everyone: bool = False)
     notify(args.notify, f"{names} returned to {'their' if len(leaving) > 1 else 'its'} Poké Ball.")
 
 
+def download() -> None:
+    def progress(done: int, total: int) -> None:
+        print(f"\r{done}/{total} sprites", end="", file=sys.stderr, flush=True)
+
+    try:
+        failed = pokedex.download_all(progress)
+    except OSError as error:
+        print(f"\nwaybar-pokemon: {error}", file=sys.stderr)
+        sys.exit(1)
+    print(file=sys.stderr)
+    if failed:
+        print(f"{failed} sprites could not be downloaded.", file=sys.stderr)
+        sys.exit(1)
+
+
 def choose(menu_command: str, options: list[str]) -> str | None:
     """Lets the user pick one of the options with a dmenu-like program."""
     result = subprocess.run(shlex.split(menu_command), input="\n".join(options), capture_output=True, text=True)
@@ -77,9 +99,14 @@ def spawn_menu(args: argparse.Namespace) -> None:
         names = [s.display_name for s in pokedex.all_species()]
     except OSError as error:
         fail(args, str(error))
-    choice = choose(args.menu, [RANDOM] + names)
+    try:
+        generations = random_generations(args)
+    except ValueError as error:
+        fail(args, str(error))
+    random_label = f"{RANDOM} (generation {','.join(map(str, generations))})" if generations else RANDOM
+    choice = choose(args.menu, [random_label] + names)
     if choice:
-        spawn(args, None if choice == RANDOM else choice)
+        spawn(args, None if choice == random_label else choice)
 
 
 def despawn_menu(args: argparse.Namespace) -> None:
@@ -109,6 +136,7 @@ def main() -> None:
     p.add_argument("--all", action="store_true", help="return everyone")
 
     commands.add_parser("list", help="show the party: number and name")
+    commands.add_parser("download", help="download all sprites now, for spawning without internet")
     commands.add_parser("names", help="show all Pokémon names")
 
     p = commands.add_parser("spawn-menu", help="choose a Pokémon to spawn from a menu")
@@ -120,6 +148,8 @@ def main() -> None:
             sub.add_argument("--notify", action="store_true", help="show the result as a desktop notification")
         if name.endswith("-menu"):
             sub.add_argument("--menu", default=DEFAULT_MENU, help=f"dmenu-like command (default: {DEFAULT_MENU})")
+        if name in ("spawn", "spawn-menu"):
+            sub.add_argument("--generations", help='random ones only from these generations, e.g. "1-4" (default: from the config file)')
 
     args = parser.parse_args()
     if args.command == "daemon":
@@ -131,6 +161,8 @@ def main() -> None:
     elif args.command == "list":
         for member in party.load():
             print(f"{member.uid}: {member.label}")
+    elif args.command == "download":
+        download()
     elif args.command == "names":
         print("\n".join(s.display_name for s in pokedex.all_species()))
     elif args.command == "spawn-menu":

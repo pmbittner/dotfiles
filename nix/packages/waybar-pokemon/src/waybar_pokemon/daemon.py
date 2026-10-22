@@ -7,6 +7,7 @@ only rewrites it when the picture changed.
 import os
 import random
 import sys
+import threading
 import time
 
 from . import party, paths, pokedex
@@ -18,6 +19,8 @@ from .simulation import Walker
 def run(config: Config) -> None:
     frame_path = config.frame_path
     frame_path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    if config.cache_all_sprites:
+        threading.Thread(target=_cache_all_sprites, daemon=True).start()
     temporary = frame_path.with_name("." + frame_path.name)
 
     rng = random.Random()
@@ -49,6 +52,17 @@ def run(config: Config) -> None:
             os.replace(temporary, frame_path)
 
         time.sleep(max(0.0, period - (time.monotonic() - now)))
+
+
+def _cache_all_sprites() -> None:
+    """Downloads the missing sprites (see Config.cache_all_sprites)."""
+    try:
+        failed = pokedex.download_all()
+    except OSError as error:  # e.g. the species list cannot be downloaded
+        print(f"waybar-pokemon: cannot cache the sprites: {error}", file=sys.stderr)
+        return
+    if failed:
+        print(f"waybar-pokemon: {failed} sprites could not be downloaded; retrying on the next start", file=sys.stderr)
 
 
 def _modification_time(path) -> int | None:

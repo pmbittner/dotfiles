@@ -7,11 +7,16 @@ sprites are used instead. Everything is fetched from GitHub.
 """
 
 import csv
+import os
 import random
+import threading
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
+from functools import cache
 from pathlib import Path
+from typing import Callable, Collection
 
 from . import paths
 
@@ -27,6 +32,7 @@ SHINY_ODDS = 4096
 class Species:
     id: int
     name: str  # e.g. "mr-mime"
+    generation: int
 
     @property
     def display_name(self) -> str:
@@ -38,18 +44,20 @@ def _download(url: str, destination: Path) -> None:
     request = urllib.request.Request(url, headers={"User-Agent": "waybar-pokemon"})
     with urllib.request.urlopen(request, timeout=30) as response:
         data = response.read()
-    temporary = destination.with_suffix(destination.suffix + ".part")
+    # A unique temporary name, as the daemon may download in the background.
+    temporary = destination.with_name(f".{destination.name}.{os.getpid()}.{threading.get_ident()}.part")
     temporary.write_bytes(data)
     temporary.replace(destination)
 
 
+@cache
 def all_species() -> list[Species]:
-    """All species, ordered by Pokédex number."""
+    """All species, ordered by Pokédex number (read once per process)."""
     if not paths.SPECIES_FILE.exists():
         _download(SPECIES_URL, paths.SPECIES_FILE)
     with paths.SPECIES_FILE.open(newline="") as file:
         rows = csv.DictReader(file)
-        species = [Species(int(row["id"]), row["identifier"]) for row in rows]
+        species = [Species(int(row["id"]), row["identifier"], int(row["generation_id"])) for row in rows]
     return sorted(species, key=lambda s: s.id)
 
 
@@ -72,8 +80,12 @@ def find(query: str) -> Species:
     return matches[0]
 
 
-def random_species() -> Species:
-    return random.choice(all_species())
+def random_species(generations: Collection[int] = ()) -> Species:
+    """A random species, only from the given generations if any are given."""
+    candidates = [s for s in all_species() if not generations or s.generation in generations]
+    if not candidates:
+        raise LookupError(f"No Pokémon in generations {sorted(generations)}")
+    return random.choice(candidates)
 
 
 def roll_shiny() -> bool:
@@ -92,3 +104,20 @@ def sprite_path(species_id: int, shiny: bool) -> Path:
                 raise
             _download(SPRITE_URL.format(variant="shiny/" if shiny else "", id=species_id), path)
     return path
+
+
+def download_all(progress: Callable[[int, int], None] | None = None) -> int:
+    """Downloads the sprites of all species, normal and shiny, that are not
+    cached yet. Returns the number of sprites that could not be downloaded.
+    """
+    jobs = [(s.id, shiny) for s in all_species() for shiny in (False, True)]
+    failed = 0
+    # A few downloads at a time; one by one takes several minutes.
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        futures = [pool.submit(sprite_path, species_id, shiny) for species_id, shiny in jobs]
+        for done, future in enumerate(as_completed(futures), start=1):
+            if isinstance(future.exception(), OSError):
+                failed += 1
+            if progress:
+                progress(done, len(jobs))
+    return failed

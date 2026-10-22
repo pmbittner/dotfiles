@@ -21,7 +21,7 @@ Modules (`src/waybar_pokemon/`):
 | `simulation.py` | movement of one Pokémon |
 | `render.py` | sprite preparation and drawing of a frame |
 | `party.py` | the party file |
-| `pokedex.py` | species names, sprite download (icons, front sprites as fallback), shiny chance |
+| `pokedex.py` | species names and generations, sprite download (icons, front sprites as fallback), shiny chance |
 | `config.py`, `paths.py` | settings and file locations |
 
 ## Usage
@@ -31,7 +31,9 @@ waybar-pokemon daemon               # run in the background, e.g. from the compo
 waybar-pokemon spawn [NAME|NUMBER]  # without an argument: a random Pokémon
 waybar-pokemon spawn pikachu --shiny
 waybar-pokemon despawn [NAME|NUMBER]  # without an argument: the newest one; --all for everyone
+waybar-pokemon spawn --generations 1-4  # a random one from generations 1 to 4
 waybar-pokemon list
+waybar-pokemon download             # download all sprites now (about 2000 small files)
 waybar-pokemon spawn-menu           # choose with rofi (--menu for another dmenu-like command)
 waybar-pokemon despawn-menu
 ```
@@ -40,11 +42,26 @@ waybar-pokemon despawn-menu
 
 ## Configuration
 
-`~/.config/waybar-pokemon/config.json` (all fields optional):
+`~/.config/waybar-pokemon/config.json`, read by the daemon and the commands. All fields are optional:
 
 ```json
-{ "width": 240, "height": 30, "fps": 10, "frame": "/dev/shm/waybar-pokemon-USER/frame.png" }
+{
+  "width": 240,
+  "height": 30,
+  "fps": 10,
+  "frame": "/dev/shm/waybar-pokemon-USER/frame.png",
+  "cache_all_sprites": false,
+  "random_generations": []
+}
 ```
+
+| Field | Meaning |
+|---|---|
+| `width`, `height` | size of the habitat in pixels |
+| `fps` | frames per second |
+| `frame` | where the frame is written; the default is in `/dev/shm` |
+| `cache_all_sprites` | `true`: the daemon downloads the sprites of all Pokémon (normal and shiny) in the background, so any Pokémon can be spawned without internet. `false`: a sprite is downloaded when its Pokémon is spawned for the first time. `waybar-pokemon download` does the same once, in the foreground. |
+| `random_generations` | generations that random spawns pick from, e.g. `[1, 2, 3, 4]`; empty means all. `--generations` overrides it for one command. Spawning a Pokémon by name is not restricted. |
 
 The waybar module must match it:
 
