@@ -6,7 +6,7 @@
 ## I made this setup according to this instruction: https://www.atlassian.com/git/tutorials/dotfiles
 export MYCONFIGDIR=$HOME/.myconfig.git
 config() {
-  git --git-dir=$MYCONFIGDIR/ --work-tree=$HOME "$@"
+  git --git-dir="$MYCONFIGDIR" --work-tree="$HOME" "$@"
 }
 config-add() {
   config add --patch
