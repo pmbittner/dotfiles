@@ -12,7 +12,7 @@ Prototype: it is developed inside a dotfiles repository and meant to become its 
 - Names come from the [PokeAPI](https://github.com/PokeAPI) species table. Sprites are the games' small box icons (normal and shiny) from [PokéSprite](https://github.com/msikma/pokesprite): the classic icons of generation 7 where there is one, else those of generation 8; for the newest Pokémon, which have no icon there, PokeAPI's front sprites are used. Everything is downloaded from GitHub on first use and cached. Sprites are never enlarged and only shrunk to fit the height of the habitat.
 - Standing Pokémon jiggle like the party icons in the games; walking ones hop with every step.
 
-Code (`src/waybar_pokemon/`):
+Code (`src/waybar_pokemon/`), see [DESIGN.md](DESIGN.md) for the reasoning:
 
 | Module | Purpose |
 |---|---|
