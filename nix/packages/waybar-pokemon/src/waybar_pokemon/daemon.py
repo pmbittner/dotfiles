@@ -1,6 +1,7 @@
 """The daemon: shows the party's Pokémon and the berries, and writes the frames for the bar."""
 
 import fcntl
+import signal
 import sys
 import threading
 
@@ -19,6 +20,13 @@ def run(config: Config) -> None:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
         sys.exit("waybar-pokemon: the daemon is already running")
+
+    # waybar reloads on SIGUSR2 and toggles on SIGUSR1, and these are sent
+    # with `pkill -USR2 waybar`, which also matches this program's name
+    # (home-manager does that whenever waybar's config changes). Python
+    # would exit on them.
+    signal.signal(signal.SIGUSR1, signal.SIG_IGN)
+    signal.signal(signal.SIGUSR2, signal.SIG_IGN)
 
     if config.cache_all_sprites:
         threading.Thread(target=_cache_all_sprites, daemon=True).start()
