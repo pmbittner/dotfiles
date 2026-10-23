@@ -213,7 +213,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("pgrep emacs > /dev/null || emacs --daemon")
     hl.exec_cmd("awww-daemon")
     hl.exec_cmd(USRBIN .. "/theme.sh restore") -- last chosen theme
-    hl.exec_cmd("bash -c 'sleep 1 && waybar-pokemon daemon'") -- Pokémon in waybar (NixOS only)
+    hl.exec_cmd("waybar-pokemon daemon") -- Pokémon in waybar (NixOS only)
 end)
 
 -- Window/Session actions
