@@ -112,6 +112,7 @@ The project uses [uv](https://docs.astral.sh/uv/): `uv run waybar-pokemon ...` r
 - `~/.cache/waybar-pokemon/`: species table and sprites
 - `~/.local/state/waybar-pokemon/party.json`: the party
 - `~/.local/state/waybar-pokemon/berries`: berries to drop, until the daemon takes them
+- `~/.local/state/waybar-pokemon/daemon.lock`: held by the running daemon; a second one exits right away
 - `/dev/shm/waybar-pokemon-$USER/frame.png`: the current frame (in memory, as it changes often)
 
 ## Credits
