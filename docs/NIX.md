@@ -60,6 +60,13 @@ After updating the pins and rebuilding successfully, commit `nix/lon.lock`.
 
 Secure Boot via lanzaboote is disabled for now (in the Windows dual boot, some games on Windows crashed although both systems reported Secure Boot as active). Its config is kept commented out in `configuration.nix`, together with the steps to enable it again. lanzaboote stays pinned (frozen) in `nix/lon.lock`.
 
+**Leftovers when switching lanzaboote off:** lanzaboote writes unified kernel images to `/boot/EFI/Linux/` (one `.efi` per generation, shown as extra boot entries with titles like `NixOS <release> (Linux <version>) (Generation N, ...)`). The normal boot loader installer neither knows nor removes them, so they stay after lanzaboote is disabled, and neither deleting generations nor rebuilding removes them. Delete them once, as root, since `/boot` is only readable by root and the shell must expand the pattern as root: `sudo sh -c 'rm /boot/EFI/Linux/nixos-generation-*.efi'`. Check beforehand with `bootctl list` that the default entry is not one of them. Then rebuild, which also removes the kernels they referenced from `/boot/EFI/nixos`.
+
+## The boot menu and old generations
+
+- The boot menu shows at most the newest 5 generations (`configurationLimit` in `configuration.nix`). Deleting generations with `nix-env --delete-generations` does **not** update the menu; the next rebuild does, or `pb-nixos-delete-outdated-generations`, which refreshes it itself.
+- NixOS removes only the boot entries it created itself. If the menu still shows entries after the generations are gone, they come from somewhere else (see the leftovers of lanzaboote below).
+
 ## Testing changes
 
 - The NixOS config cannot be built on the Mac. `nix-instantiate --parse <file>.nix` checks the syntax only.
