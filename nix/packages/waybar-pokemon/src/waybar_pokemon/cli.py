@@ -6,7 +6,8 @@ import shutil
 import subprocess
 import sys
 
-from . import config, daemon, party, pokedex
+from . import config, daemon
+from .pokemon import party, pokedex
 
 DEFAULT_MENU = "rofi -dmenu -i -p Pokémon"
 RANDOM = "Random"

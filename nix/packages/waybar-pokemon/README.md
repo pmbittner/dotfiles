@@ -12,16 +12,14 @@ Prototype: it is developed inside a dotfiles repository and meant to become its 
 - Names come from the [PokeAPI](https://github.com/PokeAPI) species table. Sprites are the games' small box icons (normal and shiny) from [PokéSprite](https://github.com/msikma/pokesprite): the classic icons of generation 7 where there is one, else those of generation 8; for the newest Pokémon, which have no icon there, PokeAPI's front sprites are used. Everything is downloaded from GitHub on first use and cached. Sprites are never enlarged and only shrunk to fit the height of the habitat.
 - Standing Pokémon jiggle like the party icons in the games; walking ones hop with every step.
 
-Modules (`src/waybar_pokemon/`):
+Code (`src/waybar_pokemon/`):
 
 | Module | Purpose |
 |---|---|
+| `engine/` | independent of the Pokémon: the main loop (input, update, draw, present), stage, scene and entities, sprites, the walker (dropping in, standing, walking), and outputs (the PNG file) |
+| `pokemon/` | the Pokémon: `pokedex.py` (species, generations, sprite download, shiny chance), `party.py` (the party file), `habitat.py` (the scene that follows the party), `creature.py` (a Pokémon on the stage), `sparkle.py` (the sign of a shiny one) |
+| `daemon.py` | puts the habitat into the engine's loop with the PNG output |
 | `cli.py` | command line |
-| `daemon.py` | main loop: follow the party, simulate, render, write the frame |
-| `simulation.py` | movement of one Pokémon |
-| `render.py` | sprite preparation and drawing of a frame |
-| `party.py` | the party file |
-| `pokedex.py` | species names and generations, sprite download (icons, front sprites as fallback), shiny chance |
 | `config.py`, `paths.py` | settings and file locations |
 
 ## Usage

@@ -11,7 +11,7 @@ from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from typing import Iterator
 
-from . import paths
+from .. import paths
 
 MAX_SIZE = 10  # more would not fit into a small habitat
 

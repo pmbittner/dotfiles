@@ -20,7 +20,7 @@ from functools import cache
 from pathlib import Path
 from typing import Callable, Collection
 
-from . import paths
+from .. import paths
 
 SPECIES_URL = "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_species.csv"
 ICON_URL = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-{icon_set}/{variant}/{name}.png"
