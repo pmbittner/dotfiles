@@ -7,7 +7,7 @@ Prototype: it is developed inside a dotfiles repository and meant to become its 
 ## How it works
 
 - `waybar-pokemon daemon` simulates the Pokémon (dropping in, standing, walking, turning at the edges) and renders the habitat as a PNG strip several times per second. It only rewrites the file when the picture changed.
-- waybar's **image module** shows that file and reads it again in a short interval. Its `size` is the habitat's width (waybar scales the image into a `size` × `size` box, keeping its aspect ratio).
+- waybar's **image module** shows that file and reads it again in a short interval. Other bars can, too (see [Integrations](#integrations)).
 - The commands `spawn` and `despawn` change the party, a JSON file the daemon watches. The party is kept across restarts.
 - Names come from the [PokeAPI](https://github.com/PokeAPI) species table. Sprites are the games' small box icons (normal and shiny) from [PokéSprite](https://github.com/msikma/pokesprite): the classic icons of generation 7 where there is one, else those of generation 8; for the newest Pokémon, which have no icon there, PokeAPI's front sprites are used. Everything is downloaded from GitHub on first use and cached. Sprites are never enlarged and only shrunk to fit the height of the habitat.
 - Standing Pokémon jiggle like the party icons in the games; walking ones hop with every step.
@@ -61,7 +61,13 @@ waybar-pokemon despawn-menu
 | `cache_all_sprites` | `true`: the daemon downloads the sprites of all Pokémon (normal and shiny) in the background, so any Pokémon can be spawned without internet. `false`: a sprite is downloaded when its Pokémon is spawned for the first time. `waybar-pokemon download` does the same once, in the foreground. |
 | `random_generations` | generations that random spawns pick from, e.g. `[1, 2, 3, 4]`; empty means all. `--generations` overrides it for one command. Spawning a Pokémon by name is not restricted. |
 
-The waybar module must match it:
+## Integrations
+
+The daemon writes the habitat as a PNG file (`frame` in the configuration) and only rewrites it when the picture changed. Anything that shows an image file and reads it again in a short interval can show the habitat. Clicks on it are best bound to the commands above, with `--notify`.
+
+### waybar
+
+Supported. The [image module](https://github.com/Alexays/Waybar/wiki/Module:-Image) shows the file. Its `size` is the habitat's width (waybar fits the image into a `size` × `size` box, keeping its aspect ratio), and its `interval` should be `1 / fps`:
 
 ```json
 "image#pokemon": {
@@ -74,6 +80,23 @@ The waybar module must match it:
   "on-click-right": "waybar-pokemon despawn-menu --notify"
 }
 ```
+
+Start `waybar-pokemon daemon` with the compositor, e.g. in Hyprland's autostart.
+
+### Other bars and widgets
+
+Not tested yet. They need to show the same file again and again without caching it:
+
+| Program | Approach |
+|---|---|
+| [eww](https://github.com/elkowar/eww) | the `image` widget with the frame's `path`, refreshed in a short interval |
+| [Quickshell](https://quickshell.org), [AGS](https://github.com/Aylur/ags) | an image element with caching turned off, reloaded by a timer |
+| [Conky](https://github.com/brndnmtthws/conky) | `${image}` with caching turned off; may flicker |
+| [xmobar](https://codeberg.org/xmobar/xmobar) | needs an XPM output (not implemented yet), as `<icon=...>` only shows XBM and XPM |
+
+Not possible: bars whose modules only show text, such as polybar, i3bar, swaybar and yambar.
+
+Planned: an output that is a small Wayland overlay of its own, without any bar (see [DESIGN.md](DESIGN.md)).
 
 ## Development
 
