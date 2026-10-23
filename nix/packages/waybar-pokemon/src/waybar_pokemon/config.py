@@ -23,6 +23,9 @@ class Config:
     # Generations that random spawns pick from, e.g. [1, 2, 3, 4]. Empty
     # means all. Spawning a Pokémon by name is not restricted.
     random_generations: list[int] = field(default_factory=list)
+    # How often a wild berry falls from the sky while there are Pokémon, on
+    # average. 0 turns it off.
+    wild_berries_per_hour: float = 1.0
 
     @property
     def frame_path(self) -> Path:

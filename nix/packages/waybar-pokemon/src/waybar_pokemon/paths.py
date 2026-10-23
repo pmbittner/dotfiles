@@ -16,6 +16,8 @@ SPECIES_FILE = CACHE_DIR / "species.csv"
 # The current party, kept across restarts.
 STATE_DIR = _xdg_dir("XDG_STATE_HOME", ".local/state") / "waybar-pokemon"
 PARTY_FILE = STATE_DIR / "party.json"
+# Berries to drop, until the daemon picks them up.
+BERRY_REQUESTS = STATE_DIR / "berries"
 
 # Optional settings for the daemon (see config.py).
 CONFIG_FILE = _xdg_dir("XDG_CONFIG_HOME", ".config") / "waybar-pokemon" / "config.json"

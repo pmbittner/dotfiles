@@ -1,4 +1,4 @@
-"""Command line: run the daemon, spawn and despawn Pokémon."""
+"""Command line: run the daemon, spawn and despawn Pokémon, drop berries."""
 
 import argparse
 import shlex
@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 from . import config, daemon
-from .pokemon import party, pokedex
+from .pokemon import berries, party, pokedex
 
 DEFAULT_MENU = "rofi -dmenu -i -p Pokémon"
 RANDOM = "Random"
@@ -73,6 +73,18 @@ def despawn(args: argparse.Namespace, query: str | None, everyone: bool = False)
     notify(args.notify, f"{names} returned to {'their' if len(leaving) > 1 else 'its'} Poké Ball.")
 
 
+def berry(args: argparse.Namespace, query: str | None) -> None:
+    """Asks the daemon to drop a berry (a random one without a name)."""
+    try:
+        name = berries.find(query) if query else berries.random_name()
+        berries.sprite_path(name)  # download now, so errors show here
+    except (LookupError, OSError) as error:
+        fail(args, f"{error} (no internet? See cache_all_sprites in the README.)" if isinstance(error, OSError) else str(error))
+    berries.request(name)
+    notify(args.notify, f"A {berries.display_name(name)} fell from the sky!")
+    print(berries.display_name(name))
+
+
 def download() -> None:
     def progress(done: int, total: int) -> None:
         print(f"\r{done}/{total} sprites", end="", file=sys.stderr, flush=True)
@@ -136,16 +148,20 @@ def main() -> None:
     p.add_argument("pokemon", nargs="?", help="name or number from `list`")
     p.add_argument("--all", action="store_true", help="return everyone")
 
+    p = commands.add_parser("berry", help="drop a berry for the Pokémon to race for (a random one without a name)")
+    p.add_argument("name", nargs="?", help="name of the berry (or its beginning), e.g. oran")
+
     commands.add_parser("list", help="show the party: number and name")
     commands.add_parser("download", help="download all sprites now, for spawning without internet")
     commands.add_parser("names", help="show all Pokémon names")
+    commands.add_parser("berries", help="show all berry names")
 
     p = commands.add_parser("spawn-menu", help="choose a Pokémon to spawn from a menu")
     p.add_argument("--shiny", action="store_true", help=argparse.SUPPRESS)
     commands.add_parser("despawn-menu", help="choose a Pokémon to despawn from a menu")
 
     for name, sub in commands.choices.items():
-        if name not in ("daemon", "list", "names"):
+        if name not in ("daemon", "list", "names", "berries"):
             sub.add_argument("--notify", action="store_true", help="show the result as a desktop notification")
         if name.endswith("-menu"):
             sub.add_argument("--menu", default=DEFAULT_MENU, help=f"dmenu-like command (default: {DEFAULT_MENU})")
@@ -159,6 +175,8 @@ def main() -> None:
         spawn(args, args.pokemon)
     elif args.command == "despawn":
         despawn(args, args.pokemon, everyone=args.all)
+    elif args.command == "berry":
+        berry(args, args.name)
     elif args.command == "list":
         for member in party.load():
             print(f"{member.uid}: {member.label}")
@@ -166,6 +184,8 @@ def main() -> None:
         download()
     elif args.command == "names":
         print("\n".join(s.display_name for s in pokedex.all_species()))
+    elif args.command == "berries":
+        print("\n".join(berries.display_name(n) for n in berries.NAMES))
     elif args.command == "spawn-menu":
         spawn_menu(args)
     elif args.command == "despawn-menu":

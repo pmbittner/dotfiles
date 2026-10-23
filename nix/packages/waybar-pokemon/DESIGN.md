@@ -33,19 +33,30 @@ Before rewriting anything, use the cheaper wins: stop rendering while nothing mo
 3. **Draw:** every entity paints itself onto a fresh transparent frame, `draw(frame, stage)`, in the order it was added. Drawing only reads state.
 4. **Present:** an output shows the frame (`output.py`).
 
-The engine also provides the stage (size and random generator), sprites facing left and right, and the `Walker`: an entity that drops in, stands around (with the jiggle) and walks along the ground.
+The engine also provides the stage (size and random generator), sprites facing left and right, and the `Walker`: an entity that drops in, stands around (with the jiggle), walks along the ground, can be sent to a place and can jump. Interactions between entities belong to the scene: it updates its entities, then lets them react to each other.
 
 `pokemon/` is the content:
 
 - `pokedex.py`: species, generations, sprite download, shiny chance
 - `party.py`: the party file
-- `habitat.py`: the scene; it follows the party file
-- `creature.py`: a Pokémon on the stage, a walker
-- `sparkle.py`: the sign of a shiny one, drawn on top of its sprite
+- `habitat.py`: the scene; it follows the party file, drops berries and runs the race for them
+- `creature.py`: a Pokémon on the stage, a walker that races for berries and munches them
+- `berries.py`, `berry.py`: berry names, sprites and drop requests; a berry on the stage
+- `sparkle.py`, `heart.py`: effects drawn on top of a sprite (the sign of a shiny one, the joy after a meal)
 
 **Why:** keeping update and draw apart keeps drawing simple and makes new kinds of entities, effects or small games possible without touching the loop or the outputs. The abstraction costs one function call per entity per frame.
 
 **Scope:** only what the Pokémon use today. The interfaces grow when a second kind of content actually exists, not before.
+
+## Berries
+
+Berries are the first interaction between entities.
+
+- `waybar-pokemon berry` drops a random or named berry; in waybar, scrolling up over the habitat does it, without a notification, so it feels direct. Middle-click stays with spawning a random Pokémon. Wild berries fall about once an hour while there are Pokémon (`wild_berries_per_hour`, 0 turns it off).
+- **The race:** when a berry has landed, every Pokémon on the ground within sight (80 pixels) runs to it, faster than it walks. The first to touch it claims it; the berry is then out of the race and the others go back to standing and jiggling. A berry nobody sees stays until a Pokémon comes into sight, including a newly spawned one.
+- **Eating:** the Pokémon munches three bites, squashing by two pixels twice per bite, while the berry gets smaller with every bite. Then a little heart rises and it jumps for joy. Squashing by whole pixels suits the pixel art better than rotating the sprite, which looks jagged at this size.
+- At most three berries at a time; more requests are ignored, so fast scrolling cannot flood the habitat.
+- Berries are not kept across restarts. Requests go through a small file (`berries` in the state directory) that the daemon takes under a lock, like the party.
 
 ## Outputs and integrations
 
@@ -83,7 +94,7 @@ To decide with a prototype: which edge, which layer, and whether it should react
 
 ## Commands and state
 
-**Decision:** the party is a JSON file. Commands change it under a file lock; the daemon checks its modification time every frame and syncs. The party survives restarts.
+**Decision:** the party is a JSON file. Commands change it under a file lock; the daemon checks its modification time every frame and syncs. The party survives restarts. Berry requests work the same way, with a file of their own that the daemon empties.
 
 **Why:** no sockets or protocol, commands work while the daemon is not running, and the state is easy to inspect.
 

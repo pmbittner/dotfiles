@@ -1,4 +1,5 @@
-"""An entity that drops in, stands around and walks along the ground."""
+"""An entity that drops in, stands around and walks along the ground, and
+can be sent to a place."""
 
 import math
 from dataclasses import dataclass
@@ -20,10 +21,11 @@ class Walker:
     y: float = 0.0  # offset above the ground (negative = higher)
     velocity: float = 0.0  # vertical, while dropping
     speed: float = 12.0  # pixels per second while walking
-    state: str = "drop"  # "drop", "idle" or "walk"
+    state: str = "drop"  # "drop" (in the air), "idle", "walk" or "goto"
     timer: float = 0.0  # seconds left in the current state
     phase: float = 0.0  # step cycle while walking
     clock: float = 0.0  # seconds since appearing, for the jiggle while standing
+    target: float = 0.0  # where to go in state "goto" (left edge)
 
     @classmethod
     def drop_in(cls, sprite: Sprite, stage: Stage, **fields: Any) -> "Walker":
@@ -39,10 +41,41 @@ class Walker:
             **fields,
         )
 
+    # Commands
+
+    def go_to(self, x: float, speed: float) -> None:
+        """Walks to x (the left edge) and stays there until told otherwise."""
+        self.state, self.target, self.speed = "goto", x, speed
+        if x != self.x:
+            self.direction = 1 if x > self.x else -1
+
+    @property
+    def arrived(self) -> bool:
+        return self.state == "goto" and self.x == self.target
+
+    def stop(self, stage: Stage) -> None:
+        """Stands still for a moment, then goes on as usual."""
+        self._start_idle(stage)
+
+    def jump(self, speed: float) -> None:
+        """Jumps up with the given speed (pixels per second) and lands again."""
+        self.state, self.velocity = "drop", -speed
+
+    @property
+    def grounded(self) -> bool:
+        """On the ground and going about its usual business."""
+        return self.state in ("idle", "walk")
+
     # Update
 
     def update(self, dt: float, stage: Stage) -> None:
         self.clock += dt
+        if self.state == "goto":
+            distance = self.target - self.x
+            step = self.speed * dt
+            self.x = self.target if abs(distance) <= step else self.x + step * (1 if distance > 0 else -1)
+            self.phase += dt * self.speed / 8
+            return
         if self.state == "drop":
             self.velocity += GRAVITY * dt
             self.y = min(0.0, self.y + self.velocity * dt)
@@ -69,6 +102,7 @@ class Walker:
 
     def _start_idle(self, stage: Stage) -> None:
         self.state, self.timer, self.phase = "idle", stage.rng.uniform(1.0, 4.0), 0.0
+        self.y, self.velocity = 0.0, 0.0
 
     def _start_walk(self, stage: Stage) -> None:
         self.state, self.timer = "walk", stage.rng.uniform(1.5, 5.0)
@@ -85,7 +119,7 @@ class Walker:
         party icons in the Pokémon games, one pixel up and down four times
         a second.
         """
-        if self.state == "walk":
+        if self.state in ("walk", "goto") and not self.arrived:
             return -abs(math.sin(math.pi * self.phase)) * 2
         if self.state == "idle":
             return -1.0 if int(self.clock * 4) % 2 else 0.0

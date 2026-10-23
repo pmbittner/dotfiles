@@ -2,7 +2,7 @@
 
 import random
 from dataclasses import dataclass, field
-from typing import Hashable, Protocol
+from typing import Iterable, Protocol
 
 from PIL import Image
 
@@ -28,22 +28,27 @@ class Entity(Protocol):
 
 
 class Scene:
-    """A stage and its entities, drawn in the order they were added.
+    """A stage and its entities.
 
-    Subclasses decide which entities there are, in sync().
+    Subclasses decide which entities there are: entities() lists them in
+    drawing order (back to front), sync() adds and removes them, e.g. after
+    a command. Interactions between entities belong into update(), after
+    the entities were updated.
     """
 
     def __init__(self, stage: Stage) -> None:
         self.stage = stage
-        self.entities: dict[Hashable, Entity] = {}
+
+    def entities(self) -> Iterable[Entity]:
+        return ()
 
     def sync(self) -> None:
-        """Input step: adds and removes entities, e.g. after a command."""
+        """Input step: adds and removes entities."""
 
     def update(self, dt: float) -> None:
-        for entity in self.entities.values():
+        for entity in list(self.entities()):
             entity.update(dt, self.stage)
 
     def draw(self, frame: Image.Image) -> None:
-        for entity in self.entities.values():
+        for entity in self.entities():
             entity.draw(frame, self.stage)

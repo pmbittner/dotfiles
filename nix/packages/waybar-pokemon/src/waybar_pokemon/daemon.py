@@ -1,4 +1,4 @@
-"""The daemon: shows the party's Pokémon and writes the frames for the bar."""
+"""The daemon: shows the party's Pokémon and the berries, and writes the frames for the bar."""
 
 import sys
 import threading
@@ -12,7 +12,7 @@ from .pokemon.habitat import Habitat
 def run(config: Config) -> None:
     if config.cache_all_sprites:
         threading.Thread(target=_cache_all_sprites, daemon=True).start()
-    habitat = Habitat(engine.Stage(config.width, config.height))
+    habitat = Habitat(engine.Stage(config.width, config.height), config.wild_berries_per_hour)
     engine.run(habitat, engine.PngFile(config.frame_path), config.fps)
 
 

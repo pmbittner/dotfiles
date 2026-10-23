@@ -16,7 +16,7 @@ import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from functools import cache
+from functools import cache, partial
 from pathlib import Path
 from typing import Callable, Collection
 
@@ -42,7 +42,7 @@ class Species:
         return self.name.replace("-", " ").title()
 
 
-def _download(url: str, destination: Path) -> None:
+def download(url: str, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     request = urllib.request.Request(url, headers={"User-Agent": "waybar-pokemon"})
     with urllib.request.urlopen(request, timeout=30) as response:
@@ -57,7 +57,7 @@ def _download(url: str, destination: Path) -> None:
 def all_species() -> list[Species]:
     """All species, ordered by Pokédex number (read once per process)."""
     if not paths.SPECIES_FILE.exists():
-        _download(SPECIES_URL, paths.SPECIES_FILE)
+        download(SPECIES_URL, paths.SPECIES_FILE)
     with paths.SPECIES_FILE.open(newline="") as file:
         rows = csv.DictReader(file)
         species = [Species(int(row["id"]), row["identifier"], int(row["generation_id"])) for row in rows]
@@ -108,24 +108,28 @@ def sprite_path(species_id: int, shiny: bool) -> Path:
     urls.append(SPRITE_URL.format(variant="shiny/" if shiny else "", id=species_id))
     for url in urls[:-1]:
         try:
-            _download(url, path)
+            download(url, path)
             return path
         except urllib.error.HTTPError as error:
             if error.code != 404:
                 raise
-    _download(urls[-1], path)
+    download(urls[-1], path)
     return path
 
 
 def download_all(progress: Callable[[int, int], None] | None = None) -> int:
-    """Downloads the sprites of all species, normal and shiny, that are not
-    cached yet. Returns the number of sprites that could not be downloaded.
+    """Downloads the sprites of all species (normal and shiny) and of all
+    berries that are not cached yet. Returns the number of sprites that
+    could not be downloaded.
     """
-    jobs = [(s.id, shiny) for s in all_species() for shiny in (False, True)]
+    from . import berries  # (berries uses this module)
+
+    jobs: list[Callable[[], Path]] = [partial(sprite_path, s.id, shiny) for s in all_species() for shiny in (False, True)]
+    jobs += [partial(berries.sprite_path, name) for name in berries.NAMES]
     failed = 0
     # A few downloads at a time; one by one takes several minutes.
     with ThreadPoolExecutor(max_workers=8) as pool:
-        futures = [pool.submit(sprite_path, species_id, shiny) for species_id, shiny in jobs]
+        futures = [pool.submit(job) for job in jobs]
         for done, future in enumerate(as_completed(futures), start=1):
             if isinstance(future.exception(), OSError):
                 failed += 1
