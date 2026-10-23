@@ -40,6 +40,12 @@
     lua-language-server
     ## Notifications
     libnotify
+    ## Screenshots (bin/screenshot.sh): wayfreeze freezes the screen, slurp
+    ## selects a region, grim captures it, swappy shows and edits it.
+    grim
+    slurp
+    swappy
+    wayfreeze
     ## Wallpapers: choose exactly one of
     # hyprpaper
     # swaybg
