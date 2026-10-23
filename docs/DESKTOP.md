@@ -24,6 +24,7 @@ Each topic has its own NixOS module (`nix/modules/network.nix`, `bluetooth.nix`,
 - **Pokémon in the bar (prototype, branch `waybar-pokemon`):** little Pokémon walk around next to the workspaces. Click: choose one to spawn, middle click: a random one, right click: choose one to despawn, scroll up: drop a berry for them to race for; `waybar-pokemon --help` in a terminal. The program lives in `nix/packages/waybar-pokemon/` (own README, meant to become its own repository), its integration in `nix/modules/home/waybar-pokemon.nix`; Hyprland starts its daemon.
 - **Launcher:** rofi.
 - **Logout menu:** wlogout, through `bin/wlogout-once.sh`, which toggles it.
+- **Screenshots:** `mod + SHIFT + p` runs `bin/screenshot.sh`: the screen freezes (wayfreeze), you drag a region (slurp), it is captured (grim) and opens in swappy for annotating, copying or saving. Escape cancels. The tools are installed in `nix/modules/desktop/hyprland.nix`. The freeze is needed, since slurp and grim alone do not stop videos while you select.
 - **Files:** Thunar, mounting via udisks and gvfs (`nix/modules/files.nix`).
 
 ## Default programs
