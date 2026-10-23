@@ -43,6 +43,7 @@ All are defined in `zsh/nix.zsh`.
 | `pb-nixos-update` | update the pins, then rebuild |
 | `pb-nixos-version` | show the versions of the pinned nixpkgs sources |
 | `pb-nixos-show-generations` | list system generations |
+| `pb-nixos-delete-outdated-generations [N]` | keep the newest N generations (default 5) and delete the rest, refresh the boot menu and delete unreferenced store paths |
 | `pb-nixos-garbage-collection` (`ngc`) | delete unreferenced store paths |
 
 After updating the pins and rebuilding successfully, commit `nix/lon.lock`.

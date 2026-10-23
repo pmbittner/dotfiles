@@ -37,8 +37,16 @@ pb-nixos-show-generations () {
   sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
 }
 pb-nixos-delete-outdated-generations () {
-  # Deletes any generation older than five days
-  sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 5d
+  # Keeps the newest N generations (default 5, the current one included) and
+  # cleans up after the deleted ones:
+  #  1. delete the older generations from the system profile
+  #  2. refresh the boot menu, which nix-env does not touch, and delete the
+  #     kernels of the deleted generations from /boot
+  #  3. delete the store paths that nothing uses anymore
+  local keep=${1:-5}
+  sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system "+$keep" || return
+  sudo /nix/var/nix/profiles/system/bin/switch-to-configuration boot || return
+  sudo nix-collect-garbage
 }
 # Versions of the pinned nixpkgs sources.
 pb-nixos-version () {
