@@ -52,6 +52,10 @@ in
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
+  # Show at most this many generations in the boot menu (the newest ones). Older
+  # ones are removed from the menu with the next rebuild, but stay in the system
+  # profile until pb-nixos-delete-outdated-generations deletes them.
+  boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Secure Boot via lanzaboote (pinned with lon in ./lon.nix and ./lon.lock).
