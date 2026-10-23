@@ -13,6 +13,7 @@ let
     frame = "/dev/shm/waybar-pokemon-${config.home.username}/frame.png";
     cache_all_sprites = true; # spawn without internet
     random_generations = [ 1 2 3 4 ]; # like pokemon-colorscripts in zsh
+    wild_berries_per_hour = 1; # 0 = off
   };
 in
 {
@@ -29,7 +30,7 @@ in
     xdg.configFile."waybar-pokemon/config.json".text = builtins.toJSON settings;
 
     # Used in waybar.nix. Click: choose a Pokémon to spawn, middle click: a
-    # random one, right click: choose one to despawn.
+    # random one, right click: choose one to despawn, scroll up: drop a berry.
     dotfiles.waybarPokemon.module = {
       path = settings.frame;
       size = settings.width; # waybar fits the image into size x size
@@ -38,6 +39,7 @@ in
       on-click = "${exe} spawn-menu --notify";
       on-click-middle = "${exe} spawn --notify";
       on-click-right = "${exe} despawn-menu --notify";
+      on-scroll-up = "${exe} berry";
     };
   };
 }
