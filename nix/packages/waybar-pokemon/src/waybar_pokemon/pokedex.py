@@ -1,9 +1,11 @@
 """Pokémon names and sprites, downloaded on first use and cached.
 
 Names come from PokeAPI's species table. Sprites are the small box icons
-of the games (68 x 56, normal and shiny) from the PokéSprite project. For
-Pokémon without an icon there (the newest ones), PokeAPI's larger front
-sprites are used instead. Everything is fetched from GitHub.
+of the games (68 x 56, normal and shiny) from the PokéSprite project: the
+classic icons of generation 7 where there is one (Pokémon up to generation
+7), else the icons of generation 8. For Pokémon without any icon there (the
+newest ones), PokeAPI's larger front sprites are used instead. Everything is
+fetched from GitHub.
 """
 
 import csv
@@ -21,7 +23,8 @@ from typing import Callable, Collection
 from . import paths
 
 SPECIES_URL = "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_species.csv"
-ICON_URL = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen7x/{variant}/{name}.png"
+ICON_URL = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-{icon_set}/{variant}/{name}.png"
+ICON_SETS = ("gen7x", "gen8")  # tried in this order
 SPRITE_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{variant}{id}.png"
 
 # The chance of a shiny Pokémon in the games since generation 6.
@@ -94,15 +97,23 @@ def roll_shiny() -> bool:
 
 def sprite_path(species_id: int, shiny: bool) -> Path:
     """The cached sprite (box icon, or front sprite as fallback), downloaded if missing."""
-    path = paths.SPRITE_DIR / f"{species_id}{'-shiny' if shiny else ''}.png"
-    if not path.exists():
-        name = next(s.name for s in all_species() if s.id == species_id)
+    # One directory per choice of icons, so changing ICON_SETS downloads
+    # the new icons instead of reusing the cached ones.
+    path = paths.SPRITE_DIR / "+".join(ICON_SETS) / f"{species_id}{'-shiny' if shiny else ''}.png"
+    if path.exists():
+        return path
+    name = next(s.name for s in all_species() if s.id == species_id)
+    variant = "shiny" if shiny else "regular"
+    urls = [ICON_URL.format(icon_set=icon_set, variant=variant, name=name) for icon_set in ICON_SETS]
+    urls.append(SPRITE_URL.format(variant="shiny/" if shiny else "", id=species_id))
+    for url in urls[:-1]:
         try:
-            _download(ICON_URL.format(variant="shiny" if shiny else "regular", name=name), path)
+            _download(url, path)
+            return path
         except urllib.error.HTTPError as error:
             if error.code != 404:
                 raise
-            _download(SPRITE_URL.format(variant="shiny/" if shiny else "", id=species_id), path)
+    _download(urls[-1], path)
     return path
 
 

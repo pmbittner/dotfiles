@@ -9,7 +9,7 @@ Prototype: it is developed inside a dotfiles repository and meant to become its 
 - `waybar-pokemon daemon` simulates the Pokémon (dropping in, standing, walking, turning at the edges) and renders the habitat as a PNG strip several times per second. It only rewrites the file when the picture changed.
 - waybar's **image module** shows that file and reads it again in a short interval. Its `size` is the habitat's width (waybar scales the image into a `size` × `size` box, keeping its aspect ratio).
 - The commands `spawn` and `despawn` change the party, a JSON file the daemon watches. The party is kept across restarts.
-- Names come from the [PokeAPI](https://github.com/PokeAPI) species table. Sprites are the games' small box icons (normal and shiny) from [PokéSprite](https://github.com/msikma/pokesprite); for the newest Pokémon, which have no icon there, PokeAPI's front sprites are used. Everything is downloaded from GitHub on first use and cached. Sprites are never enlarged and only shrunk to fit the height of the habitat.
+- Names come from the [PokeAPI](https://github.com/PokeAPI) species table. Sprites are the games' small box icons (normal and shiny) from [PokéSprite](https://github.com/msikma/pokesprite): the classic icons of generation 7 where there is one, else those of generation 8; for the newest Pokémon, which have no icon there, PokeAPI's front sprites are used. Everything is downloaded from GitHub on first use and cached. Sprites are never enlarged and only shrunk to fit the height of the habitat.
 - Standing Pokémon jiggle like the party icons in the games; walking ones hop with every step.
 
 Modules (`src/waybar_pokemon/`):
