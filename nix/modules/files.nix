@@ -17,6 +17,11 @@ let
       "x-scheme-handler/http"
       "x-scheme-handler/https"
     ];
+    "vlc.desktop" = [
+      "video/mp4"
+      "video/x-matroska"
+      "video/vnd.avi"
+    ];
     "qimgv.desktop" = [
       "image/jpeg"
       "image/jpg"
