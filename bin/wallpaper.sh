@@ -29,7 +29,7 @@ fi
 NEXT_INDEX=$(( (index + 1) % WALLPAPER_COUNT ))
 NEXT_WALLPAPER=$(echo "$WALLPAPERS" | sed -n "$((NEXT_INDEX + 1))p")
 
-awww img "$NEXT_WALLPAPER" --transition-fps 144 --transition-type any
+awww img "$NEXT_WALLPAPER" --transition-fps 144 --transition-type wipe --transition-angle 120 --transition-duration 1.4
 
 # store new index
 echo "$NEXT_INDEX" > "$STATE_FILE"
