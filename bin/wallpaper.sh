@@ -1,35 +1,106 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-# This file switches the wallpaper to the next wallpaper in $WALLPAPER_HOME.
+# Switches the wallpaper.
+#   wallpaper.sh [next]   switch to the next wallpaper in $WALLPAPER_HOME
+#   wallpaper.sh menu     choose a wallpaper from a grid of previews in rofi
 
 # Directory where I store all my wallpapers.
 # Hyprland sets WALLPAPER_HOME; the fallback makes this work from a terminal, too.
 WALLPAPER_HOME="${WALLPAPER_HOME:-$HOME/Media/Wallpaper}"
 
 # Cache file to remember which wallpaper is currently shown.
-# We store a single integer in that file.
+# We store a single integer in that file: the position in the sorted list.
 STATE_FILE="$HOME/.cache/pb_current_wallpaper_index"
 
-# Get a list of all wallpapers in WALLPAPER_HOME,
-# and count how many wallpapers there are.
-WALLPAPERS=$(find "$WALLPAPER_HOME" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.webp" \) | sort)
+# Small copies of the wallpapers for the menu. Rofi would otherwise load every
+# full-size image, which is slow, and webp may not load at all.
+THUMBNAIL_DIR="$HOME/.cache/pb_wallpaper_thumbnails"
+
+# Get a sorted list of all wallpapers in WALLPAPER_HOME.
+# The position in this list is what STATE_FILE and the menu refer to.
+mapfile -t wallpapers < <(find "$WALLPAPER_HOME" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.webp" \) | sort)
 
 # Exit if there are no wallpapers.
-# (Checked before counting because 'echo "" | wc -l' returns 1.)
-[ -z "$WALLPAPERS" ] && exit 1
-WALLPAPER_COUNT=$(echo "$WALLPAPERS" | wc -l)
+count=${#wallpapers[@]}
+[ "$count" -gt 0 ] || exit 1
 
-# Read index of current wallpaper
-if [ -f "$STATE_FILE" ]; then
-    index=$(cat "$STATE_FILE")
-else
-    index=-1
-fi
+# Position of the current wallpaper, or -1 if none was chosen yet.
+current_index() {
+    if [ -f "$STATE_FILE" ]; then
+        cat "$STATE_FILE"
+    else
+        echo -1
+    fi
+}
 
-NEXT_INDEX=$(( (index + 1) % WALLPAPER_COUNT ))
-NEXT_WALLPAPER=$(echo "$WALLPAPERS" | sed -n "$((NEXT_INDEX + 1))p")
+# Shows the wallpaper at position $1 and remembers it.
+set_wallpaper() {
+    awww img "${wallpapers[$1]}" --transition-fps 144 --transition-type wipe --transition-angle 120 --transition-duration 1.4
+    echo "$1" > "$STATE_FILE"
+}
 
-awww img "$NEXT_WALLPAPER" --transition-fps 144 --transition-type wipe --transition-angle 120 --transition-duration 1.4
+next() {
+    set_wallpaper $(( ($(current_index) + 1) % count ))
+}
 
-# store new index
-echo "$NEXT_INDEX" > "$STATE_FILE"
+menu() {
+    mkdir -p "$THUMBNAIL_DIR"
+
+    # One thumbnail per wallpaper. Its name contains a hash of the path and the
+    # modification time, so a changed wallpaper gets a new thumbnail.
+    local file thumb i
+    local -a thumbs=() missing=()
+    local -A used=()
+    for file in "${wallpapers[@]}"; do
+        thumb="$THUMBNAIL_DIR/$(printf '%s' "$file" | md5sum | cut -d' ' -f1)-$(stat -c %Y "$file").jpg"
+        thumbs+=("$thumb")
+        used["$thumb"]=1
+        [ -f "$thumb" ] || missing+=("$file" "$thumb")
+    done
+
+    # Create the missing thumbnails, several at once. Cropped to 16:9, so that
+    # all tiles in the grid are equally large.
+    if [ "${#missing[@]}" -gt 0 ]; then
+        notify-send "Wallpaper" "Creating previews for $(( ${#missing[@]} / 2 )) wallpapers"
+        # The single quotes are intended: $1 and $2 belong to the inner shell.
+        # shellcheck disable=SC2016
+        printf '%s\0' "${missing[@]}" | xargs -0 -n 2 -P "$(nproc)" \
+            sh -c 'vipsthumbnail "$1" --size 560x315 --smartcrop attention -o "$2[Q=85]"' _
+    fi
+
+    # Delete the thumbnails of wallpapers that do not exist anymore.
+    for thumb in "$THUMBNAIL_DIR"/*.jpg; do
+        if [ -e "$thumb" ] && [ -z "${used[$thumb]:-}" ]; then
+            rm -f "$thumb"
+        fi
+    done
+
+    # A grid of previews with the name below each. The wallpaper that is shown
+    # now is preselected. The icon widget is not squared, so the 16:9 previews
+    # do not leave empty space above and below.
+    local selected choice
+    selected=$(current_index)
+    [ "$selected" -ge 0 ] || selected=0
+    choice=$(
+        for i in "${!wallpapers[@]}"; do
+            file=${wallpapers[$i]#"$WALLPAPER_HOME"/}
+            printf '%s\0icon\x1f%s\n' "${file%.*}" "${thumbs[$i]}"
+        done | rofi -dmenu -i -p Wallpaper -show-icons -format i -selected-row "$selected" -theme-str '
+            window { width: 1340px; }
+            listview { columns: 4; lines: 3; flow: horizontal; fixed-height: true; spacing: 12px; }
+            element { orientation: vertical; padding: 10px; spacing: 6px; }
+            element-icon { size: 300px; squared: false; horizontal-align: 0.5; }
+            element-text { horizontal-align: 0.5; }
+        '
+    ) || exit 0
+    [ -n "$choice" ] && set_wallpaper "$choice"
+}
+
+case "${1:-next}" in
+    next) next ;;
+    menu) menu ;;
+    *)
+        echo "Usage: ${0##*/} [next|menu]" >&2
+        exit 1
+        ;;
+esac
