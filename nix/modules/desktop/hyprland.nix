@@ -52,5 +52,7 @@
     # wpaperd
     # mpvpaper
     unstable.awww
+    ## Thumbnails for the wallpaper menu (bin/wallpaper.sh menu): vipsthumbnail
+    vips
   ];
 }
