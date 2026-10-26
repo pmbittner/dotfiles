@@ -475,7 +475,9 @@
   (evil-scroll-down 0)
   (recenter))
 (map! :nm "C-u" #'pb/evil-scroll-up)
+(map! :nm "<prior>" #'pb/evil-scroll-up)  ;; Bild hoch
 (map! :nm "C-d" #'pb/evil-scroll-down)
+(map! :nm "<next>" #'pb/evil-scroll-down) ;; Bild runter
 
 ;;;; CENTAUR TABS
 
