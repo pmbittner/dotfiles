@@ -220,8 +220,9 @@ end)
 hl.bind(mod .. " + q", hl.dsp.window.close())
 hl.bind(mod .. " + ESCAPE", hl.dsp.exec_cmd(USRBIN .. "/wlogout-once.sh"))
 
--- Next desktop
-hl.bind(mod .. " + w", hl.dsp.exec_cmd(USRBIN .. "/wallpaper.sh"))
+-- Wallpaper: a menu with previews, and cycling through them
+hl.bind(mod .. " + w", hl.dsp.exec_cmd(USRBIN .. "/wallpaper.sh menu"))
+hl.bind(mod .. " + CTRL + w", hl.dsp.exec_cmd(USRBIN .. "/wallpaper.sh next"))
 
 -- Application shortcuts
 hl.bind(mod .. " + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload"))
