@@ -16,6 +16,14 @@ STATE_FILE="$HOME/.cache/pb_current_wallpaper_index"
 # full-size image, which is slow, and webp may not load at all.
 THUMBNAIL_DIR="$HOME/.cache/pb_wallpaper_thumbnails"
 
+# Size of the previews in the menu (16:9) and the number of columns and rows.
+# The thumbnails are made exactly this large, so rofi shows them pixel for pixel;
+# if it had to scale them, they would look blurry.
+THUMB_WIDTH=320
+THUMB_HEIGHT=180
+COLUMNS=4
+ROWS=2
+
 # Get a sorted list of all wallpapers in WALLPAPER_HOME.
 # The position in this list is what STATE_FILE and the menu refer to.
 mapfile -t wallpapers < <(find "$WALLPAPER_HOME" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.webp" \) | sort)
@@ -46,13 +54,14 @@ next() {
 menu() {
     mkdir -p "$THUMBNAIL_DIR"
 
-    # One thumbnail per wallpaper. Its name contains a hash of the path and the
-    # modification time, so a changed wallpaper gets a new thumbnail.
+    # One thumbnail per wallpaper. Its name contains a hash of the path, the
+    # modification time and the thumbnail size, so a changed wallpaper or a
+    # changed size gets a new thumbnail.
     local file thumb i
     local -a thumbs=() missing=()
     local -A used=()
     for file in "${wallpapers[@]}"; do
-        thumb="$THUMBNAIL_DIR/$(printf '%s' "$file" | md5sum | cut -d' ' -f1)-$(stat -c %Y "$file").jpg"
+        thumb="$THUMBNAIL_DIR/$(printf '%s' "$file" | md5sum | cut -d' ' -f1)-$(stat -c %Y "$file")-${THUMB_WIDTH}x${THUMB_HEIGHT}.jpg"
         thumbs+=("$thumb")
         used["$thumb"]=1
         [ -f "$thumb" ] || missing+=("$file" "$thumb")
@@ -62,10 +71,12 @@ menu() {
     # all tiles in the grid are equally large.
     if [ "${#missing[@]}" -gt 0 ]; then
         notify-send "Wallpaper" "Creating previews for $(( ${#missing[@]} / 2 )) wallpapers"
-        # The single quotes are intended: $1 and $2 belong to the inner shell.
+        export THUMB_SIZE="${THUMB_WIDTH}x${THUMB_HEIGHT}"
+        # The single quotes are intended: $1, $2 and $THUMB_SIZE belong to the
+        # inner shell.
         # shellcheck disable=SC2016
         printf '%s\0' "${missing[@]}" | xargs -0 -n 2 -P "$(nproc)" \
-            sh -c 'vipsthumbnail "$1" --size 560x315 --smartcrop attention -o "$2[Q=85]"' _
+            sh -c 'vipsthumbnail "$1" --size "$THUMB_SIZE" --smartcrop attention -o "$2[Q=90]"' _
     fi
 
     # Delete the thumbnails of wallpapers that do not exist anymore.
@@ -75,23 +86,28 @@ menu() {
         fi
     done
 
-    # A grid of previews with the name below each. The wallpaper that is shown
-    # now is preselected. The icon widget is not squared, so the 16:9 previews
+    # A grid of previews with the file name below each. The wallpaper that is
+    # shown now is preselected. The icon widget is not squared, so the previews
     # do not leave empty space above and below.
-    local selected choice
+    # The window width is computed from the tile size: a tile is the preview
+    # plus 10px padding on each side; between tiles are 12px, around the grid
+    # 12px padding and 2px border, plus some spare pixels. A window that is
+    # even slightly too narrow makes rofi shrink the previews.
+    local selected choice width
+    width=$(( COLUMNS * (THUMB_WIDTH + 20) + (COLUMNS - 1) * 12 + 2 * 12 + 2 * 2 + 16 ))
     selected=$(current_index)
     [ "$selected" -ge 0 ] || selected=0
     choice=$(
         for i in "${!wallpapers[@]}"; do
-            file=${wallpapers[$i]#"$WALLPAPER_HOME"/}
+            file=${wallpapers[$i]##*/}
             printf '%s\0icon\x1f%s\n' "${file%.*}" "${thumbs[$i]}"
-        done | rofi -dmenu -i -p Wallpaper -show-icons -format i -selected-row "$selected" -theme-str '
-            window { width: 1340px; }
-            listview { columns: 4; lines: 3; flow: horizontal; fixed-height: true; spacing: 12px; }
+        done | rofi -dmenu -i -p Wallpaper -show-icons -format i -selected-row "$selected" -theme-str "
+            window { width: ${width}px; }
+            listview { columns: $COLUMNS; lines: $ROWS; flow: horizontal; fixed-height: true; spacing: 12px; }
             element { orientation: vertical; padding: 10px; spacing: 6px; }
-            element-icon { size: 300px; squared: false; horizontal-align: 0.5; }
+            element-icon { size: ${THUMB_WIDTH}px; squared: false; horizontal-align: 0.5; }
             element-text { horizontal-align: 0.5; }
-        '
+        "
     ) || exit 0
     [ -n "$choice" ] && set_wallpaper "$choice"
 }
