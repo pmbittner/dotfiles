@@ -89,12 +89,15 @@ menu() {
     # A grid of previews with the file name below each. The wallpaper that is
     # shown now is preselected. The icon widget is not squared, so the previews
     # do not leave empty space above and below.
+    # The preview is aligned to the top left of its space: rofi places an
+    # image at (free space * alignment), which is a fraction of a pixel for a
+    # centered image, and cairo smooths an image placed that way.
     # The window width is computed from the tile size: a tile is the preview
     # plus 10px padding on each side; between tiles are 12px, around the grid
     # 12px padding and 2px border, plus some spare pixels. A window that is
     # even slightly too narrow makes rofi shrink the previews.
     local selected choice width
-    width=$(( COLUMNS * (THUMB_WIDTH + 20) + (COLUMNS - 1) * 12 + 2 * 12 + 2 * 2 + 16 ))
+    width=$(( COLUMNS * (THUMB_WIDTH + 20) + (COLUMNS - 1) * 12 + 2 * 12 + 2 * 2 + 8 ))
     selected=$(current_index)
     [ "$selected" -ge 0 ] || selected=0
     choice=$(
@@ -105,7 +108,7 @@ menu() {
             window { width: ${width}px; }
             listview { columns: $COLUMNS; lines: $ROWS; flow: horizontal; fixed-height: true; spacing: 12px; }
             element { orientation: vertical; padding: 10px; spacing: 6px; }
-            element-icon { size: ${THUMB_WIDTH}px; squared: false; horizontal-align: 0.5; }
+            element-icon { size: ${THUMB_WIDTH}px; squared: false; expand: false; horizontal-align: 0; vertical-align: 0; }
             element-text { horizontal-align: 0.5; }
         "
     ) || exit 0
