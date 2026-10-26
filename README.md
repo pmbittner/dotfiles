@@ -7,6 +7,7 @@ I created this repository according to [this guide](https://www.atlassian.com/gi
 If the local clone of this repository does not track remote branches correctly, run
 ```sh
 config config --replace-all remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+config fetch --all
 ```
 
 ## Documentation
