@@ -15,7 +15,7 @@ let
     random_generations = [ 1 2 3 4 ]; # like pokemon-colorscripts in zsh
     wild_berries_per_hour = 1; # 0 = off
     names_language = "de"; # Pokémon and berry names as in the German games
-    ui_language = "en"; # notifications and menus
+    ui_language = "de"; # notifications and menus
   };
 in
 {
