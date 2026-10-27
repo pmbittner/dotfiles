@@ -14,6 +14,8 @@ let
     cache_all_sprites = true; # spawn without internet
     random_generations = [ 1 2 3 4 ]; # like pokemon-colorscripts in zsh
     wild_berries_per_hour = 1; # 0 = off
+    names_language = "de"; # Pokémon and berry names as in the German games
+    ui_language = "en"; # notifications and menus
   };
 in
 {
