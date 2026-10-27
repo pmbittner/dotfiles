@@ -1314,15 +1314,24 @@ wouldn't change.")
 
 ;;;; PYTHON
 
-(after! eglot
-  (add-to-list 'eglot-server-programs
-               `(python-base-mode . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
-                                                           ("ty" "server"))))))
-(add-hook 'python-base-mode-hook 'eglot-ensure)
+;; The virtual environment of a project comes from its .envrc (direnv, see the
+;; `direnv' module). Envrc gives the buffers of a project their own environment
+;; and applies it before the language server starts; it restarts the server when
+;; the environment changes. Doom's +uv flag is deliberately not used: it runs
+;; `uv-mode-set' whenever a python buffer is shown, which changes PATH and
+;; VIRTUAL_ENV with `setenv' and sets `python-shell-virtualenv-root' globally.
+;; Envrc builds the environment of every buffer on top of the global one, so
+;; the virtual environment of the first project leaked into all other projects.
+;; Likewise, +pyright is not used: it only configures lsp-mode, not eglot.
+;;
+;; The python module (+lsp) starts the language server itself, no hook needed.
+;; This only chooses the server: pyright, or ty if pyright is not installed.
+(set-eglot-client! '(python-mode python-ts-mode)
+                   '("pyright-langserver" "--stdio")
+                   '("ty" "server"))
 
-;; (after! lsp-mode
-;;   (setq lsp-disabled-clients
-;;         '(pyls pylsp semgrep-ls ty-ls jdtls)))
+;; Without +uv, uv.lock is not recognized as toml.
+(add-to-list 'auto-mode-alist '("/uv\\.lock\\'" . conf-toml-mode))
 
 ;;;; JAVA
 
