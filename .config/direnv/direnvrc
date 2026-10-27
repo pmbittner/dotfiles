@@ -1,0 +1,40 @@
+# Functions for the .envrc files, loaded by direnv before every .envrc.
+
+# use_uv: put the virtual environment (.venv) of a uv project into the
+# environment. A project's .envrc is just this line:
+#
+#   use_uv
+#
+# `uv sync` runs only if it is needed: when .venv was never synced, or when
+# pyproject.toml or uv.lock changed since the last successful sync. Otherwise,
+# loading the .envrc takes no time and prints nothing.
+# That matters, since the .envrc is loaded more than once: by Emacs (envrc) and
+# by every terminal that starts in the project. Emacs removes direnv's own
+# variables from the environment it hands on, so a terminal opened from Emacs
+# loads the .envrc again, and would otherwise run `uv sync` once more each time
+# (see also the direnv lines in ~/.zshrc and "PYTHON" in the Doom config.el).
+use_uv() {
+    # Marks the last successful sync. It is inside .venv, which is not in git.
+    local stamp=.venv/.direnv-uv-sync
+
+    # Reload when one of them changes.
+    watch_file pyproject.toml uv.lock
+
+    if [[ -f pyproject.toml ]]; then
+        if [[ ! -f $stamp || pyproject.toml -nt $stamp || uv.lock -nt $stamp ]]; then
+            # If the sync fails, its error is shown, the stamp stays old, and
+            # the environment that exists is still activated below.
+            uv sync --inexact --all-groups && touch "$stamp"
+        fi
+    fi
+
+    if [[ -f .venv/bin/activate ]]; then
+        # Reload when the venv is recreated. `source` instead of `source_env`:
+        # the latter prints a "loading" line each time.
+        watch_file .venv/bin/activate
+        # shellcheck disable=SC1091
+        source .venv/bin/activate
+    else
+        log_error "use_uv: no .venv in $PWD (does uv sync fail?)"
+    fi
+}
