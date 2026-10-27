@@ -421,16 +421,6 @@
 (after! vertico
   (setq vertico-resize 'grow-only))
 
-;;;; LSP
-(after! lsp-mode
-  (setq lsp-enable-symbol-highlighting nil
-        ;; If an LSP server isn't present when I start a prog-mode buffer, you
-        ;; don't need to tell me. I know. On some machines I don't care to have
-        ;; a whole development environment for some ecosystems.
-        lsp-enable-suggest-server-download nil
-        lsp-modeline-diagnostics-enable nil ;; disables summary of issues next to a light bulb in the modeline
-        lsp-response-timeout 1))
-
 ;;;; scroll-on-jump
 
 (after! scroll-on-jump
@@ -1345,25 +1335,6 @@ wouldn't change.")
   (c-set-offset 'case-label '+)
   )
 
-(after! lsp-java
-  :config
-  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx4G" "-Xms100m"))
-  (setq lsp-java-jdt-ls-prefer-native-command t)
-  (setq lsp-java-server-install-dir (f-dirname (f-dirname (executable-find lsp-java-jdt-ls-command))))
-  ;; bugfix: Wait for https://github.com/emacs-lsp/lsp-java/pull/497 to be accepted.
-  (defadvice! lsp-java--locate-server-jar-nixos-fix ()
-    :override 'lsp-java--locate-server-jar
-    t)
-
-  (map! :map java-mode-map :localleader
-     (:desc "LSP code action" "a" #'lsp-execute-code-action)
-     )
-  ;; ;; IntelliJ like binding
-  ;; (map! :map java-mode-map
-  ;;    (:desc "LSP code action" "C-RET" #'lsp-execute-code-action)
-  ;;    )
-  )
-
 ;;;; WGSL
 
 ;; Where to get the WGSL grammar. wgsl-ts-mode is written for this grammar.
@@ -1386,18 +1357,6 @@ wouldn't change.")
     (wgsl-ts-mode)))
 
 (add-hook 'wgsl-mode-hook #'my/wgsl-ensure-grammar)
-
-;;;; LUA
-
-(after! lsp-mode
-  (setq lsp-clients-lua-language-server-bin
-        (executable-find "lua-language-server"))
-  (setq lsp-clients-lua-language-server-install-dir nil)
-  (setq lsp-clients-lua-language-server-bin
-        (executable-find "lua-language-server"))
-  (setq lsp-clients-lua-language-server-main-location
-        (executable-find "lua-language-server"))
-  )
 
 ;;;; LATEX
 
