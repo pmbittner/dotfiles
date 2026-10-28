@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 let
   # lon pins all sources (./lon.nix, ./lon.lock): nixpkgs, nixpkgs-unstable,
-  # home-manager, stylix and lanzaboote (Secure Boot, disabled for now, see
-  # boot section below). Update the pins with `pb-nixos-update-pins`.
+  # home-manager, stylix, lanzaboote (Secure Boot, disabled for now, see
+  # boot section below) and waybar-pokemon (used in modules/home). Update the pins with `pb-nixos-update-pins`.
   # The system itself is built from the pinned nixpkgs through the entry
   # point ./system.nix.
   # Their NixOS modules are imported here, in one place. (They cannot be

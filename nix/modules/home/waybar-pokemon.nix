@@ -1,8 +1,9 @@
 { config, lib, pkgs, ... }:
 let
-  # Pokémon walking around in a waybar module (prototype, see
-  # nix/packages/waybar-pokemon/README.md).
-  package = pkgs.callPackage ../../packages/waybar-pokemon { };
+  # Pokémon walking around in a waybar module, from its own repository
+  # (https://github.com/pmbittner/waybar-pokemon), pinned with lon.
+  sources = import ../../lon.nix;
+  package = pkgs.callPackage sources.waybar-pokemon { };
   exe = lib.getExe package;
 
   # Settings of the daemon; the waybar module below is derived from them.

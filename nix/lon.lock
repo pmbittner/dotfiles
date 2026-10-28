@@ -55,6 +55,17 @@
       "revision": "078d8f7f514bbe4987a754eb4a2d9e7088e9867a",
       "url": "https://github.com/nix-community/stylix/archive/078d8f7f514bbe4987a754eb4a2d9e7088e9867a.tar.gz",
       "hash": "sha256-ODfnSwAhOl727PhoZu5N3CwTAK8ykDX1Sm5+VD8d3Fk="
+    },
+    "waybar-pokemon": {
+      "type": "GitHub",
+      "fetchType": "tarball",
+      "frozen": false,
+      "owner": "pmbittner",
+      "repo": "waybar-pokemon",
+      "branch": "main",
+      "revision": "bf6b0b1bb7bc0df49cc06a13dbddf88f0a499ca1",
+      "url": "https://github.com/pmbittner/waybar-pokemon/archive/bf6b0b1bb7bc0df49cc06a13dbddf88f0a499ca1.tar.gz",
+      "hash": "sha256-SI6SV09pHCBHjQ2D/8eJqfqpz0ZoIBuibOpbmWOxFv0="
     }
   }
 }
