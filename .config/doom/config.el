@@ -1183,6 +1183,10 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 ;; nix setup for agda
 (load! "nix-shell.el")
 
+(defun pb/agda-add-hole-pair ()
+  "Make Agda holes, {! !}, a surround pair (key !) in the current buffer."
+  (embrace-add-pair ?! "{!" "!}"))
+
 (defun customize-agda ()
   (setq default-input-method "Agda")
   (add-hook! 'agda2-mode-hook
@@ -1194,9 +1198,9 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
                                   ("\\.lagda.tex\\'" . agda2-mode))))
   ;; Make evil repeat (pressing .) ignore agda2-load.
   (evil-add-command-properties 'agda2-load :repeat 'ignore)
-  ;; Add agda holes as evil-surround braces
-  (after! evil-surround
-    (embrace-add-pair ?! "{!" "!}"))
+  ;; Add agda holes as evil-surround braces. The list of pairs is local to a
+  ;; buffer, so the pair is added in every Agda buffer.
+  (add-hook 'agda2-mode-hook #'pb/agda-add-hole-pair)
 
   (setq agda-input-user-translations `(
     ("ot"   . ("←"))
