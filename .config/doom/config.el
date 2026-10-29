@@ -893,16 +893,22 @@ Magit starts gets its environment from."
 
 ;;;; ORG AGENDA
 
-(setq pb/org-agenda-directory (concat org-directory "Agenda/"))
-(setq pb/private-org-agenda-directory (concat pb/org-agenda-directory "Private/"))
-(setq pb/work-org-agenda-directory    (concat pb/org-agenda-directory "Work/"))
-(setq pb/main-agenda-file (concat pb/private-org-agenda-directory "Agenda.org"))
-(setq pb/work-agenda-file (concat pb/work-org-agenda-directory    "Agenda.org"))
+(defconst pb/org-agenda-directory (concat org-directory "Agenda/")
+  "Directory of all my agenda files.")
+(defconst pb/private-org-agenda-directory (concat pb/org-agenda-directory "Private/")
+  "Directory of my private agenda files.")
+(defconst pb/work-org-agenda-directory (concat pb/org-agenda-directory "Work/")
+  "Directory of my work agenda files.")
+(defconst pb/main-agenda-file (concat pb/private-org-agenda-directory "Agenda.org")
+  "My private agenda.")
+(defconst pb/work-agenda-file (concat pb/work-org-agenda-directory "Agenda.org")
+  "My work agenda.")
 
 (setq org-agenda-files (list pb/org-agenda-directory))
 (setq org-icalendar-combined-agenda-file (concat pb/private-org-agenda-directory "org-agenda-export.ics"))
 (setq org-agenda-scheduled-leaders '("🕰" "Sched.%2dx: "))
-(setq pb/org-capture-file (concat pb/private-org-agenda-directory "Capture.org"))
+(defconst pb/org-capture-file (concat pb/private-org-agenda-directory "Capture.org")
+  "Org file that captured todos, notes and meetings go to.")
 
 (defun pb/open-main-agenda-file ()
   (interactive)
