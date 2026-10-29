@@ -166,9 +166,6 @@
 (setq display-line-numbers-type t)
 (global-display-line-numbers-mode)
 
-;; disable annoying smartparens
-(remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
-
 ;; disable scroll acceleration
 (setq mouse-wheel-progressive-speed nil)
 ;; scroll two lines at a time but only one when pressing shift
