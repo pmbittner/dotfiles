@@ -231,6 +231,7 @@ hl.bind(mod .. " + t", hl.dsp.exec_cmd(terminal))
 hl.bind(mod .. " + r", hl.dsp.exec_cmd(ranger))
 hl.bind(mod .. " + d", hl.dsp.exec_cmd(explorer))
 hl.bind(mod .. " + f", hl.dsp.exec_cmd(browser))
+hl.bind(mod .. " + k", hl.dsp.exec_cmd("keymapp"))
 hl.bind(mod .. " + SPACE", hl.dsp.exec_cmd(launcher))
 hl.bind(mod .. " + n", hl.dsp.exec_cmd("networkmanager_dmenu")) -- wifi menu
 hl.bind(mod .. " + SHIFT + p", hl.dsp.exec_cmd(USRBIN .. "/screenshot.sh")) -- region screenshot
