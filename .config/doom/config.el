@@ -335,7 +335,7 @@
    directory in the doom private configuration directory.
    The image is returned as a string containing an absolute path to that file.
    Returns nil if there are no image files in the `splashes' directory."
-  (let* ((splash-dir (concat doom-private-dir (file-name-as-directory "splashes")))
+  (let* ((splash-dir (concat doom-user-dir (file-name-as-directory "splashes")))
          (image-file-names (directory-files splash-dir nil ".*\\.png")) ;; Currently, this only checks for PNGs. We might also want to allow other image types in the future.
          (num-available-splashscreens (length image-file-names)))
     (if (eq num-available-splashscreens 0)
