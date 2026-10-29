@@ -38,6 +38,7 @@ in
 
       ./modules/hardware/nvidia.nix
       ./modules/hardware/monitors.nix
+      ./modules/hardware/keyboard.nix
       ./modules/files.nix
       ./modules/network.nix
       ./modules/bluetooth.nix
@@ -158,6 +159,9 @@ in
       ranger
 
       vlc
+
+      # keyboard
+      keymapp
 
       # Emacs
       emacs
