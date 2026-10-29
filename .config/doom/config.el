@@ -87,18 +87,14 @@
                         (:desc "switch to nix Agda" "n" #'use-nix-agda)
                         )
                (:prefix ("g" . "Dotfiles Git")
-                 (:desc "status" "g" #'dotfiles-status)
-                 (:desc "stage current buffer's file" "s" #'dotfiles-stage-buffer-file)
+                 (:desc "status" "g" #'pb/dotfiles-status)
+                 (:desc "stage current buffer's file" "s" #'pb/dotfiles-stage-buffer-file)
                  )
                (:prefix ("n" . "NixOS")
                  (:desc "rebuild + switch" "r" #'nixos-rebuild-switch)
                  (:desc "config" "c" #'goto-nix-config-file)
                  )
                (:desc "toggle input method" "t" #'toggle-input-method)
-               )
-      (:prefix "g"
-               ("g" #'my-magit-status)
-               ("G" #'my-magit-status-here)
                )
       )
 
@@ -799,54 +795,60 @@
 
 ;;;; MAGIT FOR MY DOTFILES
 
-(setq dotfiles-git-dir (concat "--git-dir=" (expand-file-name "~/.myconfig.git")))
-(setq dotfiles-work-tree (concat "--work-tree=" (expand-file-name "~")))
+;; My dotfiles are a bare git repository: the git directory is ~/.myconfig.git
+;; and the work tree is ~ (on the Linux machine only, see the README). Git
+;; finds such a repository through GIT_DIR and GIT_WORK_TREE. Both are added to
+;; the environment of every git process Magit starts in a directory that belongs
+;; to the dotfiles: inside ~, but not inside another git repository. Nothing is
+;; changed globally, so other repositories are not affected, no matter how
+;; Magit is opened.
 
-(defun dotfiles-status ()
-  "Run magit-status for my dotfiles repository."
-  (interactive)
-  (add-to-list 'magit-git-global-arguments dotfiles-git-dir)
-  (add-to-list 'magit-git-global-arguments dotfiles-work-tree)
-  (call-interactively 'magit-status)
-  ;; I tried to only override the magit-git-global-arguments locally via let.
-  ;; This worked but only for the invocation of magit-status, which returned immediately
-  ;; after opening the magit buffer.
-  ;; When performing tasks in the magit buffer, the variable overwrite would be forgotten,
-  ;; and hence, I was unable to stage any changes for example.
-  ;; As a hack, I reset the globally changed variables now, whenever
-  ;; I launch magit-status via my own wrapper functions (see below).
-  ;; let ((magit-git-global-arguments (append (list dotfiles-git-dir dotfiles-work-tree) magit-git-global-arguments)))
-  )
+(defconst pb/dotfiles-git-dir (expand-file-name "~/.myconfig.git")
+  "Git directory of my dotfiles, a bare repository.")
 
-(defun dotfiles-stage-buffer-file ()
-  "Run magit-status for my dotfiles repository."
-  (interactive)
-  (add-to-list 'magit-git-global-arguments dotfiles-git-dir)
-  (add-to-list 'magit-git-global-arguments dotfiles-work-tree)
-  (magit-stage-buffer-file)
-  )
+(defconst pb/dotfiles-work-tree (expand-file-name "~/")
+  "Work tree of my dotfiles.")
 
-(defun my-magit-reset-global-args ()
-  "Function that removes any custom additions
-   for dotfiles from the magit-git-global-arguments."
-  (interactive)
-  (setq magit-git-global-arguments (remove dotfiles-git-dir magit-git-global-arguments))
-  (setq magit-git-global-arguments (remove dotfiles-work-tree magit-git-global-arguments))
-  )
+(defvar pb/dotfiles-force nil
+  "If non-nil, Magit uses the dotfiles repository in any directory.")
 
-(defun my-magit-status ()
-  "Wrapper for magit-status that clears dotfiles from variables."
-  (interactive)
-  (my-magit-reset-global-args)
-  (call-interactively 'magit-status)
-  )
+(defun pb/dotfiles-directory-p (&optional dir)
+  "Return non-nil if DIR (default: `default-directory') belongs to my dotfiles.
+That is, the dotfiles repository exists on this machine, and DIR is inside the
+home directory but not inside another git repository."
+  (let ((dir (or dir default-directory)))
+    (and (not (file-remote-p dir))
+         (file-directory-p pb/dotfiles-git-dir)
+         (file-in-directory-p dir pb/dotfiles-work-tree)
+         (not (locate-dominating-file dir ".git")))))
 
-(defun my-magit-status-here ()
-  "Wrapper for magit-status that clears dotfiles from variables."
+(defun pb/magit-dotfiles-environment-a (environment)
+  "Add the dotfiles repository to the git ENVIRONMENT where it applies.
+Used as advice on `magit-process-environment', which every git process that
+Magit starts gets its environment from."
+  (if (or pb/dotfiles-force (pb/dotfiles-directory-p))
+      (append (list (concat "GIT_DIR=" pb/dotfiles-git-dir)
+                    (concat "GIT_WORK_TREE=" pb/dotfiles-work-tree))
+              environment)
+    environment))
+
+(advice-add 'magit-process-environment :filter-return
+            #'pb/magit-dotfiles-environment-a)
+
+(defun pb/dotfiles-status ()
+  "Open Magit for my dotfiles, from any directory."
   (interactive)
-  (my-magit-reset-global-args)
-  (call-interactively 'magit-status-here)
-  )
+  (unless (file-directory-p pb/dotfiles-git-dir)
+    (user-error "There is no dotfiles repository at %s" pb/dotfiles-git-dir))
+  (magit-status-setup-buffer pb/dotfiles-work-tree))
+
+(defun pb/dotfiles-stage-buffer-file ()
+  "Stage the file of the current buffer in my dotfiles, from any directory."
+  (interactive)
+  (unless (file-directory-p pb/dotfiles-git-dir)
+    (user-error "There is no dotfiles repository at %s" pb/dotfiles-git-dir))
+  (let ((pb/dotfiles-force t))
+    (magit-stage-buffer-file)))
 
 ;;;; NIXOS
 
