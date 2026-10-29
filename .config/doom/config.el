@@ -1099,11 +1099,13 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 
 ;; do not ignore subdirectories that are ignored by .gitignore
 ;; https://org-roam.discourse.group/t/subdirectories-in-gitignore-are-not-picked-up-by-roam-db-sync/2628
-(defun my/add-fd-ignored-files-flag (&rest rest)
-  (pcase (cl-first rest)
-    (`(,exec ,path)
-   (list (string-join (list exec "-I") " ") path)))
-  )
+(defun my/add-fd-ignored-files-flag (args)
+  "Add -I to the fd command of org-roam, so it also lists ignored files.
+ARGS are the arguments of `org-roam--list-files-fd': (EXECUTABLE DIR). It is
+an internal function, so if its arguments change, they are passed on as is."
+  (pcase args
+    (`(,exec ,path) (list (concat exec " -I") path))
+    (_ args)))
 (advice-add 'org-roam--list-files-fd :filter-args #'my/add-fd-ignored-files-flag)
 
 (defun pb/org-roam-open-page (str-pagename)
