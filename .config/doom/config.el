@@ -731,12 +731,13 @@
   )
 
 (defun pb/open-terminal-here ()
-  "Open a terminal at the current directory"
+  "Open a terminal at the current directory."
   (interactive)
   (pb/start-process "kitty" "--session" "launch-zsh.kitty"))
 
 (defun pb/open-terminal-at-project-root ()
-  "Open a terminal at the current directory"
+  "Open a terminal at the root of the current project.
+Outside of a project, open it at the current directory."
   (interactive)
   (let* ((cur-buffer      (current-buffer))
          (cur-buffer-file (buffer-file-name cur-buffer))
@@ -749,19 +750,19 @@
     (pb/start-process "kitty" "--directory" dir "--session" "launch-zsh.kitty")))
 
 (defun pb/open-explorer-here ()
-  "Open a terminal at the current directory"
+  "Open the file manager at the current directory."
   (interactive)
   (if (eq system-type 'darwin)
       (pb/start-process "open" ".")
       (pb/start-process "nautilus" ".")))
 
 (defun pb/open-ranger-at (dir-string)
-  "Open ranger with the given arguments"
+  "Open ranger in a new terminal at the directory DIR-STRING."
   (pb/start-process "kitty" "--directory" dir-string "--hold" "--session" "launch-ranger.kitty")
 )
 
 (defun pb/open-ranger-here ()
-  "Open a terminal at the current directory"
+  "Open ranger in a new terminal at the current directory."
   (interactive)
   (pb/open-ranger-at ".")
   )
