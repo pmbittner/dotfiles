@@ -1016,7 +1016,8 @@ The result value is meant to be used to set org-caldav-files to."
              )
         (message "[SYNC] Killing buffers: %s" new-org-buffers)
         (dolist (e new-org-buffers)
-          (save-buffer e)
+          ;; `save-buffer' takes a prefix argument, not a buffer.
+          (with-current-buffer e (save-buffer))
           (kill-buffer e)
           )
         )
