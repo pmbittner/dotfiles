@@ -749,7 +749,7 @@
     (unless (eq system-type 'darwin)
       (setq procspec (cons "setsid" procspec))
       )
-    (message (mapconcat 'identity procspec " "))
+    (message "%s" (mapconcat #'identity procspec " "))
     (apply #'start-process (cons name (cons nil procspec)))
     )
   )
