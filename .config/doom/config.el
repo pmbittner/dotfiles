@@ -389,8 +389,14 @@
   ;; So we do not set any sorting.
   (setq projectile-indexing-method 'alien
         ;; Default value: "git ls-files -zco --exclude-standard"
-        ;; Set it to the following to ignore .gitignore entries (i.e., list _all_ files).
-        projectile-git-command "git ls-files -zco"
+        ;; Without --exclude-standard, files ignored by .gitignore are listed,
+        ;; too (local configs, own scripts). Only directories of generated
+        ;; files are left out, as they can hold most files of a project (in my
+        ;; Python projects, the .venv has 90% and more).
+        projectile-git-command (concat "git ls-files -zco"
+                                       " --exclude=.venv/ --exclude=node_modules/"
+                                       " --exclude=__pycache__/ --exclude=.mypy_cache/"
+                                       " --exclude=.direnv/")
         )
 
   ;; Sometimes, I want to see all files.
