@@ -157,9 +157,9 @@
 ;; line numbers
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq-default display-line-numbers t)
+;; Doom shows them in code, text and config buffers only, not in special
+;; buffers like Magit, dired, neotree or the dashboard.
 (setq display-line-numbers-type t)
-(global-display-line-numbers-mode)
 
 ;; disable scroll acceleration
 (setq mouse-wheel-progressive-speed nil)
@@ -634,10 +634,7 @@
     )
   (add-hook 'doom-switch-buffer-hook #'pb/refresh-neotree)
 
-  ;; disable line numbers in neotree buffer
-  (add-hook 'neotree-mode-hook #'doom-disable-line-numbers-h)
-
-  ;; hide some files in neotree
+    ;; hide some files in neotree
   (setq neo-hidden-regexp-list
         (append (list
                 ;; latex aux files
