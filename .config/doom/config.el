@@ -155,7 +155,6 @@
 
 ;;;; SOME MISCELLANEOUS GLOBAL SETTINGS AND FIXES
 
-(setq evil-snipe-override-evil-repeat-keys nil)
 (setq emojify-display-style 'unicode)
 (setq-default show-trailing-whitespace t)
 
