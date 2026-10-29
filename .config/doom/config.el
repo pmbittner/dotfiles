@@ -697,7 +697,7 @@
 
 ;;;; DIRED
 
-(setf dired-kill-when-opening-new-dired-buffer t)
+(setq dired-kill-when-opening-new-dired-buffer t)
 
 ;;;; OPENING EXTERNAL PROGRAMS
 
