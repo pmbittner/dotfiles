@@ -954,12 +954,10 @@
         (0 "[ ]") (50 "[/]") (0 "[?]") (100 "[X]")
       ))
 
-;;;###autoload
 (defun pb/set-org-caldav-files-to (filelist)
   (message "[SYNC] set org-caldav-files to %s" filelist)
   (setq org-caldav-files filelist))
 
-;;;###autoload
 (defun pb/org-caldav-files-full ()
   "Returns a list of all my org files relevant
 for calendar synchronization.
@@ -969,7 +967,6 @@ The result value is meant to be used to set org-caldav-files to."
      (delete org-default-todo-file org-files-for-caldav-sync) ;; remove captured todos from sync
      org-files-for-caldav-sync))
 
-;;;###autoload
 (defun pb/org-caldav-files-minimum ()
   "Returns a list of just the most recent / central
 of my org files for calendar synchronization. The idea
@@ -981,7 +978,6 @@ The result value is meant to be used to set org-caldav-files to."
     (concat pb/private-org-agenda-directory "Events.org")
     ))
 
-;;;###autoload
 (defun pb/sync-org-agenda-to-calendar ()
   "Synchronizes the org entries from org-caldav-files to my calendar.
    Wraps org-caldav-sync with updating some
@@ -1019,7 +1015,6 @@ The result value is meant to be used to set org-caldav-files to."
     )
   )
 
-;;;###autoload
 (defun pb/with-org-caldav-files (filelist body)
   "Temporarily sets org-caldav-files to FILELIST,
 invokes BODY and then resets org-caldav-files to
@@ -1031,14 +1026,12 @@ its previous value."
     (pb/set-org-caldav-files-to previous-org-caldav-files)
     ))
 
-;;;###autoload
 (defun pb/sync-org-agenda-to-calendar-full ()
   "Syncs all my org entries to the calendar."
   (interactive)
   (pb/with-org-caldav-files (pb/org-caldav-files-full)
     'pb/sync-org-agenda-to-calendar))
 
-;;;###autoload
 (defun pb/sync-org-agenda-to-calendar-minimum ()
   "Syncs only the most recent org entries to my calendar.
 Recentness is determined by being in my Agenda.org file or in my Events.org."
@@ -1051,7 +1044,6 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
     (setq org-caldav-delete-calendar-entries old-value)
     ))
 
-;;;###autoload
 (defun pb/sync-org-agenda-to-calendar-anew (boolSure)
   "Deletes the calendar entries and starts a new sync."
   (interactive (list (y-or-n-p "Are you sure to reset and restart calendar sync?")))
@@ -1069,7 +1061,6 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   (pb/set-org-caldav-files-to (pb/org-caldav-files-full))
   )
 
-;;;###autoload
 (defun pb/sync-git-repo (repo-dir)
   ;; (async-shell-command ;; <- alternatively use this one if you would like the window to not close so easily
   (compilation-start
@@ -1078,12 +1069,10 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
     " "
     repo-dir)))
 
-;;;###autoload
 (defun pb/sync-org-agenda-to-git ()
   (interactive)
   (pb/sync-git-repo pb/private-org-agenda-directory))
 
-;;;###autoload
 (defun pb/sync-org-roam-to-git ()
   (interactive)
   (pb/sync-git-repo (expand-file-name org-roam-directory)))
