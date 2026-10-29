@@ -362,11 +362,11 @@
    4. Starts a new emacs client.
    Beware: This will kill your current client/emacs!"
   (interactive)
-  (start-process "doom reload and restart server" nil "setsid" "zsh" "-c"
-                 "source ~/.zshrc ;
-                  kitty --hold --session launch-emacs-sync.kitty ;
-                  emacsclient
-                  ")
+  (pb/start-process "zsh" "-c"
+                    "source ~/.zshrc ;
+                     kitty --hold --session launch-emacs-sync.kitty ;
+                     emacsclient
+                     ")
   )
 
 (defun pb/goto-doom-config-file ()
@@ -854,9 +854,7 @@ Magit starts gets its environment from."
    \='nix-os rebuild switch\=' (requires sudo)
    and shows the result."
   (interactive)
-  (start-process "nixos rebuild from within doom" nil
-                 "setsid" "kitty" "--hold" "--session" "launch-nix-rebuild.kitty"
-                 ))
+  (pb/start-process "kitty" "--hold" "--session" "launch-nix-rebuild.kitty"))
 
 
 ;;;; ORG
