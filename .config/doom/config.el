@@ -944,7 +944,9 @@
 ;;   org-icalendar-timezone
 ;;   org-caldav-url
 ;;   org-caldav-calendar-id
-(load! "secrets/org-caldav-connection.el")
+;; The file is not in git, so it is missing on a new machine; then calendar
+;; sync has no connection, but the rest of the config still loads.
+(load! "secrets/org-caldav-connection.el" nil t)
 
 (setq org-caldav-inbox (concat pb/private-org-agenda-directory "Inbox.org") ;; Org filename where new entries from calendar stored
       org-icalendar-include-todo 'all
