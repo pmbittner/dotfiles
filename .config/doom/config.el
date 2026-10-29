@@ -926,7 +926,6 @@
 
 ;;;; ORG CALDAV
 
-(setq auth-source-debug 'trivia)
 ;; Include my secret connection lisp file.
 ;; It sets the following variables:
 ;;   org-icalendar-timezone
