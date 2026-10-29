@@ -225,7 +225,7 @@ hl.bind(mod .. " + w", hl.dsp.exec_cmd(USRBIN .. "/wallpaper.sh menu"))
 hl.bind(mod .. " + CTRL + w", hl.dsp.exec_cmd(USRBIN .. "/wallpaper.sh next"))
 
 -- Application shortcuts
-hl.bind(mod .. " + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload"))
+hl.bind(mod .. " + SHIFT + r", hl.dsp.exec_cmd("hyprctl reload && notify-send 'Hyprland reloaded!'"))
 hl.bind(mod .. " + e", hl.dsp.exec_cmd(emacs))
 hl.bind(mod .. " + t", hl.dsp.exec_cmd(terminal))
 hl.bind(mod .. " + r", hl.dsp.exec_cmd(ranger))
