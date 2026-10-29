@@ -29,7 +29,7 @@
 (setq doom-localleader-key ",")
 (setq doom-localleader-alt-key "M-SPC ,")
 
-(map! "C-s" 'save-buffer) ;; Every app saves via C-s, so why not Emacs as well?
+(map! "C-s" #'save-buffer) ;; Every app saves via C-s, so why not Emacs as well?
 
 ;; SPC s s: search buffer
 (after! evil
@@ -460,7 +460,7 @@
   ;; (setq centaur-tabs-style "wave")
   (setq centaur-tabs-set-bar 'under)
   ;; (setq x-underline-at-descent-line t)
-  (add-hook 'dired-mode-hook 'centaur-tabs-local-mode)
+  (add-hook 'dired-mode-hook #'centaur-tabs-local-mode)
   ;; (setq centaur-tabs-excluded-prefixes
   ;;       (append centaur-tabs-excluded-prefixes '(
   ;;                "*doom"
@@ -596,9 +596,9 @@
   ;;   (map! :map 'evil-collection-neotree-maps "l" #'+neotree/expand-or-open)
   ;; However, this works:
   (evil-collection-define-key 'normal 'neotree-mode-map
-    "h" '+neotree/collapse-or-up
-    "l" '+neotree/expand-or-open
-    "r" 'pb/neotree-rename-node
+    "h" #'+neotree/collapse-or-up
+    "l" #'+neotree/expand-or-open
+    "r" #'pb/neotree-rename-node
     )
 
   ;; Update neotree whenever we switch buffers.
@@ -1017,7 +1017,7 @@ its previous value."
   "Syncs all my org entries to the calendar."
   (interactive)
   (pb/with-org-caldav-files (pb/org-caldav-files-full)
-    'pb/sync-org-agenda-to-calendar))
+    #'pb/sync-org-agenda-to-calendar))
 
 (defun pb/sync-org-agenda-to-calendar-minimum ()
   "Syncs only the most recent org entries to my calendar.
@@ -1027,7 +1027,7 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
   (let ((old-value org-caldav-delete-calendar-entries))
     (setq org-caldav-delete-calendar-entries 'never)
     (pb/with-org-caldav-files (pb/org-caldav-files-minimum)
-      'pb/sync-org-agenda-to-calendar)
+      #'pb/sync-org-agenda-to-calendar)
     (setq org-caldav-delete-calendar-entries old-value)
     ))
 
@@ -1145,7 +1145,7 @@ an internal function, so if its arguments change, they are passed on as is."
     (font-lock-default-function mode)
   )
 )
-(setq font-lock-function 'pb/font-lock-not-in-agda)
+(setq font-lock-function #'pb/font-lock-not-in-agda)
 ;; (setq font-lock-global-modes (not 'agda2-mode))
 ;; (setq font-lock-global-modes nil)
 ;; (global-font-lock-mode 0)
@@ -1443,4 +1443,4 @@ wouldn't change.")
 ;; Evaluate immediately for server/standalone emacs.
 (pb/load-dynamic-args)
 ;; Register a hook for future clients.
-(add-hook! 'after-make-frame-functions 'pb/load-dynamic-args)
+(add-hook! 'after-make-frame-functions #'pb/load-dynamic-args)
