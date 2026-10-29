@@ -701,22 +701,16 @@
 
 ;;;; OPENING EXTERNAL PROGRAMS
 
-;; open pdfs with evince
+;; Open these file types in external programs instead of Emacs: with `open' on
+;; macOS and `xdg-open' on Linux, which follows the system's default programs
+;; (on NixOS defined in nix/modules/files.nix, see docs/DESKTOP.md).
 (openwith-mode t)
 
-(if (eq system-type 'darwin)
-  (setq openwith-associations
-        '(("\\.pdf\\'" "open" (file))
-          ("\\.xlsx\\'" "open" (file))
-          ("\\.pptx\\'" "open" (file))
-          ("\\.docx\\'" "open" (file))
-          ("\\.ods\\'" "open" (file))
-          ("\\.odp\\'" "open" (file))
-          ("\\.odt\\'" "open" (file))
-          ("\\.numbers\\'" "open" (file))
-          ))
-  (setq openwith-associations
-        '(("\\.pdf\\'" "evince" (file)))))
+(setq openwith-associations
+      (let ((opener (if (eq system-type 'darwin) "open" "xdg-open")))
+        (mapcar (lambda (extension)
+                  (list (format "\\.%s\\'" extension) opener '(file)))
+                '("pdf" "xlsx" "pptx" "docx" "ods" "odp" "odt" "numbers"))))
 
 (defun pb/start-process (name &rest args)
   "Start the process called NAME with the given arguments ARGS.
