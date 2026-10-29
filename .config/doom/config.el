@@ -1152,22 +1152,38 @@ an internal function, so if its arguments change, they are passed on as is."
 ;; The :lang agda module has the flag +local, so it does not install a fixed
 ;; version; it loads the mode of the global Agda at startup, if there is one.
 
-(defun pb/agda-locate-mode (dir)
-  "Return the agda2.el of the Agda in DIR's environment, or nil.
-The environment is the one of DIR's .envrc (direnv), if there is one."
-  (let ((default-directory dir)
-        (direnv (and (executable-find "direnv") '("direnv" "exec" "."))))
-    (cl-some (lambda (command)
-               (with-temp-buffer
-                 (and (ignore-errors
-                        (eq 0 (apply #'call-process (car command) nil '(t nil) nil
-                                     (cdr command))))
-                      (let ((file (string-trim (buffer-string))))
-                        (and (file-readable-p file) file)))))
-             ;; Agda 2.8 and later locate their mode like this, older ones
-             ;; with the agda-mode program.
-             (list (append direnv '("agda" "--emacs-mode" "locate"))
-                   (append direnv '("agda-mode" "locate"))))))
+(defun pb/direnv-environment (dir)
+  "Return `process-environment' with DIR's .envrc applied.
+Return nil if DIR has no .envrc, it is not allowed, or direnv is missing.
+Like envrc, this uses `direnv export json', which prints the changes."
+  (when (executable-find "direnv")
+    (let ((default-directory dir))
+      (with-temp-buffer
+        (when (and (eq 0 (ignore-errors
+                           (call-process "direnv" nil '(t nil) nil "export" "json")))
+                   (> (buffer-size) 0))
+          (goto-char (point-min))
+          (let ((environment (copy-sequence process-environment)))
+            (maphash (lambda (name value)
+                       (setq environment
+                             (setenv-internal environment name
+                                              (and (stringp value) value) t)))
+                     (json-parse-buffer :null-object nil))
+            environment))))))
+
+(defun pb/agda-locate-mode ()
+  "Return the agda2.el of the Agda on `exec-path', or nil."
+  (cl-some (lambda (command)
+             (with-temp-buffer
+               (and (ignore-errors
+                      (eq 0 (apply #'call-process (car command) nil '(t nil) nil
+                                   (cdr command))))
+                    (let ((file (string-trim (buffer-string))))
+                      (and (file-readable-p file) file)))))
+           ;; Agda 2.8 and later locate their mode like this, older ones with
+           ;; the agda-mode program.
+           '(("agda" "--emacs-mode" "locate")
+             ("agda-mode" "locate"))))
 
 (defun pb/agda-load-mode (file)
   "Load the Agda mode whose agda2.el is FILE."
@@ -1201,8 +1217,23 @@ These are the steps of Agda's own `agda2-set-program-version'."
 (defun pb/agda-mode ()
   "Enable `agda2-mode' with the Agda mode that belongs to this file's Agda.
 If no Agda mode is loaded, load it. If one of another Agda is loaded, ask
-before replacing it, as Agda does not run with the mode of another version."
-  (let* ((file (pb/agda-locate-mode default-directory))
+before replacing it, as Agda does not run with the mode of another version.
+
+The Agda is the one of the directory's .envrc, or the global one. Its
+environment is used while the mode starts, as agda2-mode starts the agda
+process right away; envrc applies it to the buffer only after that."
+  ;; Bind the environment globally (with let), so that the temporary buffers
+  ;; and the new major mode see it, too.
+  (kill-local-variable 'process-environment)
+  (kill-local-variable 'exec-path)
+  (let* ((environment (pb/direnv-environment default-directory))
+         (process-environment (or environment process-environment))
+         (exec-path (if environment
+                        (append (parse-colon-path
+                                 (getenv-internal "PATH" environment))
+                                (list exec-directory))
+                      exec-path))
+         (file (pb/agda-locate-mode))
          (needed (and file (file-name-directory file)))
          (loaded (and (featurep 'agda2) (bound-and-true-p agda2-directory))))
     (cond
