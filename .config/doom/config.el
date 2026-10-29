@@ -176,8 +176,6 @@
 (require 'which-key)
 (setq which-key-idle-delay 0.5)
 
-(map! "C-i" 'better-jumper-jump-forward)
-
 ;; make scratch buffer be in elisp mode
 (setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
 
