@@ -637,7 +637,7 @@
         )
       )
     )
-  (add-hook 'doom-switch-buffer-hook #'pb/refresh-neotree())
+  (add-hook 'doom-switch-buffer-hook #'pb/refresh-neotree)
 
   ;; disable line numbers in neotree buffer
   (add-hook 'neotree-mode-hook #'doom-disable-line-numbers-h)
