@@ -754,7 +754,7 @@ Outside of a project, open it at the current directory."
   (interactive)
   (if (eq system-type 'darwin)
       (pb/start-process "open" ".")
-      (pb/start-process "nautilus" ".")))
+      (pb/start-process "thunar" ".")))
 
 (defun pb/open-ranger-at (dir-string)
   "Open ranger in a new terminal at the directory DIR-STRING."
