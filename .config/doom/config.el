@@ -685,21 +685,12 @@
 
 ;;;; RAINBOW MODE
 
-;; I got the following configuration of rainbow-mode from DistroTube:
-;; > Rainbox mode displays the actual color for any hex value color. [...]
-;; > The following creates a global minor mode for rainbow-mode and
-;; > enables it (exception: org-agenda-mode since rainbow-mode destroys
-;; > all highlighting in org-agenda).
-;; Hint: This mode caused underlines to appear in the doom dashboard so I
-;;       also disabled it there.
-(define-globalized-minor-mode pb/global-rainbow-mode rainbow-mode
-  (lambda ()
-    (when (not (memq major-mode
-                (list 'org-agenda-mode '+dashboard-mode)))
-      (rainbow-mode 1)
-      )
-  ))
-(pb/global-rainbow-mode 1)
+;; Show color codes (e.g. #4078f2) in their color, in code, config files and
+;; YAML (e.g. theme schemes). Not in other modes: there it colors text that only
+;; looks like a color code (e.g. #123 or #add in notes and commit messages), and
+;; it breaks the highlighting of special buffers like the org agenda.
+(add-hook! '(prog-mode-hook conf-mode-hook yaml-mode-hook yaml-ts-mode-hook)
+           #'rainbow-mode)
 
 ;;;; DIRED
 
