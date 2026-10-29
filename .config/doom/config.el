@@ -1136,24 +1136,12 @@ an internal function, so if its arguments change, they are passed on as is."
 
 ;;;; AGDA
 
-;; Disable font-lock mode in agda2-mode because they do not work well together.
-;; font-lock mode saves resources by applying syntax highlighting only to visible
-;; code areas, and then lazily updating the highlights when other parts of the code
-;; become visible.
-;; In agda2-mode, updating the highlights requires to re-run the type-checker (manually!)
-;; which is quite annoying.
-(defun pb/font-lock-not-in-agda (mode)
-  (if (derived-mode-p 'agda2-mode)
-    (font-lock-default-function nil)
-    (font-lock-default-function mode)
-  )
-)
-(setq font-lock-function #'pb/font-lock-not-in-agda)
-;; (setq font-lock-global-modes (not 'agda2-mode))
-;; (setq font-lock-global-modes nil)
-;; (global-font-lock-mode 0)
-;; (add-hook! font-lock-mode-hook
-;;           (message "font-lock-mode-hode activated"))
+;; No font-lock in agda2-mode: Agda highlights the code itself after type
+;; checking, and font-lock would re-highlight lazily, which needs the type
+;; checker to run again (manually). agda2-mode turns font-lock off itself, but
+;; `global-font-lock-mode' turns it on again after the mode starts, unless the
+;; mode is excluded here.
+(setq font-lock-global-modes '(not agda2-mode))
 
 ;; nix setup for agda
 (load! "nix-shell.el")
