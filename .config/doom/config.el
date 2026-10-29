@@ -50,7 +50,10 @@
         "gsl" #'evil-avy-goto-line
         )
   ;; copy and paste like done by normal people
-  (map! :map (evil-insert-state-map evil-visual-state-map) "C-c" #'evil-yank)
+  ;; C-c copies in visual state only: in insert state there is nothing to copy,
+  ;; and binding it there hides all C-c keys of modes (e.g. C-c C-c to finish
+  ;; a commit message or capture), as evil's state keymaps come first.
+  (map! :map evil-visual-state-map "C-c" #'evil-yank)
   (map! :map evil-insert-state-map "C-v" #'evil-paste-after)
   )
 
