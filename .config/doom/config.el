@@ -245,24 +245,20 @@
   ;; 'kaolin-valley-light
   )
 
-(use-package doom-themes
-  :ensure t
-  :custom
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  :config
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (setq doom-themes-neotree-file-icons t)
-  (setq neo-window-fixed-size nil)
-  (setq doom-themes-neotree-enable-variable-pitch t)
-  ;; (setq doom-themes-neotree-enable-folder-icons nil)
-  ;; (setq neo-window-width 40)
-  (doom-themes-neotree-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+;; doom-themes itself is set up by the :ui doom module, which also applies
+;; `doom-themes-org-config' on every theme load. These are additions.
+
+;; Flash the mode-line on errors.
+(doom-themes-visual-bell-config)
+
+;; doom-themes' neotree theme (all-the-icons must be installed!).
+(after! neotree
+  (setq doom-themes-neotree-file-icons t
+        doom-themes-neotree-enable-variable-pitch t
+        ;; doom-themes-neotree-enable-folder-icons nil
+        ;; neo-window-width 40
+        neo-window-fixed-size nil)
+  (doom-themes-neotree-config))
 
 ;;;; CUSTOMIZE THEMES
 
