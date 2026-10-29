@@ -138,9 +138,9 @@ open-emacs-at() {
       # If it was a directory, set it as the default directory in emacs and launch as usual.
       local abs_dir="$(cd "$(dirname "$item")" && pwd)/$(basename "$item")"
       local lisp="
-(setq +doom-dashboard-pwd-policy \"${abs_dir}\")
-(+doom-dashboard-reload)
-(message \"[ELISP ARGS] Set doom pwd to: %s\" (+doom-dashboard--get-pwd))"
+(setq +dashboard-pwd-policy \"${abs_dir}\")
+(+dashboard-reload)
+(message \"[ELISP ARGS] Set doom pwd to: %s\" +dashboard-pwd-policy)"
       doomElispArgsSet "${lisp}"
       echo "Starting emacs with the following lisp arguments:"
       doomElispArgsShow
