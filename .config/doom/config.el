@@ -171,8 +171,6 @@
 (setq mouse-wheel-scroll-amount '(2 ((shift) 1) ((control) nil)))
 
 ;; Make which-key menu (the menu when pressing SPC) show up faster.
-;; (This tweak was recommended by hlissner in doom emacs issue #1839.)
-(require 'which-key)
 (setq which-key-idle-delay 0.5)
 
 ;; make scratch buffer be in elisp mode
