@@ -319,9 +319,8 @@
   )
 )
 
-(defadvice! customize-existing-themes (theme &rest _)
-  :after 'load-theme
-  (customize-current-theme))
+;; Doom runs this hook after every theme is loaded or enabled.
+(add-hook 'doom-load-theme-hook #'customize-current-theme)
 
 (customize-current-theme)
 
