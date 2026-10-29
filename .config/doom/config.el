@@ -1349,6 +1349,24 @@ wouldn't change.")
     (setq TeX-view-program-selection '((output-pdf "Evince"))))
   (setq TeX-newline-function #'electric-indent-just-newline)
   ;; (electric-indent-local-mode)
+
+  (map!
+   (:map (latex-mode-map LaTeX-mode-map)
+    :localleader
+    ;; (:desc "Compile" "l" #'TeX-command-run-all)
+    (:desc "Compile (latexmk)" "L" #'pb/run-latexmk)
+    ;; (:desc "Recompile" "l" #'recompile)
+    (:desc "Compile (Make)" "l" #'+make/run)
+    ;; (:desc "Compile" "L" #'compile)
+    ;; (:desc "Compile" "L" #'+make/run)
+    (:desc "Set Master File" "a" #'TeX-master-file-ask)
+    (:desc "Next Error" "e" #'TeX-next-error)
+    (:desc "View PDF" "v" #'TeX-view)
+    (:desc "Compilation Log" "o" #'TeX-recenter-output-buffer)
+    (:desc "Close Environment" "E" #'LaTeX-close-environment)
+    ;; (:desc "\\item" "i" #'LaTeX-insert-item)
+   )
+  )
   )
 
 (defun pb/demolish-tex-help ()
@@ -1406,26 +1424,6 @@ wouldn't change.")
 
 ;; TODO Activate todo minor mode in latex major mode
 ;; (hl-todo-mode)
-
-(after! latex
- (map!
-  (:map (latex-mode-map LaTeX-mode-map)
-   :localleader
-   ;; (:desc "Compile" "l" #'TeX-command-run-all)
-   (:desc "Compile (latexmk)" "L" #'pb/run-latexmk)
-   ;; (:desc "Recompile" "l" #'recompile)
-   (:desc "Compile (Make)" "l" #'+make/run)
-   ;; (:desc "Compile" "L" #'compile)
-   ;; (:desc "Compile" "L" #'+make/run)
-   (:desc "Set Master File" "a" #'TeX-master-file-ask)
-   (:desc "Next Error" "e" #'TeX-next-error)
-   (:desc "View PDF" "v" #'TeX-view)
-   (:desc "Compilation Log" "o" #'TeX-recenter-output-buffer)
-   (:desc "Close Environment" "E" #'LaTeX-close-environment)
-   ;; (:desc "\\item" "i" #'LaTeX-insert-item)
-  )
- )
-)
 
 ;;;; At the very last run any additional dynamic config ;;;;
 
