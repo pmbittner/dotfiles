@@ -9,17 +9,17 @@
 
 ;;;; FONT
 
-(defconst font-size 18)
-(defconst big-font-size 20)
-;; (defconst font-size 22)
-;; (defconst big-font-size 24)
-;; (defconst font-size 26)
-;; (defconst big-font-size 32)
+(defconst pb/font-size 18)
+(defconst pb/big-font-size 20)
+;; (defconst pb/font-size 22)
+;; (defconst pb/big-font-size 24)
+;; (defconst pb/font-size 26)
+;; (defconst pb/big-font-size 32)
 (setq
-      doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size font-size)
-      ;; doom-font (font-spec :family "CaskaydiaCove Nerd Font Mono" :size font-size)
-      doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size font-size)
-      doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size big-font-size)
+      doom-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size pb/font-size)
+      ;; doom-font (font-spec :family "CaskaydiaCove Nerd Font Mono" :size pb/font-size)
+      doom-variable-pitch-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size pb/font-size)
+      doom-big-font (font-spec :family "JetBrainsMonoNL Nerd Font" :size pb/big-font-size)
       ;; Do not set size of unicode font or it wont scale on zoom.
       doom-symbol-font (font-spec :family "DejaVu Sans")) ;; doom-unicode-font
 
@@ -62,12 +62,12 @@
 ;; Some functions bound here will be defined later in my config.
 (map! :leader
       (:prefix ("d" . "Doom (Custom)")
-               (:desc "Ranger" "." #'open-ranger-here)
+               (:desc "Ranger" "." #'pb/open-ranger-here)
                (:desc "Paste from kill-ring" "p" #'consult-yank-pop)
                (:desc "Reload" "r" #'doom/reload)
-               (:desc "Reload and restart server" "R" #'doom-reload-and-restart-server)
-               (:desc "config.el" "c" #'goto-doom-config-file)
-               (:desc "init.el" "i" #'goto-doom-init-file)
+               (:desc "Reload and restart server" "R" #'pb/doom-reload-and-restart-server)
+               (:desc "config.el" "c" #'pb/goto-doom-config-file)
+               (:desc "init.el" "i" #'pb/goto-doom-init-file)
                (:desc "wrap (fill-region)" "w" #'fill-region)
                ;; (:desc "Calendar" "C" #'calendar)
                (:desc "Help Search" "h" #'doom/help-search)
@@ -83,16 +83,16 @@
                                  )
                         )
                (:prefix ("A" . "Agda")
-                        (:desc "switch to global Agda (default)" "g" #'use-global-agda)
-                        (:desc "switch to nix Agda" "n" #'use-nix-agda)
+                        (:desc "switch to global Agda (default)" "g" #'pb/use-global-agda)
+                        (:desc "switch to nix Agda" "n" #'pb/use-nix-agda)
                         )
                (:prefix ("g" . "Dotfiles Git")
                  (:desc "status" "g" #'pb/dotfiles-status)
                  (:desc "stage current buffer's file" "s" #'pb/dotfiles-stage-buffer-file)
                  )
                (:prefix ("n" . "NixOS")
-                 (:desc "rebuild + switch" "r" #'nixos-rebuild-switch)
-                 (:desc "config" "c" #'goto-nix-config-file)
+                 (:desc "rebuild + switch" "r" #'pb/nixos-rebuild-switch)
+                 (:desc "config" "c" #'pb/goto-nix-config-file)
                  )
                (:desc "toggle input method" "t" #'toggle-input-method)
                )
@@ -108,7 +108,7 @@
       (:desc "Kill compilation" "k" #'kill-compilation)
       )
 
-(defun comment-eclipse ()
+(defun pb/comment-eclipse ()
     "Eclipse IDE style multi-line comment toggling
      for the selected region."
     (interactive)
@@ -129,25 +129,25 @@
       (comment-or-uncomment-region start end)
       (setq deactivate-mark nil) ;; keep the region selected afterwards
       ))
-(map! :n "C-t" #'comment-eclipse) ;; this keybinding is hard-wired in my brain
+(map! :n "C-t" #'pb/comment-eclipse) ;; this keybinding is hard-wired in my brain
 
 ;; I like how I can move items in org mode with M-k and M-j.
 ;; Let's do this for lines of text everywhere else, too!
 ;; https://stackoverflow.com/questions/2423834/move-line-region-up-and-down-in-emacs
 ;; TODO: Generalize to regions instead of mere lines.
-(defun move-line-up ()
+(defun pb/move-line-up ()
   (interactive)
   (transpose-lines 1)
   (forward-line -2))
 
-(defun move-line-down ()
+(defun pb/move-line-down ()
   (interactive)
   (forward-line 1)
   (transpose-lines 1)
   (forward-line -1))
 
-(map! :n "M-k" #'move-line-up)
-(map! :n "M-j" #'move-line-down)
+(map! :n "M-k" #'pb/move-line-up)
+(map! :n "M-j" #'pb/move-line-down)
 
 ;;;; SOME MISCELLANEOUS GLOBAL SETTINGS AND FIXES
 
@@ -201,12 +201,12 @@
 (map! :nv "<backtab>" #'+fold/close)
 
 ;; fix weird behavior on SPC f p which requires to type at least two chars.
-(defun find-file-in-private-config ()
+(defun pb/find-file-in-private-config ()
   "Search for a file in `doom-user-dir'."
   (interactive)
   (let ((default-directory (file-truename doom-user-dir)))
     (call-interactively #'find-file)))
-(map! :leader "fp" #'find-file-in-private-config)
+(map! :leader "fp" #'pb/find-file-in-private-config)
 
 ;;;; THEME
 
@@ -253,7 +253,7 @@
 
 ;;;; CUSTOMIZE THEMES
 
-(defun get-theme-color-green (theme)
+(defun pb/theme-color-green (theme)
   "This fetches the color that is considered to be green
    from the theme and returns it as a string."
   (cl-case theme
@@ -265,7 +265,7 @@
     )
   )
 
-(defun get-theme-color-red (theme)
+(defun pb/theme-color-red (theme)
   "This fetches the color that is considered to be red
    from the theme and returns it as a string."
   (cl-case theme
@@ -277,15 +277,15 @@
     )
   )
 
-(defun get-current-theme()
+(defun pb/current-theme()
   "Return the name of the current theme."
   (car custom-enabled-themes)
   )
 
-(defun customize-current-theme ()
+(defun pb/customize-current-theme ()
   "This function modifies the current theme to my liking. :)"
   (interactive)
-  (let ((theme (get-current-theme)))
+  (let ((theme (pb/current-theme)))
     (pcase theme
       ('doom-one
         (custom-theme-set-faces! 'doom-one
@@ -306,8 +306,8 @@
           (list 'region :background (everforest-hard-light-with-color-variables everforest-hard-light-gutter))))
       )
     ;; define some faces I would like to have consistent across all themes.
-    (let ((green (get-theme-color-green theme))
-          (red   (get-theme-color-red   theme)))
+    (let ((green (pb/theme-color-green theme))
+          (red   (pb/theme-color-red   theme)))
       ;; (message "!!!!!!! Green: %s, Red: %s, Theme: %s" green red theme)
       (custom-set-faces!
         (list 'agda2-highlight-inductive-constructor-face :foreground green)
@@ -316,9 +316,9 @@
 )
 
 ;; Doom runs this hook after every theme is loaded or enabled.
-(add-hook 'doom-load-theme-hook #'customize-current-theme)
+(add-hook 'doom-load-theme-hook #'pb/customize-current-theme)
 
-(customize-current-theme)
+(pb/customize-current-theme)
 
 ;;;; DOOM MAIN DIR
 
@@ -330,7 +330,7 @@
 
 ;;;; DOOM SPLASH SCREEN
 
-(defun get-random-splashscreen-file ()
+(defun pb/random-splash-screen-file ()
   "Returns a random image from the available splash screens within the `splashes'
    directory in the doom private configuration directory.
    The image is returned as a string containing an absolute path to that file.
@@ -342,7 +342,7 @@
         nil
         (concat splash-dir (nth (random num-available-splashscreens) image-file-names)))))
 
-(let ((splash-screen (get-random-splashscreen-file)))
+(let ((splash-screen (pb/random-splash-screen-file)))
   (when splash-screen
     (setq fancy-splash-image splash-screen)))
 
@@ -355,7 +355,7 @@
 
 ;; hyprctl notify 1 2000 0 'begin emacs-sync' ;
 ;; hyprctl notify 1 2000 0 'emacs-sync done' ;
-(defun doom-reload-and-restart-server ()
+(defun pb/doom-reload-and-restart-server ()
   "1. Kills all emacs clients and servers.
    2. Runs doom sync
    3. Restarts the emacs server.
@@ -369,14 +369,14 @@
                   ")
   )
 
-(defun goto-doom-config-file ()
+(defun pb/goto-doom-config-file ()
   "Opens my doom config.
    There was a function for this in DOOM but apparently it's gone.
    So I implemented it myself here."
   (interactive)
   (find-file (concat doom-user-dir doom-module-config-file)))
 
-(defun goto-doom-init-file ()
+(defun pb/goto-doom-init-file ()
   "Opens my doom init.el."
   (interactive)
   (find-file (concat doom-user-dir doom-module-init-file)))
@@ -506,7 +506,7 @@
             (not (file-name-extension name)))
        )))
 
-  (defun my/fix-centaur-tabs-get-tabsets-tabset (groups)
+  (defun pb/centaur-tabs-skip-special-groups-a (groups)
     (when (eq centaur-tabs-cycle-scope 'groups)
       (set groups (cl-remove-if
                    (lambda (group)
@@ -519,7 +519,7 @@
     groups
     )
 
-  (advice-add 'centaur-tabs-get-tabsets-tabset :filter-return #'my/fix-centaur-tabs-get-tabsets-tabset)
+  (advice-add 'centaur-tabs-get-tabsets-tabset :filter-return #'pb/centaur-tabs-skip-special-groups-a)
 
   (map! :map (evil-normal-state-map evil-visual-state-map)
         "ö"   #'centaur-tabs-backward
@@ -550,7 +550,7 @@
 
 ;;;; NEOTREE
 
-(defun +neotree/rename-node ()
+(defun pb/neotree-rename-node ()
   "Fixed version of neotree's 'neo-buffer--rename-node'"
   (interactive)
   (let* ((current-path (neo-buffer--get-filename-current-line))
@@ -570,23 +570,23 @@
       (neo-buffer--refresh t)
       (message "Rename successful."))))
 
-(defun +neotree/is-focused ()
+(defun pb/neotree-focused-p ()
   "Return t if NeoTree is the active window, nil otherwise."
   (and neo-global--window (eq (selected-window) neo-global--window)))
 
-(defun +neotree/toggle-find-this-file()
+(defun pb/neotree-toggle-find-this-file()
   "Runs +neotree/find-this-file except when neotree is in focus.
    Otherwise closes neotree instead."
   (interactive)
   (require 'neotree)
-  (if (+neotree/is-focused)
+  (if (pb/neotree-focused-p)
       (neotree-hide)
       (+neotree/find-this-file)))
 
 ;; Shortcut to toggle neotree view just with ü or SPC-e (as in NeoVim)
-(map! :nv "ü" #'+neotree/toggle-find-this-file)
+(map! :nv "ü" #'pb/neotree-toggle-find-this-file)
 (map! :nv "Ü" #'neotree-hide)
-(map! :leader :desc "Open Neotree" "e" #'+neotree/toggle-find-this-file)
+(map! :leader :desc "Open Neotree" "e" #'pb/neotree-toggle-find-this-file)
 
 (after! neotree
   ;; Make h and l not move the cursor in neotree but instead close or open directories.
@@ -598,11 +598,11 @@
   (evil-collection-define-key 'normal 'neotree-mode-map
     "h" '+neotree/collapse-or-up
     "l" '+neotree/expand-or-open
-    "r" '+neotree/rename-node
+    "r" 'pb/neotree-rename-node
     )
 
   ;; Update neotree whenever we switch buffers.
-  (defun pb/refresh-neotree ()
+  (defun pb/refresh-neotree-h ()
     "Refresh NeoTree to display the current file's project if it does not already."
     (let* ((cur-buffer      (current-buffer))
            (cur-buffer-file (buffer-file-name cur-buffer))
@@ -632,7 +632,7 @@
         )
       )
     )
-  (add-hook 'doom-switch-buffer-hook #'pb/refresh-neotree)
+  (add-hook 'doom-switch-buffer-hook #'pb/refresh-neotree-h)
 
     ;; hide some files in neotree
   (setq neo-hidden-regexp-list
@@ -686,14 +686,14 @@
 ;; > all highlighting in org-agenda).
 ;; Hint: This mode caused underlines to appear in the doom dashboard so I
 ;;       also disabled it there.
-(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+(define-globalized-minor-mode pb/global-rainbow-mode rainbow-mode
   (lambda ()
     (when (not (memq major-mode
                 (list 'org-agenda-mode '+dashboard-mode)))
       (rainbow-mode 1)
       )
   ))
-(global-rainbow-mode 1)
+(pb/global-rainbow-mode 1)
 
 ;;;; DIRED
 
@@ -730,12 +730,12 @@
     )
   )
 
-(defun open-terminal-here ()
+(defun pb/open-terminal-here ()
   "Open a terminal at the current directory"
   (interactive)
   (pb/start-process "kitty" "--session" "launch-zsh.kitty"))
 
-(defun open-terminal-at-project-root ()
+(defun pb/open-terminal-at-project-root ()
   "Open a terminal at the current directory"
   (interactive)
   (let* ((cur-buffer      (current-buffer))
@@ -748,30 +748,30 @@
          )
     (pb/start-process "kitty" "--directory" dir "--session" "launch-zsh.kitty")))
 
-(defun open-explorer-here ()
+(defun pb/open-explorer-here ()
   "Open a terminal at the current directory"
   (interactive)
   (if (eq system-type 'darwin)
       (pb/start-process "open" ".")
       (pb/start-process "nautilus" ".")))
 
-(defun open-ranger-at (dir-string)
+(defun pb/open-ranger-at (dir-string)
   "Open ranger with the given arguments"
   (pb/start-process "kitty" "--directory" dir-string "--hold" "--session" "launch-ranger.kitty")
 )
 
-(defun open-ranger-here ()
+(defun pb/open-ranger-here ()
   "Open a terminal at the current directory"
   (interactive)
-  (open-ranger-at ".")
+  (pb/open-ranger-at ".")
   )
 
 (map! :leader
       (:prefix "o"
-               (:desc "Ranger here" "r" #'open-ranger-here)
-               (:desc "Explorer here" "e" #'open-explorer-here)
-               (:desc "Terminal at project root" "t" #'open-terminal-at-project-root)
-               (:desc "Terminal here" "T" #'open-terminal-here)
+               (:desc "Ranger here" "r" #'pb/open-ranger-here)
+               (:desc "Explorer here" "e" #'pb/open-explorer-here)
+               (:desc "Terminal at project root" "t" #'pb/open-terminal-at-project-root)
+               (:desc "Terminal here" "T" #'pb/open-terminal-here)
                (:desc "Neotree" "n" #'+neotree/find-this-file)
                )
       )
@@ -843,13 +843,13 @@ Magit starts gets its environment from."
 
 ;;;; NIXOS
 
-(defun goto-nix-config-file ()
+(defun pb/goto-nix-config-file ()
   "Opens my nix config."
   (interactive)
   (find-file "~/nix/configuration.nix"))
 
 
-(defun nixos-rebuild-switch ()
+(defun pb/nixos-rebuild-switch ()
   "Opens a terminal, runs
    \='nix-os rebuild switch\=' (requires sudo)
    and shows the result."
@@ -881,13 +881,13 @@ Magit starts gets its environment from."
   ;; Capturing
   (setq org-refile-targets '(("Agenda.org" :maxlevel . 9)))
   (setq org-capture-templates
-        '(("t" "todo" entry (file org-default-todo-file)
+        '(("t" "todo" entry (file pb/org-capture-file)
            "* TODO %?\n - created on %U\n" :clock-resume t :empty-lines 1)
           ;; ("c" "note on current task" entry (clock)
           ;;  "* %?")
-          ("n" "note" entry (file org-default-todo-file) ;;(function +default/org-notes-headlines)
+          ("n" "note" entry (file pb/org-capture-file) ;;(function +default/org-notes-headlines)
            "* Note taken on %U\n%?" :clock-resume t :empty-lines 1)
-          ("m" "meeting" entry (file org-default-todo-file)
+          ("m" "meeting" entry (file pb/org-capture-file)
            "* MEETING with %?\n%U" :clock-resume t :empty-lines 1)
           ))
 )
@@ -903,7 +903,7 @@ Magit starts gets its environment from."
 (setq org-agenda-files (list pb/org-agenda-directory))
 (setq org-icalendar-combined-agenda-file (concat pb/private-org-agenda-directory "org-agenda-export.ics"))
 (setq org-agenda-scheduled-leaders '("🕰" "Sched.%2dx: "))
-(setq org-default-todo-file (concat pb/private-org-agenda-directory "Capture.org"))
+(setq pb/org-capture-file (concat pb/private-org-agenda-directory "Capture.org"))
 
 (defun pb/open-main-agenda-file ()
   (interactive)
@@ -952,7 +952,7 @@ for calendar synchronization.
 The result value is meant to be used to set org-caldav-files to."
   ;; gather all files in my org directory, then remove ignored files
    (let ((org-files-for-caldav-sync (directory-files-recursively pb/private-org-agenda-directory ".*\\.org" t t)))
-     (delete org-default-todo-file org-files-for-caldav-sync) ;; remove captured todos from sync
+     (delete pb/org-capture-file org-files-for-caldav-sync) ;; remove captured todos from sync
      org-files-for-caldav-sync))
 
 (defun pb/org-caldav-files-minimum ()
@@ -1032,10 +1032,10 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
     (setq org-caldav-delete-calendar-entries old-value)
     ))
 
-(defun pb/sync-org-agenda-to-calendar-anew (boolSure)
+(defun pb/sync-org-agenda-to-calendar-anew (sure)
   "Deletes the calendar entries and starts a new sync."
   (interactive (list (y-or-n-p "Are you sure to reset and restart calendar sync?")))
-  (if boolSure
+  (if sure
       (progn
         (require 'org-caldav)
         (pb/with-org-caldav-files (pb/org-caldav-files-full)
@@ -1069,14 +1069,14 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 
 ;; do not ignore subdirectories that are ignored by .gitignore
 ;; https://org-roam.discourse.group/t/subdirectories-in-gitignore-are-not-picked-up-by-roam-db-sync/2628
-(defun my/add-fd-ignored-files-flag (args)
+(defun pb/org-roam-fd-ignored-files-a (args)
   "Add -I to the fd command of org-roam, so it also lists ignored files.
 ARGS are the arguments of `org-roam--list-files-fd': (EXECUTABLE DIR). It is
 an internal function, so if its arguments change, they are passed on as is."
   (pcase args
     (`(,exec ,path) (list (concat exec " -I") path))
     (_ args)))
-(advice-add 'org-roam--list-files-fd :filter-args #'my/add-fd-ignored-files-flag)
+(advice-add 'org-roam--list-files-fd :filter-args #'pb/org-roam-fd-ignored-files-a)
 
 (defun pb/org-roam-open-page (str-pagename)
   "Open the org-roam page with the name STR-PAGENAME.
@@ -1140,13 +1140,13 @@ an internal function, so if its arguments change, they are passed on as is."
 ;; become visible.
 ;; In agda2-mode, updating the highlights requires to re-run the type-checker (manually!)
 ;; which is quite annoying.
-(defun font-lock-not-in-agda (mode)
+(defun pb/font-lock-not-in-agda (mode)
   (if (derived-mode-p 'agda2-mode)
     (font-lock-default-function nil)
     (font-lock-default-function mode)
   )
 )
-(setq font-lock-function 'font-lock-not-in-agda)
+(setq font-lock-function 'pb/font-lock-not-in-agda)
 ;; (setq font-lock-global-modes (not 'agda2-mode))
 ;; (setq font-lock-global-modes nil)
 ;; (global-font-lock-mode 0)
@@ -1156,11 +1156,11 @@ an internal function, so if its arguments change, they are passed on as is."
 ;; nix setup for agda
 (load! "nix-shell.el")
 
-(defun pb/agda-add-hole-pair ()
+(defun pb/agda-add-hole-pair-h ()
   "Make Agda holes, {! !}, a surround pair (key !) in the current buffer."
   (embrace-add-pair ?! "{!" "!}"))
 
-(defun customize-agda ()
+(defun pb/customize-agda ()
   (setq default-input-method "Agda")
   (add-hook! 'agda2-mode-hook
     (setq-local evil-shift-width 2)
@@ -1173,7 +1173,7 @@ an internal function, so if its arguments change, they are passed on as is."
   (evil-add-command-properties 'agda2-load :repeat 'ignore)
   ;; Add agda holes as evil-surround braces. The list of pairs is local to a
   ;; buffer, so the pair is added in every Agda buffer.
-  (add-hook 'agda2-mode-hook #'pb/agda-add-hole-pair)
+  (add-hook 'agda2-mode-hook #'pb/agda-add-hole-pair-h)
 
   (setq agda-input-user-translations `(
     ("ot"   . ("←"))
@@ -1208,14 +1208,14 @@ an internal function, so if its arguments change, they are passed on as is."
   ))
 )
 
-(defvar *current-agda-version* 'global
+(defvar pb/current-agda-version 'global
   "Arbitrary identifier for the currently loaded Agda version.
-This is only used to skip `switch-agda-version' in case `*current-agda-version*'
+This is only used to skip `pb/switch-agda-version' in case `pb/current-agda-version'
 wouldn't change.")
 
-(defun switch-agda-version (version-identifier)
+(defun pb/switch-agda-version (version-identifier)
   (message "[Agda] Trying to switch to Agda version: %s" version-identifier)
-  (if (equal version-identifier *current-agda-version*)
+  (if (equal version-identifier pb/current-agda-version)
       (message "[Agda] Skipping the Agda version switch as the versions are the same.")
       (if (featurep 'agda2)
           (agda2-set-program-version nil)
@@ -1226,37 +1226,37 @@ wouldn't change.")
               (normal-mode)
               (error "Failed to find the `agda2' package"))
           (normal-mode)
-          (customize-agda)
-          (customize-current-theme)
+          (pb/customize-agda)
+          (pb/customize-current-theme)
           )
-      (setq *current-agda-version* version-identifier)
-      (message "[Agda] Switched to agda version %s" *current-agda-version*)
+      (setq pb/current-agda-version version-identifier)
+      (message "[Agda] Switched to agda version %s" pb/current-agda-version)
       )
   )
 
-(defun use-global-agda ()
+(defun pb/use-global-agda ()
   (interactive)
   (nix-shell-deactivate)
-  (switch-agda-version 'global))
+  (pb/switch-agda-version 'global))
 
-(defun use-nix-agda (nix-shell-path)
+(defun pb/use-nix-agda (nix-shell-path)
   (interactive (list (nix-shell-read-path "nix expression path: ")))
   (nix-shell-activate nix-shell-path)
-  (switch-agda-version (list 'nix nix-shell-path)))
+  (pb/switch-agda-version (list 'nix nix-shell-path)))
 
 ;; (defun use-agda ()
 ;;   (interactive)
 ;;   (let ((nix-file (nix-shell-locate-expression)))
 ;;     (if nix-file
-;;         (use-nix-agda nix-file)
-;;       (use-global-agda))))
+;;         (pb/use-nix-agda nix-file)
+;;       (pb/use-global-agda))))
 
 ;; (add-hook 'projectile-after-switch-project-hook 'use-agda)
 
 ;; Can't use `use-package!' because it will try to load agda2-mode immediately.
 ;; (load! "modules/lang/agda/config.el" doom-emacs-dir)
 (after! agda2
-  (customize-agda))
+  (pb/customize-agda))
 
 ;;;; HASKELL
 
@@ -1321,7 +1321,7 @@ wouldn't change.")
            (treesit-ready-p 'wgsl t))   ; t = don't warn if it's missing
   (add-to-list 'major-mode-remap-alist '(wgsl-mode . wgsl-ts-mode)))
 
-(defun my/wgsl-ensure-grammar ()
+(defun pb/wgsl-ensure-grammar-h ()
   "Offer to install the WGSL tree-sitter grammar, then switch to `wgsl-ts-mode'."
   (when (and (treesit-available-p)
              (not (treesit-language-available-p 'wgsl))
@@ -1330,7 +1330,7 @@ wouldn't change.")
     (add-to-list 'major-mode-remap-alist '(wgsl-mode . wgsl-ts-mode))
     (wgsl-ts-mode)))
 
-(add-hook 'wgsl-mode-hook #'my/wgsl-ensure-grammar)
+(add-hook 'wgsl-mode-hook #'pb/wgsl-ensure-grammar-h)
 
 ;;;; LATEX
 
@@ -1351,7 +1351,7 @@ wouldn't change.")
   ;; (electric-indent-local-mode)
   )
 
-(defun demolish-tex-help ()
+(defun pb/demolish-tex-help ()
   (interactive)
   (if (get-buffer "*TeX Help*") ;; Tests if the buffer exists
       (progn ;; Do the following commands in sequence
@@ -1373,7 +1373,7 @@ wouldn't change.")
 ;; We need the following only if we watch the pdf within emacs.
 ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
-(defun run-latexmk ()
+(defun pb/run-latexmk ()
   (interactive)
   (let ((TeX-save-query nil)
         (master-file (TeX-master-file nil nil t))
@@ -1394,7 +1394,7 @@ wouldn't change.")
         (progn
           (with-current-buffer master-buffer
             (TeX-view))
-          (demolish-tex-help)
+          (pb/demolish-tex-help)
           (minibuffer-message "[SUCCESS] latexmk done")
           )
         )
@@ -1412,7 +1412,7 @@ wouldn't change.")
   (:map (latex-mode-map LaTeX-mode-map)
    :localleader
    ;; (:desc "Compile" "l" #'TeX-command-run-all)
-   (:desc "Compile (latexmk)" "L" #'run-latexmk)
+   (:desc "Compile (latexmk)" "L" #'pb/run-latexmk)
    ;; (:desc "Recompile" "l" #'recompile)
    (:desc "Compile (Make)" "l" #'+make/run)
    ;; (:desc "Compile" "L" #'compile)
@@ -1432,7 +1432,7 @@ wouldn't change.")
 ;; This will dynamically run the code in $DOOMDIR/dynamic-args.el
 ;; on startup and whenever a client connects.
 ;; Also see my ~/.emacsrc.
-(defun my/on-startup (&optional frame)
+(defun pb/load-dynamic-args (&optional frame)
   "Load my custom emacs lisp arguments on startup."
   (progn
     (if (equal frame nil)
@@ -1444,6 +1444,6 @@ wouldn't change.")
 ;;;; Dynamic Args
 
 ;; Evaluate immediately for server/standalone emacs.
-(my/on-startup)
+(pb/load-dynamic-args)
 ;; Register a hook for future clients.
-(add-hook! 'after-make-frame-functions 'my/on-startup)
+(add-hook! 'after-make-frame-functions 'pb/load-dynamic-args)
