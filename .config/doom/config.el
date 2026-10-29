@@ -335,8 +335,8 @@
 
 (defun pb/doom-set-current-directory (dir)
   (interactive "D")
-  (setq +doom-dashboard-pwd-policy dir)
-  (+doom-dashboard-reload)
+  (setq +dashboard-pwd-policy dir)
+  (+dashboard-reload)
   )
 
 ;;;; DOOM SPLASH SCREEN
@@ -707,7 +707,7 @@
 (define-globalized-minor-mode global-rainbow-mode rainbow-mode
   (lambda ()
     (when (not (memq major-mode
-                (list 'org-agenda-mode '+doom-dashboard-mode)))
+                (list 'org-agenda-mode '+dashboard-mode)))
       (rainbow-mode 1)
       )
   ))
