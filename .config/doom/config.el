@@ -881,9 +881,7 @@
           (sequence "[ ](T)" "[/](P)" "[?](W)" "|" "[X](D)" "[C](C)")))
   (setq org-todo-keyword-faces
         ;; TODO These faces do not exist in all themes. I can just set these to any color I like (maybe fetch from the particular theme
-        '(("NEXT" . +org-todo-active)
-          ("WAITING" . +org-todo-onhold)
-          ("INACTIVE" . +org-todo-onhold)
+        '(("WAITING" . +org-todo-onhold)
           ("[/]" . +org-todo-active)
           ("[?]" . +org-todo-onhold)
           ("CANCELLED" . org-agenda-dimmed-todo-face)))
@@ -948,7 +946,7 @@
 (setq org-icalendar-deadline-summary-prefix "[Deadline] ")
 (setq org-icalendar-scheduled-summary-prefix "") ;; Do not put "S: " in front of every entry with a SCHEDULED.
 (setq org-caldav-todo-percent-states
-      '((0 "TODO") (0 "NEXT") (0 "WAITING") (0 "INACTIVE") (100 "DONE") (100 "CANCELLED")
+      '((0 "TODO") (0 "WAITING") (100 "DONE") (100 "CANCELLED")
         (100 "LOOP") (100 "🔁")
         (0 "[ ]") (50 "[/]") (0 "[?]") (100 "[X]")
       ))
