@@ -82,10 +82,6 @@
                                  (:desc "reset and sync anew" "r" #'pb/sync-org-agenda-to-calendar-anew)
                                  )
                         )
-               (:prefix ("A" . "Agda")
-                        (:desc "switch to global Agda (default)" "g" #'pb/use-global-agda)
-                        (:desc "switch to nix Agda" "n" #'pb/use-nix-agda)
-                        )
                (:prefix ("g" . "Dotfiles Git")
                  (:desc "status" "g" #'pb/dotfiles-status)
                  (:desc "stage current buffer's file" "s" #'pb/dotfiles-stage-buffer-file)
@@ -1143,27 +1139,119 @@ an internal function, so if its arguments change, they are passed on as is."
 ;; mode is excluded here.
 (setq font-lock-global-modes '(not agda2-mode))
 
-;; nix setup for agda
-(load! "nix-shell.el")
+;; Which Agda: a project can bring its own Agda through direnv, with an .envrc
+;; that contains `use nix' or `use flake' (on NixOS, nix-direnv caches it).
+;; Envrc gives the project's buffers that environment, and agda2-mode starts
+;; the agda process from the Agda buffer, so it uses that Agda. Projects
+;; without an .envrc use the globally installed Agda.
+;;
+;; Which Agda mode: Agda only runs if its Emacs mode (agda2-mode) has exactly
+;; its version, and Emacs can hold only one version of the mode at a time. So
+;; Agda files are opened with `pb/agda-mode', which loads the Agda mode that
+;; belongs to the file's Agda, and asks before replacing another loaded one.
+;; The :lang agda module has the flag +local, so it does not install a fixed
+;; version; it loads the mode of the global Agda at startup, if there is one.
+
+(defun pb/agda-locate-mode (dir)
+  "Return the agda2.el of the Agda in DIR's environment, or nil.
+The environment is the one of DIR's .envrc (direnv), if there is one."
+  (let ((default-directory dir)
+        (direnv (and (executable-find "direnv") '("direnv" "exec" "."))))
+    (cl-some (lambda (command)
+               (with-temp-buffer
+                 (and (ignore-errors
+                        (eq 0 (apply #'call-process (car command) nil '(t nil) nil
+                                     (cdr command))))
+                      (let ((file (string-trim (buffer-string))))
+                        (and (file-readable-p file) file)))))
+             ;; Agda 2.8 and later locate their mode like this, older ones
+             ;; with the agda-mode program.
+             (list (append direnv '("agda" "--emacs-mode" "locate"))
+                   (append direnv '("agda-mode" "locate"))))))
+
+(defun pb/agda-load-mode (file)
+  "Load the Agda mode whose agda2.el is FILE."
+  (add-to-list 'load-path (file-name-directory file))
+  (load file nil t)
+  (require 'agda2-mode))
+
+(defun pb/agda-unload-mode ()
+  "Unload the loaded Agda mode and return the buffers that were in it.
+These are the steps of Agda's own `agda2-set-program-version'."
+  (let ((buffers (seq-filter (lambda (buffer)
+                               (eq (buffer-local-value 'major-mode buffer)
+                                   'agda2-mode))
+                             (buffer-list))))
+    (when buffers
+      (with-current-buffer (car buffers)
+        (ignore-errors (agda2-quit))))
+    (dolist (buffer (list (bound-and-true-p agda2-info-buffer)
+                          (bound-and-true-p agda2-debug-buffer)
+                          (bound-and-true-p agda2-debug-buffer-name)))
+      (when (and buffer (get-buffer buffer))
+        (kill-buffer buffer)))
+    (when (bound-and-true-p agda2-directory)
+      (setq load-path (delete agda2-directory load-path)))
+    (dolist (feature '(agda2-mode agda2 eri annotation agda-input
+                       agda2-highlight agda2-abbrevs agda2-queue))
+      (when (featurep feature)
+        (unload-feature feature 'force)))
+    buffers))
+
+(defun pb/agda-mode ()
+  "Enable `agda2-mode' with the Agda mode that belongs to this file's Agda.
+If no Agda mode is loaded, load it. If one of another Agda is loaded, ask
+before replacing it, as Agda does not run with the mode of another version."
+  (let* ((file (pb/agda-locate-mode default-directory))
+         (needed (and file (file-name-directory file)))
+         (loaded (and (featurep 'agda2) (bound-and-true-p agda2-directory))))
+    (cond
+     ((null needed)
+      (message "No Agda found for %s" (abbreviate-file-name default-directory)))
+     ((null loaded)
+      (pb/agda-load-mode file))
+     ((and (not (file-equal-p needed loaded))
+           (y-or-n-p (format "This file needs the Agda mode in %s, but another \
+one is loaded. Replace it? " (abbreviate-file-name needed))))
+      (let* ((hook (and (boundp 'agda2-mode-hook)
+                        (default-value 'agda2-mode-hook)))
+             (buffers (pb/agda-unload-mode)))
+        (pb/agda-load-mode file)
+        ;; Unloading the mode also removed its hook.
+        (set-default 'agda2-mode-hook hook)
+        (dolist (buffer buffers)
+          (when (buffer-live-p buffer)
+            (with-current-buffer buffer
+              (agda2-mode)))))))
+    (if (fboundp 'agda2-mode)
+        (agda2-mode)
+      (fundamental-mode))))
+
+;; agda2.el registers agda2-mode for these when it is loaded; that is undone
+;; in `pb/customize-agda'.
+(dolist (pattern '("\\.l?agda\\'" "\\.lagda\\.md\\'" "\\.lagda\\.tex\\'"))
+  (add-to-list 'auto-mode-alist (cons pattern #'pb/agda-mode)))
 
 (defun pb/agda-add-hole-pair-h ()
   "Make Agda holes, {! !}, a surround pair (key !) in the current buffer."
   (embrace-add-pair ?! "{!" "!}"))
 
+(defun pb/agda-setup-buffer-h ()
+  "Settings for every Agda buffer."
+  (setq-local evil-shift-width 2)
+  (activate-input-method "Agda"))
+
 (defun pb/customize-agda ()
+  "Configure the Agda mode. Runs whenever an Agda mode is loaded."
   (setq default-input-method "Agda")
-  (add-hook! 'agda2-mode-hook
-    (setq-local evil-shift-width 2)
-    (activate-input-method "Agda"))
-  (setq auto-mode-alist (append auto-mode-alist
-                                '(("\\.agda\\'" . agda2-mode)
-                                  ("\\.lagda.md\\'" . agda2-mode)
-                                  ("\\.lagda.tex\\'" . agda2-mode))))
-  ;; Make evil repeat (pressing .) ignore agda2-load.
-  (evil-add-command-properties 'agda2-load :repeat 'ignore)
+  (add-hook 'agda2-mode-hook #'pb/agda-setup-buffer-h)
   ;; Add agda holes as evil-surround braces. The list of pairs is local to a
   ;; buffer, so the pair is added in every Agda buffer.
   (add-hook 'agda2-mode-hook #'pb/agda-add-hole-pair-h)
+  ;; Agda files are opened with `pb/agda-mode' (see above).
+  (setq auto-mode-alist (rassq-delete-all 'agda2-mode auto-mode-alist))
+  ;; Make evil repeat (pressing .) ignore agda2-load.
+  (evil-add-command-properties 'agda2-load :repeat 'ignore)
 
   (setq agda-input-user-translations `(
     ("ot"   . ("←"))
@@ -1198,53 +1286,6 @@ an internal function, so if its arguments change, they are passed on as is."
   ))
 )
 
-(defvar pb/current-agda-version 'global
-  "Arbitrary identifier for the currently loaded Agda version.
-This is only used to skip `pb/switch-agda-version' in case `pb/current-agda-version'
-wouldn't change.")
-
-(defun pb/switch-agda-version (version-identifier)
-  (message "[Agda] Trying to switch to Agda version: %s" version-identifier)
-  (if (equal version-identifier pb/current-agda-version)
-      (message "[Agda] Skipping the Agda version switch as the versions are the same.")
-      (if (featurep 'agda2)
-          (agda2-set-program-version nil)
-          ;; First time loading Agda
-          (add-load-path!
-            (file-name-directory (shell-command-to-string "agda-mode locate")))
-          (if (require 'agda2 nil t)
-              (normal-mode)
-              (error "Failed to find the `agda2' package"))
-          (normal-mode)
-          (pb/customize-agda)
-          (pb/customize-current-theme)
-          )
-      (setq pb/current-agda-version version-identifier)
-      (message "[Agda] Switched to agda version %s" pb/current-agda-version)
-      )
-  )
-
-(defun pb/use-global-agda ()
-  (interactive)
-  (nix-shell-deactivate)
-  (pb/switch-agda-version 'global))
-
-(defun pb/use-nix-agda (nix-shell-path)
-  (interactive (list (nix-shell-read-path "nix expression path: ")))
-  (nix-shell-activate nix-shell-path)
-  (pb/switch-agda-version (list 'nix nix-shell-path)))
-
-;; (defun use-agda ()
-;;   (interactive)
-;;   (let ((nix-file (nix-shell-locate-expression)))
-;;     (if nix-file
-;;         (pb/use-nix-agda nix-file)
-;;       (pb/use-global-agda))))
-
-;; (add-hook 'projectile-after-switch-project-hook 'use-agda)
-
-;; Can't use `use-package!' because it will try to load agda2-mode immediately.
-;; (load! "modules/lang/agda/config.el" doom-emacs-dir)
 (after! agda2
   (pb/customize-agda))
 
