@@ -416,7 +416,7 @@
        )
  )
 
-(with-eval-after-load 'evil
+(after! evil
   (scroll-on-jump-advice-add evil-undo)
   (scroll-on-jump-advice-add evil-redo)
   ;; (scroll-on-jump-advice-add evil-jump-item)
