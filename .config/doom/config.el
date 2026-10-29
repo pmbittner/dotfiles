@@ -1109,8 +1109,8 @@ Recentness is determined by being in my Agenda.org file or in my Events.org."
 (defun pb/org-roam-open-page (str-pagename)
   "Open the org-roam page with the name STR-PAGENAME.
    The name should be given as a string."
-  (interactive)
-  (use-package! org-roam)
+  (interactive "sOrg-roam page: ")
+  (require 'org-roam)
   (let ((node (org-roam-node-from-title-or-alias str-pagename)))
     (if node
       (org-roam-node-visit node)
