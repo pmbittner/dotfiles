@@ -549,13 +549,10 @@
 
 ;;;; TODO KEYWORDS
 
-(after! hl-todo
-  (map! :leader
-    (:prefix-map ("i" . "insert")
-       (:desc "Todo" "t" #'hl-todo-insert)
-       ))
-  (setq global-hl-todo-mode t)
-  )
+;; The :ui hl-todo module enables `global-hl-todo-mode' itself.
+(map! :leader
+      (:prefix "i"
+       :desc "Todo" "t" #'hl-todo-insert))
 
 ;;;; NEOTREE
 
