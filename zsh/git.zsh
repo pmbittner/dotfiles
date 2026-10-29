@@ -33,7 +33,7 @@ pb-git-undo-last-commit () {
   git reset HEAD~
 }
 
-# Source - https://stackoverflow.com/a/51665074j
-# Posted by kelvin, modified by community. See post 'Timeline' for change history
-# Retrieved 2026-10-28, License - CC BY-SA 4.0
-alias gitnv='SKIP=no-commit-to-branch git'
+# skip all hooks
+alias gnv='git -c core.hooksPath=/dev/null'
+alias grbnv='gnv rebase'
+alias grbcnv='grbnv --continue'
