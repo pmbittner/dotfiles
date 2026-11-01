@@ -9,7 +9,8 @@ config-version = 2
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
     'exec-and-forget open -a "Microsoft Teams"',
-    'exec-and-forget open -a firefox',
+    # 'exec-and-forget open -a firefox',
+    'exec-and-forget open -a "Safari"',
     'exec-and-forget emacsclient --reuse-frame --alternate-editor="emacs"',
 ]
 
@@ -129,7 +130,8 @@ z = 'y'
     cmd-b = 'exec-and-forget open -a thunderbird'
 
     cmd-shift-t = [ 'exec-and-forget open -a "Microsoft Teams"', "workspace T" ]
-    cmd-f = [ 'exec-and-forget open -a firefox', "workspace F" ]
+    # cmd-f = [ 'exec-and-forget open -a firefox', "workspace F" ]
+    cmd-f = [ 'exec-and-forget open -a "Safari"', "workspace F" ]
     cmd-m = [ 'exec-and-forget open -a music', "workspace M" ]
     cmd-r = [ 'exec-and-forget kitty --directory ~ --session launch-ranger.kitty' ]
     # cmd-shift-p = 'exec-and-forget screencapture -i -c' # configured in MacOS Settings
@@ -188,6 +190,10 @@ z = 'y'
 
 [[on-window-detected]]
     if.app-id = 'org.mozilla.firefox'
+    run = 'move-node-to-workspace F'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.safari'
     run = 'move-node-to-workspace F'
 
 [[on-window-detected]]
