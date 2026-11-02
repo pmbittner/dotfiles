@@ -193,7 +193,7 @@ z = 'y'
     run = 'move-node-to-workspace F'
 
 [[on-window-detected]]
-    if.app-id = 'com.apple.safari'
+    if.app-id = 'com.apple.Safari'
     run = 'move-node-to-workspace F'
 
 [[on-window-detected]]
