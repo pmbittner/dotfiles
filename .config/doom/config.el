@@ -1229,7 +1229,8 @@ process right away; envrc applies it to the buffer only after that."
   ;; and the new major mode see it, too.
   (kill-local-variable 'process-environment)
   (kill-local-variable 'exec-path)
-  (let* ((environment (pb/direnv-environment default-directory))
+  (let* ((dir (doom-project-root))
+         (environment (pb/direnv-environment dir))
          (process-environment (or environment process-environment))
          (exec-path (if environment
                         (append (parse-colon-path
@@ -1241,7 +1242,7 @@ process right away; envrc applies it to the buffer only after that."
          (loaded (and (featurep 'agda2) (bound-and-true-p agda2-directory))))
     (cond
      ((null needed)
-      (message "No Agda found for %s" (abbreviate-file-name default-directory)))
+      (message "No Agda found for %s" dir))
      ((null loaded)
       (pb/agda-load-mode file))
      ((and (not (file-equal-p needed loaded))
