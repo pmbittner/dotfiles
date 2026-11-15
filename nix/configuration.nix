@@ -188,6 +188,7 @@ in
     vim
     wget
     git
+    git-lfs
     gnupg
     gnumake
     lon # pins sources outside of nixpkgs, see pb-nixos-update-pins
