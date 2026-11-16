@@ -387,6 +387,7 @@ The region stays active afterwards."
 
 (after! projectile
   (setq projectile-enable-caching t)
+  (setq projectile-dirconfig-comment-prefix "#")
   ;; 'alien is the fastest but it does not respect any sorting.
   ;; So we do not set any sorting.
   (setq projectile-indexing-method 'alien
