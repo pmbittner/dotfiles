@@ -692,8 +692,15 @@ The region stays active afterwards."
 ;; YAML (e.g. theme schemes). Not in other modes: there it colors text that only
 ;; looks like a color code (e.g. #123 or #add in notes and commit messages), and
 ;; it breaks the highlighting of special buffers like the org agenda.
+(defun pb/rainbow-mode-h ()
+  "Enable `rainbow-mode', except in Agda buffers.
+rainbow-mode turns on font-lock, which agda2-mode must not use (see AGDA);
+agda2-mode is a `prog-mode', so it would get it through `prog-mode-hook'."
+  (unless (derived-mode-p 'agda2-mode)
+    (rainbow-mode +1)))
+
 (add-hook! '(prog-mode-hook conf-mode-hook yaml-mode-hook yaml-ts-mode-hook)
-           #'rainbow-mode)
+           #'pb/rainbow-mode-h)
 
 ;;;; DIRED
 
@@ -1143,7 +1150,8 @@ an internal function, so if its arguments change, they are passed on as is."
 ;; checking, and font-lock would re-highlight lazily, which needs the type
 ;; checker to run again (manually). agda2-mode turns font-lock off itself, but
 ;; `global-font-lock-mode' turns it on again after the mode starts, unless the
-;; mode is excluded here.
+;; mode is excluded here. Other modes that turn font-lock on must be kept out
+;; of Agda buffers, too: rainbow-mode does (see RAINBOW MODE).
 (setq font-lock-global-modes '(not agda2-mode))
 
 ;; Which Agda: a project can bring its own Agda through direnv, with an .envrc
