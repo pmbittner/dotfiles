@@ -105,26 +105,29 @@
       )
 
 (defun pb/comment-eclipse ()
-    "Eclipse IDE style multi-line comment toggling
-     for the selected region."
-    (interactive)
-    (let ((start (line-beginning-position))
-          (end (line-end-position)))
-      ;; when we have a region selected, set 'start and 'end to cover the region
-      (when (or (not transient-mark-mode) (region-active-p))
-        (setq start (save-excursion
-                      (goto-char (region-beginning))
-                      (beginning-of-line)
-                      (point))
-              end (save-excursion
-                    (goto-char (region-end))
-                    ;; (end-of-line)
-                    (beginning-of-line)
-                    (point)))
-        )
-      (comment-or-uncomment-region start end)
-      (setq deactivate-mark nil) ;; keep the region selected afterwards
-      ))
+  "Toggle line comments on the current line or all lines in the region.
+Like Eclipse's Ctrl+/: every line touched by the region is affected,
+except a final line that the region reaches only at column 0.
+The region stays active afterwards."
+  (interactive)
+  (let (start end)
+    (if (use-region-p)
+        (let ((rbeg (region-beginning))
+              (rend (region-end)))
+          (setq start (save-excursion
+                        (goto-char rbeg)
+                        (line-beginning-position))
+                end (save-excursion
+                      (goto-char rend)
+                      ;; Region ends at column 0: don't include that line.
+                      (when (and (bolp) (> rend rbeg))
+                        (backward-char))
+                      (line-end-position))))
+      (setq start (line-beginning-position)
+            end   (line-end-position)))
+    (when (< start end)
+      (comment-or-uncomment-region start end))
+    (setq deactivate-mark nil)))   ; keep the region selected
 (map! :n "C-t" #'pb/comment-eclipse) ;; this keybinding is hard-wired in my brain
 
 ;; I like how I can move items in org mode with M-k and M-j.
