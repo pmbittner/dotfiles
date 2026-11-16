@@ -1229,6 +1229,52 @@ These are the steps of Agda's own `agda2-set-program-version'."
         (unload-feature feature 'force)))
     buffers))
 
+(defun pb/agda-warn-not-found (environment)
+  "Explain in a warning why no Agda was found for the current directory.
+ENVIRONMENT is what `pb/direnv-environment' returned for it."
+  (let* ((dir (abbreviate-file-name default-directory))
+         (envrc (locate-dominating-file default-directory ".envrc"))
+         (reason
+          (cond
+           ((null envrc)
+            (format-message "There is no .envrc. Add one with `use nix' (or \
+`use flake') to the project and run `direnv allow' there, or install Agda \
+globally."))
+           ((not (executable-find "direnv"))
+            (format-message "There is an .envrc in %s, but Emacs cannot find \
+the direnv program." (abbreviate-file-name envrc)))
+           ((null environment)
+            (format-message "There is an .envrc in %s, but direnv did not \
+load it. Run `direnv allow' there; `direnv status' shows why."
+                            (abbreviate-file-name envrc)))
+           (t
+            (format-message "The .envrc in %s does not provide Agda: neither \
+agda nor agda-mode are on its PATH. Check its nix setup."
+                            (abbreviate-file-name envrc))))))
+    (display-warning
+     'agda
+     (format-message "No Agda found for %s, so the file is opened without \
+agda2-mode.\n%s\nAfterwards, reopen the file (M-x revert-buffer)." dir reason)
+     :warning)))
+
+(defun pb/agda-replace-mode (file)
+  "Replace the loaded Agda mode with the one whose agda2.el is FILE.
+Buffers that were in the old mode are switched to the new one."
+  ;; Unloading the mode also removes its hook, which holds the settings of
+  ;; `pb/customize-agda', so the hook is kept and restored.
+  (let* ((hook (and (boundp 'agda2-mode-hook)
+                    (default-value 'agda2-mode-hook)))
+         (buffers (pb/agda-unload-mode)))
+    (pb/agda-load-mode file)
+    (set-default 'agda2-mode-hook hook)
+    ;; Switch the buffers of the old mode to the new one, as Agda's own
+    ;; version switch does. Each starts the agda process anew; Agda runs one
+    ;; process at a time, so the last buffer (this file's) wins.
+    (dolist (buffer buffers)
+      (when (buffer-live-p buffer)
+        (with-current-buffer buffer
+          (agda2-mode))))))
+
 (defun pb/agda-mode ()
   "Enable `agda2-mode' with the Agda mode that belongs to this file's Agda.
 If no Agda mode is loaded, load it. If one of another Agda is loaded, ask
@@ -1236,42 +1282,66 @@ before replacing it, as Agda does not run with the mode of another version.
 
 The Agda is the one of the directory's .envrc, or the global one. Its
 environment is used while the mode starts, as agda2-mode starts the agda
-process right away; envrc applies it to the buffer only after that."
-  ;; Bind the environment globally (with let), so that the temporary buffers
-  ;; and the new major mode see it, too.
+process right away; envrc applies it to the buffer only after that.
+
+Without a usable Agda, the file is opened in `prog-mode' instead, and a
+warning explains why: agda2-mode would only fail when starting agda."
+  ;; Use the environment of the file's directory (its .envrc, through direnv)
+  ;; for everything below. `let' binds the global values here, so the
+  ;; temporary buffers of `pb/agda-locate-mode' and the new major mode see
+  ;; them, too. Local values of this buffer would hide that binding, so they
+  ;; are removed first; envrc sets them again once the major mode started.
   (kill-local-variable 'process-environment)
   (kill-local-variable 'exec-path)
   (let* ((environment (pb/direnv-environment default-directory))
          (process-environment (or environment process-environment))
+         ;; Emacs finds programs through `exec-path', not through PATH, so
+         ;; it gets the PATH of the environment, too.
          (exec-path (if environment
                         (append (parse-colon-path
                                  (getenv-internal "PATH" environment))
                                 (list exec-directory))
                       exec-path))
+         ;; The Agda mode (agda2.el) of the Agda in this environment, and
+         ;; the directory of the Agda mode that is loaded now, if any.
          (file (pb/agda-locate-mode))
          (needed (and file (file-name-directory file)))
          (loaded (and (featurep 'agda2) (bound-and-true-p agda2-directory))))
-    (cond
-     ((null needed)
-      (message "No Agda found for %s" (abbreviate-file-name default-directory)))
-     ((null loaded)
-      (pb/agda-load-mode file))
-     ((and (not (file-equal-p needed loaded))
-           (y-or-n-p (format "This file needs the Agda mode in %s, but another \
-one is loaded. Replace it? " (abbreviate-file-name needed))))
-      (let* ((hook (and (boundp 'agda2-mode-hook)
-                        (default-value 'agda2-mode-hook)))
-             (buffers (pb/agda-unload-mode)))
-        (pb/agda-load-mode file)
-        ;; Unloading the mode also removed its hook.
-        (set-default 'agda2-mode-hook hook)
-        (dolist (buffer buffers)
-          (when (buffer-live-p buffer)
-            (with-current-buffer buffer
-              (agda2-mode)))))))
-    (if (fboundp 'agda2-mode)
+    ;; Make sure the right Agda mode is loaded. The result says whether
+    ;; agda2-mode can be enabled.
+    (if (cond
+         ;; No Agda in this environment: agda2-mode would fail.
+         ((null needed)
+          (pb/agda-warn-not-found environment)
+          nil)
+         ;; No Agda mode loaded yet: load the one of this Agda.
+         ((null loaded)
+          (pb/agda-load-mode file)
+          t)
+         ;; The loaded Agda mode is the one of this Agda.
+         ((file-equal-p needed loaded)
+          t)
+         ;; The loaded one belongs to another Agda: replace it if allowed.
+         ((y-or-n-p (format "This file needs the Agda mode in %s, but another \
+one is loaded. Replace it? " (abbreviate-file-name needed)))
+          (pb/agda-replace-mode file)
+          t)
+         ;; Not replaced: agda2-mode would fail with a version mismatch.
+         (t
+          (display-warning
+           'agda
+           (format-message "The loaded Agda mode (in %s) does not belong to \
+this file's Agda (in %s), and Agda does not run with the mode of another \
+version. So the file is opened without agda2-mode. Reopen it (M-x \
+revert-buffer) to be asked again."
+                           (abbreviate-file-name loaded)
+                           (abbreviate-file-name needed))
+           :warning)
+          nil))
+        ;; Enable agda2-mode, which starts the agda process right away.
         (agda2-mode)
-      (fundamental-mode))))
+      ;; Without a usable Agda, the file is still readable and editable.
+      (prog-mode))))
 
 ;; agda2.el registers agda2-mode for these when it is loaded; that is undone
 ;; in `pb/customize-agda'.
