@@ -1405,6 +1405,17 @@ revert-buffer) to be asked again."
 (after! agda2
   (pb/customize-agda))
 
+;;;; LEAN
+
+;; Lean 4 comes from the :lang lean module (with +lsp): nael-mode, which uses
+;; eglot like the other languages. Proof goals at point are shown through ElDoc,
+;; briefly in the echo area and fully with C-h . (`eldoc-doc-buffer').
+;; The language server is `lake serve'. Lean and lake come from elan, installed
+;; globally (NixOS: nix/configuration.nix, macOS: Homebrew), which installs the
+;; Lean version of each project's lean-toolchain file on first use. A project
+;; can bring its own Lean through an .envrc (`use nix' or `use flake') instead;
+;; envrc applies it before eglot starts, so nothing else is needed for that.
+
 ;;;; HASKELL
 
 (after! haskell

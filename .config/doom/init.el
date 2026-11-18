@@ -151,7 +151,7 @@
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        latex             ; writing papers in Emacs has never been so fun
-       ;;lean              ; for folks with too much to prove
+       (lean +lsp)       ; for folks with too much to prove
        ;;ledger            ; be audit you can be
        (lua +lsp +tree-sitter)              ; one-based indices? one-based indices
        ;; (markdown +grip)           ; writing docs for people to ignore
