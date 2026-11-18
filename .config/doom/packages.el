@@ -17,6 +17,14 @@
 (package! org-caldav)
 (package! csv-mode)
 
+;; Lean 4 mode of the :lang lean module. Its home is codeberg.org/mekeor/nael,
+;; but codeberg.org was unreachable (its domain did not resolve), so it is
+;; fetched from the emacsmirror copy on GitHub: same commits, so Doom's pin
+;; still applies. To use Codeberg again, remove this.
+(package! nael
+  :recipe (:host github :repo "emacsmirror/nael"
+           :files ("nael/*.el" "nael/nael.info" "nael/nael.texi")))
+
 (package! scroll-on-jump)
 
 ;; WGSL: regex-based mode (MELPA) and tree-sitter mode (GitHub only)
