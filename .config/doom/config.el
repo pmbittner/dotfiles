@@ -1445,8 +1445,11 @@ revert-buffer) to be asked again."
 ;; not. eglot-booster is archived upstream, so this will not be fixed there.
 ;; Doom sets this variable right before it enables eglot-booster, when eglot
 ;; loads; so it is set again once eglot-booster is loaded, before the mode is on.
-(after! eglot-booster
-  (setq eglot-booster-io-only t))
+;; Doom uses eglot-booster on Emacs older than 30 only, so only there is this
+;; needed.
+(when (< emacs-major-version 30)
+  (after! eglot-booster
+    (setq eglot-booster-io-only t)))
 
 ;;;; PYTHON
 
