@@ -1434,6 +1434,20 @@ revert-buffer) to be asked again."
         :localleader
         "v" #'markdown-preview)) ;; also bind preview to "<localleader> v" similar for viewing in latex
 
+;;;; EGLOT
+
+;; Use emacs-lsp-booster (the +booster flag of :tools lsp) only to buffer the
+;; communication with the language servers. On Emacs 29, Doom also lets it
+;; translate the servers' JSON into byte code, which eglot-booster reads with
+;; `read'. That broke every non-ASCII character in the servers' answers, e.g.
+;; the arrow in Lean goals showed as \342\206\222: jsonrpc receives the answers
+;; as raw bytes, because its JSON parser decodes UTF-8 itself, but `read' does
+;; not. eglot-booster is archived upstream, so this will not be fixed there.
+;; Doom sets this variable right before it enables eglot-booster, when eglot
+;; loads; so it is set again once eglot-booster is loaded, before the mode is on.
+(after! eglot-booster
+  (setq eglot-booster-io-only t))
+
 ;;;; PYTHON
 
 ;; The virtual environment of a project comes from its .envrc (direnv, see the
