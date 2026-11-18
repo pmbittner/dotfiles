@@ -172,6 +172,10 @@ in
       (aspellWithDicts
         (dicts: with dicts; [ de en en-computers en-science ]))
 
+      # Lean: elan installs the Lean version (lean, lake) that a project's
+      # lean-toolchain file asks for, on first use. See LEAN in the Doom config.
+      elan
+
       shellcheck
       nixfmt
 
